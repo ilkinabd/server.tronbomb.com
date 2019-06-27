@@ -16,7 +16,7 @@ const handlerNewMessage = async(socket, data) => {
 
   if (!messageId) return socket.send();
 
-  const message = { id: messageId, ...data };
+  const message = { messageId, ...data };
   const { id } = socket;
   console.info(`WS: ${id} add new messages.`);
 
