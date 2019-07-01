@@ -5,7 +5,6 @@ const PgClient = require('pg').Client;
 const { getId, getAll, fillTemplate } = require('./tools');
 
 // Users requests
-const messages = require('./requests/messages');
 
 const client = new PgClient({
   host: PG_HOST,
@@ -28,9 +27,4 @@ const request = template => params => {
   return query(sql);
 };
 
-module.exports = {
-  messages: {
-    add: getId(request(messages['add'])),
-    getHistory: getAll(request(messages['get-history'])),
-  }
-};
+module.exports = {};
