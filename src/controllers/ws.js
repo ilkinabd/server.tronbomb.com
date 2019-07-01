@@ -7,7 +7,10 @@ const handlerMessagesHistory = async(socket) => {
 
   console.info(`WS: ${id} subscribe to messages.`);
 
-  socket.emit('messages_history', { messages });
+  socket.emit('messages_history', {
+    status: 'success',
+    messages
+  });
 };
 
 const handlerNewMessage = async(socket, data) => {
@@ -20,8 +23,13 @@ const handlerNewMessage = async(socket, data) => {
   const { id } = socket;
   console.info(`WS: ${id} add new messages.`);
 
-  socket.emit('new_message', message);
-  socket.broadcast.emit('new_message', message);
+  const response = {
+    status: 'success',
+    message
+  };
+
+  socket.emit('new_message', response);
+  socket.broadcast.emit('new_message', response);
 };
 
 const onMessage = (socket) => {
