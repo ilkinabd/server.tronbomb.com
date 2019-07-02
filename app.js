@@ -5,7 +5,6 @@ const {
 
 const express = require('express');
 const bodyParser = require('body-parser');
-const session = require('express-session');
 const cors = require('cors');
 
 const app = express();
