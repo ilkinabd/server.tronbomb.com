@@ -2,9 +2,13 @@ const { PG_HOST, PG_USER, PG_PORT, PG_PASS, PG_DB } = process.env;
 
 const PgClient = require('pg').Client;
 
-const { getId, getAll, fillTemplate } = require('./tools');
+const { getId, getValue, getRow, getAll, fillTemplate } = require('./tools');
 
-// Users requests
+const tokens = require('./requests/tokens');
+const gamesContracts = require('./requests/games-contracts');
+const games = require('./requests/games');
+const users = require('./requests/users');
+const bets = require('./requests/bets');
 
 const client = new PgClient({
   host: PG_HOST,
@@ -27,4 +31,29 @@ const request = template => params => {
   return query(sql);
 };
 
-module.exports = {};
+module.exports = {
+  tokens: {
+    getAll: getAll(request(tokens['get-all'])),
+  },
+  gamesContracts: {
+    getAll: getAll(request(gamesContracts['get-all'])),
+  },
+  games: {
+    add: getId(request(games['add'])),
+    setFinish: request(games['set-finish']),
+    getByLimit: getAll(request(games['get-by-limit'])),
+  },
+  users: {
+    add: getId(request(users['add'])),
+    setLevel: request(users['set-level']),
+    get: getRow(request(users['get'])),
+    getCount: getValue(request(users['get-count'])),
+    getTop: getAll(request(users['get-top'])),
+  },
+  bets: {
+    add: getId(request(bets['add'])),
+    setPrize: request(bets['set-prize']),
+    getByLimit: getAll(request(bets['get-by-limit'])),
+    getSum: getValue(request(bets['get-sum'])),
+  },
+};
