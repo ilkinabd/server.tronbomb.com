@@ -2,9 +2,9 @@ const { PG_HOST, PG_USER, PG_PORT, PG_PASS, PG_DB } = process.env;
 
 const PgClient = require('pg').Client;
 
-const { getId, getAll, fillTemplate } = require('./tools');
+const { getAll, fillTemplate } = require('./tools');
 
-// Users requests
+const tokens = require('./requests/tokens');
 
 const client = new PgClient({
   host: PG_HOST,
@@ -27,4 +27,8 @@ const request = template => params => {
   return query(sql);
 };
 
-module.exports = {};
+module.exports = {
+  tokens: {
+    getAll: getAll(request(tokens['get-all'])),
+  }
+};
