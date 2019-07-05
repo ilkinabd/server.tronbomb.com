@@ -2,10 +2,11 @@ const { PG_HOST, PG_USER, PG_PORT, PG_PASS, PG_DB } = process.env;
 
 const PgClient = require('pg').Client;
 
-const { getAll, fillTemplate } = require('./tools');
+const { getId, getAll, fillTemplate } = require('./tools');
 
 const tokens = require('./requests/tokens');
 const gamesContracts = require('./requests/games-contracts');
+const games = require('./requests/games');
 
 const client = new PgClient({
   host: PG_HOST,
@@ -34,5 +35,10 @@ module.exports = {
   },
   gamesContracts: {
     getAll: getAll(request(gamesContracts['get-all'])),
+  },
+  games: {
+    add: getId(request(games['add'])),
+    setFinish: request(games['set-finish']),
+    getByLimit: getAll(request(games['get-by-limit'])),
   },
 };
