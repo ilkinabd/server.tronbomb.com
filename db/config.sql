@@ -52,10 +52,10 @@ CREATE TABLE "games" (
 
 CREATE TABLE "bets" (
   "bet_id"   SERIAL  NOT NULL,
-  "game_id"  INTEGER NOT NULL REFERENCES "games"("game_id"),
-  "user_id"  INTEGER NOT NULL REFERENCES "users"("user_id"),
+  "game_id"  INTEGER NOT NULL           REFERENCES "games"("game_id"),
+  "user_id"  INTEGER NOT NULL           REFERENCES "users"("user_id"),
   "bet"      FLOAT   NOT NULL,
-  "token_id" INTEGER NOT NULL REFERENCES "tokens"("token_id"),
+  "token_id" INTEGER NOT NULL DEFAULT 0 REFERENCES "tokens"("token_id"),
   "prize"    FLOAT,
   "params"   JSON    NOT NULL,
 
