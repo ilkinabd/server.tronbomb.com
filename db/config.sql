@@ -1,6 +1,63 @@
-CREATE TABLE messages (
-  "message_id"  SERIAL        NOT NULL,
-  "create_at"   TIMESTAMP(6),
-  "wallet"      CHAR(34)      NOT NULL,
-  "text"        TEXT          NOT NULL
+CREATE TYPE GAME_TYPE AS ENUM (
+  'dice',
+  'wheel-of-fortune'
+);
+
+CREATE TABLE "games_contracts" (
+  "contract_id" INTEGER   NOT NULL,
+  "address"     CHAR(34)  NOT NULL,
+  "type"        GAME_TYPE,
+
+  PRIMARY KEY("contract_id"),
+  UNIQUE("address")
+);
+
+CREATE TABLE "tokens" (
+  "token_id" INTEGER     NOT NULL,
+  "address"  CHAR(34),
+  "SYMBOL"   VARCHAR(10) NOT NULL,
+  "NAME"     VARCHAR(25) NOT NULL,
+  "DECIMAL"  INTEGER NOT NULL,
+
+  PRIMARY KEY("token_id"),
+  UNIQUE("address")
+);
+
+INSERT INTO "tokens"
+VALUES (0, NULL, 'TRX', 'TRON network token', 6);
+
+CREATE TABLE "users" (
+  "user_id" SERIAL   NOT NULL,
+  "wallet"  CHAR(34) NOT NULL,
+  "level"   INTEGER  NOT NULL DEFAULT 0,
+
+  PRIMARY KEY("user_id"),
+  UNIQUE("wallet")
+);
+
+CREATE TYPE GAME_STATUS AS ENUM (
+  'start',
+  'finish'
+);
+
+CREATE TABLE "games" (
+  "game_id"      INTEGER     NOT NULL,
+  "contract_id"  INTEGER     NOT NULL REFERENCES "games_contracts"("contract_id"),
+  "finish_block" INTEGER     NOT NULL,
+  "result"       INTEGER,
+  "status"       GAME_STATUS NOT NULL DEFAULT 'start',
+
+  PRIMARY KEY("game_id")
+);
+
+CREATE TABLE "bets" (
+  "bet_id"   SERIAL  NOT NULL,
+  "game_id"  INTEGER NOT NULL REFERENCES "games"("game_id"),
+  "user_id"  INTEGER NOT NULL REFERENCES "users"("user_id"),
+  "bet"      FLOAT   NOT NULL,
+  "token_id" INTEGER NOT NULL REFERENCES "tokens"("token_id"),
+  "prize"    FLOAT,
+  "params"   JSON    NOT NULL,
+
+  PRIMARY KEY("bet_id")
 );
