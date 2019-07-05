@@ -5,6 +5,7 @@ const PgClient = require('pg').Client;
 const { getAll, fillTemplate } = require('./tools');
 
 const tokens = require('./requests/tokens');
+const gamesContracts = require('./requests/games-contracts');
 
 const client = new PgClient({
   host: PG_HOST,
@@ -30,5 +31,8 @@ const request = template => params => {
 module.exports = {
   tokens: {
     getAll: getAll(request(tokens['get-all'])),
-  }
+  },
+  gamesContracts: {
+    getAll: getAll(request(gamesContracts['get-all'])),
+  },
 };
