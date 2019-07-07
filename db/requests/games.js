@@ -3,14 +3,19 @@ module.exports = {
       INSERT INTO "games" (
           "game_id",
           "contract_id",
-          "finish_block"
+          "finish_block",
+          "result",
+          "status"
       ) VALUES (
           $gameId,
           $contractId,
-          $finishBlock
+          $finishBlock,
+          $result,
+          $status
       )
       ON CONFLICT ON CONSTRAINT "games_pkey"
-      DO NOTHING
+      DO UPDATE
+          SET("result", "status") = ($result, $status)
       RETURNING "game_id" as "id";`,
 
   'set-finish': `

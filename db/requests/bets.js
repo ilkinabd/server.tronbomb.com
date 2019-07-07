@@ -10,7 +10,10 @@ module.exports = {
           $userId,
           $bet,
           $params
-      ) RETURNING "bet_id" as "id";`,
+      )
+      ON CONFLICT ON CONSTRAINT "bets_game_id_user_id_key"
+      DO NOTHING
+      RETURNING "bet_id" as "id";`,
 
   'set-prize': `
       UPDATE "bets"

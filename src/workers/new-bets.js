@@ -27,14 +27,19 @@ const processEvents = async(events, contractId) => {
     let userId = await db.users.getId({ wallet });
     if (!userId) userId = await db.users.add({ wallet });
 
-    const game = await db.games.add({ gameId, contractId, finishBlock });
-    if (game === null) return;
+    const response = await node.getters.game({ gameId, contractId });
+    const { result, status } = response.game;
+
+    await db.games.add({ gameId, contractId, finishBlock, result, status });
 
     const bet = userBet / 10 ** 6;
     const params = JSON.stringify({ number, roll });
     await db.bets.add({ gameId, userId, bet, params });
-
     updateUserLevel(userId);
+
+    if (status === 'start') {
+      node.control.finishGame({ contractId, gameId });
+    }
   }
 };
 
@@ -51,6 +56,6 @@ const processEvents = async(events, contractId) => {
 
       from = lastTimestamp(events, from);
       processEvents(events, contractId);
-    }, 5000);
+    }, 1000);
   }
 })();

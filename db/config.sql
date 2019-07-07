@@ -59,7 +59,8 @@ CREATE TABLE "bets" (
   "prize"    FLOAT,
   "params"   JSON    NOT NULL,
 
-  PRIMARY KEY("bet_id")
+  PRIMARY KEY("bet_id"),
+  UNIQUE("game_id", "user_id")
 );
 
 CREATE TABLE "sockets" (
