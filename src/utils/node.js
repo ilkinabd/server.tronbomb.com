@@ -28,5 +28,6 @@ module.exports = {
   events: {
     takeBets: getRequest('/dice/events/take_bets'),
     finishGames: getRequest('/dice/events/finish_games'),
+    playersWin: getRequest('/dice/events/players_win'),
   },
 };

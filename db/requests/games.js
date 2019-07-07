@@ -13,7 +13,7 @@ module.exports = {
           $result,
           $status
       )
-      ON CONFLICT ON CONSTRAINT "games_pkey"
+      ON CONFLICT ON CONSTRAINT "games_index_contract_id_key"
       DO UPDATE
           SET("result", "status") = ($result, $status)
       RETURNING "game_id" as "id";`,
@@ -21,6 +21,13 @@ module.exports = {
   'set-finish': `
       UPDATE "games"
       SET ("result", "status") = ($result, 'finish')
+      WHERE
+          "index" = $index AND
+          "contract_id" = $contractId;`,
+
+  'get-id': `
+      SELECT "game_id" as "id"
+      FROM "games"
       WHERE
           "index" = $index AND
           "contract_id" = $contractId;`,
