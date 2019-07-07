@@ -12,6 +12,7 @@
     "eslint": "eslint --fix ."
   },
   "_moduleAliases": {
+    "@db": "db",
     "@controllers": "src/controllers"
   },
   "repository": "https://gitlab.com/MaxieMind/tron_bomb/server.git",

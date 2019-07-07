@@ -9,6 +9,7 @@ const gamesContracts = require('./requests/games-contracts');
 const games = require('./requests/games');
 const users = require('./requests/users');
 const bets = require('./requests/bets');
+const sockets = require('./requests/sockets');
 
 const client = new PgClient({
   host: PG_HOST,
@@ -55,5 +56,11 @@ module.exports = {
     setPrize: request(bets['set-prize']),
     getByLimit: getAll(request(bets['get-by-limit'])),
     getSum: getValue(request(bets['get-sum'])),
+  },
+  sockets: {
+    add: getId(request(sockets['add'])),
+    setRooms: request(sockets['set-rooms']),
+    delete: getAll(request(sockets['delete'])),
+    clear: getValue(request(sockets['clear'])),
   },
 };
