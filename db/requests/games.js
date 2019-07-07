@@ -1,13 +1,13 @@
 module.exports = {
   'add': `
       INSERT INTO "games" (
-          "game_id",
+          "index",
           "contract_id",
           "finish_block",
           "result",
           "status"
       ) VALUES (
-          $gameId,
+          $index,
           $contractId,
           $finishBlock,
           $result,
@@ -22,12 +22,12 @@ module.exports = {
       UPDATE "games"
       SET ("result", "status") = ($result, 'finish')
       WHERE
-          "game_id" = $gameId AND
+          "index" = $index AND
           "contract_id" = $contractId;`,
 
   'get-by-limit': `
       SELECT * FROM "games"
       WHERE "contract_id" = $contractId
-      ORDER BY "game_id" DESC
+      ORDER BY "index" DESC
       LIMIT $limit;`,
 };

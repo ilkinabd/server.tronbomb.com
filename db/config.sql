@@ -41,13 +41,14 @@ CREATE TYPE GAME_STATUS AS ENUM (
 );
 
 CREATE TABLE "games" (
-  "game_id"      INTEGER     NOT NULL,
+  "game_id"      SERIAL      NOT NULL,
+  "index"        INTEGER     NOT NULL,
   "contract_id"  INTEGER     NOT NULL REFERENCES "games_contracts"("contract_id"),
   "finish_block" INTEGER     NOT NULL,
   "result"       INTEGER,
   "status"       GAME_STATUS NOT NULL DEFAULT 'start',
 
-  PRIMARY KEY("game_id", "contract_id")
+  PRIMARY KEY("game_id")
 );
 
 CREATE TABLE "bets" (

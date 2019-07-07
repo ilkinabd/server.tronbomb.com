@@ -13,8 +13,8 @@ const lastTimestamp = (events, from) => {
 
 const processEvents = async(events, contractId) => {
   for (const data of events) {
-    const { result, gameId } = data.result;
-    db.games.setFinish({ gameId, contractId, result });
+    const { result, gameId: index } = data.result;
+    db.games.setFinish({ index, contractId, result });
   }
 };
 
