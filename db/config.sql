@@ -61,3 +61,10 @@ CREATE TABLE "bets" (
 
   PRIMARY KEY("bet_id")
 );
+
+CREATE TABLE "sockets" (
+  "socket_id" CHAR(20)      NOT NULL,
+  "rooms"     VARCHAR(25)[],
+
+  PRIMARY KEY("socket_id")
+);

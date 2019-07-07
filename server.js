@@ -1,14 +1,11 @@
 const { NODE_URL, NODE_PORT } = process.env;
-
-const http = require('http');
+require('module-alias/register');
 
 const app = require('./app');
-const ws = require('./src/routes/ws');
+const server = require('http').createServer(app);
 
-const server = http.createServer(app);
-
-const io = require('socket.io').listen(server);
-
+const io = require('socket.io')(server);
+const ws = require('@controllers/socket');
 io.on('connection', ws);
 
 server.listen(NODE_PORT, NODE_URL, () => {

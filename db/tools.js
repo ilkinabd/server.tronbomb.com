@@ -33,7 +33,8 @@ const getFromParams = (keys, params) => {
 
   if (typeof value === 'undefined') return null;
   if (typeof value === 'string') return `'${value}'`;
-  if (typeof value === 'object') return JSON.stringify(value);
+  if (typeof value === 'object')
+    return JSON.stringify(value).replace(/"/gi, '\'');
 
   return value;
 };
