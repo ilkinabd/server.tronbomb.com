@@ -28,8 +28,8 @@ VALUES (0, NULL, 'TRX', 'TRON network token', 6);
 
 CREATE TABLE "users" (
   "user_id" SERIAL   NOT NULL,
-  "wallet"  CHAR(34) NOT NULL,
-  "level"   INTEGER  NOT NULL DEFAULT 0,
+  "wallet"  CHAR(42) NOT NULL,
+  "level"   INTEGER  NOT NULL DEFAULT 1,
 
   PRIMARY KEY("user_id"),
   UNIQUE("wallet")
@@ -41,13 +41,15 @@ CREATE TYPE GAME_STATUS AS ENUM (
 );
 
 CREATE TABLE "games" (
-  "game_id"      INTEGER     NOT NULL,
+  "game_id"      SERIAL      NOT NULL,
+  "index"        INTEGER     NOT NULL,
   "contract_id"  INTEGER     NOT NULL REFERENCES "games_contracts"("contract_id"),
   "finish_block" INTEGER     NOT NULL,
   "result"       INTEGER,
   "status"       GAME_STATUS NOT NULL DEFAULT 'start',
 
-  PRIMARY KEY("game_id")
+  PRIMARY KEY("game_id"),
+  UNIQUE("index", "contract_id")
 );
 
 CREATE TABLE "bets" (
@@ -59,7 +61,8 @@ CREATE TABLE "bets" (
   "prize"    FLOAT,
   "params"   JSON    NOT NULL,
 
-  PRIMARY KEY("bet_id")
+  PRIMARY KEY("bet_id"),
+  UNIQUE("game_id", "user_id")
 );
 
 CREATE TABLE "sockets" (

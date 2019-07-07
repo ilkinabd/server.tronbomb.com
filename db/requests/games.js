@@ -1,22 +1,40 @@
 module.exports = {
   'add': `
       INSERT INTO "games" (
-          "game_id",
+          "index",
           "contract_id",
-          "finish_block"
+          "finish_block",
+          "result",
+          "status"
       ) VALUES (
-          $gameId,
+          $index,
           $contractId,
-          $finishBlock
-      ) RETURNING "game_id" as "id";`,
+          $finishBlock,
+          $result,
+          $status
+      )
+      ON CONFLICT ON CONSTRAINT "games_index_contract_id_key"
+      DO UPDATE
+          SET("result", "status") = ($result, $status)
+      RETURNING "game_id" as "id";`,
 
   'set-finish': `
       UPDATE "games"
       SET ("result", "status") = ($result, 'finish')
-      WHERE "game_id" = $gameId;`,
+      WHERE
+          "index" = $index AND
+          "contract_id" = $contractId;`,
+
+  'get-id': `
+      SELECT "game_id" as "id"
+      FROM "games"
+      WHERE
+          "index" = $index AND
+          "contract_id" = $contractId;`,
 
   'get-by-limit': `
       SELECT * FROM "games"
-      ORDER BY "game_id" DESC
+      WHERE "contract_id" = $contractId
+      ORDER BY "index" DESC
       LIMIT $limit;`,
 };

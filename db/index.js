@@ -42,12 +42,14 @@ module.exports = {
   games: {
     add: getId(request(games['add'])),
     setFinish: request(games['set-finish']),
+    getId: getId(request(games['get-id'])),
     getByLimit: getAll(request(games['get-by-limit'])),
   },
   users: {
     add: getId(request(users['add'])),
     setLevel: request(users['set-level']),
     get: getRow(request(users['get'])),
+    getId: getId(request(users['get-id'])),
     getCount: getValue(request(users['get-count'])),
     getTop: getAll(request(users['get-top'])),
   },

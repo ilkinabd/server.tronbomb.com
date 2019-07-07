@@ -1,4 +1,5 @@
 module.exports = {
   'get-all': `
-      SELECT * FROM "games_contracts";`,
+      SELECT "contract_id" as "contractId", "address", "type"
+      FROM "games_contracts";`,
 };

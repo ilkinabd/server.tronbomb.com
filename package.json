@@ -13,12 +13,15 @@
   },
   "_moduleAliases": {
     "@db": "db",
-    "@controllers": "src/controllers"
+    "@controllers": "src/controllers",
+    "@utils": "src/utils",
+    "@workers": "src/workers"
   },
   "repository": "https://gitlab.com/MaxieMind/tron_bomb/server.git",
   "author": "DenyStark <denyskrolevetskyi@gmail.com>",
   "license": "Apache-2.0",
   "dependencies": {
+    "axios": "^0.19.0",
     "babel-eslint": "^10.0.2",
     "body-parser": "^1.18.3",
     "cors": "^2.8.5",
@@ -28,6 +31,7 @@
     "module-alias": "^2.2.0",
     "pg": "^7.9.0",
     "pm2": "^3.5.1",
+    "querystring": "^0.2.0",
     "socket.io": "^2.2.0"
   },
   "devDependencies": {
