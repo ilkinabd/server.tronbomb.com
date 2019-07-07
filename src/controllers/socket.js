@@ -16,9 +16,17 @@ const disconnected = (socket) => {
   db.sockets.delete({ id });
 };
 
+const firstMessage = async(socket) => {
+  const games = await db.gamesContracts.getAll();
+  const tokens = await db.tokens.getAll();
+
+  socket.emit('config', { games, tokens });
+};
+
 module.exports = (socket) => {
   socket.join('test room');
   connected(socket);
+  firstMessage(socket);
 
   socket.on('disconnect', () => {
     disconnected(socket);
