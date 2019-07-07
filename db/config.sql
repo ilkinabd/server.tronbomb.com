@@ -47,7 +47,7 @@ CREATE TABLE "games" (
   "result"       INTEGER,
   "status"       GAME_STATUS NOT NULL DEFAULT 'start',
 
-  PRIMARY KEY("game_id")
+  PRIMARY KEY("game_id", "contract_id")
 );
 
 CREATE TABLE "bets" (

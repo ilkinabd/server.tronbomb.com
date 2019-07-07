@@ -9,6 +9,7 @@ const ws = require('@controllers/socket');
 io.on('connection', ws);
 
 require('@workers/new-bets');
+require('@workers/finish-games');
 
 server.listen(NODE_PORT, NODE_URL, () => {
   console.info(`${NODE_URL}:${NODE_PORT}`);

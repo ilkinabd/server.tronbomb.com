@@ -21,10 +21,13 @@ module.exports = {
   'set-finish': `
       UPDATE "games"
       SET ("result", "status") = ($result, 'finish')
-      WHERE "game_id" = $gameId;`,
+      WHERE
+          "game_id" = $gameId AND
+          "contract_id" = $contractId;`,
 
   'get-by-limit': `
       SELECT * FROM "games"
+      WHERE "contract_id" = $contractId
       ORDER BY "game_id" DESC
       LIMIT $limit;`,
 };
