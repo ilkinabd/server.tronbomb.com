@@ -1,6 +1,8 @@
 const getRows = result => (result.rows || []);
 const getFirst = rows => (rows[0] || {});
-const getField = (row, field) => (row[field] || null);
+const getField = (row, field) => (
+  (row[field] === undefined || row[field] === null) ? null : row[field]
+);
 
 const getAll = requestFunc => async(params) => {
   const result = await requestFunc(params) || {};

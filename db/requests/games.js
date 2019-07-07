@@ -8,7 +8,10 @@ module.exports = {
           $gameId,
           $contractId,
           $finishBlock
-      ) RETURNING "game_id" as "id";`,
+      )
+      ON CONFLICT ON CONSTRAINT "games_pkey"
+      DO NOTHING
+      RETURNING "game_id" as "id";`,
 
   'set-finish': `
       UPDATE "games"

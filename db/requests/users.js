@@ -14,6 +14,11 @@ module.exports = {
       FROM "users"
       WHERE "user_id" = $userId;`,
 
+  'get-id': `
+      SELECT "user_id" as "id"
+      FROM "users"
+      WHERE "wallet" = $wallet;`,
+
   'get-count': `
       SELECT COUNT("user_id") as "value"
       FROM "users";`,

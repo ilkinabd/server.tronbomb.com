@@ -11,9 +11,21 @@ const lastTimestamp = (events, from) => {
   return last + 1;
 };
 
-const processEvents = (events) => {
-  for (const bet of events) {
-    console.log(bet);
+const processEvents = async(events, contractId) => {
+  for (const data of events) {
+    const { result } = data;
+    const {
+      gameId, userWallet: wallet, finishBlock, userBet: bet, number, roll
+    } = result;
+
+    let userId = await db.users.getId({ wallet });
+    if (!userId) userId = await db.users.add({ wallet });
+
+    const game = await db.games.add({ gameId, contractId, finishBlock });
+    if (game === null) return;
+
+    const params = JSON.stringify({ number, roll });
+    await db.bets.add({ gameId, userId, bet, params });
   }
 };
 
@@ -29,7 +41,7 @@ const processEvents = (events) => {
       const { events } = data;
 
       from = lastTimestamp(events, from);
-      processEvents(events);
+      processEvents(events, contractId);
     }, 5000);
   }
 })();

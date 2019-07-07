@@ -48,6 +48,7 @@ module.exports = {
     add: getId(request(users['add'])),
     setLevel: request(users['set-level']),
     get: getRow(request(users['get'])),
+    getId: getId(request(users['get-id'])),
     getCount: getValue(request(users['get-count'])),
     getTop: getAll(request(users['get-top'])),
   },
