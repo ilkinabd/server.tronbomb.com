@@ -10,6 +10,9 @@ const joinRoom = async(room, socket) => {
     case 'rating':
       response = await db.users.getTop({ limit: 100 });
       socket.emit('rating', { rating: response }); break;
+    case 'chat':
+      response = await db.messages.getByLimit({ limit: 50 });
+      socket.emit('chat', { messages: response }); break;
   }
 };
 
