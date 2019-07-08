@@ -26,6 +26,8 @@ module.exports = {
   'get-top': `
       SELECT "wallet", "level"
       FROM "users"
+      NATURAL JOIN "bets"
+      GROUP BY "wallet", "level"
       ORDER BY "level" DESC
       LIMIT $limit;`,
 };
