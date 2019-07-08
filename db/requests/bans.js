@@ -1,13 +1,13 @@
 module.exports = {
   'add': `
       INSERT INTO "bans" ("user_id", "reason", "end_time")
-      VALUES (1, 'suka zaebal', '2019-07-08 20:10:34.474987')
+      VALUES ($userId, $reason, $endTime)
       RETURNING "ban_id" as "id";`,
 
   'set-status': `
       UPDATE "bans"
-      SET "status" = FALSE
-      WHERE "ban_id" = 1;`,
+      SET "status" = Sstatus
+      WHERE "ban_id" = $banId;`,
 
   'get-active': `
       SELECT * FROM "bans"
