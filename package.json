@@ -14,6 +14,8 @@
   "_moduleAliases": {
     "@db": "db",
     "@controllers": "src/controllers",
+    "@middleware": "src/middleware",
+    "@routes": "src/routes",
     "@utils": "src/utils",
     "@workers": "src/workers"
   },
@@ -21,6 +23,7 @@
   "author": "DenyStark <denyskrolevetskyi@gmail.com>",
   "license": "Apache-2.0",
   "dependencies": {
+    "@hapi/joi": "^15.1.0",
     "axios": "^0.19.0",
     "babel-eslint": "^10.0.2",
     "body-parser": "^1.18.3",
