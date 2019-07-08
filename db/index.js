@@ -74,6 +74,7 @@ module.exports = {
   bans: {
     add: getId(request(bans['add'])),
     setStatus: request(bans['set-status']),
+    getStatus: getValue(request(bans['get-status'])),
     getActive: getAll(request(bans['get-active'])),
   },
 };

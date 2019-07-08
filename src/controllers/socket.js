@@ -63,6 +63,9 @@ const newMessage = async(data, socket, io) => {
   const userId = await db.users.getId({ wallet });
   if (!userId) return socket.emit('fail', 'User does not exist.');
 
+  const ban = await db.bans.getStatus({ userId });
+  if (ban) return socket.emit('fail', 'Ban.');
+
   await db.messages.add({ data: msg, userId });
   io.in('chat').emit('chat', { messages: [ msg ] });
 };

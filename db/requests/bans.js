@@ -9,6 +9,12 @@ module.exports = {
       SET "status" = Sstatus
       WHERE "ban_id" = $banId;`,
 
+  'get-status': `
+      SELECT EXISTS(
+          SELECT "ban_id" FROM "bans"
+          WHERE "user_id" = $userId AND "status" = TRUE
+      ) as "value";`,
+
   'get-active': `
       SELECT * FROM "bans"
       WHERE "status" = TRUE;`,
