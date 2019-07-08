@@ -71,3 +71,23 @@ CREATE TABLE "sockets" (
 
   PRIMARY KEY("socket_id")
 );
+
+CREATE TABLE "messages" (
+  "message_id" SERIAL       NOT NULL,
+  "user_id"    INTEGER      NOT NULL REFERENCES "users"("user_id"),
+  "create_at"  TIMESTAMP(6) NOT NULL DEFAULT NOW(),
+  "data"       JSON         NOT NULL,
+
+  PRIMARY KEY("message_id")
+);
+
+CREATE TABLE "bans" (
+  "ban_id"     SERIAL       NOT NULL,
+  "user_id"    INTEGER      NOT NULL REFERENCES "users"("user_id"),
+  "reason"     TEXT,
+  "start_time" TIMESTAMP(6) NOT NULL DEFAULT NOW(),
+  "end_time"   TIMESTAMP(6),
+  "status"     BOOLEAN      NOT NULL DEFAULT TRUE,
+
+  PRIMARY KEY("ban_id")
+);
