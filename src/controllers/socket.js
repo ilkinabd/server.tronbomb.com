@@ -56,12 +56,25 @@ const unsubscribe = async(data, socket) => {
   await db.sockets.setRooms({ id, rooms });
 };
 
-module.exports = (socket) => {
+const newMessage = async(data, socket, io) => {
+  const { msg, wallet } = JSON.parse(data);
+  if (!msg || !wallet) return socket.emit('fail', 'Wrong data.');
+
+  const userId = await db.users.getId({ wallet });
+  if (!userId) return socket.emit('fail', 'User does not exist.');
+
+  await db.messages.add({ data: msg, userId });
+  io.in('chat').emit('chat', { messages: [ msg ] });
+};
+
+module.exports = (socket, io) => {
   connected(socket);
   firstMessage(socket);
 
   socket.on('subscribe', (data) => subscribe(data, socket));
   socket.on('unsubscribe', (data) => unsubscribe(data, socket));
+
+  socket.on('new_message', (data) => newMessage(data, socket, io));
 
   socket.on('disconnect', () => {
     disconnected(socket);

@@ -6,7 +6,7 @@ const server = require('http').createServer(app);
 
 const io = require('socket.io')(server);
 const ws = require('@controllers/socket');
-io.on('connection', ws);
+io.on('connection', (socket) => ws(socket, io));
 
 require('@workers/new-bets');
 require('@workers/finish-games');
