@@ -23,10 +23,31 @@ const firstMessage = async(socket) => {
   socket.emit('config', { games, tokens });
 };
 
+const subscribe = async(data, socket) => {
+  const { room } = JSON.parse(data);
+  socket.join(room);
+
+  const { id, adapter } = socket;
+  const rooms = Object.keys(adapter.rooms);
+
+  await db.sockets.setRooms({ id, rooms });
+};
+const unsubscribe = async(data, socket) => {
+  const { room } = JSON.parse(data);
+  socket.leave(room);
+
+  const { id, adapter } = socket;
+  const rooms = Object.keys(adapter.rooms);
+
+  await db.sockets.setRooms({ id, rooms });
+};
+
 module.exports = (socket) => {
-  socket.join('test room');
   connected(socket);
   firstMessage(socket);
+
+  socket.on('subscribe', (data) => subscribe(data, socket));
+  socket.on('unsubscribe', (data) => unsubscribe(data, socket));
 
   socket.on('disconnect', () => {
     disconnected(socket);
