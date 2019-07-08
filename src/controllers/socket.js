@@ -2,6 +2,17 @@ const db = require('@db');
 
 db.sockets.clear();
 
+const joinRoom = async(room, socket) => {
+  socket.join(room);
+
+  let response;
+  switch (room) {
+    case 'rating':
+      response = await db.users.getTop({ limit: 100 });
+      socket.emit('rating', { rating: response }); break;
+  }
+};
+
 const connected = (socket) => {
   const { id, adapter } = socket;
   const rooms = Object.keys(adapter.rooms);
@@ -25,7 +36,7 @@ const firstMessage = async(socket) => {
 
 const subscribe = async(data, socket) => {
   const { room } = JSON.parse(data);
-  socket.join(room);
+  joinRoom(room, socket);
 
   const { id, adapter } = socket;
   const rooms = Object.keys(adapter.rooms);
