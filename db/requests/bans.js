@@ -6,7 +6,7 @@ module.exports = {
 
   'set-status': `
       UPDATE "bans"
-      SET "status" = Sstatus
+      SET "status" = $status
       WHERE "ban_id" = $banId;`,
 
   'get-status': `
@@ -16,6 +16,7 @@ module.exports = {
       ) as "value";`,
 
   'get-active': `
-      SELECT * FROM "bans"
+      SELECT "ban_id" as "banId", "end_time" as "endTime"
+      FROM "bans"
       WHERE "status" = TRUE;`,
 };
