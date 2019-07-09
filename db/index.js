@@ -68,7 +68,7 @@ module.exports = {
     clear: getValue(request(sockets['clear'])),
   },
   messages: {
-    add: getId(request(messages['add'])),
+    add: getValue(request(messages['add'])),
     getByLimit: getAll(request(messages['get-by-limit'])),
   },
   bans: {

@@ -66,8 +66,8 @@ const newMessage = async(data, socket, io) => {
   const ban = await db.bans.getStatus({ userId });
   if (ban) return socket.emit('fail', 'Ban.');
 
-  await db.messages.add({ data: msg, userId });
-  io.in('chat').emit('chat', { messages: [ msg ] });
+  const createAt = await db.messages.add({ data: JSON.stringify(msg), userId });
+  io.in('chat').emit('chat', { messages: [{ data: msg, createAt, wallet }] });
 };
 
 module.exports = (socket, io) => {
