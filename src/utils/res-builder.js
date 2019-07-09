@@ -8,6 +8,9 @@ const errors = {
   73402: {
     message: 'Ban.'
   },
+  73403: {
+    message: 'Not enougth level.'
+  },
   73500: {
     message: 'Internal server error.'
   },

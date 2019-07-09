@@ -1,3 +1,5 @@
+const { CHAT_USER_LEVEL } = process.env;
+
 const db = require('@db');
 
 const { error } = require('@utils/res-builder');
@@ -64,6 +66,9 @@ const newMessage = async(data, socket, io) => {
 
   const userId = await db.users.getId({ wallet });
   if (!userId) return socket.emit('fail', error(73400));
+
+  const user = await db.users.get({ userId });
+  if (!user.level < CHAT_USER_LEVEL) return socket.emit('fail', error(73403));
 
   const ban = await db.bans.getStatus({ userId });
   if (ban) return socket.emit('fail', error(73402));
