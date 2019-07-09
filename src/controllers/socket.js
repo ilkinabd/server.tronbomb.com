@@ -1,4 +1,8 @@
+const { CHAT_USER_LEVEL } = process.env;
+
 const db = require('@db');
+
+const { error } = require('@utils/res-builder');
 
 db.sockets.clear();
 
@@ -58,16 +62,19 @@ const unsubscribe = async(data, socket) => {
 
 const newMessage = async(data, socket, io) => {
   const { msg, wallet } = data;
-  if (!msg || !wallet) return socket.emit('fail', 'Wrong data.');
+  if (!msg || !wallet) return socket.emit('fail', error(73401));
 
   const userId = await db.users.getId({ wallet });
-  if (!userId) return socket.emit('fail', 'User does not exist.');
+  if (!userId) return socket.emit('fail', error(73400));
+
+  const user = await db.users.get({ userId });
+  if (!user.level < CHAT_USER_LEVEL) return socket.emit('fail', error(73403));
 
   const ban = await db.bans.getStatus({ userId });
-  if (ban) return socket.emit('fail', 'Ban.');
+  if (ban) return socket.emit('fail', error(73402));
 
-  await db.messages.add({ data: msg, userId });
-  io.in('chat').emit('chat', { messages: [ msg ] });
+  const createAt = await db.messages.add({ data: JSON.stringify(msg), userId });
+  io.in('chat').emit('chat', { messages: [{ data: msg, createAt, wallet }] });
 };
 
 module.exports = (socket, io) => {
