@@ -2,6 +2,12 @@ const errors = {
   73400: {
     message: 'User does not exist.'
   },
+  73401: {
+    message: 'Wrong data.'
+  },
+  73402: {
+    message: 'Ban.'
+  },
   73500: {
     message: 'Internal server error.'
   },
