@@ -38,7 +38,7 @@ const firstMessage = async(socket) => {
 };
 
 const subscribe = async(data, socket) => {
-  const { room } = JSON.parse(data);
+  const { room } = data;
   joinRoom(room, socket);
 
   const { id, adapter } = socket;
@@ -47,7 +47,7 @@ const subscribe = async(data, socket) => {
   await db.sockets.setRooms({ id, rooms });
 };
 const unsubscribe = async(data, socket) => {
-  const { room } = JSON.parse(data);
+  const { room } = data;
   socket.leave(room);
 
   const { id, adapter } = socket;
@@ -57,7 +57,7 @@ const unsubscribe = async(data, socket) => {
 };
 
 const newMessage = async(data, socket, io) => {
-  const { msg, wallet } = JSON.parse(data);
+  const { msg, wallet } = data;
   if (!msg || !wallet) return socket.emit('fail', 'Wrong data.');
 
   const userId = await db.users.getId({ wallet });
