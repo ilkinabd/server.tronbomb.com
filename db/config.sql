@@ -28,7 +28,7 @@ VALUES (0, NULL, 'TRX', 'TRON network token', 6);
 
 CREATE TABLE "users" (
   "user_id" SERIAL   NOT NULL,
-  "wallet"  CHAR(42) NOT NULL,
+  "wallet"  CHAR(34) NOT NULL,
   "level"   INTEGER  NOT NULL DEFAULT 1,
 
   PRIMARY KEY("user_id"),

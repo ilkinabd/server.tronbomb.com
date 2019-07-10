@@ -21,7 +21,7 @@ const updateUserLevel = async(userId) => {
 const processEvents = async(events, contractId) => {
   for (const data of events) {
     const {
-      gameId: index, userWallet: wallet, finishBlock, userBet, number, roll
+      gameId: index, player: wallet, finishBlock, amount: bet, number, roll
     } = data.result;
 
     let userId = await db.users.getId({ wallet });
@@ -34,13 +34,14 @@ const processEvents = async(events, contractId) => {
       index, contractId, finishBlock, result, status
     });
 
-    const bet = userBet / 10 ** 6;
     const params = JSON.stringify({ number, roll });
     await db.bets.add({ gameId, userId, bet, params });
     updateUserLevel(userId);
 
     if (status === 'start') {
-      node.control.finishGame({ contractId, gameId });
+      setTimeout(() => {
+        node.control.finishGame({ contractId, gameId: index });
+      }, 2000);
     }
   }
 };
