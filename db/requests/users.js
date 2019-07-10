@@ -24,7 +24,7 @@ module.exports = {
       FROM "users";`,
 
   'get-top': `
-      SELECT "wallet", "level"
+      SELECT "wallet", "level", SUM("bet") as "betSum"
       FROM "users"
       NATURAL JOIN "bets"
       GROUP BY "wallet", "level"
