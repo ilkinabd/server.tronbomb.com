@@ -9,7 +9,7 @@ const ws = require('@controllers/socket');
 io.on('connection', (socket) => ws(socket, io));
 
 require('@workers/new-bets');
-require('@workers/finish-games');
+require('@workers/finish-games')(io);
 require('@workers/players-win');
 
 require('@workers/rating')(io);

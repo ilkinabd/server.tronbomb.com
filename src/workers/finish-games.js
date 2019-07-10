@@ -11,14 +11,17 @@ const lastTimestamp = (events, from) => {
   return last + 1;
 };
 
-const processEvents = async(events, contractId) => {
+const processEvents = async(events, contractId, io) => {
   for (const data of events) {
     const { result, gameId: index } = data.result;
-    db.games.setFinish({ index, contractId, result });
+    await db.games.setFinish({ index, contractId, result });
+
+    const game = await db.bets.getByIndex({ index });
+    io.in('dice').emit('dice', { games: [game] });
   }
 };
 
-(async() => {
+module.exports = async(io) => {
   const games = await db.gamesContracts.getAll();
 
   for (const game of games) {
@@ -30,7 +33,7 @@ const processEvents = async(events, contractId) => {
       const { events } = data;
 
       from = lastTimestamp(events, from);
-      processEvents(events, contractId);
+      processEvents(events, contractId, io);
     }, 1000);
   }
-})();
+};

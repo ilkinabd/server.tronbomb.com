@@ -22,6 +22,22 @@ module.exports = {
         "game_id" = $gameId AND
         "user_id" = $userId;`,
 
+  'get-by-index': `
+      SELECT
+          "bet",
+          "prize",
+          "params",
+          "finish_block" as "finishBlock",
+          "result",
+          "wallet",
+          "level",
+          "SYMBOL" as "symbol"
+      FROM "bets"
+      NATURAL JOIN "games"
+      NATURAL JOIN "users"
+      NATURAL JOIN "tokens"
+      WHERE "status" = 'finish' AND "index" = $index;`,
+
   'get-by-limit': `
       SELECT
           "bet",

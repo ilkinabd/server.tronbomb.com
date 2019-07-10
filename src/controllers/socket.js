@@ -19,7 +19,7 @@ const joinRoom = async(room, socket) => {
       socket.emit('chat', { messages: response }); break;
     case 'dice':
       response = await db.bets.getByLimit({ limit: 25 });
-      socket.emit('dice', { messages: response }); break;
+      socket.emit('dice', { games: response }); break;
   }
 };
 
