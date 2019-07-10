@@ -68,7 +68,7 @@ const newMessage = async(data, socket, io) => {
   if (!userId) return socket.emit('fail', error(73400));
 
   const user = await db.users.get({ userId });
-  if (!user.level < CHAT_USER_LEVEL) return socket.emit('fail', error(73403));
+  if (user.level < CHAT_USER_LEVEL) return socket.emit('fail', error(73403));
 
   const ban = await db.bans.getStatus({ userId });
   if (ban) return socket.emit('fail', error(73402));
