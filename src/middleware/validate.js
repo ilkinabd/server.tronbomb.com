@@ -2,7 +2,7 @@ const Joi = require('@hapi/joi');
 
 const schemas = {
   addBan: Joi.object().keys({
-    wallet: Joi.string().regex(/^0x[a-fA-F0-9]{40}$/i).required(),
+    wallet: Joi.string().alphanum().length(34).required(),
     reason: Joi.string().required(),
     endTime: Joi.date().required(),
   }),
