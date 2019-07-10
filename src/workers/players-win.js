@@ -13,11 +13,10 @@ const lastTimestamp = (events, from) => {
 
 const processEvents = async(events, contractId) => {
   for (const data of events) {
-    const { amount, gameId: index, player: wallet } = data.result;
+    const { amount: prize, gameId: index, player: wallet } = data.result;
 
     const gameId = await db.games.getId({ contractId, index });
     const userId = await db.users.getId({ wallet });
-    const prize = amount / 10 ** 6;
 
     db.bets.setPrize({ gameId, userId, prize });
   }
