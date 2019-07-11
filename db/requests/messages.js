@@ -8,5 +8,6 @@ module.exports = {
       SELECT "wallet", "create_at" as "createAt", "data"
       FROM "messages"
       NATURAL JOIN "users"
+      ORDER BY "message_id" DESC
       LIMIT $limit;`,
 };
