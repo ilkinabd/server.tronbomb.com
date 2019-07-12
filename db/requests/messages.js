@@ -5,9 +5,11 @@ module.exports = {
       RETURNING NOW() as "value";`,
 
   'get-by-limit': `
+      WITH "msg" AS (
+          SELECT * FROM "messages" ORDER BY "message_id" DESC LIMIT $limit
+      )
       SELECT "wallet", "create_at" as "createAt", "data"
-      FROM "messages"
+      FROM "msg"
       NATURAL JOIN "users"
-      ORDER BY "message_id"
-      OFFSET (SELECT COUNT("message_id") - $limit FROM "messages");`,
+      ORDER BY "message_id" ASC;`,
 };
