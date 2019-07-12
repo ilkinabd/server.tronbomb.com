@@ -24,6 +24,7 @@ module.exports = {
 
   'get-by-index': `
       SELECT
+          "game_id" as "gameId",
           "bet",
           "prize",
           "params",
@@ -40,6 +41,7 @@ module.exports = {
 
   'get-by-limit': `
       SELECT
+          "game_id" as "gameId",
           "bet",
           "prize",
           "params",
