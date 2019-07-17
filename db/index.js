@@ -59,7 +59,7 @@ module.exports = {
     add: getId(request(bets['add'])),
     setPrize: request(bets['set-prize']),
     getByLimit: getAll(request(bets['get-by-limit'])),
-    getByIndex: getAll(request(bets['get-by-index'])),
+    getByIndex: getRow(request(bets['get-by-index'])),
     getSum: getValue(request(bets['get-sum'])),
   },
   sockets: {
