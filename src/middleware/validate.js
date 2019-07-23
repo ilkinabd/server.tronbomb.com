@@ -6,6 +6,9 @@ const schemas = {
     reason: Joi.string().required(),
     endTime: Joi.date().required(),
   }),
+  getLevel: Joi.object().keys({
+    wallet: Joi.string().alphanum().length(34).required(),
+  }),
 };
 
 const validate = (type, isQuery) => (req, res, next) => {
