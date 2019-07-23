@@ -8,6 +8,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 
 const bans = require('@routes/bans');
+const users = require('@routes/users');
 
 const app = express();
 
@@ -37,5 +38,6 @@ app.get('/', (_req, res) => {
 });
 
 app.use('/bans', bans);
+app.use('/users', users);
 
 module.exports = app;
