@@ -19,7 +19,6 @@ const updateUserLevel = async(userId) => {
 };
 
 const processEvents = async(events) => {
-  console.log(events);
   for (const data of events) {
     const {
       gameId: index, player: wallet, finishBlock, amount: bet, number, roll
@@ -38,7 +37,7 @@ const processEvents = async(events) => {
     updateUserLevel(userId);
 
     if (status === 'start') {
-      setTimeout(() => { dice.control.finishGame({ gameId: index }); }, 2000);
+      setTimeout(() => { dice.functions.finishGame({ gameId: index }); }, 2000);
     }
   }
 };
