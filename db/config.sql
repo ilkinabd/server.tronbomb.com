@@ -1,17 +1,3 @@
-CREATE TYPE GAME_TYPE AS ENUM (
-  'dice',
-  'wheel-of-fortune'
-);
-
-CREATE TABLE "games_contracts" (
-  "contract_id" INTEGER   NOT NULL,
-  "address"     CHAR(34)  NOT NULL,
-  "type"        GAME_TYPE,
-
-  PRIMARY KEY("contract_id"),
-  UNIQUE("address")
-);
-
 CREATE TABLE "tokens" (
   "token_id" INTEGER     NOT NULL,
   "address"  CHAR(34),
@@ -43,7 +29,7 @@ CREATE TYPE GAME_STATUS AS ENUM (
 CREATE TABLE "games" (
   "game_id"      SERIAL      NOT NULL,
   "index"        INTEGER     NOT NULL,
-  "contract_id"  INTEGER     NOT NULL REFERENCES "games_contracts"("contract_id"),
+  "contract_id"  INTEGER     NOT NULL DEFAULT 0,
   "finish_block" INTEGER     NOT NULL,
   "result"       INTEGER,
   "status"       GAME_STATUS NOT NULL DEFAULT 'start',

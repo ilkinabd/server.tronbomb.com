@@ -19,15 +19,17 @@ const postRequest = (path) => async(params = {}) => {
 };
 
 module.exports = {
-  getters: {
-    game: getRequest('/dice/get/game'),
-  },
-  control: {
-    finishGame: postRequest('/dice/control/finish_game'),
-  },
-  events: {
-    takeBets: getRequest('/dice/events/take_bets'),
-    finishGames: getRequest('/dice/events/finish_games'),
-    playersWin: getRequest('/dice/events/players_win'),
+  dice: {
+    getters: {
+      game: getRequest('/dice/get/game'),
+    },
+    functions: {
+      finishGame: postRequest('/dice/func/finish_game'),
+    },
+    events: {
+      takeBets: getRequest('/dice/events/take_bets'),
+      finishGames: getRequest('/dice/events/finish_games'),
+      playersWin: getRequest('/dice/events/players_win'),
+    },
   },
 };
