@@ -2,13 +2,11 @@ module.exports = {
   'add': `
       INSERT INTO "games" (
           "index",
-          "contract_id",
           "finish_block",
           "result",
           "status"
       ) VALUES (
           $index,
-          $contractId,
           $finishBlock,
           $result,
           $status
