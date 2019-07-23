@@ -10,7 +10,7 @@ io.on('connection', (socket) => ws(socket, io));
 
 require('@workers/dice-bets');
 require('@workers/dice-finish')(io);
-require('@workers/players-win');
+require('@workers/dice-win');
 
 require('@workers/rating')(io);
 require('@workers/ban');
