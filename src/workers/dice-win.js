@@ -31,5 +31,5 @@ const processEvents = async(events) => {
 
     from = lastTimestamp(events, from);
     processEvents(events);
-  }, 1000);
+  }, 250);
 })();
