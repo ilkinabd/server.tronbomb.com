@@ -1,6 +1,6 @@
 const { ADMIN_TOKEN } = process.env;
 
-const { error: resError } = require('@utils/res-builder');
+const { resError } = require('@utils/res-builder');
 
 const admin = (req, res, next) => {
   const token = req.headers['maxie-token'];
