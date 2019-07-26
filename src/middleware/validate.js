@@ -1,13 +1,17 @@
 const Joi = require('@hapi/joi');
 
+const templates = {
+  wallet: Joi.string().alphanum().length(34),
+};
+
 const schemas = {
   addBan: Joi.object().keys({
-    wallet: Joi.string().alphanum().length(34).required(),
+    wallet: templates.wallet.required(),
     reason: Joi.string().required(),
     endTime: Joi.date().required(),
   }),
   getLevel: Joi.object().keys({
-    wallet: Joi.string().alphanum().length(34).required(),
+    wallet: templates.wallet.required(),
   }),
 };
 

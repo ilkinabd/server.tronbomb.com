@@ -1,6 +1,6 @@
 const db = require('@db');
 
-const { success: resSuccess, error: resError } = require('@utils/res-builder');
+const { resSuccess, resError } = require('@utils/res-builder');
 
 const add = async(req, res) => {
   const { wallet, reason, endTime } = req.body;
