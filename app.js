@@ -1,7 +1,4 @@
-const {
-  npm_package_version: version,
-  CORS_TRUST,
-} = process.env;
+const { version, CORS_TRUST } = process.env;
 
 const express = require('express');
 const bodyParser = require('body-parser');
