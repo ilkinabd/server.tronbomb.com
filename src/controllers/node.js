@@ -19,6 +19,9 @@ const postRequest = (path) => async(params = {}) => {
 };
 
 module.exports = {
+  contracts: {
+    getAll: getRequest('/contracts/get_all'),
+  },
   dice: {
     getters: {
       game: getRequest('/dice/get/game'),

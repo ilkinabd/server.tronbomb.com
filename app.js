@@ -9,6 +9,7 @@ const cors = require('cors');
 
 const bans = require('@routes/bans');
 const users = require('@routes/users');
+const portal = require('@routes/portal');
 
 const app = express();
 
@@ -39,5 +40,6 @@ app.get('/', (_req, res) => {
 
 app.use('/bans', bans);
 app.use('/users', users);
+app.use('/portal', portal);
 
 module.exports = app;

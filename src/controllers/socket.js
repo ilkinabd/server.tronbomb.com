@@ -37,13 +37,6 @@ const disconnected = (socket) => {
   db.sockets.delete({ id });
 };
 
-const firstMessage = async(socket) => {
-  const games = await db.gamesContracts.getAll();
-  const tokens = await db.tokens.getAll();
-
-  socket.emit('config', { games, tokens });
-};
-
 const subscribe = async(data, socket) => {
   const { room } = data;
   joinRoom(room, socket);
@@ -85,7 +78,6 @@ const newMessage = async(data, socket, io) => {
 
 module.exports = (socket, io) => {
   connected(socket);
-  firstMessage(socket);
 
   socket.on('subscribe', (data) => subscribe(data, socket));
   socket.on('unsubscribe', (data) => unsubscribe(data, socket));
