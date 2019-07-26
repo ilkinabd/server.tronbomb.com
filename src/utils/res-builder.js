@@ -11,6 +11,14 @@ const errors = {
   73403: {
     message: 'Not enougth level.'
   },
+  73430: {
+    auth: false,
+    message: 'No token provided.'
+  },
+  73431: {
+    auth: false,
+    message: 'Wrong token.'
+  },
   73500: {
     message: 'Internal server error.'
   },
