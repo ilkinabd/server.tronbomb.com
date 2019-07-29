@@ -21,7 +21,7 @@ const updateUserLevel = async(userId) => {
   db.users.setLevel({ userId, level });
 };
 
-const processEvent = async(data) => {
+const takePart = async(data) => {
   const { index, wallet, finishBlock, bet, number, roll } = data;
 
   let userId = await db.users.getId({ wallet });
@@ -32,10 +32,6 @@ const processEvent = async(data) => {
   const params = JSON.stringify({ number, roll });
   await db.bets.add({ gameId, userId, bet, params });
   updateUserLevel(userId);
-
-  setTimeout(() => {
-    dice.functions.finishGame({ gameId: index });
-  }, 2000);
 };
 
-socket.on('dice', processEvent);
+socket.on('take-part', takePart);
