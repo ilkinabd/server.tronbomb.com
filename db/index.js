@@ -7,6 +7,7 @@ const { getId, getValue, getRow, getAll, fillTemplate } = require('./tools');
 const tokens = require('./requests/tokens');
 const games = require('./requests/games');
 const users = require('./requests/users');
+const refs = require('./requests/refs');
 const bets = require('./requests/bets');
 const sockets = require('./requests/sockets');
 const messages = require('./requests/messages');
@@ -52,6 +53,13 @@ module.exports = {
     getId: getId(request(users['get-id'])),
     getCount: getValue(request(users['get-count'])),
     getTop: getAll(request(users['get-top'])),
+  },
+  refs: {
+    add: getId(request(refs['add'])),
+    addId: getId(request(refs['add-id'])),
+    isExist: getValue(request(refs['is-exist'])),
+    get: getValue(request(refs['get'])),
+    getWallet: getValue(request(refs['get-wallet'])),
   },
   bets: {
     add: getId(request(bets['add'])),

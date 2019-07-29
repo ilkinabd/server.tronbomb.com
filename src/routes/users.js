@@ -7,4 +7,13 @@ const validate = require('@middleware/validate');
 router.route('/level')
   .get(validate('getLevel', true), controller.getLevel);
 
+router.route('/ref/get_id')
+  .get(validate('getRef', true), controller.getRefId);
+
+router.route('/ref/add_id')
+  .post(validate('addRef', false), controller.addRefId);
+
+router.route('/ref/wallet_by_id')
+  .get(validate('getWallet', true), controller.walletById);
+
 module.exports = router;

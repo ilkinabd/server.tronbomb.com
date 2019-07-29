@@ -2,6 +2,7 @@ const Joi = require('@hapi/joi');
 
 const templates = {
   wallet: Joi.string().alphanum().length(34),
+  refId: Joi.string().alphanum().uppercase({ force: true }).length(6),
 };
 
 const schemas = {
@@ -12,6 +13,16 @@ const schemas = {
   }),
   getLevel: Joi.object().keys({
     wallet: templates.wallet.required(),
+  }),
+  getRef: Joi.object().keys({
+    wallet: templates.wallet.required(),
+  }),
+  addRef: Joi.object().keys({
+    wallet: templates.wallet.required(),
+    refId: templates.refId.required(),
+  }),
+  getWallet: Joi.object().keys({
+    refId: templates.refId.required(),
   }),
 };
 

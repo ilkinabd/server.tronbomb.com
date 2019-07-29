@@ -6,6 +6,8 @@ errors.set(73402, 'Ban.');
 errors.set(73403, 'Not enougth level.');
 errors.set(73404, 'No token provided.');
 errors.set(73405, 'Wrong token.');
+errors.set(73406, 'Referral id is already exist.');
+errors.set(73407, 'Referral id does not exist.');
 errors.set(73500, 'Internal server error.');
 
 const success = (data) => Object.assign({ status: 'success' }, data);
