@@ -13,4 +13,7 @@ router.route('/ref/get_id')
 router.route('/ref/add_id')
   .post(validate('addRef', false), controller.addRefId);
 
+router.route('/ref/wallet_by_id')
+  .get(validate('getWallet', true), controller.walletById);
+
 module.exports = router;

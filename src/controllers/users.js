@@ -40,8 +40,18 @@ const addRefId = async(req, res) => {
   res.json(resSuccess());
 };
 
+const walletById = async(req, res) => {
+  const { refId } = req.query;
+
+  const wallet = await db.refs.getWallet({ refId });
+  if (!wallet) return res.status(422).json(resError(73407));
+
+  res.json(resSuccess({ wallet }));
+};
+
 module.exports = {
   getLevel,
   getRefId,
   addRefId,
+  walletById,
 };

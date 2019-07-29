@@ -21,6 +21,9 @@ const schemas = {
     wallet: templates.wallet.required(),
     refId: templates.refId.required(),
   }),
+  getWallet: Joi.object().keys({
+    refId: templates.refId.required(),
+  }),
 };
 
 const validate = (type, isQuery) => (req, res, next) => {
