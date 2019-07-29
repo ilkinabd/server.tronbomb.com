@@ -40,7 +40,9 @@ module.exports = {
   games: {
     add: getId(request(games['add'])),
     setFinish: request(games['set-finish']),
+    setConfirm: request(games['set-confirm']),
     getId: getId(request(games['get-id'])),
+    getByFinishBlock: getAll(request(games['get-by-finish-block'])),
     getByLimit: getAll(request(games['get-by-limit'])),
   },
   users: {
@@ -54,6 +56,7 @@ module.exports = {
   bets: {
     add: getId(request(bets['add'])),
     setPrize: request(bets['set-prize']),
+    setConfirm: request(bets['set-confirm']),
     getByLimit: getAll(request(bets['get-by-limit'])),
     getByIndex: getRow(request(bets['get-by-index'])),
     getSum: getValue(request(bets['get-sum'])),
