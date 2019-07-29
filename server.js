@@ -9,8 +9,7 @@ const ws = require('@controllers/socket');
 io.on('connection', (socket) => ws(socket, io));
 
 require('@workers/dice-events');
-// require('@workers/dice-finish')(io);
-// require('@workers/dice-win');
+require('@workers/dice-finish')(io);
 
 require('@workers/rating')(io);
 require('@workers/ban');

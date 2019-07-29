@@ -25,6 +25,7 @@ module.exports = {
   dice: {
     getters: {
       game: getRequest('/dice/get/game'),
+      rng: getRequest('/dice/get/rng'),
     },
     functions: {
       finishGame: postRequest('/dice/func/finish_game'),

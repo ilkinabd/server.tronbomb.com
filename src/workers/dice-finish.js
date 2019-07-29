@@ -1,34 +1,50 @@
+const { NODE, NODE_TOKEN, GAME_RTP } = process.env;
+
+const io = require('socket.io-client');
+
 const db = require('@db');
 const { dice } = require('@controllers/node');
+const { calculateReward } = require('@utils/game');
 
-const lastTimestamp = (events, from) => {
-  let last = from;
+const socket = io.connect(NODE, { reconnect: true });
+let frontIO;
 
-  for (const bet of events) {
-    const { timestamp } = bet;
-    last = Math.max(last, timestamp);
-  }
-  return last + 1;
+socket.on('connect', () => {
+  socket.emit('subscribe', {
+    room: 'blocks',
+    token: NODE_TOKEN,
+  });
+});
+
+const broadcastGame = async(index) => {
+  const game = await db.bets.getByIndex({ index });
+  frontIO.in('dice').emit('dice', { games: [game] });
 };
 
-const processEvents = async(events, io) => {
-  for (const data of events) {
-    const { result, gameId: index } = data.result;
-    await db.games.setFinish({ index, contractId: 0, result });
+const getGameResult = async(game, blockNumber, blockHash) => {
+  const { wallet, params, bet, index, gameId } = game;
+  const payload = await dice.getters.rng({ wallet, blockNumber, blockHash });
+  const result = payload.result.result;
 
-    const game = await db.bets.getByIndex({ index });
-    io.in('dice').emit('dice', { games: [game] });
-  }
+  const prize = calculateReward(params, result, bet, GAME_RTP);
+
+  await db.games.setFinish({ index, contractId: 0, result });
+
+  const userId = await db.users.getId({ wallet });
+  await db.bets.setPrize({ gameId, userId, prize });
+
+  broadcastGame(index);
 };
 
-module.exports = async(io) => {
-  let from = 0;
+const processBlocks = async(data) => {
+  const { number, hash } = data;
 
-  setInterval(async() => {
-    const data = await dice.events.finishGames({ from });
-    const { events } = data;
+  const games = await db.games.getByFinishBlock({ finishBlock: number });
+  for (const game of games) getGameResult(game, number, hash);
+};
 
-    from = lastTimestamp(events, from);
-    processEvents(events, io);
-  }, 1000);
+socket.on('blocks', processBlocks);
+
+module.exports = (io) => {
+  frontIO = io;
 };

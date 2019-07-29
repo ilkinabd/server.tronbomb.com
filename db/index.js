@@ -41,6 +41,7 @@ module.exports = {
     add: getId(request(games['add'])),
     setFinish: request(games['set-finish']),
     getId: getId(request(games['get-id'])),
+    getByFinishBlock: getAll(request(games['get-by-finish-block'])),
     getByLimit: getAll(request(games['get-by-limit'])),
   },
   users: {
