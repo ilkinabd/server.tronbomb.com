@@ -3,7 +3,6 @@ const { NODE, NODE_TOKEN } = process.env;
 const io = require('socket.io-client');
 
 const db = require('@db');
-const { dice } = require('@controllers/node');
 const utils = require('@utils/users');
 
 const socket = io.connect(NODE, { reconnect: true });
