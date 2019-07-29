@@ -56,7 +56,10 @@ module.exports = {
   },
   refs: {
     add: getId(request(refs['add'])),
+    addId: getId(request(refs['add-id'])),
+    isExist: getValue(request(refs['is-exist'])),
     get: getValue(request(refs['get'])),
+    getWallet: getValue(request(refs['get-wallet'])),
   },
   bets: {
     add: getId(request(bets['add'])),

@@ -26,7 +26,22 @@ const getRefId = async(req, res) => {
   res.json(resSuccess({ refId }));
 };
 
+const addRefId = async(req, res) => {
+  const { wallet, refId } = req.body;
+
+  let userId = await db.users.getId({ wallet });
+  if (!userId) userId = await db.users.add({ wallet });
+
+  const isExist = await db.refs.isExist({ refId });
+  if (isExist) return res.status(422).json(resError(73406));
+
+  await db.refs.addId({ userId, refId });
+
+  res.json(resSuccess());
+};
+
 module.exports = {
   getLevel,
   getRefId,
+  addRefId,
 };

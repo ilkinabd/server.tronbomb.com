@@ -10,4 +10,7 @@ router.route('/level')
 router.route('/ref/get_id')
   .get(validate('getRef', true), controller.getRefId);
 
+router.route('/ref/add_id')
+  .post(validate('addRef', false), controller.addRefId);
+
 module.exports = router;
