@@ -23,6 +23,11 @@ module.exports = {
           "index" = $index AND
           "contract_id" = $contractId;`,
 
+  'set-confirm': `
+      UPDATE "games"
+      SET "confirmed" = TRUE
+      WHERE "index" = $index;`,
+
   'get-id': `
       SELECT "game_id" as "id"
       FROM "games"

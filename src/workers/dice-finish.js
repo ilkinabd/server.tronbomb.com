@@ -33,7 +33,10 @@ const getGameResult = async(game, blockNumber, blockHash) => {
   const userId = await db.users.getId({ wallet });
   await db.bets.setPrize({ gameId, userId, prize });
 
+  if (prize === 0) db.bets.setConfirm({ userId, gameId });
+
   broadcastGame(index);
+  dice.functions.finishGame({ gameId: index });
 };
 
 const processBlocks = async(data) => {

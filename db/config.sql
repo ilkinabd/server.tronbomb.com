@@ -33,19 +33,21 @@ CREATE TABLE "games" (
   "finish_block" INTEGER     NOT NULL,
   "result"       INTEGER,
   "status"       GAME_STATUS NOT NULL DEFAULT 'start',
+  "confirmed"    BOOLEAN     NOT NULL DEFAULT FALSE,
 
   PRIMARY KEY("game_id"),
   UNIQUE("index", "contract_id")
 );
 
 CREATE TABLE "bets" (
-  "bet_id"   SERIAL  NOT NULL,
-  "game_id"  INTEGER NOT NULL           REFERENCES "games"("game_id"),
-  "user_id"  INTEGER NOT NULL           REFERENCES "users"("user_id"),
-  "bet"      FLOAT   NOT NULL,
-  "token_id" INTEGER NOT NULL DEFAULT 0 REFERENCES "tokens"("token_id"),
-  "prize"    FLOAT,
-  "params"   JSON    NOT NULL,
+  "bet_id"    SERIAL  NOT NULL,
+  "game_id"   INTEGER NOT NULL           REFERENCES "games"("game_id"),
+  "user_id"   INTEGER NOT NULL           REFERENCES "users"("user_id"),
+  "bet"       FLOAT   NOT NULL,
+  "token_id"  INTEGER NOT NULL DEFAULT 0 REFERENCES "tokens"("token_id"),
+  "prize"     FLOAT,
+  "params"    JSON    NOT NULL,
+  "confirmed" BOOLEAN NOT NULL DEFAULT FALSE,
 
   PRIMARY KEY("bet_id"),
   UNIQUE("game_id", "user_id")

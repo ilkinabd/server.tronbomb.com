@@ -22,6 +22,11 @@ module.exports = {
         "game_id" = $gameId AND
         "user_id" = $userId;`,
 
+  'set-confirm': `
+      UPDATE "bets"
+      SET "confirmed" = TRUE
+      WHERE "game_id" = $gameId AND "user_id" = $userId;`,
+
   'get-by-index': `
       SELECT
           "game_id" as "gameId",
