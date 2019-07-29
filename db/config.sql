@@ -30,9 +30,11 @@ INSERT INTO "tokens"
 VALUES (0, NULL, 'TRX', 'TRON network token', 6);
 
 CREATE TABLE "users" (
-  "user_id" SERIAL   NOT NULL,
-  "wallet"  CHAR(34) NOT NULL,
-  "level"   INTEGER  NOT NULL DEFAULT 1,
+  "user_id"       SERIAL                      NOT NULL,
+  "wallet"        CHAR(34)                    NOT NULL,
+  "level"         INTEGER                     NOT NULL DEFAULT 1,
+  "referrer"      INTEGER                     REFERENCES "users"("user_id"),
+  "register_date" TIMESTAMP WITHOUT TIME ZONE DEFAULT now(),
 
   PRIMARY KEY("user_id"),
   UNIQUE("wallet")

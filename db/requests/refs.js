@@ -25,4 +25,9 @@ module.exports = {
       FROM "referral"
       NATURAL JOIN "users"
       WHERE "ref_id" = $refId;`,
+
+  'get-user-id': `
+      SELECT "user_id" as "value"
+      FROM "referral"
+      WHERE "ref_id" = $refId;`,
 };

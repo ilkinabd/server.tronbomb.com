@@ -49,9 +49,25 @@ const walletById = async(req, res) => {
   res.json(resSuccess({ wallet }));
 };
 
+const setReferrer = async(req, res) => {
+  const { wallet, refId } = req.body;
+
+  const userId = await db.users.getId({ wallet });
+  if (userId) return res.status(422).json(resError(73409));
+
+  const referrer = await db.refs.getUserId({ refId });
+  if (!referrer) return res.status(422).json(resError(73408));
+
+  const id = await db.users.addReferrer({ wallet, referrer });
+  if (!id) return res.status(500).json(resError(73500));
+
+  res.json(resSuccess());
+};
+
 module.exports = {
   getLevel,
   getRefId,
   addRefId,
   walletById,
+  setReferrer,
 };

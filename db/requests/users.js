@@ -4,6 +4,11 @@ module.exports = {
       VALUES ($wallet)
       RETURNING "user_id" as "id";`,
 
+  'add-ref': `
+      INSERT INTO "users" ("wallet", "referrer")
+      VALUES ($wallet, $referrer)
+      RETURNING "user_id" as "id";`,
+
   'set-level': `
       UPDATE "users"
       SET "level" = $level

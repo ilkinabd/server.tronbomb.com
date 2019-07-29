@@ -48,6 +48,7 @@ module.exports = {
   },
   users: {
     add: getId(request(users['add'])),
+    addReferrer: getId(request(users['add-ref'])),
     setLevel: request(users['set-level']),
     get: getRow(request(users['get'])),
     getId: getId(request(users['get-id'])),
@@ -60,6 +61,7 @@ module.exports = {
     isExist: getValue(request(refs['is-exist'])),
     get: getValue(request(refs['get'])),
     getWallet: getValue(request(refs['get-wallet'])),
+    getUserId: getValue(request(refs['get-user-id'])),
   },
   bets: {
     add: getId(request(bets['add'])),
