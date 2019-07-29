@@ -13,6 +13,9 @@ const schemas = {
   getLevel: Joi.object().keys({
     wallet: templates.wallet.required(),
   }),
+  getRef: Joi.object().keys({
+    wallet: templates.wallet.required(),
+  }),
 };
 
 const validate = (type, isQuery) => (req, res, next) => {

@@ -1,3 +1,20 @@
+CREATE OR REPLACE FUNCTION random_string(length INTEGER) RETURNS TEXT AS
+$$
+DECLARE
+  chars TEXT[] := '{0,1,2,3,4,5,6,7,8,9,A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z}';
+  result TEXT := '';
+  i INTEGER := 0;
+BEGIN
+  IF length < 0 THEN
+    raise exception 'Given length cannot be less than 0';
+  END IF;
+  FOR i IN 1..length LOOP
+    result := result || chars[1+random()*(array_length(chars, 1)-1)];
+  END LOOP;
+  RETURN result;
+END;
+$$ LANGUAGE plpgsql;
+
 CREATE TABLE "tokens" (
   "token_id" INTEGER     NOT NULL,
   "address"  CHAR(34),
@@ -19,6 +36,13 @@ CREATE TABLE "users" (
 
   PRIMARY KEY("user_id"),
   UNIQUE("wallet")
+);
+
+CREATE TABLE "referral" (
+  "user_id" INTEGER NOT NULL,
+  "ref_id"  CHAR(6) NOT NULL DEFAULT random_string(6),
+
+  UNIQUE("ref_id")
 );
 
 CREATE TYPE GAME_STATUS AS ENUM (
