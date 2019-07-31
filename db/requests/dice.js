@@ -47,8 +47,22 @@ module.exports = {
       WHERE "status" = 'start' AND "finish_block" = $finishBlock;`,
 
   'get-by-limit': `
-      SELECT * FROM "games"
-      WHERE "contract_id" = $contractId
-      ORDER BY "index" DESC
-      LIMIT $limit;`,
+        SELECT
+            "game_id" as "gameId",
+            "finish_block" as "finishBlock",
+            "result",
+            "wallet",
+            "level",
+            "bet",
+            "SYMBOL" as "symbol",
+            "number",
+            "roll",
+            "prize"
+        FROM "dice"
+        NATURAL JOIN "dice_bets"
+        NATURAL JOIN "users"
+        NATURAL JOIN "tokens"
+        WHERE "status" = 'finish'
+        ORDER BY "game_id" DESC
+        LIMIT $limit;`,
 };

@@ -86,7 +86,6 @@ module.exports = {
     add: getId(request(diceBets['add'])),
     setPrize: request(diceBets['set-prize']),
     setConfirm: request(diceBets['set-confirm']),
-    getByLimit: getAll(request(diceBets['get-by-limit'])),
     getByIndex: getRow(request(diceBets['get-by-index'])),
     getSum: getValue(request(diceBets['get-sum'])),
   },

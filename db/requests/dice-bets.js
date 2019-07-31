@@ -46,25 +46,6 @@ module.exports = {
       NATURAL JOIN "tokens"
       WHERE "status" = 'finish' AND "index" = $index;`,
 
-  'get-by-limit': `
-      SELECT
-          "game_id" as "gameId",
-          "bet",
-          "prize",
-          "params",
-          "finish_block" as "finishBlock",
-          "result",
-          "wallet",
-          "level",
-          "SYMBOL" as "symbol"
-      FROM "bets"
-      NATURAL JOIN "games"
-      NATURAL JOIN "users"
-      NATURAL JOIN "tokens"
-      WHERE "status" = 'finish'
-      ORDER BY "bet_id" DESC
-      LIMIT $limit;`,
-
   'get-sum': `
       SELECT SUM("bet") as "value"
       FROM "bets"
