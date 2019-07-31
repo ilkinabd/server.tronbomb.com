@@ -24,18 +24,17 @@ const broadcastGame = async(index) => {
 const getGameResult = async(game, blockNumber, blockHash) => {
   const { wallet, params, bet, index, gameId } = game;
   const payload = await dice.getters.rng({ wallet, blockNumber, blockHash });
+
   const result = payload.result.result;
-
-  const prize = calculateReward(params, result, bet, GAME_RTP);
-
   await db.games.setFinish({ index, contractId: 0, result });
 
   const userId = await db.users.getId({ wallet });
+  const prize = calculateReward(params, result, bet, GAME_RTP);
   await db.bets.setPrize({ gameId, userId, prize });
 
-  if (prize === 0) db.bets.setConfirm({ userId, gameId });
-
   broadcastGame(index);
+
+  if (prize === 0) await db.bets.setConfirm({ userId, gameId });
   dice.functions.finishGame({ gameId: index });
 };
 
