@@ -17,6 +17,7 @@ const diceBets = require('./requests/dice-bets');
 
 // Wheel
 const wheel = require('./requests/wheel');
+const wheelBets = require('./requests/wheel-bets');
 
 const client = new PgClient({
   host: PG_HOST,
@@ -94,5 +95,10 @@ module.exports = {
   },
   wheel: {
     add: getId(request(wheel['add'])),
+    getId: getId(request(wheel['get-id'])),
+  },
+  wheelBets: {
+    add: getId(request(wheelBets['add'])),
+    getSum: getValue(request(diceBets['get-sum'])),
   },
 };

@@ -1,3 +1,5 @@
+const db = require('@db');
+
 const getLevel = (betsSum) => {
   const point = 265;
   const coef = 1.12600317;
@@ -10,6 +12,14 @@ const getLevel = (betsSum) => {
   return 99;
 };
 
+const updateLevel = async(userId) => {
+  const diceSum = await db.diceBets.getSum({ userId });
+  const wheelSum = await db.wheelBets.getSum({ userId });
+  const level = getLevel(diceSum + wheelSum);
+  db.users.setLevel({ userId, level });
+};
+
 module.exports = {
   getLevel,
+  updateLevel,
 };

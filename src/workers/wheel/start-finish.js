@@ -1,4 +1,7 @@
 const { wheel } = require('@controllers/node');
 
 // Init new game
-wheel.functions.init();
+setTimeout(() => {
+  wheel.functions.init();
+}, 1000);
+

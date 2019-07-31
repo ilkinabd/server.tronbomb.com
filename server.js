@@ -12,7 +12,7 @@ require('@workers/dice/events');
 require('@workers/dice/finish')(io);
 
 require('@workers/wheel/start-finish');
-require('@workers/wheel/events');
+require('@workers/wheel/events')(io);
 
 // require('@workers/rating')(io);
 require('@workers/ban');

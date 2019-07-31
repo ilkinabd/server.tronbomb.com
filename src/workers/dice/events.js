@@ -4,7 +4,7 @@ const io = require('socket.io-client');
 
 const db = require('@db');
 const utils = require('@utils/dice');
-const userUtils = require('@utils/users');
+const { updateLevel } = require('@utils/users');
 
 const socket = io.connect(NODE, { reconnect: true });
 
@@ -14,12 +14,6 @@ socket.on('connect', () => {
     token: NODE_TOKEN,
   });
 });
-
-const updateLevel = async(userId) => {
-  const sum = await db.diceBets.getSum({ userId });
-  const level = userUtils.getLevel(sum);
-  db.users.setLevel({ userId, level });
-};
 
 const takePart = async(data) => {
   const { index, wallet, finishBlock, bet, number, roll: rollIndex } = data;
