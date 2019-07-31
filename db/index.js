@@ -96,9 +96,10 @@ module.exports = {
   wheel: {
     add: getId(request(wheel['add'])),
     getId: getId(request(wheel['get-id'])),
+    getIndexByBlock: getValue(request(wheel['get-index-by-block'])),
   },
   wheelBets: {
     add: getId(request(wheelBets['add'])),
-    getSum: getValue(request(diceBets['get-sum'])),
+    getSum: getValue(request(wheelBets['get-sum'])),
   },
 };
