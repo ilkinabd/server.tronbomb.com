@@ -1,17 +1,8 @@
 module.exports = {
   'add': `
-      INSERT INTO "games" (
-          "index",
-          "finish_block",
-          "contract_id",
-          "result"
-      ) VALUES (
-          $index,
-          $finishBlock,
-          $contractId,
-          $result
-      )
-      RETURNING "game_id" as "id";`,
+        INSERT INTO "dice" ("index", "finish_block")
+        VALUES ($index, $finishBlock)
+        RETURNING "game_id" as "id";`,
 
   'set-finish': `
       UPDATE "games"

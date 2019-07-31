@@ -1,21 +1,18 @@
 module.exports = {
   'add': `
-      INSERT INTO "bets" (
-          "game_id",
-          "user_id",
-          "index",
-          "bet",
-          "params"
-      ) VALUES (
-          $gameId,
-          $userId,
-          $index,
-          $bet,
-          $params
-      )
-      ON CONFLICT ON CONSTRAINT "bets_game_id_user_id_params_key"
-      DO NOTHING
-      RETURNING "bet_id" as "id";`,
+        INSERT INTO "dice_bets" (
+            "game_id",
+            "user_id",
+            "bet",
+            "number",
+            "roll"
+        ) VALUES (
+            $gameId,
+            $userId,
+            $bet,
+            $number,
+            $roll
+        ) RETURNING "bet_id" as "id";`,
 
   'set-prize': `
       UPDATE "bets"
@@ -47,7 +44,7 @@ module.exports = {
       WHERE "status" = 'finish' AND "index" = $index;`,
 
   'get-sum': `
-      SELECT SUM("bet") as "value"
-      FROM "bets"
-      WHERE "user_id" = $userId;`,
+        SELECT SUM("bet") as "value"
+        FROM "dice_bets"
+        WHERE "user_id" = $userId;`,
 };

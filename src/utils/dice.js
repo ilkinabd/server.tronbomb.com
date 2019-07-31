@@ -1,3 +1,11 @@
+const getRoll = (index) => {
+  switch (index) {
+    case 0: return 'under';
+    case 1: return 'over';
+    case 2: return 'extra';
+  }
+};
+
 const calculateReward = (params, result, amount, rtp) => {
   const { number, roll } = params;
 
@@ -17,5 +25,6 @@ const calculateReward = (params, result, amount, rtp) => {
 };
 
 module.exports = {
+  getRoll,
   calculateReward,
 };
