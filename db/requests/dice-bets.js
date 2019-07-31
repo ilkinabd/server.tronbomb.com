@@ -3,15 +3,17 @@ module.exports = {
       INSERT INTO "bets" (
           "game_id",
           "user_id",
+          "index",
           "bet",
           "params"
       ) VALUES (
           $gameId,
           $userId,
+          $index,
           $bet,
           $params
       )
-      ON CONFLICT ON CONSTRAINT "bets_game_id_user_id_key"
+      ON CONFLICT ON CONSTRAINT "bets_game_id_user_id_params_key"
       DO NOTHING
       RETURNING "bet_id" as "id";`,
 
