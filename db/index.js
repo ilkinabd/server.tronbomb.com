@@ -15,6 +15,9 @@ const bans = require('./requests/bans');
 const dice = require('./requests/dice');
 const diceBets = require('./requests/dice-bets');
 
+// Wheel
+const wheel = require('./requests/wheel');
+
 const client = new PgClient({
   host: PG_HOST,
   user: PG_USER,
@@ -88,5 +91,8 @@ module.exports = {
     setPrize: request(diceBets['set-prize']),
     setConfirm: request(diceBets['set-confirm']),
     getSum: getValue(request(diceBets['get-sum'])),
+  },
+  wheel: {
+    add: getId(request(wheel['add'])),
   },
 };

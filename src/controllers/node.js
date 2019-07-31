@@ -36,4 +36,9 @@ module.exports = {
       playersWin: getRequest('/dice/events/players_win'),
     },
   },
+  wheel: {
+    functions: {
+      init: postRequest('/wheel/func/init'),
+    },
+  },
 };
