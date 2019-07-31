@@ -15,11 +15,9 @@ module.exports = {
         WHERE "index" = $index;`,
 
   'get-id': `
-      SELECT "game_id" as "id"
-      FROM "games"
-      WHERE
-          "index" = $index AND
-          "contract_id" = $contractId;`,
+        SELECT "game_id" as "id"
+        FROM "dice"
+        WHERE "index" = $index;`,
 
   'get-by-index': `
         SELECT

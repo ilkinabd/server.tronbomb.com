@@ -40,14 +40,12 @@ const finish = async(data) => {
   db.dice.setConfirm({ index });
 };
 
-// const reward = async(data) => {
-//   const { gameId: index, wallet } = data;
-//   const userId = await db.users.getId({ wallet });
-//   const gameId = await db.games.getId({ index, contractId: 0 });
-
-//   db.bets.setConfirm({ userId, gameId });
-// };
+const reward = async(data) => {
+  const { gameId: index } = data;
+  const gameId = await db.dice.getId({ index });
+  db.diceBets.setConfirm({ gameId });
+};
 
 socket.on('take-part', takePart);
 socket.on('finish', finish);
-// socket.on('reward', reward);
+socket.on('reward', reward);
