@@ -37,17 +37,17 @@ const takePart = async(data) => {
 
 const finish = async(data) => {
   const { gameId: index } = data;
-  db.games.setConfirm({ index });
+  db.dice.setConfirm({ index });
 };
 
-const reward = async(data) => {
-  const { gameId: index, wallet } = data;
-  const userId = await db.users.getId({ wallet });
-  const gameId = await db.games.getId({ index, contractId: 0 });
+// const reward = async(data) => {
+//   const { gameId: index, wallet } = data;
+//   const userId = await db.users.getId({ wallet });
+//   const gameId = await db.games.getId({ index, contractId: 0 });
 
-  db.bets.setConfirm({ userId, gameId });
-};
+//   db.bets.setConfirm({ userId, gameId });
+// };
 
 socket.on('take-part', takePart);
 socket.on('finish', finish);
-socket.on('reward', reward);
+// socket.on('reward', reward);

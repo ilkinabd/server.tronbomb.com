@@ -79,6 +79,7 @@ module.exports = {
     setFinish: request(dice['set-finish']),
     setConfirm: request(dice['set-confirm']),
     getId: getId(request(dice['get-id'])),
+    getByIndex: getRow(request(dice['get-by-index'])),
     getByFinishBlock: getAll(request(dice['get-by-finish-block'])),
     getByLimit: getAll(request(dice['get-by-limit'])),
   },
@@ -86,7 +87,6 @@ module.exports = {
     add: getId(request(diceBets['add'])),
     setPrize: request(diceBets['set-prize']),
     setConfirm: request(diceBets['set-confirm']),
-    getByIndex: getRow(request(diceBets['get-by-index'])),
     getSum: getValue(request(diceBets['get-sum'])),
   },
 };

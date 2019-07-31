@@ -4,10 +4,10 @@ const io = require('socket.io-client');
 
 const db = require('@db');
 const { dice } = require('@controllers/node');
-const { calculateReward } = require('@utils/game');
+const utils = require('@utils/dice');
 
 const socket = io.connect(NODE, { reconnect: true });
-let frontIO;
+let sockets;
 
 socket.on('connect', () => {
   socket.emit('subscribe', {
@@ -16,37 +16,46 @@ socket.on('connect', () => {
   });
 });
 
-const broadcastGame = async(index) => {
-  const game = await db.bets.getByIndex({ index });
-  frontIO.in('dice').emit('dice', { games: [game] });
+const getRNGResult = async(wallet, blockNumber, blockHash) => {
+  const payload = await dice.getters.rng({ wallet, blockNumber, blockHash });
+  return payload.result.result;
 };
 
-const getGameResult = async(game, blockNumber, blockHash) => {
-  const { wallet, params, bet, index, gameId } = game;
-  const payload = await dice.getters.rng({ wallet, blockNumber, blockHash });
+const setPrize = async(params, result, bet, gameId) => {
+  const prize = utils.getReward(params, result, bet, GAME_RTP);
+  await db.diceBets.setPrize({ gameId, prize });
+  if (prize === 0) await db.diceBets.setConfirm({ gameId });
 
-  const result = payload.result.result;
-  await db.games.setFinish({ index, contractId: 0, result });
+  return prize;
+};
 
-  const userId = await db.users.getId({ wallet });
-  const prize = calculateReward(params, result, bet, GAME_RTP);
-  await db.bets.setPrize({ gameId, userId, prize });
+const broadcastGame = async(index) => {
+  const game = await db.dice.getByIndex({ index });
+  sockets.in('dice').emit('dice', { games: [game] });
+};
+
+const getGameResult = async(game, block, hash) => {
+  const { gameId, index, wallet, bet, number, roll } = game;
+  const params = { number, roll };
+
+  const result = await getRNGResult(wallet, block, hash);
+  await db.dice.setFinish({ index, result });
+
+  await setPrize(params, result, bet, gameId);
 
   broadcastGame(index);
 
-  if (prize === 0) await db.bets.setConfirm({ userId, gameId });
   dice.functions.finishGame({ gameId: index });
 };
 
 const processBlocks = async(data) => {
   const { number, hash } = data;
-
-  const games = await db.games.getByFinishBlock({ finishBlock: number });
+  const games = await db.dice.getByFinishBlock({ finishBlock: number });
   for (const game of games) getGameResult(game, number, hash);
 };
 
 socket.on('blocks', processBlocks);
 
 module.exports = (io) => {
-  frontIO = io;
+  sockets = io;
 };
