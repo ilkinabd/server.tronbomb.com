@@ -37,8 +37,12 @@ module.exports = {
     },
   },
   wheel: {
+    getters: {
+      rng: getRequest('/wheel/get/rng'),
+    },
     functions: {
       init: postRequest('/wheel/func/init'),
+      finish: postRequest('/wheel/func/finish'),
     },
   },
 };

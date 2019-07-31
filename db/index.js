@@ -95,8 +95,11 @@ module.exports = {
   },
   wheel: {
     add: getId(request(wheel['add'])),
+    setFinish: request(wheel['set-finish']),
+    setConfirm: request(wheel['set-confirm']),
     getId: getId(request(wheel['get-id'])),
     getIndexByBlock: getValue(request(wheel['get-index-by-block'])),
+    getByFinishBlock: getAll(request(wheel['get-by-finish-block'])),
   },
   wheelBets: {
     add: getId(request(wheelBets['add'])),

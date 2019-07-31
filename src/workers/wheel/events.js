@@ -35,8 +35,14 @@ const takePart = async(data) => {
   sockets.in('wheel').emit('take-part', { index, wallet, betId, bet, sector });
 };
 
+const finish = async(data) => {
+  const { gameId: index } = data;
+  db.wheel.setConfirm({ index });
+};
+
 socket.on('start', start);
 socket.on('take-part', takePart);
+socket.on('finish', finish);
 
 module.exports = (io) => {
   sockets = io;

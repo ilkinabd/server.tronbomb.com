@@ -21,9 +21,38 @@ const checkStopBet = async(number) => {
   if (index) sockets.in('wheel').emit('stop-bets', { index });
 };
 
+const getRNGResult = async(blockNumber, blockHash) => {
+  const payload = await wheel.getters.rng({ blockNumber, blockHash });
+  return payload.result.result;
+};
+
+// const setPrize = async(params, result, bet, gameId) => {
+//   const prize = utils.getReward(params, result, bet, GAME_RTP);
+//   await db.diceBets.setPrize({ gameId, prize });
+//   if (prize === 0) await db.diceBets.setConfirm({ gameId });
+
+//   return prize;
+// };
+
+const getGameResult = async(game, block, hash) => {
+  const { gameId, index } = game;
+
+  const result = await getRNGResult(block, hash);
+  await db.wheel.setFinish({ index, result });
+
+  // await setPrize(params, result, bet, gameId);
+
+  sockets.in('wheel').emit('finish', { index, result });
+  wheel.functions.finish({ gameId: index });
+  wheel.functions.init();
+};
+
 const processBlocks = async(data) => {
   const { number, hash } = data;
   checkStopBet(number);
+
+  const games = await db.wheel.getByFinishBlock({ finishBlock: number });
+  for (const game of games) getGameResult(game, number, hash);
 };
 
 socket.on('blocks', processBlocks);
