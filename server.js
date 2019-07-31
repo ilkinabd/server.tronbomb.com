@@ -11,6 +11,8 @@ io.on('connection', (socket) => ws(socket, io));
 require('@workers/dice-events');
 require('@workers/dice-finish')(io);
 
+require('@workers/wheel-events');
+
 require('@workers/rating')(io);
 require('@workers/ban');
 

@@ -26,7 +26,7 @@ const takePart = async(data) => {
   let userId = await db.users.getId({ wallet });
   if (!userId) userId = await db.users.add({ wallet });
 
-  const gameId = await db.games.add({ index, finishBlock, status: 'start' });
+  const gameId = await db.games.add({ index, finishBlock, contractId: 0 });
 
   const params = JSON.stringify({ number, roll });
   await db.bets.add({ gameId, userId, bet, params });
