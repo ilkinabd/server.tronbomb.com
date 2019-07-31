@@ -52,31 +52,37 @@ CREATE TYPE GAME_STATUS AS ENUM (
   'finish'
 );
 
-CREATE TABLE "games" (
+CREATE TABLE "dice" (
   "game_id"      SERIAL      NOT NULL,
   "index"        INTEGER     NOT NULL,
-  "contract_id"  INTEGER     NOT NULL DEFAULT 0,
   "finish_block" INTEGER     NOT NULL,
   "result"       INTEGER,
   "status"       GAME_STATUS NOT NULL DEFAULT 'start',
   "confirmed"    BOOLEAN     NOT NULL DEFAULT FALSE,
 
   PRIMARY KEY("game_id"),
-  UNIQUE("index", "contract_id")
+  UNIQUE("index")
 );
 
-CREATE TABLE "bets" (
-  "bet_id"    SERIAL  NOT NULL,
-  "game_id"   INTEGER NOT NULL           REFERENCES "games"("game_id"),
-  "user_id"   INTEGER NOT NULL           REFERENCES "users"("user_id"),
-  "bet"       FLOAT   NOT NULL,
-  "token_id"  INTEGER NOT NULL DEFAULT 0 REFERENCES "tokens"("token_id"),
+CREATE TYPE ROLL_TYPE AS ENUM (
+  'under',
+  'over',
+  'extra'
+);
+
+CREATE TABLE "dice_bets" (
+  "bet_id"    SERIAL    NOT NULL,
+  "game_id"   INTEGER   NOT NULL           REFERENCES "dice"("game_id"),
+  "user_id"   INTEGER   NOT NULL           REFERENCES "users"("user_id"),
+  "bet"       FLOAT     NOT NULL,
+  "token_id"  INTEGER   NOT NULL DEFAULT 0 REFERENCES "tokens"("token_id"),
   "prize"     FLOAT,
-  "params"    JSON    NOT NULL,
-  "confirmed" BOOLEAN NOT NULL DEFAULT FALSE,
+  "number"    INTEGER   NOT NULL,
+  "roll"      ROLL_TYPE NOT NULL,
+  "confirmed" BOOLEAN   NOT NULL DEFAULT FALSE,
 
   PRIMARY KEY("bet_id"),
-  UNIQUE("game_id", "user_id")
+  UNIQUE("game_id")
 );
 
 CREATE TABLE "sockets" (
