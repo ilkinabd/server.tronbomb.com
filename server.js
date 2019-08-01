@@ -8,8 +8,11 @@ const io = require('socket.io')(server);
 const ws = require('@controllers/socket');
 io.on('connection', (socket) => ws(socket, io));
 
-require('@workers/dice-events');
-require('@workers/dice-finish')(io);
+require('@workers/dice/events');
+require('@workers/dice/finish')(io);
+
+require('@workers/wheel/start-finish')(io);
+require('@workers/wheel/events')(io);
 
 require('@workers/rating')(io);
 require('@workers/ban');

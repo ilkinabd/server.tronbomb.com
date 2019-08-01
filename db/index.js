@@ -5,13 +5,19 @@ const PgClient = require('pg').Client;
 const { getId, getValue, getRow, getAll, fillTemplate } = require('./tools');
 
 const tokens = require('./requests/tokens');
-const games = require('./requests/games');
 const users = require('./requests/users');
 const refs = require('./requests/refs');
-const bets = require('./requests/bets');
 const sockets = require('./requests/sockets');
 const messages = require('./requests/messages');
 const bans = require('./requests/bans');
+
+// Dice
+const dice = require('./requests/dice');
+const diceBets = require('./requests/dice-bets');
+
+// Wheel
+const wheel = require('./requests/wheel');
+const wheelBets = require('./requests/wheel-bets');
 
 const client = new PgClient({
   host: PG_HOST,
@@ -38,14 +44,6 @@ module.exports = {
   tokens: {
     getAll: getAll(request(tokens['get-all'])),
   },
-  games: {
-    add: getId(request(games['add'])),
-    setFinish: request(games['set-finish']),
-    setConfirm: request(games['set-confirm']),
-    getId: getId(request(games['get-id'])),
-    getByFinishBlock: getAll(request(games['get-by-finish-block'])),
-    getByLimit: getAll(request(games['get-by-limit'])),
-  },
   users: {
     add: getId(request(users['add'])),
     addReferrer: getId(request(users['add-ref'])),
@@ -63,14 +61,6 @@ module.exports = {
     getWallet: getValue(request(refs['get-wallet'])),
     getUserId: getValue(request(refs['get-user-id'])),
   },
-  bets: {
-    add: getId(request(bets['add'])),
-    setPrize: request(bets['set-prize']),
-    setConfirm: request(bets['set-confirm']),
-    getByLimit: getAll(request(bets['get-by-limit'])),
-    getByIndex: getRow(request(bets['get-by-index'])),
-    getSum: getValue(request(bets['get-sum'])),
-  },
   sockets: {
     add: getId(request(sockets['add'])),
     setRooms: request(sockets['set-rooms']),
@@ -87,5 +77,35 @@ module.exports = {
     get: getRow(request(bans['get'])),
     getStatus: getValue(request(bans['get-status'])),
     getActive: getAll(request(bans['get-active'])),
+  },
+  dice: {
+    add: getId(request(dice['add'])),
+    setFinish: request(dice['set-finish']),
+    setConfirm: request(dice['set-confirm']),
+    getId: getId(request(dice['get-id'])),
+    getByIndex: getRow(request(dice['get-by-index'])),
+    getByFinishBlock: getAll(request(dice['get-by-finish-block'])),
+    getByLimit: getAll(request(dice['get-by-limit'])),
+  },
+  diceBets: {
+    add: getId(request(diceBets['add'])),
+    setPrize: request(diceBets['set-prize']),
+    setConfirm: request(diceBets['set-confirm']),
+    getSum: getValue(request(diceBets['get-sum'])),
+  },
+  wheel: {
+    add: getId(request(wheel['add'])),
+    setFinish: request(wheel['set-finish']),
+    setConfirm: request(wheel['set-confirm']),
+    getId: getId(request(wheel['get-id'])),
+    getIndexByBlock: getValue(request(wheel['get-index-by-block'])),
+    getByFinishBlock: getAll(request(wheel['get-by-finish-block'])),
+  },
+  wheelBets: {
+    add: getId(request(wheelBets['add'])),
+    getByGame: getAll(request(wheelBets['get-by-game'])),
+    setPrize: request(wheelBets['set-prize']),
+    setConfirm: request(wheelBets['set-confirm']),
+    getSum: getValue(request(wheelBets['get-sum'])),
   },
 };

@@ -30,8 +30,14 @@ module.exports = {
 
   'get-top': `
       SELECT "wallet", "level", SUM("bet") as "betSum"
-      FROM "users"
-      NATURAL JOIN "bets"
+      FROM (
+          SELECT "bet", "user_id"
+          FROM  "dice_bets"
+          UNION ALL
+          SELECT "bet", "user_id"
+          FROM  "wheel_bets"
+      ) AS "bets"
+      NATURAL JOIN "users"
       GROUP BY "wallet", "level"
       ORDER BY "level" DESC
       LIMIT $limit;`,
