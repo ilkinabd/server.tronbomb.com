@@ -20,7 +20,7 @@ module.exports = {
         WHERE "game_id" = $gameId AND "index" = $index;`,
 
   'set-confirm': `
-        UPDATE "dice_bets"
+        UPDATE "wheel_bets"
         SET "confirmed" = TRUE
         WHERE "game_id" = $gameId AND "index" = $index;`,
 

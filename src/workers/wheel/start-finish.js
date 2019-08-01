@@ -3,7 +3,7 @@ const { NODE, NODE_TOKEN } = process.env;
 const io = require('socket.io-client');
 
 const db = require('@db');
-const utils = require('@controllers/wheel');
+const utils = require('@utils/wheel');
 const { wheel } = require('@controllers/node');
 
 const socket = io.connect(NODE, { reconnect: true });

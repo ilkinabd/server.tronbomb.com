@@ -42,7 +42,7 @@ const finish = async(data) => {
 
 const reward = async(data) => {
   const { gameId: index, betId } = data;
-  const gameId = await db.dice.getId({ index });
+  const gameId = await db.wheel.getId({ index });
   await db.wheelBets.setConfirm({ gameId, index: betId });
 };
 
