@@ -40,9 +40,16 @@ const finish = async(data) => {
   db.wheel.setConfirm({ index });
 };
 
+const reward = async(data) => {
+  const { gameId: index, betId } = data;
+  const gameId = await db.dice.getId({ index });
+  await db.wheelBets.setConfirm({ gameId, index: betId });
+};
+
 socket.on('start', start);
 socket.on('take-part', takePart);
 socket.on('finish', finish);
+socket.on('reward', reward);
 
 module.exports = (io) => {
   sockets = io;
