@@ -103,6 +103,7 @@ module.exports = {
   },
   wheelBets: {
     add: getId(request(wheelBets['add'])),
+    getByGame: getAll(request(wheelBets['get-by-game'])),
     getSum: getValue(request(wheelBets['get-sum'])),
   },
 };

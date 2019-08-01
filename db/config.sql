@@ -99,7 +99,7 @@ CREATE TABLE "wheel" (
 
 CREATE TABLE "wheel_bets" (
   "bet_id"    SERIAL    NOT NULL,
-  "game_id"   INTEGER   NOT NULL           REFERENCES "dice"("game_id"),
+  "game_id"   INTEGER   NOT NULL           REFERENCES "wheel"("game_id"),
   "index"     INTEGER   NOT NULL,
   "user_id"   INTEGER   NOT NULL           REFERENCES "users"("user_id"),
   "bet"       FLOAT     NOT NULL,
@@ -109,7 +109,7 @@ CREATE TABLE "wheel_bets" (
   "confirmed" BOOLEAN   NOT NULL DEFAULT FALSE,
 
   PRIMARY KEY("bet_id"),
-  UNIQUE("game_id")
+  UNIQUE("game_id", "index")
 );
 
 CREATE TABLE "sockets" (

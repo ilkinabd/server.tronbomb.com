@@ -3,6 +3,7 @@ const { NODE, NODE_TOKEN } = process.env;
 const io = require('socket.io-client');
 
 const db = require('@db');
+const utils = require('@controllers/wheel');
 const { wheel } = require('@controllers/node');
 
 const socket = io.connect(NODE, { reconnect: true });
@@ -26,23 +27,29 @@ const getRNGResult = async(blockNumber, blockHash) => {
   return payload.result.result;
 };
 
-// const setPrize = async(params, result, bet, gameId) => {
-//   const prize = utils.getReward(params, result, bet, GAME_RTP);
-//   await db.diceBets.setPrize({ gameId, prize });
-//   if (prize === 0) await db.diceBets.setConfirm({ gameId });
+const setPrizes = async(gameId, sector) => {
+  const bets = await db.wheelBets.getByGame({ gameId });
+  const coef = utils.getCoef(sector);
 
-//   return prize;
-// };
+  for (const bet of bets) {
+    const { sector: betSector, bet: betAmount, index } = bet;
+    const prize = (betSector === sector) ? betAmount * coef : 0;
+
+    await db.wheelBets.setPrize({ gameId, index, prize });
+    if (prize === 0) await db.wheelBets.setConfirm({ gameId, index });
+  }
+};
 
 const getGameResult = async(game, block, hash) => {
   const { gameId, index } = game;
 
   const result = await getRNGResult(block, hash);
+  const sector = utils.getSector(result);
   await db.wheel.setFinish({ index, result });
 
-  // await setPrize(params, result, bet, gameId);
+  setPrizes(gameId, sector);
 
-  sockets.in('wheel').emit('finish', { index, result });
+  sockets.in('wheel').emit('finish', { index, result, sector });
   wheel.functions.finish({ gameId: index });
   wheel.functions.init();
 };
