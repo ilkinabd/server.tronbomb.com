@@ -14,7 +14,7 @@ require('@workers/dice/finish')(io);
 require('@workers/wheel/start-finish')(io);
 require('@workers/wheel/events')(io);
 
-// require('@workers/rating')(io);
+require('@workers/rating')(io);
 require('@workers/ban');
 
 server.listen(NODE_PORT, NODE_URL, () => {
