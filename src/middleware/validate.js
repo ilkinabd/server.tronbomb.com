@@ -3,6 +3,9 @@ const Joi = require('@hapi/joi');
 const templates = {
   wallet: Joi.string().alphanum().length(34),
   refId: Joi.string().alphanum().uppercase({ force: true }).length(6),
+  mail: Joi.string()
+    .regex(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i)
+    .max(60),
 };
 
 const schemas = {
@@ -20,6 +23,9 @@ const schemas = {
   }),
   getWallet: Joi.object().keys({
     refId: templates.refId.required(),
+  }),
+  subscribe: Joi.object().keys({
+    mail: templates.mail.required(),
   }),
 };
 

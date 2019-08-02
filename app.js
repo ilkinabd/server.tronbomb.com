@@ -7,6 +7,7 @@ const cors = require('cors');
 const bans = require('@routes/bans');
 const users = require('@routes/users');
 const portal = require('@routes/portal');
+const subscribe = require('@routes/subscribe');
 
 const app = express();
 
@@ -38,5 +39,6 @@ app.get('/', (_req, res) => {
 app.use('/bans', bans);
 app.use('/users', users);
 app.use('/portal', portal);
+app.use('/subscribe', subscribe);
 
 module.exports = app;
