@@ -88,6 +88,15 @@ const totalWin = async(req, res) => {
   res.json(resSuccess({ sum }));
 };
 
+const diceHistory = async(req, res) => {
+  const { wallet } = req.query;
+
+  const games = await db.diceBets.getWalletHistory({ wallet });
+  if (!games) return res.status(500).json(resError(73500));
+
+  res.json(resSuccess({ games }));
+};
+
 module.exports = {
   getLevel,
   getRefId,
@@ -96,4 +105,5 @@ module.exports = {
   setReferrer,
   betSum,
   totalWin,
+  diceHistory,
 };

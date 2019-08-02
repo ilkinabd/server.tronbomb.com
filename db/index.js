@@ -94,6 +94,7 @@ module.exports = {
     setPrize: request(diceBets['set-prize']),
     setConfirm: request(diceBets['set-confirm']),
     getSum: getValue(request(diceBets['get-sum'])),
+    getWalletHistory: getAll(request(diceBets['get-wallet-history'])),
   },
   wheel: {
     add: getId(request(wheel['add'])),

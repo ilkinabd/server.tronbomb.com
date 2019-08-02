@@ -25,4 +25,7 @@ router.route('/statistics/total_bet_sum')
 router.route('/statistics/total_win_sum')
   .get(validate('getUserData', true), controller.totalWin);
 
+router.route('/history/dice')
+  .get(validate('getUserData', true), controller.diceHistory);
+
 module.exports = router;

@@ -80,6 +80,7 @@ CREATE TABLE "dice_bets" (
   "number"    INTEGER   NOT NULL,
   "roll"      ROLL_TYPE NOT NULL,
   "confirmed" BOOLEAN   NOT NULL DEFAULT FALSE,
+  "time"      TIME      WITHOUT TIME ZONE DEFAULT now(),
 
   PRIMARY KEY("bet_id"),
   UNIQUE("game_id")
@@ -107,6 +108,7 @@ CREATE TABLE "wheel_bets" (
   "prize"     FLOAT,
   "sector"    INTEGER   NOT NULL,
   "confirmed" BOOLEAN   NOT NULL DEFAULT FALSE,
+  "time"      TIME      WITHOUT TIME ZONE DEFAULT now(),
 
   PRIMARY KEY("bet_id"),
   UNIQUE("game_id", "index")
