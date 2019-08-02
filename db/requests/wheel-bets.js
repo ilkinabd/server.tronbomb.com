@@ -41,4 +41,17 @@ module.exports = {
         NATURAL JOIN "users"
         NATURAL JOIN "tokens"
         WHERE "game_id" = $gameId;`,
+
+  'get-wallet-history': `
+        SELECT
+            "time",
+            "sector",
+            "result",
+            "finish_block" as "finishBlock",
+            "bet",
+            "prize"
+        FROM "wheel_bets"
+        LEFT JOIN "wheel" ON "wheel_bets"."game_id" = "wheel"."game_id"
+        NATURAL JOIN "users"
+        WHERE "wallet" = $wallet;`,
 };

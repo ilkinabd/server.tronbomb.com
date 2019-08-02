@@ -28,4 +28,7 @@ router.route('/statistics/total_win_sum')
 router.route('/history/dice')
   .get(validate('getUserData', true), controller.diceHistory);
 
+router.route('/history/wheel')
+  .get(validate('getUserData', true), controller.wheelHistory);
+
 module.exports = router;

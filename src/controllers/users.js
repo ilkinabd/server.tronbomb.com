@@ -97,6 +97,15 @@ const diceHistory = async(req, res) => {
   res.json(resSuccess({ games }));
 };
 
+const wheelHistory = async(req, res) => {
+  const { wallet } = req.query;
+
+  const games = await db.wheelBets.getWalletHistory({ wallet });
+  if (!games) return res.status(500).json(resError(73500));
+
+  res.json(resSuccess({ games }));
+};
+
 module.exports = {
   getLevel,
   getRefId,
@@ -106,4 +115,5 @@ module.exports = {
   betSum,
   totalWin,
   diceHistory,
+  wheelHistory,
 };
