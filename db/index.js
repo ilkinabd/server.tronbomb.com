@@ -51,6 +51,7 @@ module.exports = {
     get: getRow(request(users['get'])),
     getId: getId(request(users['get-id'])),
     getCount: getValue(request(users['get-count'])),
+    getBetSum: getValue(request(users['get-bet-sum'])),
     getTop: getAll(request(users['get-top'])),
   },
   refs: {

@@ -11,10 +11,7 @@ const schemas = {
     reason: Joi.string().required(),
     endTime: Joi.date().required(),
   }),
-  getLevel: Joi.object().keys({
-    wallet: templates.wallet.required(),
-  }),
-  getRef: Joi.object().keys({
+  getUserData: Joi.object().keys({
     wallet: templates.wallet.required(),
   }),
   addRef: Joi.object().keys({

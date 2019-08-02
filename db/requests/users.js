@@ -24,9 +24,16 @@ module.exports = {
       FROM "users"
       WHERE "wallet" = $wallet;`,
 
-  'get-count': `
-      SELECT COUNT("user_id") as "value"
-      FROM "users";`,
+  'get-bet-sum': `
+      SELECT SUM("bet") as "value"
+      FROM (
+          SELECT "bet", "user_id"
+          FROM  "dice_bets"
+          UNION ALL
+          SELECT "bet", "user_id"
+          FROM  "wheel_bets"
+      ) AS "bets"
+      WHERE "user_id" = $userId;`,
 
   'get-top': `
       SELECT "wallet", "level", SUM("bet") as "betSum"
