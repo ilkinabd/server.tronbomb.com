@@ -22,4 +22,7 @@ router.route('/ref/set_referrer')
 router.route('/statistics/total_bet_sum')
   .get(validate('getUserData', true), controller.betSum);
 
+router.route('/statistics/total_win_sum')
+  .get(validate('getUserData', true), controller.totalWin);
+
 module.exports = router;

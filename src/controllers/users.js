@@ -76,6 +76,18 @@ const betSum = async(req, res) => {
   res.json(resSuccess({ sum }));
 };
 
+const totalWin = async(req, res) => {
+  const { wallet } = req.query;
+
+  const userId = await db.users.getId({ wallet });
+  if (!userId) return res.status(422).json(resError(73400));
+
+  const sum = await db.users.getWinSum({ userId });
+  if (sum === undefined) return res.status(500).json(resError(73500));
+
+  res.json(resSuccess({ sum }));
+};
+
 module.exports = {
   getLevel,
   getRefId,
@@ -83,4 +95,5 @@ module.exports = {
   walletById,
   setReferrer,
   betSum,
+  totalWin,
 };

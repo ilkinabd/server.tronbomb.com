@@ -35,6 +35,17 @@ module.exports = {
       ) AS "bets"
       WHERE "user_id" = $userId;`,
 
+  'get-win-sum': `
+      SELECT SUM("prize") as "value"
+      FROM (
+          SELECT "prize", "user_id"
+          FROM  "dice_bets"
+          UNION ALL
+          SELECT "prize", "user_id"
+          FROM  "wheel_bets"
+      ) AS "bets"
+      WHERE "user_id" = $userId;`,
+
   'get-top': `
       SELECT "wallet", "level", SUM("bet") as "betSum"
       FROM (
