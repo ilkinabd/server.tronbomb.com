@@ -28,4 +28,18 @@ module.exports = {
         SELECT SUM("bet") as "value"
         FROM "dice_bets"
         WHERE "user_id" = $userId;`,
+
+  'get-wallet-history': `
+        SELECT
+            "time",
+            "roll",
+            "number",
+            "result",
+            "finish_block" as "finishBlock",
+            "bet",
+            "prize"
+        FROM "dice_bets"
+        LEFT JOIN "dice" ON "dice_bets"."game_id" = "dice"."game_id"
+        NATURAL JOIN "users"
+        WHERE "wallet" = $wallet;`,
 };
