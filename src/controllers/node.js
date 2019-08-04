@@ -3,21 +3,21 @@ const { NODE, NODE_TOKEN } = process.env;
 const axios = require('axios');
 const qs = require('querystring');
 
-const headers = {
-  'maxie-token': NODE_TOKEN,
-  'Content-type': 'application/x-www-form-urlencoded',
-};
-
 const getRequest = (path) => async(params = {}) => {
   const res = await axios.get(NODE + path, { params, headers: {
     'maxie-token': NODE_TOKEN,
-  } });
-  return res.data;
+  } }).catch(console.error);
+
+  return (res) ? res.data : {};
 };
 
 const postRequest = (path) => async(params = {}) => {
-  const res = await axios.post(NODE + path, qs.stringify(params), { headers });
-  return res.data;
+  const res = await axios.post(NODE + path, qs.stringify(params), { headers: {
+    'maxie-token': NODE_TOKEN,
+    'Content-type': 'application/x-www-form-urlencoded',
+  } }).catch(console.error);
+
+  return (res) ? res.data : {};
 };
 
 module.exports = {
