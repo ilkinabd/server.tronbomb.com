@@ -1,10 +1,14 @@
 const node = require('@controllers/node');
 
-const { resSuccess } = require('@utils/res-builder');
+const { resSuccess, resError } = require('@utils/res-builder');
 
 const getConfigs = async(_req, res) => {
-  const configs = await node.contracts.getAll();
-  res.json(resSuccess({ configs }));
+  const config = await node.contracts.getAll();
+  if (config.status !== 'success') return res.status(500).json(resError(73500));
+
+  const { contracts } = config;
+
+  res.json(resSuccess({ contracts }));
 };
 
 module.exports = {
