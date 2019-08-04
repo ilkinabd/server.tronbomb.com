@@ -4,6 +4,15 @@ const db = require('@db');
 
 const { resSuccess, resError } = require('@utils/res-builder');
 
+const getBanStatus = async(req, res) => {
+  const { wallet } = req.query;
+
+  const ban = await db.bans.get({ wallet });
+  if (!ban.status) return res.json(resSuccess({ status: false }));
+
+  res.json(resSuccess({ ban }));
+};
+
 const addBan = async(req, res) => {
   const { wallet, reason, endTime } = req.body;
 
@@ -30,5 +39,6 @@ const newMessage = async(data, socket, chanel) => {
 
 module.exports = {
   addBan,
+  getBanStatus,
   newMessage,
 };
