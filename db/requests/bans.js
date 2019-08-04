@@ -17,5 +17,6 @@ module.exports = {
           "end_time" as "endTime",
           "end_time" > now() as "status"
       FROM "bans"
-      WHERE "user_id" = $userId AND "end_time" > now();`,
+      NATURAL JOIN "users"
+      WHERE "wallet" = $wallet AND "end_time" > now();`,
 };

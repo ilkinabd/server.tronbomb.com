@@ -1,8 +1,5 @@
-const { CHAT_USER_LEVEL } = process.env;
-
 const db = require('@db');
-
-const { resError } = require('@utils/res-builder');
+const { newMessage } = require('@controllers/chat');
 
 db.sockets.clear();
 
@@ -56,32 +53,13 @@ const unsubscribe = async(data, socket) => {
   await db.sockets.setRooms({ id, rooms });
 };
 
-const newMessage = async(data, socket, io) => {
-  const { msg, wallet } = data;
-  if (!msg || !wallet) return socket.emit('fail', resError(73401));
-
-  const userId = await db.users.getId({ wallet });
-  if (!userId) return socket.emit('fail', resError(73400));
-
-  const user = await db.users.get({ userId });
-  if (user.level < CHAT_USER_LEVEL) return socket.emit('fail', resError(73403));
-
-  const ban = await db.bans.get({ userId });
-  if (ban.status) {
-    return socket.emit('fail', Object.assign(resError(73402), ban));
-  }
-
-  const createAt = await db.messages.add({ data: JSON.stringify(msg), userId });
-  io.in('chat').emit('chat', { messages: [{ data: msg, createAt, wallet }] });
-};
-
 module.exports = (socket, io) => {
   connected(socket);
 
   socket.on('subscribe', (data) => subscribe(data, socket));
   socket.on('unsubscribe', (data) => unsubscribe(data, socket));
 
-  socket.on('new_message', (data) => newMessage(data, socket, io));
+  socket.on('new_message', (data) => newMessage(data, socket, io.in('chat')));
 
   socket.on('disconnect', () => {
     disconnected(socket);

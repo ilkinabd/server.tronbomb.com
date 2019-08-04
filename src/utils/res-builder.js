@@ -13,7 +13,11 @@ errors.set(73409, 'User is already exist.');
 errors.set(73500, 'Internal server error.');
 
 const success = (data) => Object.assign({ status: 'success' }, data);
-const error = (code) => ({ status: 'error', code, message: errors.get(code) });
+const error = (code, data) => Object.assign({
+  status: 'error',
+  code,
+  message: errors.get(code),
+}, data);
 
 module.exports = {
   resSuccess: success,
