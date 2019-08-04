@@ -1,5 +1,6 @@
 const db = require('@db');
 const { newMessage } = require('@controllers/chat');
+const wheelUtils = require('@utils/wheel');
 
 db.sockets.clear();
 
@@ -17,6 +18,10 @@ const joinRoom = async(room, socket) => {
     case 'dice':
       response = await db.dice.getByLimit({ limit: 25 });
       socket.emit('dice', { games: response }); break;
+    case 'wheel':
+      response = await db.wheel.getLastGame();
+      response.sector = wheelUtils.getSector(response.result);
+      socket.emit('wheel', { game: response }); break;
   }
 };
 

@@ -98,6 +98,7 @@ module.exports = {
     setFinish: request(wheel['set-finish']),
     setConfirm: request(wheel['set-confirm']),
     getId: getId(request(wheel['get-id'])),
+    getLastGame: getRow(request(wheel['get-last-game'])),
     getIndexByBlock: getValue(request(wheel['get-index-by-block'])),
     getByFinishBlock: getAll(request(wheel['get-by-finish-block'])),
   },
