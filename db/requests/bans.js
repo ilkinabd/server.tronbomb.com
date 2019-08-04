@@ -1,8 +1,14 @@
 module.exports = {
   'add': `
-      INSERT INTO "bans" ("user_id", "reason", "end_time")
-      VALUES ($userId, $reason, $endTime)
-      RETURNING "ban_id" as "id";`,
+      INSERT INTO "bans" (
+          "user_id",
+          "reason",
+          "end_time"
+      ) VALUES (
+          (SELECT "user_id" FROM "users" WHERE "wallet" = $wallet),
+          $reason,
+          $endTime
+      ) RETURNING "ban_id" as "id";`,
 
   'set-status': `
       UPDATE "bans"

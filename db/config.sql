@@ -136,7 +136,6 @@ CREATE TABLE "bans" (
   "reason"     TEXT,
   "start_time" TIMESTAMP(6) NOT NULL DEFAULT NOW(),
   "end_time"   TIMESTAMP(6),
-  "status"     BOOLEAN      NOT NULL DEFAULT TRUE,
 
   PRIMARY KEY("ban_id")
 );
