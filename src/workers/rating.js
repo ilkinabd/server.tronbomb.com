@@ -1,8 +1,8 @@
 const db = require('@db');
 
-module.exports = (io) => {
+module.exports = (chanel) => {
   setInterval(async() => {
     const rating = await db.users.getTop({ limit: 100 });
-    io.in('rating').emit('rating', { rating });
+    chanel.emit('rating', { rating });
   }, 30000);
 };
