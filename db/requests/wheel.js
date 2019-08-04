@@ -21,6 +21,7 @@ module.exports = {
 
   'get-last-game': `
         SELECT
+            "game_id" as "gameId",
             "index",
             "finish_block" as "finishBlock",
             "result",

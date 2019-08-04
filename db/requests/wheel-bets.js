@@ -35,6 +35,7 @@ module.exports = {
             "wallet",
             "level",
             "bet",
+            "prize",
             "SYMBOL" as "symbol",
             "sector"
         FROM "wheel_bets"
