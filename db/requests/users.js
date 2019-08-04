@@ -17,7 +17,7 @@ module.exports = {
   'get': `
       SELECT "wallet", "level"
       FROM "users"
-      WHERE "user_id" = $userId;`,
+      WHERE "wallet" = $wallet;`,
 
   'get-id': `
       SELECT "user_id" as "id"

@@ -41,6 +41,10 @@ const request = template => params => {
 };
 
 module.exports = {
+  bans: {
+    add: getId(request(bans['add'])),
+    get: getRow(request(bans['get'])),
+  },
   tokens: {
     getAll: getAll(request(tokens['get-all'])),
   },
@@ -72,13 +76,6 @@ module.exports = {
   messages: {
     add: getValue(request(messages['add'])),
     getByLimit: getAll(request(messages['get-by-limit'])),
-  },
-  bans: {
-    add: getId(request(bans['add'])),
-    setStatus: request(bans['set-status']),
-    get: getRow(request(bans['get'])),
-    getStatus: getValue(request(bans['get-status'])),
-    getActive: getAll(request(bans['get-active'])),
   },
   dice: {
     add: getId(request(dice['add'])),

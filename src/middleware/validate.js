@@ -29,7 +29,7 @@ const schemas = {
   }),
 };
 
-const validate = (type, isQuery) => (req, res, next) => {
+const validate = (type, isQuery = true) => (req, res, next) => {
   const schema = schemas[type];
   const data = (isQuery) ? req.query : req.body;
 

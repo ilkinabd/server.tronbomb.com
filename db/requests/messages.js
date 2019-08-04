@@ -1,8 +1,12 @@
 module.exports = {
   'add': `
-      INSERT INTO "messages" ("user_id", "data")
-      VALUES ($userId, $data)
-      RETURNING NOW() as "value";`,
+      INSERT INTO "messages" (
+          "user_id",
+          "data"
+      ) VALUES (
+          (SELECT "user_id" FROM "users" WHERE "wallet" = $wallet),
+          $data
+      ) RETURNING NOW() as "value";`,
 
   'get-by-limit': `
       WITH "msg" AS (

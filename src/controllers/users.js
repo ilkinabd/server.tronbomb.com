@@ -5,11 +5,8 @@ const { resSuccess, resError } = require('@utils/res-builder');
 const getLevel = async(req, res) => {
   const { wallet } = req.query;
 
-  const userId = await db.users.getId({ wallet });
-  if (!userId) res.json(resSuccess({ wallet, level: 0 }));
-
-  const userData = await db.users.get({ userId });
-  if (!userData) return res.status(500).json(resError(73500));
+  const userData = await db.users.get({ wallet });
+  if (!userData) res.json(resSuccess({ wallet, level: 0 }));
 
   res.json(resSuccess({ userData }));
 };
