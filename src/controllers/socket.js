@@ -66,10 +66,9 @@ const newMessage = async(data, socket, io) => {
   const user = await db.users.get({ userId });
   if (user.level < CHAT_USER_LEVEL) return socket.emit('fail', resError(73403));
 
-  const ban = await db.bans.getStatus({ userId });
-  if (ban) {
-    const info = await db.bans.get({ userId });
-    return socket.emit('fail', Object.assign(resError(73402), info));
+  const ban = await db.bans.get({ userId });
+  if (ban.status) {
+    return socket.emit('fail', Object.assign(resError(73402), ban));
   }
 
   const createAt = await db.messages.add({ data: JSON.stringify(msg), userId });
