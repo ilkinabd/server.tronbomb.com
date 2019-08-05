@@ -35,16 +35,10 @@ CREATE TABLE "users" (
   "level"         INTEGER                     NOT NULL DEFAULT 1,
   "referrer"      INTEGER                     REFERENCES "users"("user_id"),
   "register_date" TIMESTAMP WITHOUT TIME ZONE DEFAULT now(),
+  "ref_id"        CHAR(6) NOT NULL DEFAULT random_string(6),
 
   PRIMARY KEY("user_id"),
   UNIQUE("wallet")
-);
-
-CREATE TABLE "referral" (
-  "user_id" INTEGER NOT NULL,
-  "ref_id"  CHAR(6) NOT NULL DEFAULT random_string(6),
-
-  UNIQUE("ref_id")
 );
 
 CREATE TYPE GAME_STATUS AS ENUM (

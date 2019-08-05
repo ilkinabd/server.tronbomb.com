@@ -54,6 +54,7 @@ module.exports = {
     setLevel: request(users['set-level']),
     get: getRow(request(users['get'])),
     getId: getId(request(users['get-id'])),
+    getRefId: getValue(request(users['get-ref-id'])),
     getCount: getValue(request(users['get-count'])),
     getBetSum: getValue(request(users['get-bet-sum'])),
     getWinSum: getValue(request(users['get-win-sum'])),

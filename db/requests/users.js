@@ -24,6 +24,11 @@ module.exports = {
       FROM "users"
       WHERE "wallet" = $wallet;`,
 
+   'get-ref-id': `
+      SELECT "ref_id" as "value"
+      FROM "users"
+      WHERE "wallet" = $wallet;`,
+
   'get-bet-sum': `
       SELECT SUM("bet") as "value"
       FROM (
