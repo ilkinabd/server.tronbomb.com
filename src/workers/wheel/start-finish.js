@@ -7,7 +7,7 @@ const utils = require('@utils/wheel');
 const { wheel } = require('@controllers/node');
 
 const socket = io.connect(NODE, { reconnect: true });
-let sockets;
+let chanel;
 
 socket.on('connect', () => {
   socket.emit('subscribe', {
@@ -19,12 +19,12 @@ socket.on('connect', () => {
 const checkStopBet = async(number) => {
   const finishBlock = number + 2;
   const index = await db.wheel.getIndexByBlock({ finishBlock });
-  if (index) sockets.in('wheel').emit('stop-bets', { index });
+  if (index) chanel.emit('stop-bets', { index });
 };
 
-const getRNGResult = async(blockNumber, blockHash) => {
-  const payload = await wheel.getters.rng({ blockNumber, blockHash });
-  return payload.result.result;
+const getRNGResult = async(block, hash) => {
+  const payload = await wheel.getters.rng({ block, hash });
+  return payload.random;
 };
 
 const setPrizes = async(gameId, sector) => {
@@ -49,9 +49,9 @@ const getGameResult = async(game, block, hash) => {
 
   setPrizes(gameId, sector);
 
-  sockets.in('wheel').emit('finish', { index, result, sector });
-  wheel.functions.finish({ gameId: index });
+  wheel.functions.finish({ id: index });
   wheel.functions.init();
+  chanel.emit('finish', { index, result, sector });
 };
 
 const processBlocks = async(data) => {
@@ -64,11 +64,13 @@ const processBlocks = async(data) => {
 
 socket.on('blocks', processBlocks);
 
-// Init new game
-setTimeout(() => {
-  wheel.functions.init();
-}, 1000);
+module.exports = async(ioChanel) => {
+  chanel = ioChanel;
 
-module.exports = (io) => {
-  sockets = io;
+  const lastGame = await db.wheel.getLastGame();
+  const { status, index } = lastGame;
+
+  if (status === 'start') await db.wheel.setFinish({ index, result: null });
+
+  wheel.functions.init();
 };
