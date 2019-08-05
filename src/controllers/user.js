@@ -6,7 +6,7 @@ const getLevel = async(req, res) => {
   const { wallet } = req.query;
 
   const userData = await db.users.get({ wallet });
-  if (!userData) res.json(resSuccess({ wallet, level: 0 }));
+  if (!userData) res.json(resSuccess({ wallet, level: 1 }));
 
   res.json(resSuccess({ userData }));
 };
