@@ -44,6 +44,13 @@ module.exports = {
       FROM "users"
       WHERE "ref_id" = $refId;`,
 
+  'get-referrals': `
+      SELECT ARRAY_AGG("wallet") as "value"
+      FROM "users"
+      WHERE "referrer" = (
+          SELECT "user_id" FROM "users" WHERE "wallet" = $wallet
+      );`,
+
   'get-bet-sum': `
       SELECT SUM("bet") as "value"
       FROM (

@@ -56,6 +56,7 @@ module.exports = {
     getReferrer: getValue(request(users['get-referrer'])),
     getRefId: getValue(request(users['get-ref-id'])),
     getWalletByRefId: getValue(request(users['get-wallet-by-ref-id'])),
+    getReferrals: getValue(request(users['get-referrals'])),
     getCount: getValue(request(users['get-count'])),
     getBetSum: getValue(request(users['get-bet-sum'])),
     getWinSum: getValue(request(users['get-win-sum'])),
