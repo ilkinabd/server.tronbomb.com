@@ -19,13 +19,18 @@ module.exports = {
           NOT EXISTS (SELECT "user_id" FROM "users" WHERE "ref_id" = $refId)
       RETURNING TRUE as "value";`,
 
+  'get-id': `
+      SELECT "user_id" as "id"
+      FROM "users"
+      WHERE "wallet" = $wallet;`,
+
   'get-level': `
       SELECT "level" as "value"
       FROM "users"
       WHERE "wallet" = $wallet;`,
 
-  'get-id': `
-      SELECT "user_id" as "id"
+  'get-referrer': `
+      SELECT "referrer" as "value"
       FROM "users"
       WHERE "wallet" = $wallet;`,
 
@@ -38,6 +43,13 @@ module.exports = {
       SELECT "wallet" as "value"
       FROM "users"
       WHERE "ref_id" = $refId;`,
+
+  'get-referrals': `
+      SELECT ARRAY_AGG("wallet") as "value"
+      FROM "users"
+      WHERE "referrer" = (
+          SELECT "user_id" FROM "users" WHERE "wallet" = $wallet
+      );`,
 
   'get-bet-sum': `
       SELECT SUM("bet") as "value"

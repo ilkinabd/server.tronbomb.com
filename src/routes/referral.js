@@ -13,6 +13,12 @@ router.route('/set_id')
 router.route('/get_wallet')
   .get(validate('getWallet'), controller.getWallet);
 
+router.route('/get_referrals')
+  .get(validate('getUserData'), controller.getReferrals);
+
+router.route('/get_referrer')
+  .get(validate('getUserData'), controller.getReferrer);
+
 router.route('/set_referrer')
   .post(validate('setRef', false), controller.setReferrer);
 
