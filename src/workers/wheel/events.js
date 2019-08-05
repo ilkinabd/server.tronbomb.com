@@ -6,7 +6,7 @@ const db = require('@db');
 const { updateLevel } = require('@utils/users');
 
 const socket = io.connect(NODE, { reconnect: true });
-let sockets;
+let chanel;
 
 socket.on('connect', () => {
   socket.emit('subscribe', {
@@ -16,13 +16,13 @@ socket.on('connect', () => {
 });
 
 const start = async(data) => {
-  const { gameId: index, finishBlock } = data;
+  const { index, finishBlock } = data;
   await db.wheel.add({ index, finishBlock });
-  sockets.in('wheel').emit('start', { index, finishBlock });
+  chanel.emit('start', { index, finishBlock });
 };
 
 const takePart = async(data) => {
-  const { index, wallet, betId, bet, sector } = data;
+  const { index, wallet, betId, bet, tokenId, sector } = data;
 
   let userId = await db.users.getId({ wallet });
   if (!userId) userId = await db.users.add({ wallet });
@@ -32,16 +32,16 @@ const takePart = async(data) => {
   await db.wheelBets.add({ gameId, userId, index: betId, bet, sector });
   updateLevel(userId);
 
-  sockets.in('wheel').emit('take-part', { index, wallet, betId, bet, sector });
+  chanel.emit('take-part', { index, wallet, betId, bet, tokenId, sector });
 };
 
 const finish = async(data) => {
-  const { gameId: index } = data;
+  const { index } = data;
   db.wheel.setConfirm({ index });
 };
 
 const reward = async(data) => {
-  const { gameId: index, betId } = data;
+  const { index, betId } = data;
   const gameId = await db.wheel.getId({ index });
   await db.wheelBets.setConfirm({ gameId, index: betId });
 };
@@ -51,6 +51,6 @@ socket.on('take-part', takePart);
 socket.on('finish', finish);
 socket.on('reward', reward);
 
-module.exports = (io) => {
-  sockets = io;
+module.exports = (ioChanel) => {
+  chanel = ioChanel;
 };
