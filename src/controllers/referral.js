@@ -37,8 +37,8 @@ const getWallet = async(req, res) => {
 
 const getReferrals = async(req, res) => {
   const { wallet } = req.query;
-  const referrer = await db.users.getReferrals({ wallet });
-  res.json(resSuccess({ referrer }));
+  const referrals = await db.refPayments.getByWallet({ wallet });
+  res.json(resSuccess({ referrals }));
 };
 
 const getReferralsCount = async(req, res) => {
