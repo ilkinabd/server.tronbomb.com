@@ -47,6 +47,6 @@ const reward = async(data) => {
   db.diceBets.setConfirm({ gameId });
 };
 
-socket.on('take-part', takePart);
-socket.on('finish', finish);
-socket.on('reward', reward);
+socket.on('dice-take-part', takePart);
+socket.on('dice-finish', finish);
+socket.on('dice-reward', reward);
