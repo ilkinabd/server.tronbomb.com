@@ -16,10 +16,19 @@ router.route('/get_wallet')
 router.route('/get_referrals')
   .get(validate('getUserData'), controller.getReferrals);
 
+router.route('/get_referrals_count')
+  .get(validate('getUserData'), controller.getReferralsCount);
+
 router.route('/get_referrer')
   .get(validate('getUserData'), controller.getReferrer);
 
 router.route('/set_referrer')
   .post(validate('setRef', false), controller.setReferrer);
+
+router.route('/get_profit')
+  .get(validate('getUserData'), controller.getProfit);
+
+router.route('/get_referral_payments')
+  .get(validate('getUserData'), controller.getReferralPayments);
 
 module.exports = router;

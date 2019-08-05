@@ -19,6 +19,11 @@ module.exports = {
           NOT EXISTS (SELECT "user_id" FROM "users" WHERE "ref_id" = $refId)
       RETURNING TRUE as "value";`,
 
+  'add-ref-profit': `
+      UPDATE "users"
+      SET "ref_profit" = "ref_profit" + $profit
+      WHERE "wallet" = $wallet;`,
+
   'get-id': `
       SELECT "user_id" as "id"
       FROM "users"
@@ -39,6 +44,11 @@ module.exports = {
       FROM "users"
       WHERE "wallet" = $wallet;`,
 
+  'get-ref-profit': `
+      SELECT "ref_profit" as "value"
+      FROM "users"
+      WHERE "wallet" = $wallet;`,
+
   'get-wallet-by-ref-id': `
       SELECT "wallet" as "value"
       FROM "users"
@@ -46,6 +56,13 @@ module.exports = {
 
   'get-referrals': `
       SELECT ARRAY_AGG("wallet") as "value"
+      FROM "users"
+      WHERE "referrer" = (
+          SELECT "user_id" FROM "users" WHERE "wallet" = $wallet
+      );`,
+
+  'get-referrals-count': `
+      SELECT COUNT("wallet")::INTEGER as "value"
       FROM "users"
       WHERE "referrer" = (
           SELECT "user_id" FROM "users" WHERE "wallet" = $wallet

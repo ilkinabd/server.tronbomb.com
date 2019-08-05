@@ -9,6 +9,7 @@ const users = require('./requests/users');
 const sockets = require('./requests/sockets');
 const messages = require('./requests/messages');
 const bans = require('./requests/bans');
+const refPayments = require('./requests/ref-payments');
 
 // Dice
 const dice = require('./requests/dice/game');
@@ -51,16 +52,24 @@ module.exports = {
     add: getId(request(users['add'])),
     setLevel: request(users['set-level']),
     setRefId: getValue(request(users['set-ref-id'])),
+    addRefProfit: getValue(request(users['add-ref-profit'])),
     getId: getId(request(users['get-id'])),
     getLevel: getValue(request(users['get-level'])),
     getReferrer: getValue(request(users['get-referrer'])),
     getRefId: getValue(request(users['get-ref-id'])),
+    getRefProfit: getValue(request(users['get-ref-profit'])),
     getWalletByRefId: getValue(request(users['get-wallet-by-ref-id'])),
     getReferrals: getValue(request(users['get-referrals'])),
+    getReferralsCount: getValue(request(users['get-referrals-count'])),
     getCount: getValue(request(users['get-count'])),
     getBetSum: getValue(request(users['get-bet-sum'])),
     getWinSum: getValue(request(users['get-win-sum'])),
     getTop: getAll(request(users['get-top'])),
+  },
+  refPayments: {
+    add: getId(request(refPayments['add'])),
+    getByWallet: getAll(request(refPayments['get-by-wallet'])),
+    getGroupByWallet: getAll(request(refPayments['get-group-by-wallet'])),
   },
   sockets: {
     add: getId(request(sockets['add'])),

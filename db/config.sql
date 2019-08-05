@@ -35,7 +35,8 @@ CREATE TABLE "users" (
   "level"         INTEGER                     NOT NULL DEFAULT 1,
   "referrer"      INTEGER                     REFERENCES "users"("user_id"),
   "register_date" TIMESTAMP WITHOUT TIME ZONE DEFAULT now(),
-  "ref_id"        CHAR(6) NOT NULL DEFAULT random_string(6),
+  "ref_id"        CHAR(6)                     NOT NULL DEFAULT random_string(6),
+  "ref_profit"    FLOAT                       NOT NULL DEFAULT 0,
 
   PRIMARY KEY("user_id"),
   UNIQUE("wallet"),
@@ -107,6 +108,23 @@ CREATE TABLE "wheel_bets" (
 
   PRIMARY KEY("bet_id"),
   UNIQUE("game_id", "index")
+);
+
+CREATE TYPE GAME_TYPE AS ENUM (
+  'dice',
+  'wheel'
+);
+
+CREATE TABLE "ref_payments" (
+  "payment_id" SERIAL                      NOT NULL,
+  "user_id"    INTEGER                     REFERENCES "users"("user_id"),
+  "game_type"  GAME_TYPE                   NOT NULL,
+  "game_id"    INTEGER                     NOT NULL,
+  "referral"   INTEGER                     REFERENCES "users"("user_id"),
+  "profit"     FLOAT                       NOT NULL,
+  "date"       TIMESTAMP WITHOUT TIME ZONE DEFAULT now(),
+
+  PRIMARY KEY("payment_id")
 );
 
 CREATE TABLE "sockets" (
