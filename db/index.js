@@ -9,6 +9,7 @@ const users = require('./requests/users');
 const sockets = require('./requests/sockets');
 const messages = require('./requests/messages');
 const bans = require('./requests/bans');
+const refPayments = require('./requests/ref-payments');
 
 // Dice
 const dice = require('./requests/dice/game');
@@ -51,6 +52,7 @@ module.exports = {
     add: getId(request(users['add'])),
     setLevel: request(users['set-level']),
     setRefId: getValue(request(users['set-ref-id'])),
+    addRefProfit: getValue(request(users['add-ref-profit'])),
     getId: getId(request(users['get-id'])),
     getLevel: getValue(request(users['get-level'])),
     getReferrer: getValue(request(users['get-referrer'])),
@@ -61,6 +63,9 @@ module.exports = {
     getBetSum: getValue(request(users['get-bet-sum'])),
     getWinSum: getValue(request(users['get-win-sum'])),
     getTop: getAll(request(users['get-top'])),
+  },
+  refPayments: {
+    add: getId(request(refPayments['add'])),
   },
   sockets: {
     add: getId(request(sockets['add'])),

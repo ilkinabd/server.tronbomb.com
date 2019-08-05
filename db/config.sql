@@ -36,7 +36,7 @@ CREATE TABLE "users" (
   "referrer"      INTEGER                     REFERENCES "users"("user_id"),
   "register_date" TIMESTAMP WITHOUT TIME ZONE DEFAULT now(),
   "ref_id"        CHAR(6)                     NOT NULL DEFAULT random_string(6),
-  "ref_profit"    FLOAT,
+  "ref_profit"    FLOAT                       NOT NULL DEFAULT 0,
 
   PRIMARY KEY("user_id"),
   UNIQUE("wallet"),

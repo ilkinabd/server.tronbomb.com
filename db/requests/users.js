@@ -19,6 +19,11 @@ module.exports = {
           NOT EXISTS (SELECT "user_id" FROM "users" WHERE "ref_id" = $refId)
       RETURNING TRUE as "value";`,
 
+  'add-ref-profit': `
+      UPDATE "users"
+      SET "ref_profit" = "ref_profit" + $profit
+      WHERE "wallet" = $wallet;`,
+
   'get-id': `
       SELECT "user_id" as "id"
       FROM "users"
