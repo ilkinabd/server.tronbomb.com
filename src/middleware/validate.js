@@ -17,7 +17,7 @@ const schemas = {
   getUserData: Joi.object().keys({
     wallet: templates.wallet.required(),
   }),
-  addRef: Joi.object().keys({
+  setRef: Joi.object().keys({
     wallet: templates.wallet.required(),
     refId: templates.refId.required(),
   }),

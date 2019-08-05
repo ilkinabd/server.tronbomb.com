@@ -1,18 +1,23 @@
 module.exports = {
   'add': `
-      INSERT INTO "users" ("wallet")
-      VALUES ($wallet)
-      RETURNING "user_id" as "id";`,
-
-  'add-ref': `
       INSERT INTO "users" ("wallet", "referrer")
-      VALUES ($wallet, $referrer)
+      SELECT
+          $wallet,
+          (SELECT "user_id" FROM "users" WHERE "ref_id" = $refId)
       RETURNING "user_id" as "id";`,
 
   'set-level': `
       UPDATE "users"
       SET "level" = $level
       WHERE "user_id" = $userId;`,
+
+  'set-ref-id': `
+      UPDATE "users"
+      SET "ref_id" = $refId
+      WHERE
+          "wallet" = $wallet AND
+          NOT EXISTS (SELECT "user_id" FROM "users" WHERE "ref_id" = $refId)
+      RETURNING TRUE as "value";`,
 
   'get': `
       SELECT "wallet", "level"
@@ -23,6 +28,16 @@ module.exports = {
       SELECT "user_id" as "id"
       FROM "users"
       WHERE "wallet" = $wallet;`,
+
+  'get-ref-id': `
+      SELECT "ref_id" as "value"
+      FROM "users"
+      WHERE "wallet" = $wallet;`,
+
+  'get-wallet-by-ref-id': `
+      SELECT "wallet" as "value"
+      FROM "users"
+      WHERE "ref_id" = $refId;`,
 
   'get-bet-sum': `
       SELECT SUM("bet") as "value"

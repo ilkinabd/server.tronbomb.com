@@ -5,8 +5,9 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 
 const chat = require('@routes/chat');
-const users = require('@routes/users');
 const portal = require('@routes/portal');
+const referral = require('@routes/referral');
+const users = require('@routes/users');
 
 const app = express();
 
@@ -36,7 +37,8 @@ app.get('/', (_req, res) => {
 });
 
 app.use('/chat', chat);
-app.use('/users', users);
 app.use('/portal', portal);
+app.use('/referral', referral);
+app.use('/users', users);
 
 module.exports = app;
