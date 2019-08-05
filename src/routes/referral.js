@@ -16,6 +16,9 @@ router.route('/get_wallet')
 router.route('/get_referrals')
   .get(validate('getUserData'), controller.getReferrals);
 
+router.route('/get_referrals_count')
+  .get(validate('getUserData'), controller.getReferralsCount);
+
 router.route('/get_referrer')
   .get(validate('getUserData'), controller.getReferrer);
 
