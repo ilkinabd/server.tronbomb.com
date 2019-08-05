@@ -11,12 +11,12 @@ const messages = require('./requests/messages');
 const bans = require('./requests/bans');
 
 // Dice
-const dice = require('./requests/dice');
-const diceBets = require('./requests/dice-bets');
+const dice = require('./requests/dice/game');
+const diceBets = require('./requests/dice/bets');
 
 // Wheel
-const wheel = require('./requests/wheel');
-const wheelBets = require('./requests/wheel-bets');
+const wheel = require('./requests/wheel/game');
+const wheelBets = require('./requests/wheel/bets');
 
 const client = new PgClient({
   host: PG_HOST,
