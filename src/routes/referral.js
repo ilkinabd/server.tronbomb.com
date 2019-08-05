@@ -5,10 +5,10 @@ const controller = require('@controllers/referral');
 const validate = require('@middleware/validate');
 
 router.route('/get_id')
-  .get(validate('getUserData', true), controller.getRefId);
+  .get(validate('getUserData', true), controller.getId);
 
-router.route('/add_id')
-  .post(validate('addRef', false), controller.addRefId);
+router.route('/set_id')
+  .post(validate('setRef', false), controller.setId);
 
 router.route('/wallet_by_id')
   .get(validate('getWallet', true), controller.walletById);

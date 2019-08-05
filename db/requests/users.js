@@ -14,6 +14,11 @@ module.exports = {
       SET "level" = $level
       WHERE "user_id" = $userId;`,
 
+  'set-ref-id': `
+      UPDATE "users"
+      SET "ref_id" = $refId
+      WHERE "wallet" = $wallet;`,
+
   'get': `
       SELECT "wallet", "level"
       FROM "users"
@@ -24,7 +29,7 @@ module.exports = {
       FROM "users"
       WHERE "wallet" = $wallet;`,
 
-   'get-ref-id': `
+  'get-ref-id': `
       SELECT "ref_id" as "value"
       FROM "users"
       WHERE "wallet" = $wallet;`,

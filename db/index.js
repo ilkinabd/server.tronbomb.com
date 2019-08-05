@@ -52,6 +52,7 @@ module.exports = {
     add: getId(request(users['add'])),
     addReferrer: getId(request(users['add-ref'])),
     setLevel: request(users['set-level']),
+    setRefId: getValue(request(users['set-ref-id'])),
     get: getRow(request(users['get'])),
     getId: getId(request(users['get-id'])),
     getRefId: getValue(request(users['get-ref-id'])),

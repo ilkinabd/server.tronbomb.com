@@ -2,7 +2,7 @@ const db = require('@db');
 
 const { resSuccess, resError } = require('@utils/res-builder');
 
-const getRefId = async(req, res) => {
+const getId = async(req, res) => {
   const { wallet } = req.query;
 
   let refId = await db.users.getRefId({ wallet });
@@ -14,16 +14,13 @@ const getRefId = async(req, res) => {
   res.json(resSuccess({ refId }));
 };
 
-const addRefId = async(req, res) => {
+const setId = async(req, res) => {
   const { wallet, refId } = req.body;
 
-  let userId = await db.users.getId({ wallet });
-  if (!userId) userId = await db.users.add({ wallet });
+  const userId = await db.users.getId({ wallet });
+  if (!userId) await db.users.add({ wallet });
 
-  const isExist = await db.refs.isExist({ refId });
-  if (isExist) return res.status(422).json(resError(73406));
-
-  await db.refs.addId({ userId, refId });
+  await db.users.setRefId({ wallet, refId });
 
   res.json(resSuccess());
 };
@@ -53,8 +50,8 @@ const setReferrer = async(req, res) => {
 };
 
 module.exports = {
-  getRefId,
-  addRefId,
+  getId,
+  setId,
   walletById,
   setReferrer,
 };
