@@ -28,4 +28,7 @@ router.route('/set_referrer')
 router.route('/get_profit')
   .get(validate('getUserData'), controller.getProfit);
 
+router.route('/get_referral_payments')
+  .get(validate('getUserData'), controller.getReferralPayments);
+
 module.exports = router;

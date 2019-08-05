@@ -37,7 +37,7 @@ const getWallet = async(req, res) => {
 
 const getReferrals = async(req, res) => {
   const { wallet } = req.query;
-  const referrals = await db.refPayments.getByWallet({ wallet });
+  const referrals = await db.refPayments.getGroupByWallet({ wallet });
   res.json(resSuccess({ referrals }));
 };
 
@@ -71,6 +71,12 @@ const getProfit = async(req, res) => {
   res.json(resSuccess({ profit }));
 };
 
+const getReferralPayments = async(req, res) => {
+  const { wallet } = req.query;
+  const payments = await db.refPayments.getByWallet({ wallet });
+  res.json(resSuccess({ payments }));
+};
+
 module.exports = {
   getId,
   setId,
@@ -80,4 +86,5 @@ module.exports = {
   getReferrer,
   setReferrer,
   getProfit,
+  getReferralPayments,
 };

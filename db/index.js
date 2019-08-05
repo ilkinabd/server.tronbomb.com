@@ -69,6 +69,7 @@ module.exports = {
   refPayments: {
     add: getId(request(refPayments['add'])),
     getByWallet: getAll(request(refPayments['get-by-wallet'])),
+    getGroupByWallet: getAll(request(refPayments['get-group-by-wallet'])),
   },
   sockets: {
     add: getId(request(sockets['add'])),
