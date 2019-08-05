@@ -14,9 +14,9 @@ router.route('/total_win')
   .get(validate('getUserData'), controller.totalWin);
 
 router.route('/history/dice')
-  .get(validate('getUserData', true), controller.diceHistory);
+  .get(validate('getUserData'), controller.diceHistory);
 
 router.route('/history/wheel')
-  .get(validate('getUserData', true), controller.wheelHistory);
+  .get(validate('getUserData'), controller.wheelHistory);
 
 module.exports = router;
