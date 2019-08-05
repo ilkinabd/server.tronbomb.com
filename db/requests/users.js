@@ -4,9 +4,11 @@ module.exports = {
       VALUES ($wallet)
       RETURNING "user_id" as "id";`,
 
-  'add-ref': `
+  'add-with-ref': `
       INSERT INTO "users" ("wallet", "referrer")
-      VALUES ($wallet, $referrer)
+      SELECT
+          $wallet,
+          (SELECT "user_id" FROM "users" WHERE "ref_id" = $refId)
       RETURNING "user_id" as "id";`,
 
   'set-level': `
@@ -33,6 +35,11 @@ module.exports = {
       SELECT "ref_id" as "value"
       FROM "users"
       WHERE "wallet" = $wallet;`,
+
+  'get-wallet-by-ref-id': `
+      SELECT "wallet" as "value"
+      FROM "users"
+      WHERE "ref_id" = $refId;`,
 
   'get-bet-sum': `
       SELECT SUM("bet") as "value"
