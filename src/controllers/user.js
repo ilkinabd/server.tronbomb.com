@@ -10,14 +10,11 @@ const getLevel = async(req, res) => {
   res.json(resSuccess({ level }));
 };
 
-const betSum = async(req, res) => {
+const totalBet = async(req, res) => {
   const { wallet } = req.query;
 
-  const userId = await db.users.getId({ wallet });
-  if (!userId) return res.status(422).json(resError(73400));
-
-  const sum = await db.users.getBetSum({ userId });
-  if (sum === undefined) return res.status(500).json(resError(73500));
+  const sum = await db.users.getBetSum({ wallet });
+  if (sum === null) return res.status(500).json(resError(73500));
 
   res.json(resSuccess({ sum }));
 };
@@ -25,11 +22,8 @@ const betSum = async(req, res) => {
 const totalWin = async(req, res) => {
   const { wallet } = req.query;
 
-  const userId = await db.users.getId({ wallet });
-  if (!userId) return res.status(422).json(resError(73400));
-
-  const sum = await db.users.getWinSum({ userId });
-  if (sum === undefined) return res.status(500).json(resError(73500));
+  const sum = await db.users.getWinSum({ wallet });
+  if (sum === null) return res.status(500).json(resError(73500));
 
   res.json(resSuccess({ sum }));
 };
@@ -54,7 +48,7 @@ const wheelHistory = async(req, res) => {
 
 module.exports = {
   getLevel,
-  betSum,
+  totalBet,
   totalWin,
   diceHistory,
   wheelHistory,

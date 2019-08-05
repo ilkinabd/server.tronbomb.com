@@ -5,13 +5,13 @@ const controller = require('@controllers/user');
 const validate = require('@middleware/validate');
 
 router.route('/level')
-  .get(validate('getUserData', true), controller.getLevel);
+  .get(validate('getUserData'), controller.getLevel);
 
-router.route('/statistics/total_bet_sum')
-  .get(validate('getUserData', true), controller.betSum);
+router.route('/total_bet')
+  .get(validate('getUserData'), controller.totalBet);
 
-router.route('/statistics/total_win_sum')
-  .get(validate('getUserData', true), controller.totalWin);
+router.route('/total_win')
+  .get(validate('getUserData'), controller.totalWin);
 
 router.route('/history/dice')
   .get(validate('getUserData', true), controller.diceHistory);
