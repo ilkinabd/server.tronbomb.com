@@ -19,8 +19,8 @@ module.exports = {
           NOT EXISTS (SELECT "user_id" FROM "users" WHERE "ref_id" = $refId)
       RETURNING TRUE as "value";`,
 
-  'get': `
-      SELECT "wallet", "level"
+  'get-level': `
+      SELECT "level" as "value"
       FROM "users"
       WHERE "wallet" = $wallet;`,
 
@@ -42,24 +42,22 @@ module.exports = {
   'get-bet-sum': `
       SELECT SUM("bet") as "value"
       FROM (
-          SELECT "bet", "user_id"
-          FROM  "dice_bets"
+          SELECT "bet", "user_id" FROM "dice_bets"
           UNION ALL
-          SELECT "bet", "user_id"
-          FROM  "wheel_bets"
+          SELECT "bet", "user_id" FROM "wheel_bets"
       ) AS "bets"
-      WHERE "user_id" = $userId;`,
+      NATURAL JOIN "users"
+      WHERE "wallet" = $wallet;`,
 
   'get-win-sum': `
       SELECT SUM("prize") as "value"
       FROM (
-          SELECT "prize", "user_id"
-          FROM  "dice_bets"
+          SELECT "prize", "user_id" FROM "dice_bets"
           UNION ALL
-          SELECT "prize", "user_id"
-          FROM  "wheel_bets"
+          SELECT "prize", "user_id" FROM "wheel_bets"
       ) AS "bets"
-      WHERE "user_id" = $userId;`,
+      NATURAL JOIN "users"
+      WHERE "wallet" = $wallet;`,
 
   'get-top': `
       SELECT "wallet", "level", SUM("bet") as "betSum"

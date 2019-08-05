@@ -51,7 +51,7 @@ module.exports = {
     add: getId(request(users['add'])),
     setLevel: request(users['set-level']),
     setRefId: getValue(request(users['set-ref-id'])),
-    get: getRow(request(users['get'])),
+    getLevel: getValue(request(users['get-level'])),
     getId: getId(request(users['get-id'])),
     getRefId: getValue(request(users['get-ref-id'])),
     getWalletByRefId: getValue(request(users['get-wallet-by-ref-id'])),
@@ -84,7 +84,7 @@ module.exports = {
     setPrize: request(diceBets['set-prize']),
     setConfirm: request(diceBets['set-confirm']),
     getSum: getValue(request(diceBets['get-sum'])),
-    getWalletHistory: getAll(request(diceBets['get-wallet-history'])),
+    getAllByWallet: getAll(request(diceBets['get-all-by-wallet'])),
   },
   wheel: {
     add: getId(request(wheel['add'])),
@@ -101,6 +101,6 @@ module.exports = {
     setPrize: request(wheelBets['set-prize']),
     setConfirm: request(wheelBets['set-confirm']),
     getSum: getValue(request(wheelBets['get-sum'])),
-    getWalletHistory: getAll(request(wheelBets['get-wallet-history'])),
+    getAllByWallet: getAll(request(wheelBets['get-all-by-wallet'])),
   },
 };

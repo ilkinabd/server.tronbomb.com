@@ -29,7 +29,7 @@ module.exports = {
         FROM "dice_bets"
         WHERE "user_id" = $userId;`,
 
-  'get-wallet-history': `
+  'get-all-by-wallet': `
         SELECT
             "time",
             "roll",
