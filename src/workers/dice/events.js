@@ -27,12 +27,12 @@ const takePart = async(data) => {
 };
 
 const finish = async(data) => {
-  const { gameId: index } = data;
+  const { index } = data;
   db.dice.setConfirm({ index });
 };
 
 const reward = async(data) => {
-  const { gameId: index } = data;
+  const { index } = data;
   const gameId = await db.dice.getId({ index });
   db.diceBets.setConfirm({ gameId });
 };
