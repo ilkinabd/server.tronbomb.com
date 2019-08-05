@@ -43,7 +43,7 @@ module.exports = {
         NATURAL JOIN "tokens"
         WHERE "game_id" = $gameId;`,
 
-  'get-wallet-history': `
+  'get-all-by-wallet': `
         SELECT
             "time",
             "sector",
