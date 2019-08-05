@@ -22,4 +22,7 @@ router.route('/get_referrer')
 router.route('/set_referrer')
   .post(validate('setRef', false), controller.setReferrer);
 
+router.route('/get_profit')
+  .get(validate('getUserData'), controller.getProfit);
+
 module.exports = router;

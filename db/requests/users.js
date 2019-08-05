@@ -44,6 +44,11 @@ module.exports = {
       FROM "users"
       WHERE "wallet" = $wallet;`,
 
+  'get-ref-profit': `
+      SELECT "ref_profit" as "value"
+      FROM "users"
+      WHERE "wallet" = $wallet;`,
+
   'get-wallet-by-ref-id': `
       SELECT "wallet" as "value"
       FROM "users"
