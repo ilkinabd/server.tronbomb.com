@@ -20,7 +20,8 @@ const setId = async(req, res) => {
   const userId = await db.users.getId({ wallet });
   if (!userId) await db.users.add({ wallet });
 
-  await db.users.setRefId({ wallet, refId });
+  const result = await db.users.setRefId({ wallet, refId });
+  if (!result) return res.status(422).json(resError(73406));
 
   res.json(resSuccess());
 };
@@ -40,7 +41,7 @@ const setReferrer = async(req, res) => {
   const userId = await db.users.getId({ wallet });
   if (userId) return res.status(422).json(resError(73409));
 
-  const id = await db.users.addWithReferrer({ wallet, refId });
+  const id = await db.users.add({ wallet, refId });
   if (!id) return res.status(500).json(resError(73500));
 
   res.json(resSuccess());

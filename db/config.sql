@@ -38,7 +38,8 @@ CREATE TABLE "users" (
   "ref_id"        CHAR(6) NOT NULL DEFAULT random_string(6),
 
   PRIMARY KEY("user_id"),
-  UNIQUE("wallet")
+  UNIQUE("wallet"),
+  UNIQUE("ref_id")
 );
 
 CREATE TYPE GAME_STATUS AS ENUM (

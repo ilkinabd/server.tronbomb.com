@@ -6,7 +6,6 @@ const { getId, getValue, getRow, getAll, fillTemplate } = require('./tools');
 
 const tokens = require('./requests/tokens');
 const users = require('./requests/users');
-const refs = require('./requests/refs');
 const sockets = require('./requests/sockets');
 const messages = require('./requests/messages');
 const bans = require('./requests/bans');
@@ -50,7 +49,6 @@ module.exports = {
   },
   users: {
     add: getId(request(users['add'])),
-    addWithReferrer: getId(request(users['add-with-ref'])),
     setLevel: request(users['set-level']),
     setRefId: getValue(request(users['set-ref-id'])),
     get: getRow(request(users['get'])),
@@ -61,14 +59,6 @@ module.exports = {
     getBetSum: getValue(request(users['get-bet-sum'])),
     getWinSum: getValue(request(users['get-win-sum'])),
     getTop: getAll(request(users['get-top'])),
-  },
-  refs: {
-    add: getId(request(refs['add'])),
-    addId: getId(request(refs['add-id'])),
-    isExist: getValue(request(refs['is-exist'])),
-    get: getValue(request(refs['get'])),
-    getWallet: getValue(request(refs['get-wallet'])),
-    getUserId: getValue(request(refs['get-user-id'])),
   },
   sockets: {
     add: getId(request(sockets['add'])),
