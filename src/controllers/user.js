@@ -5,10 +5,9 @@ const { resSuccess, resError } = require('@utils/res-builder');
 const getLevel = async(req, res) => {
   const { wallet } = req.query;
 
-  const userData = await db.users.get({ wallet });
-  if (!userData) res.json(resSuccess({ wallet, level: 1 }));
+  const level = await db.users.getLevel({ wallet }) || 0;
 
-  res.json(resSuccess({ userData }));
+  res.json(resSuccess({ level }));
 };
 
 const betSum = async(req, res) => {

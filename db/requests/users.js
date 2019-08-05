@@ -19,8 +19,8 @@ module.exports = {
           NOT EXISTS (SELECT "user_id" FROM "users" WHERE "ref_id" = $refId)
       RETURNING TRUE as "value";`,
 
-  'get': `
-      SELECT "wallet", "level"
+  'get-level': `
+      SELECT "level" as "value"
       FROM "users"
       WHERE "wallet" = $wallet;`,
 
