@@ -47,6 +47,12 @@ CREATE TYPE GAME_STATUS AS ENUM (
   'finish'
 );
 
+CREATE TYPE ROLL_TYPE AS ENUM (
+  'under',
+  'over',
+  'exact'
+);
+
 CREATE TABLE "dice" (
   "game_id"      SERIAL      NOT NULL,
   "index"        INTEGER     NOT NULL,
@@ -57,12 +63,6 @@ CREATE TABLE "dice" (
 
   PRIMARY KEY("game_id"),
   UNIQUE("index")
-);
-
-CREATE TYPE ROLL_TYPE AS ENUM (
-  'under',
-  'over',
-  'extra'
 );
 
 CREATE TABLE "dice_bets" (
