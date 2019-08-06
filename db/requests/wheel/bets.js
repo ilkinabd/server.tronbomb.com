@@ -55,4 +55,18 @@ module.exports = {
         LEFT JOIN "wheel" ON "wheel_bets"."game_id" = "wheel"."game_id"
         NATURAL JOIN "users"
         WHERE "wallet" = $wallet;`,
+
+  'get-by-limit': `
+        SELECT
+            "wallet",
+            "time",
+            "finish_block" as "finishBlock",
+            "result",
+            "bet",
+            "prize"
+        FROM "wheel_bets"
+        LEFT JOIN "wheel" ON "wheel"."game_id" = "wheel_bets"."game_id"
+        NATURAL JOIN "users"
+        WHERE "status" = 'finish'
+        LIMIT $limit;`,
 };

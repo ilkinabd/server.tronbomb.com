@@ -113,7 +113,6 @@ module.exports = {
     getLastGame: getRow(request(wheel['get-last-game'])),
     getIndexByBlock: getValue(request(wheel['get-index-by-block'])),
     getByFinishBlock: getAll(request(wheel['get-by-finish-block'])),
-    getByLimit: getAll(request(wheel['get-by-limit'])),
   },
   wheelBets: {
     add: getId(request(wheelBets['add'])),
@@ -122,5 +121,6 @@ module.exports = {
     setConfirm: request(wheelBets['set-confirm']),
     getSum: getValue(request(wheelBets['get-sum'])),
     getAllByWallet: getAll(request(wheelBets['get-all-by-wallet'])),
+    getByLimit: getAll(request(wheelBets['get-by-limit'])),
   },
 };

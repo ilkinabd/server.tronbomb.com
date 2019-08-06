@@ -50,7 +50,10 @@ const getGameResult = async(game, block, hash) => {
   setPrizes(gameId, sector);
 
   wheel.functions.finish({ id: index });
-  wheel.functions.init();
+
+  const initRes = wheel.functions.init();
+  if (!initRes) setTimeout(() => wheel.functions.init(), 1000);
+
   chanel.emit('finish', { index, result, sector });
 };
 
@@ -72,5 +75,6 @@ module.exports = async(ioChanel) => {
 
   if (status === 'start') await db.wheel.setFinish({ index, result: null });
 
-  wheel.functions.init();
+  const initRes = wheel.functions.init();
+  if (!initRes) setTimeout(() => wheel.functions.init(), 1000);
 };
