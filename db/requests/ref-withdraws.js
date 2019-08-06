@@ -13,4 +13,17 @@ module.exports = {
           $fee,
           (SELECT FLOOR(RANDOM() * 1000000000 + 1)::INTEGER)
       ) RETURNING "code" as "value";`,
+
+  'set-complete': `
+      UPDATE "ref_withdraws"
+      SET ("status", "hash") = (TRUE, $hash)
+      WHERE "tx_id" = $txId;`,
+
+  'get-by-code': `
+      SELECT "tx_id" as "txId", "amount", "to", "fee"
+      FROM "ref_withdraws"
+      WHERE
+          "user_id" = (SELECT "user_id" FROM "users" WHERE "wallet" = $wallet)
+          AND "code" = $code AND "status" = FALSE;
+  `
 };

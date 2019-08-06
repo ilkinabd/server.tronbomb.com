@@ -47,4 +47,7 @@ module.exports = {
       finish: postRequest('/wheel/func/finish'),
     },
   },
+  tools: {
+    withdraw: postRequest('/tools/func/withdraw'),
+  },
 };

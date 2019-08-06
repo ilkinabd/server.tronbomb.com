@@ -54,6 +54,7 @@ module.exports = {
     setLevel: request(users['set-level']),
     setRefId: getValue(request(users['set-ref-id'])),
     addRefProfit: getValue(request(users['add-ref-profit'])),
+    subRefProfit: getValue(request(users['sub-ref-profit'])),
     getId: getId(request(users['get-id'])),
     getLevel: getValue(request(users['get-level'])),
     getReferrer: getValue(request(users['get-referrer'])),
@@ -74,6 +75,8 @@ module.exports = {
   },
   refWithdraws: {
     add: getValue(request(refWithdraws['add'])),
+    setComplete: getRow(request(refWithdraws['set-complete'])),
+    getByCode: getRow(request(refWithdraws['get-by-code'])),
   },
   sockets: {
     add: getId(request(sockets['add'])),
