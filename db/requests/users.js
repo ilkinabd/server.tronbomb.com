@@ -24,6 +24,11 @@ module.exports = {
       SET "ref_profit" = "ref_profit" + $profit
       WHERE "wallet" = $wallet;`,
 
+  'sub-ref-profit': `
+      UPDATE "users"
+      SET "ref_profit" = "ref_profit" - $profit
+      WHERE "wallet" = $wallet;`,
+
   'get-id': `
       SELECT "user_id" as "id"
       FROM "users"

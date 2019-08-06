@@ -10,6 +10,7 @@ const sockets = require('./requests/sockets');
 const messages = require('./requests/messages');
 const bans = require('./requests/bans');
 const refPayments = require('./requests/ref-payments');
+const refWithdraws = require('./requests/ref-withdraws');
 
 // Dice
 const dice = require('./requests/dice/game');
@@ -53,6 +54,7 @@ module.exports = {
     setLevel: request(users['set-level']),
     setRefId: getValue(request(users['set-ref-id'])),
     addRefProfit: getValue(request(users['add-ref-profit'])),
+    subRefProfit: getValue(request(users['sub-ref-profit'])),
     getId: getId(request(users['get-id'])),
     getLevel: getValue(request(users['get-level'])),
     getReferrer: getValue(request(users['get-referrer'])),
@@ -70,6 +72,12 @@ module.exports = {
     add: getId(request(refPayments['add'])),
     getByWallet: getAll(request(refPayments['get-by-wallet'])),
     getGroupByWallet: getAll(request(refPayments['get-group-by-wallet'])),
+  },
+  refWithdraws: {
+    add: getValue(request(refWithdraws['add'])),
+    setComplete: getRow(request(refWithdraws['set-complete'])),
+    getByWallet: getAll(request(refWithdraws['get-by-wallet'])),
+    getByCode: getRow(request(refWithdraws['get-by-code'])),
   },
   sockets: {
     add: getId(request(sockets['add'])),
