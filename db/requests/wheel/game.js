@@ -38,4 +38,16 @@ module.exports = {
         SELECT "game_id" as "gameId", "index"
         FROM "wheel"
         WHERE "status" = 'start' AND "finish_block" = $finishBlock;`,
+
+  'get-by-limit': `
+        SELECT
+            "game_id" as "gameId",
+            "index",
+            "finish_block" as "finishBlock",
+            "result",
+            "status"
+        FROM "wheel"
+        WHERE "status" = 'finish'
+        ORDER BY "game_id" DESC
+        LIMIT $limit;`,
 };
