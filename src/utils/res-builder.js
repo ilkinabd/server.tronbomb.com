@@ -10,6 +10,7 @@ errors.set(73406, 'Referral id is already exist.');
 errors.set(73407, 'Referral id does not exist.');
 errors.set(73408, 'Invalid Referral id.');
 errors.set(73409, 'User is already exist.');
+errors.set(73410, 'Not enought funds.');
 errors.set(73500, 'Internal server error.');
 
 const success = (data) => Object.assign({ status: 'success' }, data);

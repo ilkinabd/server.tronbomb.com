@@ -10,6 +10,7 @@ const sockets = require('./requests/sockets');
 const messages = require('./requests/messages');
 const bans = require('./requests/bans');
 const refPayments = require('./requests/ref-payments');
+const refWithdraws = require('./requests/ref-withdraws');
 
 // Dice
 const dice = require('./requests/dice/game');
@@ -70,6 +71,9 @@ module.exports = {
     add: getId(request(refPayments['add'])),
     getByWallet: getAll(request(refPayments['get-by-wallet'])),
     getGroupByWallet: getAll(request(refPayments['get-group-by-wallet'])),
+  },
+  refWithdraws: {
+    add: getValue(request(refWithdraws['add'])),
   },
   sockets: {
     add: getId(request(sockets['add'])),

@@ -1,3 +1,5 @@
+const { MIN_WITHDRAW, MAX_WITHDRAW } = process.env;
+
 const Joi = require('@hapi/joi');
 
 const templates = {
@@ -26,6 +28,11 @@ const schemas = {
   }),
   subscribe: Joi.object().keys({
     mail: templates.mail.required(),
+  }),
+  withdraw: Joi.object().keys({
+    wallet: templates.wallet.required(),
+    amount: Joi.number()
+      .min(parseFloat(MIN_WITHDRAW)).max(parseFloat(MAX_WITHDRAW)).required(),
   }),
 };
 

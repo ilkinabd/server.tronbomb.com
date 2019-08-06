@@ -1,3 +1,5 @@
+const { WITHDRAW_FEE } = process.env;
+
 const db = require('@db');
 
 const { resSuccess, resError } = require('@utils/res-builder');
@@ -77,6 +79,20 @@ const getReferralPayments = async(req, res) => {
   res.json(resSuccess({ payments }));
 };
 
+const withdraw = async(req, res) => {
+  const { wallet, amount } = req.body;
+
+  const profit = await db.users.getRefProfit({ wallet });
+  const delta = parseFloat(amount) + parseFloat(WITHDRAW_FEE);
+
+  if (profit < delta) return res.status(422).json(resError(73410));
+
+  const code = await db.refWithdraws.add({ wallet, amount, fee: WITHDRAW_FEE });
+  if (!code) return res.status(500).json(resError(73500));
+
+  res.json(resSuccess({ code }));
+};
+
 module.exports = {
   getId,
   setId,
@@ -87,4 +103,5 @@ module.exports = {
   setReferrer,
   getProfit,
   getReferralPayments,
+  withdraw,
 };
