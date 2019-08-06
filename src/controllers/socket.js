@@ -17,13 +17,13 @@ const joinDice = async(socket) => {
   socket.emit('dice', { games });
 };
 const joinWheel = async(socket) => {
-  const game = await db.wheel.getLastGame();
-  const { gameId, result } = game;
+  const games = await db.wheel.getByLimit({ limit: 25 });
 
-  game.sector = wheelUtils.getSector(result);
-  game.best = await db.wheelBets.getByGame({ gameId });
+  for (const game of games) {
+    game.sector = wheelUtils.getSector(game.result);
+  }
 
-  socket.emit('wheel', { game });
+  socket.emit('wheel', { games });
 };
 
 const joinRoom = (room, socket) => {

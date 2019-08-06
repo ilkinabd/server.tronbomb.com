@@ -1,6 +1,6 @@
 const db = require('@db');
 
-const { resSuccess, resError } = require('@utils/res-builder');
+const { resSuccess } = require('@utils/res-builder');
 
 const getLevel = async(req, res) => {
   const { wallet } = req.query;
