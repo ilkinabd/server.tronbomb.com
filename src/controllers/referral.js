@@ -95,6 +95,12 @@ const withdraw = async(req, res) => {
   res.json(resSuccess({ code }));
 };
 
+const withdrawTxs = async(req, res) => {
+  const { wallet } = req.query;
+  const txs = await db.refWithdraws.getByWallet({ wallet });
+  res.json(resSuccess({ txs }));
+};
+
 module.exports = {
   getId,
   setId,
@@ -106,4 +112,5 @@ module.exports = {
   getProfit,
   getReferralPayments,
   withdraw,
+  withdrawTxs,
 };

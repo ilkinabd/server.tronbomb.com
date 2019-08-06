@@ -34,4 +34,7 @@ router.route('/get_referral_payments')
 router.route('/withdraw')
   .post(validate('withdraw', false), controller.withdraw);
 
+router.route('/withdraw_txs')
+  .get(validate('getUserData'), controller.withdrawTxs);
+
 module.exports = router;

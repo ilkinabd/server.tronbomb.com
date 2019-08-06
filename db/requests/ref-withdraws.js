@@ -19,11 +19,23 @@ module.exports = {
       SET ("status", "hash") = (TRUE, $hash)
       WHERE "tx_id" = $txId;`,
 
+  'get-by-wallet': `
+      SELECT
+          "status",
+          "hash",
+          "amount",
+          "to",
+          "fee",
+          "date"
+      FROM "ref_withdraws"
+      WHERE "user_id" = (
+          SELECT "user_id" FROM "users" WHERE "wallet" = $wallet
+      );`,
+
   'get-by-code': `
       SELECT "tx_id" as "txId", "amount", "to", "fee"
       FROM "ref_withdraws"
       WHERE
           "user_id" = (SELECT "user_id" FROM "users" WHERE "wallet" = $wallet)
-          AND "code" = $code AND "status" = FALSE;
-  `
+          AND "code" = $code AND "status" = FALSE;`,
 };
