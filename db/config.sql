@@ -133,6 +133,7 @@ CREATE TABLE "ref_withdraws" (
   "status"  BOOLEAN                     NOT NULL DEFAULT FALSE,
   "hash"    CHAR(64),
   "amount"  FLOAT                       NOT NULL,
+  "to"      CHAR(34)                    NOT NULL,
   "fee"     FLOAT,
   "code"    INTEGER                     NOT NULL,
   "date"    TIMESTAMP WITHOUT TIME ZONE DEFAULT now(),

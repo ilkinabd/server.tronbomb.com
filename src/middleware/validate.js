@@ -31,6 +31,7 @@ const schemas = {
   }),
   withdraw: Joi.object().keys({
     wallet: templates.wallet.required(),
+    to: templates.wallet.required(),
     amount: Joi.number()
       .min(parseFloat(MIN_WITHDRAW)).max(parseFloat(MAX_WITHDRAW)).required(),
   }),
