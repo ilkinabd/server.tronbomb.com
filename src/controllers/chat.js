@@ -27,8 +27,8 @@ const newMessage = async(data, socket, chanel) => {
 
   if (!msg || !wallet) return socket.emit('fail', resError(73401));
 
-  const user = await db.users.get({ wallet });
-  if (user.level < CHAT_USER_LEVEL) return socket.emit('fail', resError(73403));
+  const level = await db.users.getLevel({ wallet });
+  if (level < CHAT_USER_LEVEL) return socket.emit('fail', resError(73403));
 
   const ban = await db.bans.get({ wallet });
   if (ban.status) return socket.emit('fail', resError(73402, ban));
