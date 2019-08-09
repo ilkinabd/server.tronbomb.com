@@ -68,6 +68,6 @@ module.exports = {
         LEFT JOIN "wheel" ON "wheel"."game_id" = "wheel_bets"."game_id"
         NATURAL JOIN "users"
         WHERE "status" = 'finish'
-        ORDER BY "time" DECS
+        ORDER BY "time" DESC
         LIMIT $limit;`,
 };
