@@ -9,7 +9,7 @@ module.exports = {
   'set-level': `
       UPDATE "users"
       SET "level" = $level
-      WHERE "user_id" = $userId;`,
+      WHERE "wallet" = $wallet;`,
 
   'set-ref-id': `
       UPDATE "users"
@@ -76,7 +76,7 @@ module.exports = {
   'get-bet-sum': `
       SELECT SUM("bet") as "value"
       FROM (
-          SELECT "bet", "user_id" FROM "dice_bets"
+          SELECT "bet", "user_id" FROM "dice"
           UNION ALL
           SELECT "bet", "user_id" FROM "wheel_bets"
       ) AS "bets"
@@ -86,7 +86,7 @@ module.exports = {
   'get-win-sum': `
       SELECT SUM("prize") as "value"
       FROM (
-          SELECT "prize", "user_id" FROM "dice_bets"
+          SELECT "prize", "user_id" FROM "dice"
           UNION ALL
           SELECT "prize", "user_id" FROM "wheel_bets"
       ) AS "bets"
@@ -96,8 +96,7 @@ module.exports = {
   'get-top': `
       SELECT "wallet", "level", SUM("bet") as "betSum"
       FROM (
-          SELECT "bet", "user_id"
-          FROM  "dice_bets"
+          SELECT "bet", "user_id" FROM "dice"
           UNION ALL
           SELECT "bet", "user_id"
           FROM  "wheel_bets"

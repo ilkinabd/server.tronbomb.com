@@ -39,7 +39,7 @@ const takePart = async(data) => {
   const gameId = await db.wheel.getId({ index });
 
   await db.wheelBets.add({ gameId, userId, index: betId, bet, sector });
-  updateLevel(userId);
+  updateLevel(wallet);
   referrerProfit(wallet, index, bet);
 
   chanel.emit('take-part', { index, wallet, betId, bet, tokenId, sector });

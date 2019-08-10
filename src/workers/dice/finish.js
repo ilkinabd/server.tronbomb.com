@@ -21,11 +21,10 @@ const getRNGResult = async(address, block, hash) => {
   return payload.random;
 };
 
-const setPrize = async(params, result, bet, gameId) => {
+const setPrize = async(params, result, bet, index) => {
   const prize = utils.getReward(params, result, bet, GAME_RTP);
-  await db.diceBets.setPrize({ gameId, prize });
-
-  if (prize === 0) await db.diceBets.setConfirm({ gameId });
+  await db.dice.setFinish({ index, result, prize });
+  if (prize === 0) await db.dice.setConfirm({ index });
 
   return prize;
 };
@@ -36,12 +35,11 @@ const broadcastGame = async(index) => {
 };
 
 const getGameResult = async(game, block, hash) => {
-  const { gameId, index, wallet, bet, number, roll } = game;
+  const { index, wallet, bet, number, roll } = game;
   const params = { number, roll };
 
   const result = await getRNGResult(wallet, block, hash);
-  await db.dice.setFinish({ index, result });
-  await setPrize(params, result, bet, gameId);
+  await setPrize(params, result, bet, index);
 
   dice.functions.finishGame({ id: index });
   broadcastGame(index);
