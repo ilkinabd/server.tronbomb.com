@@ -29,24 +29,15 @@ const takePart = async(data) => {
   let userId = await db.users.getId({ wallet });
   if (!userId) userId = await db.users.add({ wallet });
 
-  const gameId = await db.dice.add({ index, finishBlock });
+  await db.dice.add({ index, finishBlock, userId, bet, number, roll });
 
-  await db.diceBets.add({ gameId, userId, bet, number, roll });
-  updateLevel(userId);
+  updateLevel(wallet);
   referrerProfit(wallet, index, bet);
 };
-
-const finish = async(data) => {
+const reward = async(data) => {
   const { index } = data;
   db.dice.setConfirm({ index });
 };
 
-const reward = async(data) => {
-  const { index } = data;
-  const gameId = await db.dice.getId({ index });
-  db.diceBets.setConfirm({ gameId });
-};
-
 socket.on('dice-take-part', takePart);
-socket.on('dice-finish', finish);
 socket.on('dice-reward', reward);

@@ -22,7 +22,7 @@ const totalWin = async(req, res) => {
 
 const diceHistory = async(req, res) => {
   const { wallet } = req.query;
-  const games = await db.diceBets.getAllByWallet({ wallet });
+  const games = await db.dice.getByWallet({ wallet });
   res.json(resSuccess({ games }));
 };
 

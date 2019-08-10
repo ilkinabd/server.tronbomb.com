@@ -12,9 +12,7 @@ const bans = require('./requests/bans');
 const refPayments = require('./requests/ref-payments');
 const refWithdraws = require('./requests/ref-withdraws');
 
-// Dice
-const dice = require('./requests/dice/game');
-const diceBets = require('./requests/dice/bets');
+const dice = require('./requests/dice');
 
 // Wheel
 const wheel = require('./requests/wheel/game');
@@ -93,17 +91,10 @@ module.exports = {
     add: getId(request(dice['add'])),
     setFinish: request(dice['set-finish']),
     setConfirm: request(dice['set-confirm']),
-    getId: getId(request(dice['get-id'])),
     getByIndex: getRow(request(dice['get-by-index'])),
+    getByWallet: getAll(request(dice['get-by-wallet'])),
     getByFinishBlock: getAll(request(dice['get-by-finish-block'])),
     getByLimit: getAll(request(dice['get-by-limit'])),
-  },
-  diceBets: {
-    add: getId(request(diceBets['add'])),
-    setPrize: request(diceBets['set-prize']),
-    setConfirm: request(diceBets['set-confirm']),
-    getSum: getValue(request(diceBets['get-sum'])),
-    getAllByWallet: getAll(request(diceBets['get-all-by-wallet'])),
   },
   wheel: {
     add: getId(request(wheel['add'])),

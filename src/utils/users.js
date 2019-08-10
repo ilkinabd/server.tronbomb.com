@@ -12,11 +12,10 @@ const getLevel = (betsSum) => {
   return 99;
 };
 
-const updateLevel = async(userId) => {
-  const diceSum = await db.diceBets.getSum({ userId });
-  const wheelSum = await db.wheelBets.getSum({ userId });
-  const level = getLevel(diceSum + wheelSum);
-  db.users.setLevel({ userId, level });
+const updateLevel = async(wallet) => {
+  const sum = await db.users.getBetSum({ wallet });
+  const level = getLevel(sum);
+  db.users.setLevel({ wallet, level });
 };
 
 module.exports = {
