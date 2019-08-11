@@ -1,4 +1,4 @@
-const { NODE, NODE_TOKEN, WHEEL_START_BLOCK, GAME_DURATION } = process.env;
+const { NODE, NODE_TOKEN, WHEEL_START_BLOCK, WHEEL_DURATION } = process.env;
 
 const io = require('socket.io-client');
 
@@ -7,7 +7,7 @@ const utils = require('@utils/wheel');
 const { wheel, tools } = require('@controllers/node');
 
 const startBlock = parseInt(WHEEL_START_BLOCK);
-const gameDuration = parseInt(GAME_DURATION);
+const gameDuration = parseInt(WHEEL_DURATION);
 
 const socket = io.connect(NODE, { reconnect: true });
 let chanel;
