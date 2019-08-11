@@ -9,7 +9,7 @@
     "restart": "pm2 restart process.yml",
     "logs": "pm2 logs --out",
     "errors": "pm2 logs --err",
-    "migrate": "db-migrate up",
+    "migrate": "db-migrate up --migrations-dir db/migrations",
     "new-migrate": "db-migrate create --migrations-dir db/migrations",
     "eslint": "eslint --fix ."
   },
