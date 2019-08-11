@@ -1,4 +1,4 @@
-const { NODE, NODE_TOKEN, GAME_RTP } = process.env;
+const { NODE, NODE_TOKEN, DICE_RTP } = process.env;
 
 const io = require('socket.io-client');
 
@@ -22,7 +22,7 @@ const getRNGResult = async(address, block, hash) => {
 };
 
 const setPrize = async(params, result, bet, index) => {
-  const prize = utils.getReward(params, result, bet, GAME_RTP);
+  const prize = utils.getReward(params, result, bet, DICE_RTP);
   await db.dice.setFinish({ index, result, prize });
   if (prize === 0) await db.dice.setConfirm({ index });
 

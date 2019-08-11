@@ -53,7 +53,7 @@ env:
   CHAT_USER_LEVEL   : 5                            // User level for chat
   WHEEL_START_BLOCK : 1501511                      // Wheel start block
   WHEEL_DURATION    : 10                           // Wheel duration
-  GAME_RTP          : 0.98                         // Dice game RTP
+  DICE_RTP          : 0.98                         // Dice game RTP
   GET_RESPONSE_TOKEN: rhbd...wd3lm                 // GetResponse service token
   GET_RESPONSE_KEY  : 12345                        // GetResponse service key
   REFERRER_PROFIT   : 0.0015                       // Referrel profit multiplier
