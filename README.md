@@ -1,5 +1,5 @@
 # Server
-v0.7.4 Aug 10, 2019
+v0.8.0 Aug 11, 2019
 
 Server for **TronBomb** games.
 
@@ -51,10 +51,15 @@ env:
   NODE_TOKEN        : dhgf...fiew                  // Node security token
   ADMIN_TOKEN       : TFGY...ubaj                  // Admin access token
   CHAT_USER_LEVEL   : 5                            // User level for chat
+  START_BLOCK       : 1501511                      // Wheel start block
+  GAME_DURATION     : 10                           // Wheel duration
   GAME_RTP          : 0.98                         // Dice game RTP
   GET_RESPONSE_TOKEN: rhbd...wd3lm                 // GetResponse service token
   GET_RESPONSE_KEY  : 12345                        // GetResponse service key
   REFERRER_PROFIT   : 0.0015                       // Referrel profit multiplier
+  MIN_WITHDRAW      : 10                           // Referrel profit min withdraw
+  MAX_WITHDRAW      : 1000                         // Referrel profit max withdraw
+  WITHDRAW_FEE      : 1                            // Referrel profit withdraw fee
 ```
 
 Powered by 2019 © MaxieMind for © TronBomb.
