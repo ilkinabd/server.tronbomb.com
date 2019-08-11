@@ -3,7 +3,7 @@ module.exports = {
       INSERT INTO "users" ("wallet", "referrer")
       SELECT
           $wallet,
-          (SELECT "user_id" FROM "users" WHERE "ref_id" = $refId)
+          (SELECT "user_id" FROM "users" WHERE "wallet" = $referrer)
       RETURNING "user_id" as "id";`,
 
   'set-level': `
