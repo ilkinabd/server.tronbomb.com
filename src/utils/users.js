@@ -25,7 +25,7 @@ const referrerProfit = async(wallet, index, bet, gameType) => {
   if (!referrer) return;
 
   const profit = bet * REFERRER_PROFIT;
-  db.users.setRefProfit({ wallet, delta: profit });
+  db.users.setRefProfit({ wallet: referrer, delta: profit });
   db.refPayments.add({ referrer, gameType, index, wallet, profit });
 };
 

@@ -35,9 +35,11 @@ module.exports = {
       WHERE "wallet" = $wallet;`,
 
   'get-referrer': `
-      SELECT "referrer" as "value"
+      SELECT "wallet" as "value"
       FROM "users"
-      WHERE "wallet" = $wallet;`,
+      WHERE "user_id" = (
+          SELECT "referrer" FROM "users" WHERE "wallet" = $wallet
+      );`,
 
   'get-ref-id': `
       SELECT "ref_id" as "value"
