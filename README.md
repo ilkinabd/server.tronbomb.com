@@ -1,30 +1,52 @@
 # Server
-v0.8.2 Aug 11, 2019
+v0.8.3 Aug 11, 2019
 
 Server for **TronBomb** games.
 
 ## Get Started
 
 0. Install **node** v10+, **yarn** and **postgres** 10+.
-1. Create database from config [db/config.sql](./db/config.sql).
-2. Create **process.yml** config file. Read **Config** part.
-3. Install packages and start.
+1. Create database **tron_bomb_server**.
+2. Crate **db/database.json** config file. Read **Config** part.
+3. Run database migrations.
+
+```
+yarn migrate
+```
+
+4. Create **process.yml** config file. Read **Config** part.
+5. Install packages and start.
 ```
 yarn
 yarn start
 ```
-4. Stop and Restart tools
+6. Stop and Restart tools
 ```
 yarn stop
 yarn restart
 ```
-5. Logs and Errors tools
+7. Logs and Errors tools
 ```
 yarn logs
 yarn errors
 ```
 
 ## Config
+
+Use **db/database.json** config.
+
+```
+{
+  "development": {
+    "driver": "pg",
+    "user": "postgres",
+    "password": "pass1234",
+    "host": "localhost",
+    "database": "tron_bomb_server",
+    "schema": "public"
+  }
+}
+```
 
 Use **process.yml** config.
 
