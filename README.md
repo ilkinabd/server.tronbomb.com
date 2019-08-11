@@ -51,9 +51,9 @@ env:
   NODE_TOKEN        : dhgf...fiew                  // Node security token
   ADMIN_TOKEN       : TFGY...ubaj                  // Admin access token
   CHAT_USER_LEVEL   : 5                            // User level for chat
-  START_BLOCK       : 1501511                      // Wheel start block
-  GAME_DURATION     : 10                           // Wheel duration
-  GAME_RTP          : 0.98                         // Dice game RTP
+  WHEEL_START_BLOCK : 1501511                      // Wheel start block
+  WHEEL_DURATION    : 10                           // Wheel duration
+  DICE_RTP          : 0.98                         // Dice game RTP
   GET_RESPONSE_TOKEN: rhbd...wd3lm                 // GetResponse service token
   GET_RESPONSE_KEY  : 12345                        // GetResponse service key
   REFERRER_PROFIT   : 0.0015                       // Referrel profit multiplier
