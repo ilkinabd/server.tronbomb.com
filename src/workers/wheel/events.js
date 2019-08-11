@@ -1,11 +1,11 @@
-const { NODE, NODE_TOKEN, START_BLOCK, GAME_DURATION } = process.env;
+const { NODE, NODE_TOKEN, WHEEL_START_BLOCK, GAME_DURATION } = process.env;
 
 const io = require('socket.io-client');
 
 const db = require('@db');
 const { updateLevel, referrerProfit } = require('@utils/users');
 
-const startBlock = parseInt(START_BLOCK);
+const startBlock = parseInt(WHEEL_START_BLOCK);
 const gameDuration = parseInt(GAME_DURATION);
 
 const socket = io.connect(NODE, { reconnect: true });
