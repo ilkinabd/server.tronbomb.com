@@ -54,11 +54,13 @@ module.exports = {
           "number",
           "roll",
           "result",
-          "prize"
+          "prize",
+          "time"
       FROM "dice"
       NATURAL JOIN "users"
       NATURAL JOIN "tokens"
-      WHERE "wallet" = $wallet;`,
+      WHERE "wallet" = $wallet
+      ORDER BY "index" DESC;`,
 
   'get-by-finish-block': `
       SELECT
@@ -82,11 +84,12 @@ module.exports = {
           "number",
           "roll",
           "result",
-          "prize"
+          "prize",
+          "time"
       FROM "dice"
       NATURAL JOIN "users"
       NATURAL JOIN "tokens"
       WHERE "status" = 'finish'
-      ORDER BY "dice"."game_id" DESC
+      ORDER BY "index" DESC
       LIMIT $limit;`,
 };
