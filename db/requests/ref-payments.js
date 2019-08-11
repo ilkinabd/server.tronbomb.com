@@ -7,7 +7,7 @@ module.exports = {
           "referral",
           "profit"
       ) VALUES (
-          $referrer,
+          (SELECT "user_id" FROM "users" WHERE "wallet" = $referrer),
           $gameType,
           $index,
           (SELECT "user_id" FROM "users" WHERE "wallet" = $wallet),
