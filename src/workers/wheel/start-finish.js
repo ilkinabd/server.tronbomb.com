@@ -39,7 +39,7 @@ const finishBet = async(payload) => {
   const coef = utils.getCoef(winSector);
   const prize = (sector === winSector) ? bet * coef : 0;
 
-  await db.wheel.setFinish({ result, prize, index });
+  await db.wheel.setFinish({ result: winSector, prize, index });
   if (prize === 0) await db.wheel.setConfirm({ index });
 };
 
