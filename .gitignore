@@ -12,6 +12,9 @@ test
 process.yml
 process.json
 
+# Database config
+db/database.json
+
 # Logs
 logs
 *.log
