@@ -1,9 +1,9 @@
-const { NODE, NODE_TOKEN, REFERRER_PROFIT } = process.env;
+const { NODE, NODE_TOKEN } = process.env;
 
 const io = require('socket.io-client');
 
 const db = require('@db');
-const { updateLevel } = require('@utils/users');
+const { updateLevel, referrerProfit } = require('@utils/users');
 
 const socket = io.connect(NODE, { reconnect: true });
 
@@ -14,15 +14,6 @@ socket.on('connect', () => {
   });
 });
 
-const referrerProfit = async(wallet, index, bet) => {
-  const referrer = await db.users.getReferrer({ wallet });
-  if (!referrer) return;
-
-  const profit = bet * REFERRER_PROFIT;
-  db.users.addRefProfit({ wallet, profit });
-  db.refPayments.add({ referrer, gameType: 'dice', index, wallet, profit });
-};
-
 const takePart = async(data) => {
   const { index, wallet, finishBlock, bet, number, roll } = data;
 
@@ -32,7 +23,7 @@ const takePart = async(data) => {
   await db.dice.add({ index, finishBlock, userId, bet, number, roll });
 
   updateLevel(wallet);
-  referrerProfit(wallet, index, bet);
+  referrerProfit(wallet, index, bet, 'dice');
 };
 const reward = async(data) => {
   const { index } = data;

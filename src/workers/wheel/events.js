@@ -1,11 +1,9 @@
-const {
-  NODE, NODE_TOKEN, REFERRER_PROFIT, START_BLOCK, GAME_DURATION
-} = process.env;
+const { NODE, NODE_TOKEN, START_BLOCK, GAME_DURATION } = process.env;
 
 const io = require('socket.io-client');
 
 const db = require('@db');
-const { updateLevel } = require('@utils/users');
+const { updateLevel, referrerProfit } = require('@utils/users');
 
 const startBlock = parseInt(START_BLOCK);
 const gameDuration = parseInt(GAME_DURATION);
@@ -20,15 +18,6 @@ socket.on('connect', () => {
   });
 });
 
-const referrerProfit = async(wallet, index, bet) => {
-  const referrer = await db.users.getReferrer({ wallet });
-  if (!referrer) return;
-
-  const profit = bet * REFERRER_PROFIT;
-  db.users.addRefProfit({ wallet, profit });
-  db.refPayments.add({ referrer, gameType: 'wheel', index, wallet, profit });
-};
-
 const takePart = async(data) => {
   const { wallet, bet, tokenId, sector, finishBlock, index } = data;
 
@@ -38,7 +27,7 @@ const takePart = async(data) => {
   await db.wheel.add({ index, finishBlock, userId, bet, sector });
 
   updateLevel(wallet);
-  referrerProfit(wallet, index, bet);
+  referrerProfit(wallet, index, bet, 'wheel');
 
   const gameIndex = Math.floor((finishBlock - startBlock) / gameDuration) - 1;
   chanel.emit('take-part', { index: gameIndex, wallet, bet, tokenId, sector });

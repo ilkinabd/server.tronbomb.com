@@ -3,7 +3,7 @@ module.exports = {
       INSERT INTO "users" ("wallet", "referrer")
       SELECT
           $wallet,
-          (SELECT "user_id" FROM "users" WHERE "ref_id" = $refId)
+          (SELECT "user_id" FROM "users" WHERE "wallet" = $referrer)
       RETURNING "user_id" as "id";`,
 
   'set-level': `
@@ -19,14 +19,9 @@ module.exports = {
           NOT EXISTS (SELECT "user_id" FROM "users" WHERE "ref_id" = $refId)
       RETURNING TRUE as "value";`,
 
-  'add-ref-profit': `
+  'set-ref-profit': `
       UPDATE "users"
-      SET "ref_profit" = "ref_profit" + $profit
-      WHERE "wallet" = $wallet;`,
-
-  'sub-ref-profit': `
-      UPDATE "users"
-      SET "ref_profit" = "ref_profit" - $profit
+      SET "ref_profit" = "ref_profit" + $delta
       WHERE "wallet" = $wallet;`,
 
   'get-id': `
@@ -40,9 +35,11 @@ module.exports = {
       WHERE "wallet" = $wallet;`,
 
   'get-referrer': `
-      SELECT "referrer" as "value"
+      SELECT "wallet" as "value"
       FROM "users"
-      WHERE "wallet" = $wallet;`,
+      WHERE "user_id" = (
+          SELECT "referrer" FROM "users" WHERE "wallet" = $wallet
+      );`,
 
   'get-ref-id': `
       SELECT "ref_id" as "value"

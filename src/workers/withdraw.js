@@ -24,8 +24,10 @@ const withdraw = async(data) => {
   const payload = await node.tools.withdraw({ wallet, to, amount });
   if (!payload) return;
 
+  const delta = -(amount + fee);
+
   await db.refWithdraws.setComplete({ txId, hash: payload.txID });
-  await db.users.subRefProfit({ wallet, profit: amount + fee });
+  await db.users.setRefProfit({ wallet, delta });
 };
 
 socket.on('withdraw', withdraw);
