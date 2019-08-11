@@ -13,10 +13,7 @@ const refPayments = require('./requests/ref-payments');
 const refWithdraws = require('./requests/ref-withdraws');
 
 const dice = require('./requests/dice');
-
-// Wheel
-const wheel = require('./requests/wheel/game');
-const wheelBets = require('./requests/wheel/bets');
+const wheel = require('./requests/wheel');
 
 const client = new PgClient({
   host: PG_HOST,
@@ -100,18 +97,8 @@ module.exports = {
     add: getId(request(wheel['add'])),
     setFinish: request(wheel['set-finish']),
     setConfirm: request(wheel['set-confirm']),
-    getId: getId(request(wheel['get-id'])),
-    getLastGame: getRow(request(wheel['get-last-game'])),
-    getIndexByBlock: getValue(request(wheel['get-index-by-block'])),
-    getByFinishBlock: getAll(request(wheel['get-by-finish-block'])),
-  },
-  wheelBets: {
-    add: getId(request(wheelBets['add'])),
-    getByGame: getAll(request(wheelBets['get-by-game'])),
-    setPrize: request(wheelBets['set-prize']),
-    setConfirm: request(wheelBets['set-confirm']),
-    getSum: getValue(request(wheelBets['get-sum'])),
-    getAllByWallet: getAll(request(wheelBets['get-all-by-wallet'])),
-    getByLimit: getAll(request(wheelBets['get-by-limit'])),
+    getByStatus: getAll(request(wheel['get-by-status'])),
+    getByWallet: getAll(request(wheel['get-by-wallet'])),
+    getByLimit: getAll(request(wheel['get-by-limit'])),
   },
 };

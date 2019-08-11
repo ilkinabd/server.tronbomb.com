@@ -48,6 +48,9 @@ module.exports = {
     },
   },
   tools: {
+    getters: {
+      block: getRequest('/tools/get/block'),
+    },
     withdraw: postRequest('/tools/func/withdraw'),
   },
 };

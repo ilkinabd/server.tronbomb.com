@@ -78,7 +78,7 @@ module.exports = {
       FROM (
           SELECT "bet", "user_id" FROM "dice"
           UNION ALL
-          SELECT "bet", "user_id" FROM "wheel_bets"
+          SELECT "bet", "user_id" FROM "wheel"
       ) AS "bets"
       NATURAL JOIN "users"
       WHERE "wallet" = $wallet;`,
@@ -88,7 +88,7 @@ module.exports = {
       FROM (
           SELECT "prize", "user_id" FROM "dice"
           UNION ALL
-          SELECT "prize", "user_id" FROM "wheel_bets"
+          SELECT "prize", "user_id" FROM "wheel"
       ) AS "bets"
       NATURAL JOIN "users"
       WHERE "wallet" = $wallet;`,
@@ -98,8 +98,7 @@ module.exports = {
       FROM (
           SELECT "bet", "user_id" FROM "dice"
           UNION ALL
-          SELECT "bet", "user_id"
-          FROM  "wheel_bets"
+          SELECT "bet", "user_id" FROM "wheel"
       ) AS "bets"
       NATURAL JOIN "users"
       GROUP BY "wallet", "level"

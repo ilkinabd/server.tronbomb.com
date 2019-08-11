@@ -1,32 +1,30 @@
 module.exports = {
   'add': `
-      INSERT INTO "dice" (
+      INSERT INTO "wheel" (
           "index",
           "finish_block",
           "user_id",
           "bet",
-          "number",
-          "roll"
+          "sector"
       ) VALUES (
           $index,
           $finishBlock,
           $userId,
           $bet,
-          $number,
-          $roll
+          $sector
       ) RETURNING "game_id" as "id";`,
 
   'set-finish': `
-      UPDATE "dice"
+      UPDATE "wheel"
       SET ("result", "status", "prize") = ($result, 'finish', $prize)
       WHERE "index" = $index;`,
 
   'set-confirm': `
-      UPDATE "dice"
+      UPDATE "wheel"
       SET "confirmed" = TRUE
       WHERE "index" = $index;`,
 
-  'get-by-index': `
+  'get-by-status': `
       SELECT
           "index",
           "finish_block" as "finishBlock",
@@ -34,14 +32,13 @@ module.exports = {
           "level",
           "bet",
           "SYMBOL" as "symbol",
-          "number",
-          "roll",
+          "sector",
           "result",
           "prize"
-      FROM "dice"
+      FROM "wheel"
       NATURAL JOIN "users"
       NATURAL JOIN "tokens"
-      WHERE "index" = $index;`,
+      WHERE "status" = $status;`,
 
   'get-by-wallet': `
       SELECT
@@ -51,27 +48,15 @@ module.exports = {
           "level",
           "bet",
           "SYMBOL" as "symbol",
-          "number",
-          "roll",
+          "sector",
           "result",
           "prize",
           "time"
-      FROM "dice"
+      FROM "wheel"
       NATURAL JOIN "users"
       NATURAL JOIN "tokens"
       WHERE "wallet" = $wallet
       ORDER BY "index" DESC;`,
-
-  'get-by-finish-block': `
-      SELECT
-          "index",
-          "wallet",
-          "bet",
-          "number",
-          "roll"
-      FROM "dice"
-      NATURAL JOIN "users"
-      WHERE "status" = 'start' AND "finish_block" = $finishBlock;`,
 
   'get-by-limit': `
       SELECT
@@ -81,12 +66,11 @@ module.exports = {
           "level",
           "bet",
           "SYMBOL" as "symbol",
-          "number",
-          "roll",
+          "sector",
           "result",
           "prize",
           "time"
-      FROM "dice"
+      FROM "wheel"
       NATURAL JOIN "users"
       NATURAL JOIN "tokens"
       WHERE "status" = 'finish'
