@@ -1,3 +1,5 @@
+const { REFERRER_PROFIT } = process.env;
+
 const db = require('@db');
 
 const getLevel = (betsSum) => {
@@ -18,7 +20,17 @@ const updateLevel = async(wallet) => {
   db.users.setLevel({ wallet, level });
 };
 
+const referrerProfit = async(wallet, index, bet, gameType) => {
+  const referrer = await db.users.getReferrer({ wallet });
+  if (!referrer) return;
+
+  const profit = bet * REFERRER_PROFIT;
+  db.users.addRefProfit({ wallet, profit });
+  db.refPayments.add({ referrer, gameType, index, wallet, profit });
+};
+
 module.exports = {
   getLevel,
   updateLevel,
+  referrerProfit,
 };
