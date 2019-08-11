@@ -9,6 +9,8 @@
     "restart": "pm2 restart process.yml",
     "logs": "pm2 logs --out",
     "errors": "pm2 logs --err",
+    "migrate": "db-migrate up --migrations-dir db/migrations",
+    "new-migrate": "db-migrate create --migrations-dir db/migrations",
     "eslint": "eslint --fix ."
   },
   "_moduleAliases": {
@@ -28,6 +30,7 @@
     "babel-eslint": "^10.0.2",
     "body-parser": "^1.18.3",
     "cors": "^2.8.5",
+    "db-migrate-pg": "^1.0.0",
     "express": "^4.16.4",
     "express-session": "^1.16.2",
     "module-alias": "^2.2.0",
