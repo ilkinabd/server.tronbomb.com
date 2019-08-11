@@ -28,7 +28,7 @@ const diceHistory = async(req, res) => {
 
 const wheelHistory = async(req, res) => {
   const { wallet } = req.query;
-  const games = await db.wheelBets.getAllByWallet({ wallet });
+  const games = await db.wheel.getByWallet({ wallet });
   res.json(resSuccess({ games }));
 };
 

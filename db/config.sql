@@ -61,7 +61,7 @@ CREATE TABLE "dice" (
   "user_id"      INTEGER     NOT NULL  REFERENCES "users"("user_id"),
   "bet"          FLOAT       NOT NULL,
   "token_id"     INTEGER     NOT NULL  DEFAULT 0 REFERENCES "tokens"("token_id"),
-  "number"       INTEGER     NOT NULL,  
+  "number"       INTEGER     NOT NULL,
   "roll"         ROLL_TYPE   NOT NULL,
   "result"       INTEGER,
   "prize"        FLOAT,
@@ -77,28 +77,18 @@ CREATE TABLE "wheel" (
   "game_id"      SERIAL      NOT NULL,
   "index"        INTEGER     NOT NULL,
   "finish_block" INTEGER     NOT NULL,
+  "user_id"      INTEGER     NOT NULL  REFERENCES "users"("user_id"),
+  "bet"          FLOAT       NOT NULL,
+  "token_id"     INTEGER     NOT NULL  DEFAULT 0 REFERENCES "tokens"("token_id"),
+  "sector"       INTEGER     NOT NULL,
   "result"       INTEGER,
+  "prize"        FLOAT,
   "status"       GAME_STATUS NOT NULL DEFAULT 'start',
   "confirmed"    BOOLEAN     NOT NULL DEFAULT FALSE,
+  "time"         TIMESTAMP            WITHOUT TIME ZONE DEFAULT now(),
 
   PRIMARY KEY("game_id"),
   UNIQUE("index")
-);
-
-CREATE TABLE "wheel_bets" (
-  "bet_id"    SERIAL    NOT NULL,
-  "game_id"   INTEGER   NOT NULL           REFERENCES "wheel"("game_id"),
-  "index"     INTEGER   NOT NULL,
-  "user_id"   INTEGER   NOT NULL           REFERENCES "users"("user_id"),
-  "bet"       FLOAT     NOT NULL,
-  "token_id"  INTEGER   NOT NULL DEFAULT 0 REFERENCES "tokens"("token_id"),
-  "prize"     FLOAT,
-  "sector"    INTEGER   NOT NULL,
-  "confirmed" BOOLEAN   NOT NULL DEFAULT FALSE,
-  "time"      TIME      WITHOUT TIME ZONE DEFAULT now(),
-
-  PRIMARY KEY("bet_id"),
-  UNIQUE("game_id", "index")
 );
 
 CREATE TYPE GAME_TYPE AS ENUM (
