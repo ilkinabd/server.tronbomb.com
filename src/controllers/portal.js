@@ -22,17 +22,17 @@ const subscribe = async(req, res) => {
 
   switch (code) {
     case 1008:
-      res.status(500).json(resError(73600));
+      res.status(422).json(resError(73600));
       break;
     case 1000:
-      res.status(500).json(resError(73601));
+      res.status(422).json(resError(73601));
       break;
     case 1002:
-      res.status(500).json(resError(73602));
+      res.status(422).json(resError(73602));
       break;
     default:
       res.status(500).json(resError(73500));
-      console.error(res);
+      console.error(result);
       break;
   }
 };
