@@ -17,6 +17,7 @@ const body = {
 
 module.exports = async(mail) => {
   body.email = mail;
-  const result = await axios.post(url, body, { headers }).catch(console.error);
+  const result = await axios.post(url, body, { headers })
+    .catch((error) => error.response.data);
   return result;
 };
