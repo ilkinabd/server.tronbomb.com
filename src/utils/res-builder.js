@@ -13,6 +13,9 @@ errors.set(73409, 'User is already exist.');
 errors.set(73410, 'Not enought funds.');
 errors.set(73411, 'Wrong referrer id.');
 errors.set(73500, 'Internal server error.');
+errors.set(73600, 'Email already added.');
+errors.set(73601, 'Incorrect email format.');
+errors.set(73602, 'Cannot add contact that is blacklisted.');
 
 const success = (data) => Object.assign({ status: 'success' }, data);
 const error = (code, data) => Object.assign({

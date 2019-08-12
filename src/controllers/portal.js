@@ -16,10 +16,25 @@ const subscribe = async(req, res) => {
   const result = await getResponse(mail);
   if (!result) return res.status(500).json(resError(73500));
 
-  const { status } = result;
-  if (status !== 202) return res.status(500).json(resError(73500));
+  const { status, code } = result;
 
-  res.json(resSuccess());
+  if (status === 202) return res.json(resSuccess());
+
+  switch (code) {
+    case 1008:
+      res.status(422).json(resError(73600));
+      break;
+    case 1000:
+      res.status(422).json(resError(73601));
+      break;
+    case 1002:
+      res.status(422).json(resError(73602));
+      break;
+    default:
+      res.status(500).json(resError(73500));
+      console.error(result);
+      break;
+  }
 };
 
 module.exports = {
