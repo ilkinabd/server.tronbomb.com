@@ -15,6 +15,8 @@ const refWithdraws = require('./requests/ref-withdraws');
 const dice = require('./requests/dice');
 const wheel = require('./requests/wheel');
 
+const auction = require('./requests/auction');
+
 const client = new PgClient({
   host: PG_HOST,
   user: PG_USER,
@@ -99,5 +101,9 @@ module.exports = {
     getByStatus: getAll(request(wheel['get-by-status'])),
     getByWallet: getAll(request(wheel['get-by-wallet'])),
     getByLimit: getAll(request(wheel['get-by-limit'])),
+  },
+  auction: {
+    add: getId(request(auction['add'])),
+    getMaxBet: getValue(request(auction['get-max-bet-for-auction'])),
   },
 };
