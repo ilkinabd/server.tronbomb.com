@@ -104,6 +104,8 @@ module.exports = {
   },
   auction: {
     add: getId(request(auction['add'])),
-    getMaxBet: getValue(request(auction['get-max-bet-for-auction'])),
+    getMaxBet: getValue(request(auction['get-max-bet'])),
+    getAllBets: getAll(request(auction['get-all-bets'])),
+    setPrize: request(auction['set-prize']),
   },
 };
