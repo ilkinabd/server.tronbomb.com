@@ -8,6 +8,7 @@ const chat = require('@routes/chat');
 const portal = require('@routes/portal');
 const referral = require('@routes/referral');
 const user = require('@routes/user');
+const auction = require('@routes/auction');
 
 const app = express();
 
@@ -40,5 +41,6 @@ app.use('/chat', chat);
 app.use('/portal', portal);
 app.use('/referral', referral);
 app.use('/user', user);
+app.use('/auction', auction);
 
 module.exports = app;
