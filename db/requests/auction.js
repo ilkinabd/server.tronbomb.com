@@ -11,5 +11,6 @@ module.exports = {
       ) RETURNING "auction_id" as "id";`,
 
   'get-max-bet-for-auction': `
-    SELECT MAX("bet") FROM "auction" WHERE "auction_id" = $id;`
+    SELECT COALESCE (
+    (SELECT MAX("bet") FROM "auction" WHERE "auction_id" = $id), 0) as "value";`
 };
