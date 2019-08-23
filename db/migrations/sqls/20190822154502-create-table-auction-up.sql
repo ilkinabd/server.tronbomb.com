@@ -4,12 +4,13 @@ CREATE TYPE AUCTION_STATUS AS ENUM(
 );
 
 CREATE TABLE "auction" (
-  "auction_id" SERIAL         NOT NULL,
-  "user_id"    INTEGER        NOT NULL  REFERENCES "users"("user_id"),
-  "status"     AUCTION_STATUS NOT NULL DEFAULT 'start',
-  "bet"        FLOAT          NOT NULL,
-  "prize"      FLOAT,
-  "time"       TIMESTAMP WITHOUT TIME ZONE DEFAULT now(),
+  "auction_id"     SERIAL         NOT NULL,
+  "auction_number" INTEGER        NOT NULL,
+  "user_id"        INTEGER        NOT NULL  REFERENCES "users"("user_id"),
+  "status"         AUCTION_STATUS NOT NULL DEFAULT 'start',
+  "bet"            FLOAT          NOT NULL,
+  "prize"          FLOAT,
+  "time"           TIMESTAMP WITHOUT TIME ZONE DEFAULT now(),
 
   PRIMARY KEY("auction_id")
 );
