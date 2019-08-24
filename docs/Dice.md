@@ -185,7 +185,9 @@ diceContract = await tronWeb.contract().at(< dice address >);
 
 ...
 
-const fairness = async(wallet, block, hash) => {
+const fairness = async(wallet, block) => {
+  const hash = '0x' + (await tronWeb.trx.getBlock(block)).blockID;
+
   const payload = await diceContract.rng(wallet, block, hash).call()
     .catch(console.error);
 
@@ -195,7 +197,7 @@ const fairness = async(wallet, block, hash) => {
 
 ...
 
-console.log(await fairness('TGNRoMMQpdjTbhscJ4qacrJFhXMm4WdwNM', 1149657, '0x0000000000118ad972f5cbf5ae55645cf48fa9274b63b7cc3ba61da73587e140'));
+console.log(await fairness('TGNRoMMQpdjTbhscJ4qacrJFhXMm4WdwNM', 1904587));
 
 ...
 ```

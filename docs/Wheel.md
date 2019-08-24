@@ -199,7 +199,9 @@ wheelContract = await tronWeb.contract().at(< wheel address >);
 
 ...
 
-const fairness = async(block, hash) => {
+const fairness = async(block) => {
+  const hash = '0x' + (await tronWeb.trx.getBlock(block)).blockID;
+
   const payload = await wheelContract.rng(block, hash).call()
     .catch(console.error);
 
@@ -209,7 +211,7 @@ const fairness = async(block, hash) => {
 
 ...
 
-console.log(await fairness(1149657, '0x0000000000118ad972f5cbf5ae55645cf48fa9274b63b7cc3ba61da73587e140'));
+console.log(await fairness(1149657));
 
 ...
 ```
