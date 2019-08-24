@@ -69,7 +69,7 @@ module.exports = {
     getGroupByWallet: getAll(request(refPayments['get-group-by-wallet'])),
   },
   refWithdraws: {
-    add: getValue(request(refWithdraws['add'])),
+    add: getId(request(refWithdraws['add'])),
     setComplete: getRow(request(refWithdraws['set-complete'])),
     getByWallet: getAll(request(refWithdraws['get-by-wallet'])),
     getByCode: getRow(request(refWithdraws['get-by-code'])),
