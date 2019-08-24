@@ -103,7 +103,7 @@ CREATE TABLE "ref_payments" (
   "game_id"    INTEGER                     NOT NULL,
   "referral"   INTEGER                     NOT NULL REFERENCES "users"("user_id"),
   "profit"     FLOAT                       NOT NULL,
-  "date"       TIMESTAMP WITHOUT TIME ZONE DEFAULT now(),
+  "time"       TIMESTAMP WITHOUT TIME ZONE DEFAULT now(),
 
   PRIMARY KEY("payment_id")
 );
@@ -116,8 +116,7 @@ CREATE TABLE "ref_withdraws" (
   "amount"  FLOAT                       NOT NULL,
   "to"      CHAR(34)                    NOT NULL,
   "fee"     FLOAT,
-  "code"    INTEGER                     NOT NULL,
-  "date"    TIMESTAMP WITHOUT TIME ZONE DEFAULT now(),
+  "time"    TIMESTAMP WITHOUT TIME ZONE DEFAULT now(),
 
   PRIMARY KEY("tx_id")
 );

@@ -31,9 +31,6 @@ router.route('/get_profit')
 router.route('/get_referral_payments')
   .get(validate('getUserData'), controller.getReferralPayments);
 
-router.route('/withdraw')
-  .post(validate('withdraw', false), controller.withdraw);
-
 router.route('/withdraw_txs')
   .get(validate('getUserData'), controller.withdrawTxs);
 
