@@ -21,9 +21,6 @@ const postRequest = (path) => async(params = {}) => {
 };
 
 module.exports = {
-  contracts: {
-    getAll: getRequest('/contracts/get_all'),
-  },
   dice: {
     func: {
       rng: getRequest('/dice/func/rng'),
@@ -39,5 +36,6 @@ module.exports = {
   tools: {
     getBlock: getRequest('/tools/block'),
     withdraw: postRequest('/tools/withdraw'),
+    getContracts: getRequest('/tools/contracts'),
   },
 };
