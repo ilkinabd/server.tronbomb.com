@@ -31,6 +31,10 @@ yarn logs
 yarn errors
 ```
 
+## Integration instructions
+
+* [BOMB token](./docs/BOMB.md)
+
 ## Config
 
 Use **db/database.json** config.
