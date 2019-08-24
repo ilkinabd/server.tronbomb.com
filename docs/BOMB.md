@@ -49,4 +49,3 @@ console.log(await getBalance('THnUkSQpPMpXMRSRNywrn5qpgrN7oLvSHQ'));
 
 ...
 ```
-

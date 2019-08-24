@@ -1,5 +1,5 @@
 # Server
-v0.8.6 Aug 24, 2019
+v0.8.7 Aug 24, 2019
 
 Server for **TronBomb** games.
 
@@ -36,6 +36,7 @@ yarn errors
 * [BOMB token](./docs/BOMB.md)
 * [Dice game](./docs/Dice.md)
 * [Wheel game](./docs/Wheel.md)
+* [Referral system](./docs/Referral.md)
 
 ## Config
 
