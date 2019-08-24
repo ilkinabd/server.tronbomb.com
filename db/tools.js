@@ -23,11 +23,7 @@ const getFromParams = (keys, params) => {
   let value = params;
 
   for (const key of keys) {
-    if (typeof value !== 'object') {
-      value === undefined;
-      break;
-    }
-
+    if (typeof value !== 'object') break;
     value = value[key];
   }
 
