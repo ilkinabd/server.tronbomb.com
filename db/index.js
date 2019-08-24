@@ -104,5 +104,6 @@ module.exports = {
   },
   burn: {
     add: getId(request(burn['add'])),
+    getByLimit: getAll(request(burn['get-by-limit'])),
   },
 };
