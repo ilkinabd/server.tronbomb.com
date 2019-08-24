@@ -34,6 +34,8 @@ yarn errors
 ## Integration instructions
 
 * [BOMB token](./docs/BOMB.md)
+* [Dice game](./docs/Dice.md)
+* [Wheel game](./docs/Wheel.md)
 
 ## Config
 
