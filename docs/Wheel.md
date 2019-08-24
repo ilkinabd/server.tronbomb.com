@@ -40,8 +40,9 @@
   index: 25,
   wallet: "TGNRoMMQpdjTbhscJ4qacrJFhXMm4WdwNM",
   bet: 10,
-  tokenId: 1,
-  sector: 1
+  symbol: "BOMB",
+  sector: 1,
+  time: "2019-08-24T16:25:50.568Z"
 }
 ```
 
