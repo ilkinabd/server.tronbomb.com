@@ -1,37 +1,37 @@
 const node = require('@controllers/node');
 const getResponse = require('@utils/get-response');
-const { resSuccess, resError } = require('@utils/res-builder');
+const { successRes, errorRes } = require('@utils/res-builder');
 
 const getConfigs = async(_req, res) => {
-  const config = await node.contracts.getAll();
-  if (config.status !== 'success') return res.status(500).json(resError(73500));
+  const config = await node.tools.getContracts();
+  if (config.status !== 'success') return errorRes(res, 500, 73500);
 
   const { contracts } = config;
 
-  res.json(resSuccess({ contracts }));
+  successRes(res, { contracts });
 };
 
 const subscribe = async(req, res) => {
   const { mail } = req.body;
   const result = await getResponse(mail);
-  if (!result) return res.status(500).json(resError(73500));
+  if (!result) return errorRes(res, 500, 73500);
 
   const { status, code } = result;
 
-  if (status === 202) return res.json(resSuccess());
+  if (status === 202) successRes(res);
 
   switch (code) {
     case 1008:
-      res.status(422).json(resError(73600));
+      errorRes(res, 422, 73600);
       break;
     case 1000:
-      res.status(422).json(resError(73601));
+      errorRes(res, 422, 73601);
       break;
     case 1002:
-      res.status(422).json(resError(73602));
+      errorRes(res, 422, 73602);
       break;
     default:
-      res.status(500).json(resError(73500));
+      errorRes(res, 500, 73500);
       console.error(result);
       break;
   }

@@ -24,7 +24,19 @@ const error = (code, data) => Object.assign({
   message: errors.get(code),
 }, data);
 
+const successRes = (res, data) => res.json(Object.assign({
+  status: 'success',
+}, data));
+const errorRes = (res, status, code, error) => res.status(status).json({
+  status: 'error',
+  code,
+  message: errors.get(code),
+  error,
+});
+
 module.exports = {
   resSuccess: success,
   resError: error,
+  successRes,
+  errorRes,
 };
