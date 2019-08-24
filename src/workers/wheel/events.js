@@ -24,13 +24,13 @@ const takePart = async(data) => {
   let userId = await db.users.getId({ wallet });
   if (!userId) userId = await db.users.add({ wallet });
 
-  await db.wheel.add({ index, finishBlock, userId, bet, sector });
+  await db.wheel.add({ index, finishBlock, userId, bet, tokenId, sector });
 
   updateLevel(wallet);
   referrerProfit(wallet, index, bet, 'wheel');
 
   const gameIndex = Math.floor((finishBlock - startBlock) / gameDuration) - 1;
-  chanel.emit('take-part', { index: gameIndex, wallet, bet, tokenId, sector });
+  chanel.emit('wheel-bet', { index: gameIndex, wallet, bet, tokenId, sector });
 };
 
 const reward = async(data) => {

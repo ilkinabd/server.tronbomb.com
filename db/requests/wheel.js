@@ -5,12 +5,14 @@ module.exports = {
           "finish_block",
           "user_id",
           "bet",
+          "token_id",
           "sector"
       ) VALUES (
           $index,
           $finishBlock,
           $userId,
           $bet,
+          $tokenId,
           $sector
       ) RETURNING "game_id" as "id";`,
 

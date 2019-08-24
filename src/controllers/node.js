@@ -25,27 +25,19 @@ module.exports = {
     getAll: getRequest('/contracts/get_all'),
   },
   dice: {
-    getters: {
-      game: getRequest('/dice/get/game'),
-    },
     func: {
       rng: getRequest('/dice/func/rng'),
       finishGame: postRequest('/dice/func/finish_game'),
     },
   },
   wheel: {
-    getters: {
-      rng: getRequest('/wheel/get/rng'),
-    },
-    functions: {
-      init: postRequest('/wheel/func/init'),
+    func: {
+      rng: getRequest('/wheel/func/rng'),
       finish: postRequest('/wheel/func/finish'),
     },
   },
   tools: {
-    getters: {
-      block: getRequest('/tools/get/block'),
-    },
-    withdraw: postRequest('/tools/func/withdraw'),
+    getBlock: getRequest('/tools/block'),
+    withdraw: postRequest('/tools/withdraw'),
   },
 };
