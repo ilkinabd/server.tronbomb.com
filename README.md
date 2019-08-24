@@ -1,11 +1,11 @@
 # Server
-v0.8.3 Aug 11, 2019
+v0.8.4 Aug 24, 2019
 
 Server for **TronBomb** games.
 
 ## Get Started
 
-0. Install **node** v10+, **yarn** and **postgres** 10+.
+0. Install **node** v10+, **yarn**, **pm2** and **postgres** 10+.
 1. Create database **tron_bomb_server**.
 2. Crate **db/database.json** config file. Read **Config** part.
 3. Run database migrations.
