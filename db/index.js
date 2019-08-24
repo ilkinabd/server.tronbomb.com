@@ -42,6 +42,7 @@ module.exports = {
     get: getRow(request(bans['get'])),
   },
   tokens: {
+    getSymbol: getValue(request(tokens['get-symbol'])),
     getAll: getAll(request(tokens['get-all'])),
   },
   users: {
@@ -93,7 +94,7 @@ module.exports = {
     getByLimit: getAll(request(dice['get-by-limit'])),
   },
   wheel: {
-    add: getId(request(wheel['add'])),
+    add: getValue(request(wheel['add'])),
     setFinish: request(wheel['set-finish']),
     setConfirm: request(wheel['set-confirm']),
     getByStatus: getAll(request(wheel['get-by-status'])),
