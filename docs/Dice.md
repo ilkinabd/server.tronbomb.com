@@ -146,3 +146,56 @@ console.log(await takeBOMBBet(10, 30, 1));
 3. Get game **index** as a result of `takeBet()` or `takeBOMBBet()` function.
 
 4. Find game **result** in `dice-finish` events by game **index**.
+
+## Fairness
+
+1. Get **dice** contract address.
+
+```
+GET /portal/configs
+```
+
+Response:
+
+```
+{
+  "status": "success",
+  "contracts": [
+    ...
+    {
+      "type": "dice",
+      "address": "THnxHUanQKNgUz3eRdatKgf9dNtoqP5rGa",
+      "title": "Dice (index: 0)"
+    },
+    ...
+  ]
+}
+```
+
+2. Check game.
+
+```
+...
+
+let diceContract;
+
+...
+
+diceContract = await tronWeb.contract().at(< dice address >);
+
+...
+
+const fairness = async(wallet, block, hash) => {
+  const payload = await diceContract.rng(wallet, block, hash).call()
+    .catch(console.error);
+
+  const result = tronWeb.toDecimal(payload.result);
+  return result;
+}
+
+...
+
+console.log(await fairness('TGNRoMMQpdjTbhscJ4qacrJFhXMm4WdwNM', 1149657, '0x0000000000118ad972f5cbf5ae55645cf48fa9274b63b7cc3ba61da73587e140'));
+
+...
+```
