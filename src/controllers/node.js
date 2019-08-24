@@ -27,15 +27,10 @@ module.exports = {
   dice: {
     getters: {
       game: getRequest('/dice/get/game'),
-      rng: getRequest('/dice/get/rng'),
     },
-    functions: {
+    func: {
+      rng: getRequest('/dice/func/rng'),
       finishGame: postRequest('/dice/func/finish_game'),
-    },
-    events: {
-      takeBets: getRequest('/dice/events/take_bets'),
-      finishGames: getRequest('/dice/events/finish_games'),
-      playersWin: getRequest('/dice/events/players_win'),
     },
   },
   wheel: {

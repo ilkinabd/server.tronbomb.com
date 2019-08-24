@@ -4,7 +4,7 @@ const io = require('socket.io-client');
 
 const db = require('@db');
 const { dice } = require('@controllers/node');
-const utils = require('@utils/dice');
+const { getReward } = require('@utils/dice');
 
 const socket = io.connect(NODE, { reconnect: true });
 let chanel;
@@ -17,12 +17,12 @@ socket.on('connect', () => {
 });
 
 const getRNGResult = async(address, block, hash) => {
-  const payload = await dice.getters.rng({ address, block, hash });
-  return payload.random;
+  const payload = await dice.func.rng({ address, block, hash });
+  return payload.result;
 };
 
 const setPrize = async(params, result, bet, index) => {
-  const prize = utils.getReward(params, result, bet, DICE_RTP);
+  const prize = getReward(params, result, bet, DICE_RTP);
   await db.dice.setFinish({ index, result, prize });
   if (prize === 0) await db.dice.setConfirm({ index });
 
@@ -41,7 +41,7 @@ const getGameResult = async(game, block, hash) => {
   const result = await getRNGResult(wallet, block, hash);
   await setPrize(params, result, bet, index);
 
-  dice.functions.finishGame({ id: index });
+  dice.func.finishGame({ index, hash });
   broadcastGame(index);
 };
 
