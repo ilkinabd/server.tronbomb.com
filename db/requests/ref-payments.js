@@ -17,7 +17,7 @@ module.exports = {
   'get-by-wallet': `
       SELECT
           "wallet",
-          "date",
+          "time",
           "profit"
       FROM "ref_payments"
       LEFT JOIN "users" ON "users"."user_id" = "ref_payments"."referral"

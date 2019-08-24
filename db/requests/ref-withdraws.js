@@ -26,7 +26,7 @@ module.exports = {
           "amount",
           "to",
           "fee",
-          "date"
+          "time"
       FROM "ref_withdraws"
       WHERE "user_id" = (
           SELECT "user_id" FROM "users" WHERE "wallet" = $wallet
