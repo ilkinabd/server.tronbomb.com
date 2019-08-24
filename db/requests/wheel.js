@@ -14,7 +14,7 @@ module.exports = {
           $bet,
           $tokenId,
           $sector
-      ) RETURNING "game_id" as "id";`,
+      ) RETURNING "time" as "value";`,
 
   'set-finish': `
       UPDATE "wheel"
