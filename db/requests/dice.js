@@ -39,7 +39,8 @@ module.exports = {
           "number",
           "roll",
           "result",
-          "prize"
+          "prize",
+          "time"
       FROM "dice"
       NATURAL JOIN "users"
       NATURAL JOIN "tokens"
