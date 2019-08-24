@@ -41,7 +41,7 @@ const getGameResult = async(game, block, hash) => {
   const result = await getRNGResult(wallet, block, hash);
   await setPrize(params, result, bet, index);
 
-  dice.func.finishGame({ index });
+  dice.func.finishGame({ index, hash });
   broadcastGame(index);
 };
 
