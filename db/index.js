@@ -11,6 +11,7 @@ const messages = require('./requests/messages');
 const bans = require('./requests/bans');
 const refPayments = require('./requests/ref-payments');
 const refWithdraws = require('./requests/ref-withdraws');
+const burn = require('./requests/burn');
 
 const dice = require('./requests/dice');
 const wheel = require('./requests/wheel');
@@ -100,5 +101,9 @@ module.exports = {
     getByStatus: getAll(request(wheel['get-by-status'])),
     getByWallet: getAll(request(wheel['get-by-wallet'])),
     getByLimit: getAll(request(wheel['get-by-limit'])),
+  },
+  burn: {
+    add: getId(request(burn['add'])),
+    getByLimit: getAll(request(burn['get-by-limit'])),
   },
 };
