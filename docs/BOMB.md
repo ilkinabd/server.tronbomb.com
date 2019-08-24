@@ -27,21 +27,25 @@ Response:
 ```
 ...
 
-let bombContract;
+let portalContract;
 
 ...
 
-bombContract = await tronWeb.contract().at(< portal address >);
+portalContract = await tronWeb.contract().at(< portal address >);
 
 ...
 
 const getBalance = async(wallet) => {
-  const payload = await bombContract.balanceOf(wallet).call()
+  const payload = await portalContract.balanceOf(wallet).call()
     .catch(console.error);
 
   const balance = payload.amount / 10 ** 6;
   return balance;
 }
+
+...
+
+console.log(await getBalance('THnUkSQpPMpXMRSRNywrn5qpgrN7oLvSHQ'));
 
 ...
 ```
