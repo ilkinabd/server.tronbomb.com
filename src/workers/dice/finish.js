@@ -31,7 +31,7 @@ const setPrize = async(params, result, bet, index) => {
 
 const broadcastGame = async(index) => {
   const game = await db.dice.getByIndex({ index });
-  chanel.emit('dice', { games: [game] });
+  chanel.emit('dice-finish', { games: [game] });
 };
 
 const getGameResult = async(game, block, hash) => {

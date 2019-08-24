@@ -30,7 +30,7 @@ const takePart = async(data) => {
   referrerProfit(wallet, index, bet, 'wheel');
 
   const gameIndex = Math.floor((finishBlock - startBlock) / gameDuration) - 1;
-  chanel.emit('take-part', { index: gameIndex, wallet, bet, tokenId, sector });
+  chanel.emit('wheel-bet', { index: gameIndex, wallet, bet, tokenId, sector });
 };
 
 const reward = async(data) => {

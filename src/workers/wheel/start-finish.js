@@ -48,14 +48,14 @@ const checkStart = (number) => {
 
   const index = Math.floor((number - startBlock) / gameDuration);
   const finishBlock = number + gameDuration;
-  chanel.emit('start', { index, finishBlock });
+  chanel.emit('wheel-start', { index, finishBlock });
 };
 
 const checkStopBets = async(number) => {
   if ((number - startBlock) % gameDuration !== gameDuration - 2) return;
 
   const index = Math.floor((number - startBlock) / gameDuration);
-  chanel.emit('stop-bets', { index });
+  chanel.emit('wheel-stop-bets', { index });
 };
 
 const checkFinish = async(number) => {
@@ -66,7 +66,7 @@ const checkFinish = async(number) => {
   const result = await getRNGResult(number);
   const sector = getSector(result);
 
-  chanel.emit('finish', { index, result, sector });
+  chanel.emit('wheel-finish', { index, result, sector });
 
   const bets = await db.wheel.getByStatus({ status: 'start' });
   if (bets.length === 0) return;
