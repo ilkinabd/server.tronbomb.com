@@ -15,16 +15,17 @@ socket.on('connect', () => {
 });
 
 const takePart = async(data) => {
-  const { index, wallet, finishBlock, bet, number, roll } = data;
+  const { index, wallet, finishBlock, bet, tokenId, number, roll } = data;
 
   let userId = await db.users.getId({ wallet });
   if (!userId) userId = await db.users.add({ wallet });
 
-  await db.dice.add({ index, finishBlock, userId, bet, number, roll });
+  await db.dice.add({ index, finishBlock, userId, bet, tokenId, number, roll });
 
   updateLevel(wallet);
   referrerProfit(wallet, index, bet, 'dice');
 };
+
 const reward = async(data) => {
   const { index } = data;
   db.dice.setConfirm({ index });
