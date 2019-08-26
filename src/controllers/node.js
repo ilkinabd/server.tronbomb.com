@@ -42,4 +42,9 @@ module.exports = {
     transfer: postRequest('/fund/transfer'),
     transferBOMB: postRequest('/fund/transfer_bomb'),
   },
+  bomb: {
+    func: {
+      transfer: postRequest('/bomb/func/transfer'),
+    }
+  }
 };

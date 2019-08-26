@@ -19,45 +19,33 @@ const level = () => {
   return { level, step };
 };
 
-const calculateProfit = async(count, wallet) => {
-  const { funds } = await node.tools.getFunds();
-  if (!funds) return;
-
-  for (const i in funds) {
-    switch (funds[i].type) {
-      case 'ad':
-        funds[i].profit = profits[1] * count;
-        break;
-      case 'random jackpot':
-        funds[i].profit = profits[2] * count;
-        break;
-      case 'bet amount jackpot':
-        funds[i].profit = profits[3] * count;
-        break;
-      case 'technical':
-        funds[i].profit = profits[4] * count;
-        break;
-      case 'referral rewards':
-        funds[i].profit = profits[5] * count;
-        break;
-      case 'team':
-        funds[i].profit = profits[6] * count;
-        break;
-      case 'auction':
-        funds[i].profit = profits[7] * count;
-        break;
-    }
+const getProfit = (type, count) => {
+  switch (type) {
+    case 'ad': return profits[1] * count;
+    case 'random jackpot': return profits[2] * count;
+    case 'bet amount jackpot': return profits[3] * count;
+    case 'technical': return profits[4] * count;
+    case 'referral rewards': return profits[5] * count;
+    case 'team': return profits[6] * count;
+    case 'auction': return profits[7] * count;
+    default: return null;
   }
+};
 
-  const rewards = funds.filter(item => item.profit);
+const payProfit = async(count, wallet) => {
+  const { funds } = await node.tools.getFunds();
+
+  const rewards = Array.from(funds, (fund) => ({
+    to: fund.address,
+    amount: getProfit(fund.type, count),
+  })).filter(item => item.amount);
 
   rewards.push({
-    address: wallet,
-    type: 'player',
-    profit: profits[0] * count,
+    to: wallet,
+    amount: profits[0] * count,
   });
 
-  console.log(rewards);
+  for (const reward of rewards) node.bomb.func.transfer(reward);
 };
 
 const mining = async(bet, wallet) => {
@@ -66,7 +54,7 @@ const mining = async(bet, wallet) => {
   const leftovers = (await db.users.getTRXBetSum({ wallet })) % step;
   const count = Math.floor((leftovers + bet) / step);
 
-  if (count !== 0) calculateProfit(count, wallet);
+  if (count !== 0) payProfit(count, wallet);
 };
 
 module.exports = {
