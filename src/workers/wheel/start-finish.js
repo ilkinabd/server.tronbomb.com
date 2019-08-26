@@ -47,7 +47,7 @@ const checkStart = (number) => {
   if ((number - startBlock) % gameDuration !== 1) return;
 
   const index = Math.floor((number - startBlock) / gameDuration);
-  const finishBlock = number + gameDuration;
+  const finishBlock = (number - 1) + gameDuration;
   chanel.emit('wheel-start', { index, finishBlock });
 };
 
