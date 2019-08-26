@@ -18,6 +18,7 @@ require('@workers/rating')(io.in('rating'));
 require('@workers/operations');
 
 require('@workers/bomb/burn');
+require('@workers/bomb/freeze');
 
 server.listen(NODE_PORT, NODE_URL, () => {
   console.info(`${NODE_URL}:${NODE_PORT}`);

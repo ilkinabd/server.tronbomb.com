@@ -12,6 +12,7 @@ const bans = require('./requests/bans');
 const refPayments = require('./requests/ref-payments');
 const refWithdraws = require('./requests/ref-withdraws');
 const burn = require('./requests/burn');
+const freeze = require('./requests/freeze');
 
 const dice = require('./requests/dice');
 const wheel = require('./requests/wheel');
@@ -105,5 +106,8 @@ module.exports = {
   burn: {
     add: getId(request(burn['add'])),
     getByLimit: getAll(request(burn['get-by-limit'])),
+  },
+  freeze: {
+    add: getId(request(freeze['add'])),
   },
 };
