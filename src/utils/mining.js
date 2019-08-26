@@ -48,7 +48,7 @@ const payProfit = async(count, wallet) => {
 
   for (const { to, amount, type } of rewards) {
     await node.bomb.func.transfer({ to, amount });
-    if (type) node.fund.freezeAll({ amount, type });
+    if (type) node.fund.freezeAll({ type });
   }
 };
 
