@@ -38,6 +38,7 @@ const payProfit = async(count, wallet) => {
   const rewards = Array.from(funds, (fund) => ({
     to: fund.address,
     amount: getProfit(fund.type, count),
+    type: fund.type,
   })).filter(item => item.amount);
 
   rewards.push({
@@ -45,7 +46,10 @@ const payProfit = async(count, wallet) => {
     amount: profits[0] * count,
   });
 
-  for (const reward of rewards) node.bomb.func.transfer(reward);
+  for (const { to, amount, type } of rewards) {
+    await node.bomb.func.transfer({ to, amount });
+    if (type) node.fund.freezeAll({ amount, type });
+  }
 };
 
 const mining = async(bet, wallet) => {

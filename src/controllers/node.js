@@ -41,6 +41,7 @@ module.exports = {
   fund: {
     transfer: postRequest('/fund/transfer'),
     transferBOMB: postRequest('/fund/transfer_bomb'),
+    freezeAll: postRequest('/fund/freeze_all'),
   },
   bomb: {
     func: {
