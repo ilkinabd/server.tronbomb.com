@@ -15,7 +15,9 @@ const postRequest = (path) => async(params = {}) => {
   const res = await axios.post(NODE + path, qs.stringify(params), { headers: {
     'maxie-token': NODE_TOKEN,
     'Content-type': 'application/x-www-form-urlencoded',
-  } }).catch(console.error);
+  } }).catch(error => {
+    console.error(JSON.stringify(error));
+  });
 
   return (res) ? res.data : {};
 };
@@ -37,6 +39,7 @@ module.exports = {
     getBlock: getRequest('/tools/block'),
     getContracts: getRequest('/tools/contracts'),
     getFunds: getRequest('/tools/funds'),
+    portalBalance: getRequest('/tools/portal_balance'),
   },
   fund: {
     transfer: postRequest('/fund/transfer'),
