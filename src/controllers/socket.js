@@ -18,7 +18,6 @@ const joinDice = async(socket) => {
 };
 const joinWheel = async(socket) => {
   const bets = await db.wheel.getByLimit({ limit: 25 });
-  for (const bet of bets) bet.sector = wheelUtils.getSector(bet.result);
   socket.emit('wheel', { bets });
 };
 
