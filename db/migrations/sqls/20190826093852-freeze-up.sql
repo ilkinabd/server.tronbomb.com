@@ -3,8 +3,8 @@ CREATE TABLE "freeze" (
   "hash"    CHAR(64)                    NOT NULL,
   "user_id" INTEGER                     NOT NULL REFERENCES "users"("user_id"),
   "amount"  FLOAT                       NOT NULL,
-  "start"   TIMESTAMP WITHOUT TIME ZONE DEFAULT now(),
-  "finish"  TIMESTAMP WITHOUT TIME ZONE DEFAULT now(),
+  "start"   TIMESTAMP WITHOUT TIME ZONE DEFAULT NOW(),
+  "finish"  TIMESTAMP WITHOUT TIME ZONE,
 
   PRIMARY KEY("tx_id")
 );
