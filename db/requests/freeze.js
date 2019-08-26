@@ -27,6 +27,11 @@ module.exports = {
       NATURAL JOIN "users"
       WHERE "status" = 'active';`,
 
+  'get-sum': `
+      SELECT COALESCE(SUM("amount"), 0) AS "value"
+      FROM "freeze"
+      WHERE "status" = 'active';`,
+
   'get-by-limit': `
       SELECT
           "hash",

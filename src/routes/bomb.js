@@ -9,4 +9,7 @@ router.route('/burn_txs')
 router.route('/frozen_txs')
   .get(controller.getFrozen);
 
+router.route('/total_frozen')
+  .get(controller.totalFrozen);
+
 module.exports = router;

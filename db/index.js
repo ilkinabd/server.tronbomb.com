@@ -111,6 +111,7 @@ module.exports = {
     add: getId(request(freeze['add'])),
     setComplete: request(freeze['set-complete']),
     getActives: getAll(request(freeze['get-actives'])),
+    getSum: getValue(request(freeze['get-sum'])),
     getByLimit: getAll(request(freeze['get-by-limit'])),
   },
 };

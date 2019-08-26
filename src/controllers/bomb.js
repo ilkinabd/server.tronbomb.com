@@ -12,7 +12,13 @@ const getFrozen = async(_req, res) => {
   successRes(res, { operations });
 };
 
+const totalFrozen = async(_req, res) => {
+  const sum = await db.freeze.getSum();
+  successRes(res, { sum });
+};
+
 module.exports = {
   getBurn,
   getFrozen,
+  totalFrozen,
 };
