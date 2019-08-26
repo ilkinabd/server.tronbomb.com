@@ -12,4 +12,7 @@ router.route('/frozen_txs')
 router.route('/total_frozen')
   .get(controller.totalFrozen);
 
+router.route('/mining_level')
+  .get(controller.miningLevel);
+
 module.exports = router;
