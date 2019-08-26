@@ -1,6 +1,5 @@
 const db = require('@db');
 const { newMessage } = require('@controllers/chat');
-const wheelUtils = require('@utils/wheel');
 
 db.sockets.clear();
 
