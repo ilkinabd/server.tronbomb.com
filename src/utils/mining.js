@@ -22,10 +22,10 @@ const level = () => {
 const getProfit = (type, count) => {
   switch (type) {
     case 'ad': return profits[1] * count;
-    case 'random jackpot': return profits[2] * count;
-    case 'bet amount jackpot': return profits[3] * count;
+    case 'random-jackpot': return profits[2] * count;
+    case 'bet-amount-jackpot': return profits[3] * count;
     case 'technical': return profits[4] * count;
-    case 'referral rewards': return profits[5] * count;
+    case 'referral-rewards': return profits[5] * count;
     case 'team': return profits[6] * count;
     case 'auction': return profits[7] * count;
     default: return null;
