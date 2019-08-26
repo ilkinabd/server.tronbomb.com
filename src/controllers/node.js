@@ -36,9 +36,16 @@ module.exports = {
   tools: {
     getBlock: getRequest('/tools/block'),
     getContracts: getRequest('/tools/contracts'),
+    getFunds: getRequest('/tools/funds'),
   },
   fund: {
     transfer: postRequest('/fund/transfer'),
     transferBOMB: postRequest('/fund/transfer_bomb'),
+    freezeAll: postRequest('/fund/freeze_all'),
   },
+  bomb: {
+    func: {
+      transfer: postRequest('/bomb/func/transfer'),
+    }
+  }
 };

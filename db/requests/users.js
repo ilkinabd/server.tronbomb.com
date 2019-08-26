@@ -80,6 +80,16 @@ module.exports = {
       NATURAL JOIN "users"
       WHERE "wallet" = $wallet;`,
 
+  'get-trx-bet-sum': `
+      SELECT SUM("bet") as "value"
+      FROM (
+          SELECT "bet", "user_id", "token_id" FROM "dice"
+          UNION ALL
+          SELECT "bet", "user_id", "token_id" FROM "wheel"
+      ) AS "bets"
+      NATURAL JOIN "users"
+      WHERE "wallet" = $wallet AND "token_id" = 0;`,
+
   'get-win-sum': `
       SELECT SUM("prize") as "value"
       FROM (

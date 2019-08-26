@@ -1,4 +1,5 @@
 const db = require('@db');
+const { level } = require('@utils/mining');
 
 const { successRes } = require('@utils/res-builder');
 
@@ -17,8 +18,14 @@ const totalFrozen = async(_req, res) => {
   successRes(res, { sum });
 };
 
+const miningLevel = async(_req, res) => {
+  const params = await level();
+  successRes(res, params);
+};
+
 module.exports = {
   getBurn,
   getFrozen,
   totalFrozen,
+  miningLevel,
 };
