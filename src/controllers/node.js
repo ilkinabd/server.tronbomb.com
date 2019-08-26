@@ -35,7 +35,10 @@ module.exports = {
   },
   tools: {
     getBlock: getRequest('/tools/block'),
-    withdraw: postRequest('/tools/withdraw'),
     getContracts: getRequest('/tools/contracts'),
+  },
+  fund: {
+    transfer: postRequest('/fund/transfer'),
+    transferBOMB: postRequest('/fund/transfer_bomb'),
   },
 };
