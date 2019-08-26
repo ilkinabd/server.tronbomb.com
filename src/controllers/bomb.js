@@ -7,6 +7,12 @@ const getBurn = async(_req, res) => {
   successRes(res, { operations });
 };
 
+const getFrozen = async(_req, res) => {
+  const operations = await db.freeze.getByLimit({ limit: 100 });
+  successRes(res, { operations });
+};
+
 module.exports = {
   getBurn,
+  getFrozen,
 };

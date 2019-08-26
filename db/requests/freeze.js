@@ -26,4 +26,17 @@ module.exports = {
       FROM "freeze"
       NATURAL JOIN "users"
       WHERE "status" = 'active';`,
+
+  'get-by-limit': `
+      SELECT
+          "hash",
+          "wallet",
+          "amount",
+          "start",
+          "finish",
+          "status"
+      FROM "freeze"
+      NATURAL JOIN "users"
+      ORDER BY "tx_id" DESC
+      LIMIT $limit;`,
 };
