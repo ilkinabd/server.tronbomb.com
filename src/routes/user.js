@@ -19,4 +19,7 @@ router.route('/history/dice')
 router.route('/history/wheel')
   .get(validate('getUserData'), controller.wheelHistory);
 
+router.route('/history/frozen')
+  .get(validate('getUserData'), controller.frozenHistory);
+
 module.exports = router;

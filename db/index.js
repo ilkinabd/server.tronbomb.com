@@ -112,6 +112,7 @@ module.exports = {
     setComplete: request(freeze['set-complete']),
     getActives: getAll(request(freeze['get-actives'])),
     getSum: getValue(request(freeze['get-sum'])),
+    getByWallet: getAll(request(freeze['get-by-wallet'])),
     getByLimit: getAll(request(freeze['get-by-limit'])),
   },
 };
