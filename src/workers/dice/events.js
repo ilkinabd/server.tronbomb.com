@@ -4,6 +4,7 @@ const io = require('socket.io-client');
 
 const db = require('@db');
 const { updateLevel, referrerProfit } = require('@utils/users');
+const { mining } = require('@utils/mining');
 
 const socket = io.connect(NODE, { reconnect: true });
 
@@ -20,6 +21,7 @@ const takePart = async(data) => {
   let userId = await db.users.getId({ wallet });
   if (!userId) userId = await db.users.add({ wallet });
 
+  if (tokenId === 0) await mining(bet, wallet);
   await db.dice.add({ index, finishBlock, userId, bet, tokenId, number, roll });
 
   updateLevel(wallet);
