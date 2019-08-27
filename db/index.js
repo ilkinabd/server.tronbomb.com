@@ -13,6 +13,7 @@ const refPayments = require('./requests/ref-payments');
 const refWithdraws = require('./requests/ref-withdraws');
 const burn = require('./requests/burn');
 const freeze = require('./requests/freeze');
+const operationProfit = require('./requests/operation-profit');
 
 const dice = require('./requests/dice');
 const wheel = require('./requests/wheel');
@@ -117,5 +118,10 @@ module.exports = {
     getByLimit: getAll(request(freeze['get-by-limit'])),
     getUserSum: getValue(request(freeze['get-user-sum'])),
     getUsersAmounts: getAll(request(freeze['get-users-amounts'])),
+  },
+  operationProfit: {
+    add: getId(request(operationProfit['add'])),
+    getNoComplete: getValue(request(operationProfit['get-no-complete'])),
+    setCompleteAll: request(operationProfit['set-complete-all']),
   },
 };

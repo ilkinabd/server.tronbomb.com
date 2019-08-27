@@ -29,13 +29,20 @@ module.exports = {
 
   'get-sum': `
       SELECT COALESCE(SUM("amount"), 0) AS "value"
-      FROM "freeze"
-      WHERE "status" = 'active';`,
+      FROM "freeze";`,
 
   'get-user-sum': `
       SELECT COALESCE(SUM("amount"), 0) AS "value"
       FROM "freeze"
       WHERE "user_id" = $userId;`,
+
+  'get-users-amounts': `
+      SELECT
+          "wallet",
+          SUM("amount") as "amount"
+      FROM "freeze"
+      NATURAL JOIN "users"
+      GROUP BY "wallet"`,
 
   'get-by-wallet': `
       SELECT
@@ -61,10 +68,4 @@ module.exports = {
       NATURAL JOIN "users"
       ORDER BY "tx_id" DESC
       LIMIT $limit;`,
-
-  'get-users-amounts': `
-      SELECT "wallet" ,"user_id", SUM("amount") as "amount"
-      FROM "freeze" NATURAL JOIN "users"
-      WHERE "status" = 'active'
-      GROUP BY "user_id", "wallet"`,
 };

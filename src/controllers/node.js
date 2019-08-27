@@ -23,6 +23,14 @@ const postRequest = (path) => async(params = {}) => {
 };
 
 module.exports = {
+  portal: {
+    get: {
+      params: getRequest('/portal/get/params'),
+    },
+    func: {
+      withdraw: postRequest('/portal/func/withdraw'),
+    },
+  },
   dice: {
     func: {
       rng: getRequest('/dice/func/rng'),
