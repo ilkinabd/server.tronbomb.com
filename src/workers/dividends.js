@@ -1,14 +1,9 @@
-const { PLATFORM_BALANCE } = process.env;
-
-const node = require('@controllers/node');
+const { getOperatingProfit } = require('@utils/dividends');
 
 const day = 24 * 60 * 60 * 1000;
 
 const calculateProfit = async() => {
-  const { balanceTRX } = await node.tools.portalBalance();
-  if (!balanceTRX) return;
-
-  const profit = balanceTRX - PLATFORM_BALANCE;
+  const profit = getOperatingProfit();
   console.log(profit);
 };
 

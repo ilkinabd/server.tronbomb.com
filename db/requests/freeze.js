@@ -56,4 +56,12 @@ module.exports = {
       NATURAL JOIN "users"
       ORDER BY "tx_id" DESC
       LIMIT $limit;`,
+
+  'get-user-sum': `
+      SELECT SUM("amount") AS "value"
+      FROM (  
+          SELECT "amount"
+          FROM "freeze"
+          WHERE "user_id" = $user_id AND "status" = 'active'
+          ) as "amounts"`,
 };

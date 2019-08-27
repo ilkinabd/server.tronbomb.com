@@ -115,5 +115,6 @@ module.exports = {
     getSum: getValue(request(freeze['get-sum'])),
     getByWallet: getAll(request(freeze['get-by-wallet'])),
     getByLimit: getAll(request(freeze['get-by-limit'])),
+    getUserSum: getValue(request(freeze['get-user-sum'])),
   },
 };
