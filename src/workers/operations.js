@@ -25,7 +25,7 @@ const withdrawReferralProfit = async(wallet, to, amount, txId) => {
 
   if (profit < delta) return;
 
-  const type = 'dividends';
+  const type = 'referral-rewards';
   const payload = await node.fund.transfer({ to, amount, type });
   if (!payload || !payload.txID) return;
 
