@@ -2,35 +2,40 @@ module.exports = {
   'add': `
       INSERT INTO "freeze" (
           "hash",
+          "type",
           "user_id",
-          "amount",
-          "finish"
+          "amount"
       ) VALUES (
           $hash,
+          $type,
           $userId,
-          $amount,
-          $finishTime::TIMESTAMP AT TIME ZONE 'UTC'
-      ) RETURNING "tx_id" as "id";`,
+          $amount
+      ) RETURNING "tx_id" AS "id";`,
 
   'set-complete': `
       UPDATE "freeze"
       SET "status" = 'complete'
       WHERE "tx_id" = $txId;`,
 
-  'get-actives': `
+  'get-awaiting': `
       SELECT
-          "tx_id" as "txId",
-          "finish",
-          "amount",
+          "tx_id" AS "txId",
+          "time",
+          -"amount" AS "amount",
           "wallet"
       FROM "freeze"
       NATURAL JOIN "users"
-      WHERE "status" = 'active';`,
+      WHERE "type" = 'unfreeze' AND "status" = 'awaiting';`,
 
   'get-sum': `
       SELECT COALESCE(SUM("amount"), 0) AS "value"
       FROM "freeze"
       WHERE "status" = 'active';`,
+
+  'get-user-sum': `
+      SELECT COALESCE(SUM("amount"), 0) AS "value"
+      FROM "freeze"
+      WHERE "user_id" = $userId;`,
 
   'get-by-wallet': `
       SELECT
@@ -56,14 +61,6 @@ module.exports = {
       NATURAL JOIN "users"
       ORDER BY "tx_id" DESC
       LIMIT $limit;`,
-
-  'get-user-sum': `
-      SELECT COALESCE(SUM("amount"), 0) AS "value"
-      FROM (  
-          SELECT "amount"
-          FROM "freeze"
-          WHERE "user_id" = $user_id AND "status" = 'active'
-          ) as "amounts"`,
 
   'get-users-amounts': `
       SELECT "wallet" ,"user_id", SUM("amount") as "amount"

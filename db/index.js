@@ -111,7 +111,7 @@ module.exports = {
   freeze: {
     add: getId(request(freeze['add'])),
     setComplete: request(freeze['set-complete']),
-    getActives: getAll(request(freeze['get-actives'])),
+    getAwaiting: getAll(request(freeze['get-awaiting'])),
     getSum: getValue(request(freeze['get-sum'])),
     getByWallet: getAll(request(freeze['get-by-wallet'])),
     getByLimit: getAll(request(freeze['get-by-limit'])),
