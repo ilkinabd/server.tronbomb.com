@@ -58,7 +58,7 @@ module.exports = {
       LIMIT $limit;`,
 
   'get-user-sum': `
-      SELECT SUM("amount") AS "value"
+      SELECT COALESCE(SUM("amount"), 0) AS "value"
       FROM (  
           SELECT "amount"
           FROM "freeze"
