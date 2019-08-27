@@ -1,11 +1,10 @@
 const { PLATFORM_BALANCE } = process.env;
-const db = require('@db');
 
+const db = require('@db');
 const node = require('@controllers/node');
 
-const getNextPayoutTimestamp = () => {
-  const result = new Date();
-  result.setUTCHours(12, 0, 0);
+const nextPayoutTimeout = () => {
+  const result = new Date().setUTCHours(12, 0, 0);
   if (result > Date.now()) {
     result.setDate(new Date(result).getDate() + 1);
   }
@@ -13,11 +12,9 @@ const getNextPayoutTimestamp = () => {
   return result.getTime();
 };
 
-const getOperatingProfit = async() => {
+const operatingProfit = async() => {
   const { balanceTRX } = await node.tools.portalBalance();
-
   if (!balanceTRX) return;
-
   return balanceTRX - PLATFORM_BALANCE;
 };
 
@@ -30,7 +27,7 @@ const getUserProfit = async(userId, operatingProfit) => {
 };
 
 module.exports = {
-  getNextPayoutTimestamp,
-  getOperatingProfit,
+  nextPayoutTimeout,
+  operatingProfit,
   getUserProfit,
 };
