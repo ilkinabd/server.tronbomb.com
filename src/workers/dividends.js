@@ -15,7 +15,7 @@ const calculateProfit = async() => {
     const dividend = profit * (amount / totalFreeze);
 
     const params = { type: 'dividends', to: wallet, amount: dividend };
-    await node.fund.transfer(params);
+    await node.fund.transfer(params); //TODO: use portal withdrawal here
   }
 };
 
