@@ -40,6 +40,7 @@ module.exports = {
     getContracts: getRequest('/tools/contracts'),
     getFunds: getRequest('/tools/funds'),
     portalBalance: getRequest('/tools/portal_balance'),
+    totalMined: getRequest('/tools/total_mined'),
   },
   fund: {
     transfer: postRequest('/fund/transfer'),

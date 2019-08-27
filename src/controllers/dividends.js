@@ -1,4 +1,5 @@
 const db = require('@db');
+const node = require('@controllers/node');
 const {
   getNextPayoutTimestamp,
   getOperatingProfit,
@@ -10,14 +11,15 @@ const dividendsInfo = async(req, res) => {
   const frozenBombSum = await db.freeze.getSum();
   const { wallet } = req.query;
   const userID = db.users.getId(wallet);
-  const totalBombMined = 123; //TODO: get total mined from node
+  const { totalMined } = await node.tools.totalMined();
+  const operatingProfit = await getOperatingProfit();
 
   const params = {
     nextPayout: getNextPayoutTimestamp(),
-    operatingProfit: getOperatingProfit(),
-    userProfit: getUserProfit(userID),
+    userProfit: await getUserProfit(userID, operatingProfit),
+    operatingProfit,
     frozenBombSum,
-    totalBombMined,
+    totalMined,
   };
 
   res.json(resSuccess(params));
