@@ -64,4 +64,10 @@ module.exports = {
           FROM "freeze"
           WHERE "user_id" = $user_id AND "status" = 'active'
           ) as "amounts"`,
+
+  'get-users-amounts': `
+      SELECT "wallet" ,"user_id", SUM("amount") as "amount"
+      FROM "freeze" NATURAL JOIN "users"
+      WHERE "status" = 'active'
+      GROUP BY "user_id", "wallet"`,
 };

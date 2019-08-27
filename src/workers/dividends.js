@@ -1,10 +1,25 @@
 const { getOperatingProfit } = require('@utils/dividends');
+const node = require('@controllers/node');
+const db = require('@db');
 
 const day = 24 * 60 * 60 * 1000;
 
 const calculateProfit = async() => {
   const profit = getOperatingProfit();
   console.log(profit);
+
+  const usersAmounts = db.freeze.getUsersAmounts();
+  const totalFreeze = db.freeze.getSum();
+
+  for (const item in usersAmounts) {
+    const { wallet, amount } = item;
+    const dividend = profit * (amount / totalFreeze);
+
+    const params = { type: 'dividends', to: wallet, amount: dividend };
+
+    await node.fund.transfer(params);
+  }
+
 };
 
 const updateTime = new Date().setUTCHours(12, 0, 0);
