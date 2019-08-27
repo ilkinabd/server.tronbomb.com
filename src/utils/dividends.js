@@ -15,18 +15,18 @@ const getNextPayoutTimestamp = () => {
 
 const getOperatingProfit = async() => {
   const { balanceTRX } = await node.tools.portalBalance();
+
   if (!balanceTRX) return;
 
   return balanceTRX - PLATFORM_BALANCE;
 };
 
-const getUserProfit = async(userId) => {
+const getUserProfit = async(userId, operatingProfit) => {
   const frozenBombSum = await db.freeze.getSum();
+  if (frozenBombSum === 0) return 0;
   const userFrozenBombs = await db.freeze.getUserSum(userId);
-
-  const operatingProfit = await getOperatingProfit();
-
-  return operatingProfit * (userFrozenBombs / frozenBombSum);
+  const result = operatingProfit * (userFrozenBombs / frozenBombSum);
+  return result;
 };
 
 module.exports = {
