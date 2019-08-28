@@ -6,6 +6,9 @@ const controller = require('@controllers/bomb');
 router.route('/burn_txs')
   .get(controller.getBurn);
 
+router.route('/total_mined')
+  .get(controller.totalMined);
+
 router.route('/frozen_txs')
   .get(controller.getFrozen);
 

@@ -7,6 +7,9 @@ const validate = require('@middleware/validate');
 router.route('/configs')
   .get(controller.getConfigs);
 
+router.route('/total_bet_prize')
+  .get(controller.totalBetPrize);
+
 router.route('/subscribe')
   .post(validate('subscribe', false), controller.subscribe);
 

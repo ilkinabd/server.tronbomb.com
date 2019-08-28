@@ -1,3 +1,4 @@
+const db = require('@db');
 const node = require('@controllers/node');
 const getResponse = require('@utils/get-response');
 const { successRes, errorRes } = require('@utils/res-builder');
@@ -9,6 +10,18 @@ const getConfigs = async(_req, res) => {
   const { contracts } = config;
 
   successRes(res, { contracts });
+};
+
+const totalBetPrize = async(_req, res) => {
+  const diceBetSum = await db.dice.getBetSum();
+  const dicePrizeSum = await db.dice.getPrizeSum();
+  const wheelBetSum = await db.wheel.getBetSum();
+  const wheelPrizeSum = await db.wheel.getPrizeSum();
+
+  const betSum = diceBetSum + wheelBetSum;
+  const prizeSum = dicePrizeSum + wheelPrizeSum;
+
+  successRes(res, { betSum, prizeSum });
 };
 
 const subscribe = async(req, res) => {
@@ -39,5 +52,6 @@ const subscribe = async(req, res) => {
 
 module.exports = {
   getConfigs,
+  totalBetPrize,
   subscribe,
 };
