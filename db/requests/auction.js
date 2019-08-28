@@ -18,7 +18,7 @@ module.exports = {
   'get-all-bets': `
     SELECT "auction_id", "user_id", "bet"
     FROM "auction"
-    WHERE "auction_number" = $aucNumber
+    WHERE "auction_number" = $auctionNumber
     ORDER BY "bet" DESC
     LIMIT $limit;`,
 
