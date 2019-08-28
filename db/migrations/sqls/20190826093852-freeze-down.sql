@@ -1,0 +1,3 @@
+DROP TABLE "freeze";
+
+DROP TYPE FREEZE_STATUS;

@@ -103,7 +103,7 @@ CREATE TABLE "ref_payments" (
   "game_id"    INTEGER                     NOT NULL,
   "referral"   INTEGER                     NOT NULL REFERENCES "users"("user_id"),
   "profit"     FLOAT                       NOT NULL,
-  "date"       TIMESTAMP WITHOUT TIME ZONE DEFAULT now(),
+  "time"       TIMESTAMP WITHOUT TIME ZONE DEFAULT now(),
 
   PRIMARY KEY("payment_id")
 );
@@ -116,8 +116,7 @@ CREATE TABLE "ref_withdraws" (
   "amount"  FLOAT                       NOT NULL,
   "to"      CHAR(34)                    NOT NULL,
   "fee"     FLOAT,
-  "code"    INTEGER                     NOT NULL,
-  "date"    TIMESTAMP WITHOUT TIME ZONE DEFAULT now(),
+  "time"    TIMESTAMP WITHOUT TIME ZONE DEFAULT now(),
 
   PRIMARY KEY("tx_id")
 );
@@ -146,4 +145,25 @@ CREATE TABLE "bans" (
   "end_time"   TIMESTAMP(6),
 
   PRIMARY KEY("ban_id")
+);
+
+CREATE TABLE "burn" (
+  "tx_id"  SERIAL                      NOT NULL,
+  "hash"   CHAR(64)                    NOT NULL,
+  "amount" FLOAT                       NOT NULL,
+  "from"   CHAR(34)                    NOT NULL,
+  "time"   TIMESTAMP WITHOUT TIME ZONE DEFAULT now(),
+
+  PRIMARY KEY("tx_id")
+);
+
+CREATE TABLE "freeze" (
+  "tx_id"   SERIAL                      NOT NULL,
+  "hash"    CHAR(64)                    NOT NULL,
+  "user_id" INTEGER                     NOT NULL REFERENCES "users"("user_id"),
+  "amount"  FLOAT                       NOT NULL,
+  "start"   TIMESTAMP WITHOUT TIME ZONE DEFAULT NOW(),
+  "finish"  TIMESTAMP WITHOUT TIME ZONE,
+
+  PRIMARY KEY("tx_id")
 );

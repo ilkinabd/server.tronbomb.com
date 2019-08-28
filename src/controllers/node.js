@@ -15,42 +15,49 @@ const postRequest = (path) => async(params = {}) => {
   const res = await axios.post(NODE + path, qs.stringify(params), { headers: {
     'maxie-token': NODE_TOKEN,
     'Content-type': 'application/x-www-form-urlencoded',
-  } }).catch(console.error);
+  } }).catch(error => {
+    console.error(JSON.stringify(error));
+  });
 
   return (res) ? res.data : {};
 };
 
 module.exports = {
-  contracts: {
-    getAll: getRequest('/contracts/get_all'),
+  portal: {
+    get: {
+      params: getRequest('/portal/get/params'),
+    },
+    func: {
+      withdraw: postRequest('/portal/func/withdraw'),
+    },
   },
   dice: {
-    getters: {
-      game: getRequest('/dice/get/game'),
-      rng: getRequest('/dice/get/rng'),
-    },
-    functions: {
+    func: {
+      rng: getRequest('/dice/func/rng'),
       finishGame: postRequest('/dice/func/finish_game'),
-    },
-    events: {
-      takeBets: getRequest('/dice/events/take_bets'),
-      finishGames: getRequest('/dice/events/finish_games'),
-      playersWin: getRequest('/dice/events/players_win'),
     },
   },
   wheel: {
-    getters: {
-      rng: getRequest('/wheel/get/rng'),
-    },
-    functions: {
-      init: postRequest('/wheel/func/init'),
+    func: {
+      rng: getRequest('/wheel/func/rng'),
       finish: postRequest('/wheel/func/finish'),
     },
   },
   tools: {
-    getters: {
-      block: getRequest('/tools/get/block'),
-    },
-    withdraw: postRequest('/tools/func/withdraw'),
+    getBlock: getRequest('/tools/block'),
+    getContracts: getRequest('/tools/contracts'),
+    getFunds: getRequest('/tools/funds'),
+    portalBalance: getRequest('/tools/portal_balance'),
+    totalMined: getRequest('/tools/total_mined'),
   },
+  fund: {
+    transfer: postRequest('/fund/transfer'),
+    transferBOMB: postRequest('/fund/transfer_bomb'),
+    freezeAll: postRequest('/fund/freeze_all'),
+  },
+  bomb: {
+    func: {
+      transfer: postRequest('/bomb/func/transfer'),
+    }
+  }
 };

@@ -3,7 +3,7 @@ const { NODE, NODE_TOKEN, WHEEL_START_BLOCK, WHEEL_DURATION } = process.env;
 const io = require('socket.io-client');
 
 const db = require('@db');
-const utils = require('@utils/wheel');
+const { getSector, getCoef } = require('@utils/wheel');
 const { wheel, tools } = require('@controllers/node');
 
 const startBlock = parseInt(WHEEL_START_BLOCK);
@@ -20,12 +20,12 @@ socket.on('connect', () => {
 });
 
 const getRNGResult = async(block) => {
-  const blockObject = await tools.getters.block({ id: block });
-  if (!blockObject) return;
+  const blockData = await tools.getBlock({ index: block });
+  if (!blockData) return;
 
-  const hash = `0x${blockObject.hash}`;
-  const payload = await wheel.getters.rng({ block, hash });
-  return payload.random;
+  const { hash } = blockData;
+  const payload = await wheel.func.rng({ block, hash });
+  return payload.result;
 };
 
 const finishBet = async(payload) => {
@@ -35,8 +35,8 @@ const finishBet = async(payload) => {
   const result = await getRNGResult(finishBlock);
   if (!result) return;
 
-  const winSector = utils.getSector(result);
-  const coef = utils.getCoef(winSector);
+  const winSector = getSector(result);
+  const coef = getCoef(winSector);
   const prize = (sector === winSector) ? bet * coef : 0;
 
   await db.wheel.setFinish({ result: winSector, prize, index });
@@ -47,15 +47,15 @@ const checkStart = (number) => {
   if ((number - startBlock) % gameDuration !== 1) return;
 
   const index = Math.floor((number - startBlock) / gameDuration);
-  const finishBlock = number + gameDuration;
-  chanel.emit('start', { index, finishBlock });
+  const finishBlock = (number - 1) + gameDuration;
+  chanel.emit('wheel-start', { index, finishBlock });
 };
 
 const checkStopBets = async(number) => {
   if ((number - startBlock) % gameDuration !== gameDuration - 2) return;
 
   const index = Math.floor((number - startBlock) / gameDuration);
-  chanel.emit('stop-bets', { index });
+  chanel.emit('wheel-stop-bets', { index });
 };
 
 const checkFinish = async(number) => {
@@ -64,15 +64,15 @@ const checkFinish = async(number) => {
   // Result for this game
   const index = Math.floor((number - startBlock) / gameDuration) - 1;
   const result = await getRNGResult(number);
-  const sector = utils.getSector(result);
+  const sector = getSector(result);
 
-  chanel.emit('finish', { index, result, sector });
+  chanel.emit('wheel-finish', { index, result, sector });
 
   const bets = await db.wheel.getByStatus({ status: 'start' });
   if (bets.length === 0) return;
 
   for (const bet of bets) finishBet(bet);
-  wheel.functions.finish();
+  wheel.func.finish();
 };
 
 const processBlocks = async(data) => {

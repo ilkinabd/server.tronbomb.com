@@ -5,6 +5,7 @@ module.exports = {
           "finish_block",
           "user_id",
           "bet",
+          "token_id",
           "number",
           "roll"
       ) VALUES (
@@ -12,6 +13,7 @@ module.exports = {
           $finishBlock,
           $userId,
           $bet,
+          $tokenId,
           $number,
           $roll
       ) RETURNING "game_id" as "id";`,
@@ -37,7 +39,8 @@ module.exports = {
           "number",
           "roll",
           "result",
-          "prize"
+          "prize",
+          "time"
       FROM "dice"
       NATURAL JOIN "users"
       NATURAL JOIN "tokens"

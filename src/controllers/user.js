@@ -1,6 +1,6 @@
 const db = require('@db');
 
-const { resSuccess } = require('@utils/res-builder');
+const { resSuccess, successRes } = require('@utils/res-builder');
 
 const getLevel = async(req, res) => {
   const { wallet } = req.query;
@@ -20,6 +20,18 @@ const totalWin = async(req, res) => {
   res.json(resSuccess({ sum }));
 };
 
+const totalFreeze = async(req, res) => {
+  const { wallet } = req.query;
+  const sum = await db.freeze.getUserSum({ wallet });
+  successRes(res, { sum });
+};
+
+const totalProfit = async(req, res) => {
+  const { wallet } = req.query;
+  const sum = await db.dividends.getUserSum({ wallet });
+  successRes(res, { sum });
+};
+
 const diceHistory = async(req, res) => {
   const { wallet } = req.query;
   const games = await db.dice.getByWallet({ wallet });
@@ -32,10 +44,19 @@ const wheelHistory = async(req, res) => {
   res.json(resSuccess({ games }));
 };
 
+const frozenHistory = async(req, res) => {
+  const { wallet } = req.query;
+  const operations = await db.freeze.getByWallet({ wallet });
+  successRes(res, { operations });
+};
+
 module.exports = {
   getLevel,
   totalBet,
   totalWin,
+  totalFreeze,
+  totalProfit,
   diceHistory,
   wheelHistory,
+  frozenHistory,
 };

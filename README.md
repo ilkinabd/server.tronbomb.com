@@ -1,11 +1,11 @@
 # Server
-v0.8.3 Aug 11, 2019
+v0.9.0 Aug 28, 2019
 
 Server for **TronBomb** games.
 
 ## Get Started
 
-0. Install **node** v10+, **yarn** and **postgres** 10+.
+0. Install **node** v10+, **yarn**, **pm2** and **postgres** 10+.
 1. Create database **tron_bomb_server**.
 2. Crate **db/database.json** config file. Read **Config** part.
 3. Run database migrations.
@@ -30,6 +30,13 @@ yarn restart
 yarn logs
 yarn errors
 ```
+
+## Integration instructions
+
+* [BOMB token](./docs/BOMB.md)
+* [Dice game](./docs/Dice.md)
+* [Wheel game](./docs/Wheel.md)
+* [Referral system](./docs/Referral.md)
 
 ## Config
 
@@ -82,6 +89,17 @@ env:
   MIN_WITHDRAW      : 10                           // Referrel profit min withdraw
   MAX_WITHDRAW      : 1000                         // Referrel profit max withdraw
   WITHDRAW_FEE      : 1                            // Referrel profit withdraw fee
+
+  UNFREEZE_TIME     : 86400000                     // Unfreeze BOMB amount
+
+  START_MINING      : '2019-08-26T12:00:00.000Z'   // Start mining time
+  START_MINING_LEVEL: 50                           // First mining level
+  MINING_LEVEL_DELTA: 10                           // Mining level delta
+  # player, ad, random-jackpot, bet-amount-jackpot, technical, referral-rewards, team, auction
+  MINING_PROFIT: 1.0000,0.1330,0.0170,0.0170,0.0800,0.0025,0.2170,0.2000
+
+  PLATFORM_BALANCE    : 10000                      // Min Platform contract balance
+  MIN_OPERATION_PROFIT: 100                        // Min profit for withdraw
 ```
 
 Powered by 2019 © MaxieMind for © TronBomb.

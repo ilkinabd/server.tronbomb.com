@@ -1,6 +1,6 @@
 {
   "name": "server",
-  "version": "0.8.2",
+  "version": "0.9.0",
   "description": "Main server.",
   "main": "server.js",
   "scripts": {
@@ -10,7 +10,7 @@
     "logs": "pm2 logs --out",
     "errors": "pm2 logs --err",
     "migrate": "db-migrate up --migrations-dir db/migrations",
-    "new-migrate": "db-migrate create --migrations-dir db/migrations",
+    "new-migration": "db-migrate create --migrations-dir db/migrations",
     "eslint": "eslint --fix ."
   },
   "_moduleAliases": {

@@ -4,15 +4,13 @@ module.exports = {
           "user_id",
           "amount",
           "to",
-          "fee",
-          "code"
+          "fee"
       ) VALUES (
           (SELECT "user_id" FROM "users" WHERE "wallet" = $wallet),
           $amount,
           $to,
-          $fee,
-          (SELECT FLOOR(RANDOM() * 1000000000 + 1)::INTEGER)
-      ) RETURNING "code" as "value";`,
+          $fee
+      ) RETURNING "tx_id" as "id";`,
 
   'set-complete': `
       UPDATE "ref_withdraws"
@@ -26,7 +24,7 @@ module.exports = {
           "amount",
           "to",
           "fee",
-          "date"
+          "time"
       FROM "ref_withdraws"
       WHERE "user_id" = (
           SELECT "user_id" FROM "users" WHERE "wallet" = $wallet

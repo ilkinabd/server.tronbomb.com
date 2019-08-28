@@ -11,6 +11,10 @@ const messages = require('./requests/messages');
 const bans = require('./requests/bans');
 const refPayments = require('./requests/ref-payments');
 const refWithdraws = require('./requests/ref-withdraws');
+const burn = require('./requests/burn');
+const freeze = require('./requests/freeze');
+const operationProfit = require('./requests/operation-profit');
+const dividends = require('./requests/dividends');
 
 const dice = require('./requests/dice');
 const wheel = require('./requests/wheel');
@@ -44,6 +48,7 @@ module.exports = {
     get: getRow(request(bans['get'])),
   },
   tokens: {
+    getSymbol: getValue(request(tokens['get-symbol'])),
     getAll: getAll(request(tokens['get-all'])),
   },
   users: {
@@ -61,6 +66,7 @@ module.exports = {
     getReferralsCount: getValue(request(users['get-referrals-count'])),
     getCount: getValue(request(users['get-count'])),
     getBetSum: getValue(request(users['get-bet-sum'])),
+    getTRXBetSum: getValue(request(users['get-trx-bet-sum'])),
     getWinSum: getValue(request(users['get-win-sum'])),
     getTop: getAll(request(users['get-top'])),
   },
@@ -70,7 +76,7 @@ module.exports = {
     getGroupByWallet: getAll(request(refPayments['get-group-by-wallet'])),
   },
   refWithdraws: {
-    add: getValue(request(refWithdraws['add'])),
+    add: getId(request(refWithdraws['add'])),
     setComplete: getRow(request(refWithdraws['set-complete'])),
     getByWallet: getAll(request(refWithdraws['get-by-wallet'])),
     getByCode: getRow(request(refWithdraws['get-by-code'])),
@@ -95,12 +101,35 @@ module.exports = {
     getByLimit: getAll(request(dice['get-by-limit'])),
   },
   wheel: {
-    add: getId(request(wheel['add'])),
+    add: getValue(request(wheel['add'])),
     setFinish: request(wheel['set-finish']),
     setConfirm: request(wheel['set-confirm']),
     getByStatus: getAll(request(wheel['get-by-status'])),
     getByWallet: getAll(request(wheel['get-by-wallet'])),
     getByLimit: getAll(request(wheel['get-by-limit'])),
+  },
+  burn: {
+    add: getId(request(burn['add'])),
+    getByLimit: getAll(request(burn['get-by-limit'])),
+  },
+  freeze: {
+    add: getId(request(freeze['add'])),
+    setComplete: request(freeze['set-complete']),
+    getAwaiting: getAll(request(freeze['get-awaiting'])),
+    getSum: getValue(request(freeze['get-sum'])),
+    getByWallet: getAll(request(freeze['get-by-wallet'])),
+    getByLimit: getAll(request(freeze['get-by-limit'])),
+    getUserSum: getValue(request(freeze['get-user-sum'])),
+    getUsersAmounts: getAll(request(freeze['get-users-amounts'])),
+  },
+  operationProfit: {
+    add: getId(request(operationProfit['add'])),
+    getNoComplete: getValue(request(operationProfit['get-no-complete'])),
+    setCompleteAll: request(operationProfit['set-complete-all']),
+  },
+  dividends: {
+    add: getId(request(dividends['add'])),
+    getUserSum: getValue(request(dividends['get-user-sum'])),
   },
   auction: {
     add: getId(request(auction['add'])),

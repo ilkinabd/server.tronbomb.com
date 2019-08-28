@@ -4,6 +4,7 @@ const io = require('socket.io-client');
 
 const db = require('@db');
 const { updateLevel, referrerProfit } = require('@utils/users');
+const { mining } = require('@utils/mining');
 
 const startBlock = parseInt(WHEEL_START_BLOCK);
 const gameDuration = parseInt(WHEEL_DURATION);
@@ -24,13 +25,17 @@ const takePart = async(data) => {
   let userId = await db.users.getId({ wallet });
   if (!userId) userId = await db.users.add({ wallet });
 
-  await db.wheel.add({ index, finishBlock, userId, bet, sector });
+  if (tokenId === 0) await mining(bet, wallet);
+
+  const params = { index, finishBlock, userId, bet, tokenId, sector };
+  const time = await db.wheel.add(params);
+  const symbol = await db.tokens.getSymbol({ tokenId });
 
   updateLevel(wallet);
   referrerProfit(wallet, index, bet, 'wheel');
 
-  const gameIndex = Math.floor((finishBlock - startBlock) / gameDuration) - 1;
-  chanel.emit('take-part', { index: gameIndex, wallet, bet, tokenId, sector });
+  const game = Math.floor((finishBlock - startBlock) / gameDuration) - 1;
+  chanel.emit('wheel-bet', { index: game, wallet, bet, symbol, sector, time });
 };
 
 const reward = async(data) => {
