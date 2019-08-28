@@ -15,9 +15,10 @@ module.exports = {
       FROM "auction"
       WHERE "auction_number" = $auctionNumber;`,
 
-  'get-all-bets': `
-      SELECT "auction_id", "user_id", "bet"
+  'get-by-limit': `
+      SELECT "wallet", "bet"
       FROM "auction"
+      NATURAL JOIN "users"
       WHERE "auction_number" = $auctionNumber
       ORDER BY "bet" DESC
       LIMIT $limit;`,
