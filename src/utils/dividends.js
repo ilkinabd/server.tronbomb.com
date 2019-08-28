@@ -3,13 +3,11 @@ const { PLATFORM_BALANCE } = process.env;
 const db = require('@db');
 const node = require('@controllers/node');
 
-const nextPayoutTimeout = () => {
-  const result = new Date().setUTCHours(12, 0, 0);
-  if (result > Date.now()) {
-    result.setDate(new Date(result).getDate() + 1);
-  }
+const day = 24 * 60 * 60 * 1000;
 
-  return result.getTime();
+const nextPayoutTimeout = () => {
+  const result = new Date().setUTCHours(12, 0, 0) - Date.now();
+  return (result > 0) ? result : result + day;
 };
 
 const operatingProfit = async() => {
@@ -18,7 +16,7 @@ const operatingProfit = async() => {
   return balanceTRX - PLATFORM_BALANCE;
 };
 
-const getUserProfit = async(userId, operatingProfit) => {
+const userProfit = async(userId, operatingProfit) => {
   const frozenBombSum = await db.freeze.getSum();
   if (frozenBombSum === 0) return 0;
   const userFrozenBombs = await db.freeze.getUserSum(userId);
@@ -29,5 +27,5 @@ const getUserProfit = async(userId, operatingProfit) => {
 module.exports = {
   nextPayoutTimeout,
   operatingProfit,
-  getUserProfit,
+  userProfit,
 };

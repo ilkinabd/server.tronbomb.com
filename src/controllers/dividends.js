@@ -1,30 +1,28 @@
 const db = require('@db');
 const node = require('@controllers/node');
 const {
-  getNextPayoutTimestamp,
-  getOperatingProfit,
-  getUserProfit,
+  nextPayoutTimeout, operatingProfit, userProfit
 } = require('@utils/dividends');
-const { resSuccess } = require('@utils/res-builder');
+const { successRes } = require('@utils/res-builder');
 
-const dividendsInfo = async(req, res) => {
-  const frozenBombSum = await db.freeze.getSum();
+const info = async(req, res) => {
   const { wallet } = req.query;
-  const userID = db.users.getId(wallet);
-  const { totalMined } = await node.tools.totalMined();
-  const operatingProfit = await getOperatingProfit();
+
+  const userId = await db.users.getId(wallet);
+
+  const profit = await operatingProfit();
 
   const params = {
-    nextPayout: getNextPayoutTimestamp(),
-    userProfit: await getUserProfit(userID, operatingProfit),
-    operatingProfit,
-    frozenBombSum,
-    totalMined,
+    nextPayout: Date.now() + nextPayoutTimeout(),
+    userProfit: await userProfit(userId, profit),
+    operatingProfit: profit,
+    frozenBombSum: await db.freeze.getSum(),
+    totalMined: (await node.tools.totalMined()).totalMined,
   };
 
-  res.json(resSuccess(params));
+  successRes(res, params);
 };
 
 module.exports = {
-  dividendsInfo,
+  info,
 };
