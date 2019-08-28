@@ -142,5 +142,6 @@ module.exports = {
     getByLimit: getAll(request(auction['get-by-limit'])),
     getAll: getAll(request(auction['get-all'])),
     setPrize: request(auction['set-prize']),
+    getLastWinner: getRow(request(auction['get-last-winner'])),
   },
 };

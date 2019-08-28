@@ -34,4 +34,12 @@ module.exports = {
       UPDATE "auction"
       SET ("prize", "status") = ($prize, 'finish')
       WHERE "auction_id" = $auctionId;`,
+
+  'get-last-winner': `
+      SELECT "wallet", "bet", "prize", "status", "time"
+      FROM "auction"
+      NATURAL JOIN "users"
+      WHERE "status" = 'finish'
+      ORDER BY "time" DESC
+      LIMIT 1;`
 };
