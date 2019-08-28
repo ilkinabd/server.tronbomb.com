@@ -128,5 +128,6 @@ module.exports = {
   dividends: {
     add: getId(request(dividends['add'])),
     getUserSum: getValue(request(dividends['get-user-sum'])),
+    getByLimit: getAll(request(dividends['get-by-limit'])),
   }
 };
