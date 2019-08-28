@@ -16,7 +16,7 @@ module.exports = {
       WHERE "auction_number" = $auctionNumber;`,
 
   'get-by-limit': `
-      SELECT "wallet", "bet"
+      SELECT "wallet", "bet", "time"
       FROM "auction"
       NATURAL JOIN "users"
       WHERE "auction_number" = $auctionNumber

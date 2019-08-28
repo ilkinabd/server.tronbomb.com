@@ -1,7 +1,7 @@
 const db = require('@db');
 const { newMessage } = require('@controllers/chat');
 
-const { currentAuctionNumber } = require('@utils/auction');
+const { currentAuctionNumber, expectedPrize } = require('@utils/auction');
 const { nextPayoutTimeout } = require('@utils/dividends');
 
 db.sockets.clear();
@@ -24,10 +24,10 @@ const joinWheel = async(socket) => {
 };
 const joinAuction = async(socket) => {
   const auctionNumber = currentAuctionNumber();
-  const bets = await db.auction.getAllBets({ auctionNumber, limit: 100 });
+  const bets = await db.auction.getByLimit({ auctionNumber, limit: 100 });
   const lastWinner = await db.auction.getLastWinner();
   const params = {
-    bets,
+    bets: await expectedPrize(bets),
     lastWinner,
     nextPayout: Date.now() + nextPayoutTimeout()
   };
