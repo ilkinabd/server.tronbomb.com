@@ -2,13 +2,13 @@ module.exports = {
   'add': `
     INSERT INTO "auction" (
         "user_id",
-        "status",
+        "auction_number",
         "bet"
     ) VALUES (
         (SELECT "user_id" FROM "users" WHERE "wallet" = $wallet),
-        $status,
+        $auctionNumber,
         $bet
-    ) RETURNING "auction_id" as "id";`,
+    ) RETURNING "time" as "value";`,
 
   'get-max-bet': `
     SELECT COALESCE (
