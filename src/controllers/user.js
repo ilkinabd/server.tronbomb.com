@@ -40,9 +40,8 @@ const frozenHistory = async(req, res) => {
 
 const totalFreeze = async(req, res) => {
   const { wallet } = req.query;
-  const userId = await db.users.getId(wallet);
-  const totalFreeze = await db.freeze.getUserSum({ userId });
-  res.json(resSuccess({ totalFreeze }));
+  const sum = await db.freeze.getUserSum({ wallet });
+  successRes(res, { sum });
 };
 
 module.exports = {

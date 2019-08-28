@@ -34,7 +34,8 @@ module.exports = {
   'get-user-sum': `
       SELECT COALESCE(SUM("amount"), 0) AS "value"
       FROM "freeze"
-      WHERE "user_id" = $userId;`,
+      NATURAL JOIN "users"
+      WHERE "wallet" = $wallet;`,
 
   'get-users-amounts': `
       SELECT
