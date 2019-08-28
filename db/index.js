@@ -141,5 +141,6 @@ module.exports = {
     getMaxBet: getValue(request(auction['get-max-bet'])),
     getAllBets: getAll(request(auction['get-all-bets'])),
     setPrize: request(auction['set-prize']),
+    getLastWinner: getRow(request(auction['get-last-winner'])),
   },
 };
