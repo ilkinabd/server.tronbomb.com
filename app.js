@@ -10,6 +10,7 @@ const user = require('@routes/user');
 const portal = require('@routes/portal');
 const referral = require('@routes/referral');
 const dividends = require('@routes/dividends');
+const auction = require('@routes/auction');
 
 const app = express();
 
@@ -44,5 +45,6 @@ app.use('/user', user);
 app.use('/portal', portal);
 app.use('/referral', referral);
 app.use('/dividends', dividends);
+app.use('/auction', auction);
 
 module.exports = app;
