@@ -8,7 +8,6 @@ const bomb = require('@routes/bomb');
 const chat = require('@routes/chat');
 const user = require('@routes/user');
 const portal = require('@routes/portal');
-const auction = require('@routes/auction');
 const referral = require('@routes/referral');
 const dividends = require('@routes/dividends');
 
@@ -43,7 +42,6 @@ app.use('/bomb', bomb);
 app.use('/chat', chat);
 app.use('/user', user);
 app.use('/portal', portal);
-app.use('/auction', auction);
 app.use('/referral', referral);
 app.use('/dividends', dividends);
 
