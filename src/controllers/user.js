@@ -20,6 +20,18 @@ const totalWin = async(req, res) => {
   res.json(resSuccess({ sum }));
 };
 
+const totalFreeze = async(req, res) => {
+  const { wallet } = req.query;
+  const sum = await db.freeze.getUserSum({ wallet });
+  successRes(res, { sum });
+};
+
+const totalProfit = async(req, res) => {
+  const { wallet } = req.query;
+  const sum = await db.dividends.getUserSum({ wallet });
+  successRes(res, { sum });
+};
+
 const diceHistory = async(req, res) => {
   const { wallet } = req.query;
   const games = await db.dice.getByWallet({ wallet });
@@ -38,18 +50,13 @@ const frozenHistory = async(req, res) => {
   successRes(res, { operations });
 };
 
-const totalFreeze = async(req, res) => {
-  const { wallet } = req.query;
-  const sum = await db.freeze.getUserSum({ wallet });
-  successRes(res, { sum });
-};
-
 module.exports = {
   getLevel,
   totalBet,
   totalWin,
+  totalFreeze,
+  totalProfit,
   diceHistory,
   wheelHistory,
   frozenHistory,
-  totalFreeze,
 };

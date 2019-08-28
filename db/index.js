@@ -127,5 +127,6 @@ module.exports = {
   },
   dividends: {
     add: getId(request(dividends['add'])),
+    getUserSum: getValue(request(dividends['get-user-sum'])),
   }
 };
