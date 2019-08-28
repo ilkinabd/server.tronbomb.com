@@ -19,6 +19,8 @@ const dividends = require('./requests/dividends');
 const dice = require('./requests/dice');
 const wheel = require('./requests/wheel');
 
+const auction = require('./requests/auction');
+
 const client = new PgClient({
   host: PG_HOST,
   user: PG_USER,
@@ -133,5 +135,13 @@ module.exports = {
     add: getId(request(dividends['add'])),
     getUserSum: getValue(request(dividends['get-user-sum'])),
     getByLimit: getAll(request(dividends['get-by-limit'])),
-  }
+  },
+  auction: {
+    add: getValue(request(auction['add'])),
+    getMaxBet: getValue(request(auction['get-max-bet'])),
+    getByLimit: getAll(request(auction['get-by-limit'])),
+    getAll: getAll(request(auction['get-all'])),
+    setPrize: request(auction['set-prize']),
+    getLastWinner: getRow(request(auction['get-last-winner'])),
+  },
 };

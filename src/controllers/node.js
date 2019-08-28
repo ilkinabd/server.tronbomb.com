@@ -51,6 +51,7 @@ module.exports = {
     totalMined: getRequest('/tools/total_mined'),
   },
   fund: {
+    balance: getRequest('/fund/balance'),
     transfer: postRequest('/fund/transfer'),
     transferBOMB: postRequest('/fund/transfer_bomb'),
     freezeAll: postRequest('/fund/freeze_all'),

@@ -3,9 +3,11 @@ const { MIN_OPERATION_PROFIT } = process.env;
 const { nextPayoutTimeout, operatingProfit } = require('@utils/dividends');
 const node = require('@controllers/node');
 const db = require('@db');
+const { finishAuction } = require('@workers/auction/finish');
 
 const day = 24 * 60 * 60 * 1000;
 const timeout = nextPayoutTimeout();
+let chanel;
 
 const fillPortal = async(profit) => {
   const amount = -profit;
@@ -27,7 +29,6 @@ const payRewards = async(profit) => {
 
     const params = { to: wallet, amount: dividend };
 
-    console.log(params);
     const result = await node.portal.func.withdraw(params);
     if (result.status === 'success')
       await db.dividends.add({ wallet, amount: dividend });
@@ -42,10 +43,17 @@ const calculateProfit = async() => {
   if (amount < 0) return await fillPortal(amount);
 
   const noCompleteProfit = await db.operationProfit.getNoComplete();
-  if (noCompleteProfit > MIN_OPERATION_PROFIT) payRewards(noCompleteProfit);
+  if (noCompleteProfit > MIN_OPERATION_PROFIT) {
+    await finishAuction(chanel);
+    payRewards(noCompleteProfit);
+  }
 };
 
 setTimeout(() => {
   calculateProfit();
   setInterval(calculateProfit, day);
 }, timeout);
+
+module.exports = (ioChanel) => {
+  chanel = ioChanel;
+};

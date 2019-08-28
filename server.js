@@ -16,10 +16,12 @@ require('@workers/wheel/start-finish')(io.in('wheel'));
 
 require('@workers/rating')(io.in('rating'));
 require('@workers/operations');
-require('@workers/dividends');
+require('@workers/dividends')(io.in('auction'));
 
 require('@workers/bomb/burn');
 require('@workers/bomb/freeze');
+
+require('@workers/auction/bets.js')(io.in('auction'));
 
 server.listen(NODE_PORT, NODE_URL, () => {
   console.info(`${NODE_URL}:${NODE_PORT}`);
