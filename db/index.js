@@ -14,6 +14,7 @@ const refWithdraws = require('./requests/ref-withdraws');
 const burn = require('./requests/burn');
 const freeze = require('./requests/freeze');
 const operationProfit = require('./requests/operation-profit');
+const dividends = require('./requests/dividends');
 
 const dice = require('./requests/dice');
 const wheel = require('./requests/wheel');
@@ -124,4 +125,7 @@ module.exports = {
     getNoComplete: getValue(request(operationProfit['get-no-complete'])),
     setCompleteAll: request(operationProfit['set-complete-all']),
   },
+  dividends: {
+    add: getId(request(dividends['add'])),
+  }
 };
