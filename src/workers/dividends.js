@@ -7,6 +7,7 @@ const { finishAuction } = require('@workers/auction/finish');
 
 const day = 24 * 60 * 60 * 1000;
 const timeout = nextPayoutTimeout();
+let chanel;
 
 const fillPortal = async(profit) => {
   const amount = -profit;
@@ -43,7 +44,7 @@ const calculateProfit = async() => {
 
   const noCompleteProfit = await db.operationProfit.getNoComplete();
   if (noCompleteProfit > MIN_OPERATION_PROFIT) {
-    await finishAuction();
+    await finishAuction(chanel);
     payRewards(noCompleteProfit);
   }
 };
@@ -52,3 +53,7 @@ setTimeout(() => {
   calculateProfit();
   setInterval(calculateProfit, day);
 }, timeout);
+
+module.exports = (ioChanel) => {
+  chanel = ioChanel;
+};

@@ -17,19 +17,22 @@ const payRewards = async(topBets) => {
 };
 
 const sendBackBomb = async(loseBets) => {
-  for (const { wallet, bet } of loseBets) {
+  for (const { auctionId, wallet, bet } of loseBets) {
     const type = 'auction';
     node.fund.transferBOMB({ to: wallet, amount: bet, type });
+    db.auction.setPrize({ auctionId, prize: 0 });
   }
 };
 
-const finishAuction = async() => {
+const finishAuction = async(chanel) => {
   const auctionNumber = currentAuctionNumber();
   const payload = await db.auction.getAll({ auctionNumber });
   const bets = await expectedPrize(payload);
 
   const topBets = bets.slice(0, 10);
   const loseBets = bets.slice(10);
+
+  chanel.emit('auction-finish', { topBets });
 
   await payRewards(topBets);
   await sendBackBomb(loseBets);
