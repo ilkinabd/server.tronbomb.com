@@ -21,7 +21,7 @@ const auctionBet = async(data) => {
 
   const time = await db.auction.add({ wallet, bet, auctionNumber });
 
-  console.log(time, bet, wallet, auctionNumber);
+  chanel.emit('auction-bet', { time, bet, wallet, auctionNumber });
 };
 
 socket.on('auction-bet', auctionBet);
