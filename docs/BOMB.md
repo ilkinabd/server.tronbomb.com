@@ -50,7 +50,7 @@ console.log(await getBalance('THnUkSQpPMpXMRSRNywrn5qpgrN7oLvSHQ'));
 ...
 ```
 
-3. Freeze.
+3. Transfer.
 
 ```
 ...
@@ -64,11 +64,10 @@ const processError = (payload) => {
 
 ...
 
-// period in days
-const freeze = async(amount, period) => {
-  const freezeAmount = amount * 10 ** 6;
+const transfer = async(to, amount) => {
+  const transferAmount = Math.floor(amount * 10 ** 6);
 
-  const result = await portalContract.freeze(freezeAmount, period).send({
+  const result = await portalContract.transfer(to, transferAmount).send({
     shouldPollResponse: true,
   }).catch(processError);
 
@@ -77,7 +76,40 @@ const freeze = async(amount, period) => {
 
 ...
 
-console.log(await freeze(10, 2));
+console.log(await transfer('TMzciXEzxGvr74Kh7xSarvqf7RKPyWpeM8', 10));
+
+...
+```
+
+4. Freeze and unfreeze.
+
+```
+...
+
+const freeze = async(amount) => {
+  const freezeAmount = Math.floor(amount * 10 ** 6);
+
+  const result = await portalContract.freeze(freezeAmount).send({
+    shouldPollResponse: true,
+  }).catch(processError);
+
+  return result;
+}
+
+const unfreeze = async(amount) => {
+  const freezeAmount = Math.floor(amount * 10 ** 6);
+
+  const result = await portalContract.unfreeze(freezeAmount).send({
+    shouldPollResponse: true,
+  }).catch(processError);
+
+  return result;
+}
+
+...
+
+console.log(await freeze(10));
+console.log(await unfreeze(10));
 
 ...
 ```
