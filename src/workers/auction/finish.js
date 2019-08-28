@@ -1,22 +1,40 @@
 const db = require('@db');
-const { AUCTION } = process.env;
+const node = require('@controllers/node');
+const { currentAuctionNumber, expectedPrize } = require('@utils/auction');
 
-const giveRewards = async() => {
-  const constants = JSON.parse(AUCTION);
-  const aucNumber = 1; //todo: get current auc number here
-  const winnerBets = await db.auction
-    .getAllBets({ aucNumber, limit: constants.WINNERS_COUNT });
+const payRewards = async(topBets) => {
+  let burnFund = 0;
+  const type = 'auction';
 
-  const aucFund = 10000; //todo: get auc fund here
+  for (const { auctionId, wallet, bet, expected } of topBets) {
+    node.fund.transfer({ to: wallet, amount: expected, type });
+    db.auction.setPrize({ auctionId, prize: expected });
+    burnFund += bet;
+  }
 
-  for (let i = 0; i < winnerBets.length; i++) {
-    const item = winnerBets[i];
-    const prize = aucFund * constants['PAYOUT_COEFS'][i];
+  const zeroAddress = 'T9yD14Nj9j7xAB4dbGeiX9h8unkKHxuWwb';
+  node.fund.transferBOMB({ to: zeroAddress, amount: burnFund, type });
+};
 
-    await db.auction.setPrize({ id: item.auction_id, prize });
+const sendBackBomb = async(loseBets) => {
+  for (const { wallet, bet } of loseBets) {
+    const type = 'auction';
+    node.fund.transferBOMB({ to: wallet, amount: bet, type });
   }
 };
 
+const finishAuction = async() => {
+  const auctionNumber = currentAuctionNumber();
+  const payload = await db.auction.getAll({ auctionNumber });
+  const bets = await expectedPrize(payload);
+
+  const topBets = bets.slice(0, 10);
+  const loseBets = bets.slice(10);
+
+  await payRewards(topBets);
+  await sendBackBomb(loseBets);
+};
+
 module.exports = {
-  giveRewards,
+  finishAuction,
 };

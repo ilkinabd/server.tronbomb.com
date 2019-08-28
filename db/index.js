@@ -140,6 +140,7 @@ module.exports = {
     add: getValue(request(auction['add'])),
     getMaxBet: getValue(request(auction['get-max-bet'])),
     getByLimit: getAll(request(auction['get-by-limit'])),
+    getAll: getAll(request(auction['get-all'])),
     setPrize: request(auction['set-prize']),
   },
 };

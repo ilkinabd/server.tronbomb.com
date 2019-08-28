@@ -23,8 +23,15 @@ module.exports = {
       ORDER BY "bet" DESC
       LIMIT $limit;`,
 
+  'get-all': `
+      SELECT "auction_id" AS "auctionId", "wallet", "bet"
+      FROM "auction"
+      NATURAL JOIN "users"
+      WHERE "auction_number" = $auctionNumber
+      ORDER BY "bet" DESC;`,
+
   'set-prize': `
-    UPDATE "auction"
-    SET "prize" = $prize
-    WHERE "auction_id" = $id;`,
+      UPDATE "auction"
+      SET ("prize", "status") = ($prize, 'finish')
+      WHERE "auction_id" = $auctionId;`,
 };

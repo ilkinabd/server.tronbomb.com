@@ -3,6 +3,7 @@ const { MIN_OPERATION_PROFIT } = process.env;
 const { nextPayoutTimeout, operatingProfit } = require('@utils/dividends');
 const node = require('@controllers/node');
 const db = require('@db');
+const { finishAuction } = require('@workers/auction/finish');
 
 const day = 24 * 60 * 60 * 1000;
 const timeout = nextPayoutTimeout();
@@ -41,7 +42,10 @@ const calculateProfit = async() => {
   if (amount < 0) return await fillPortal(amount);
 
   const noCompleteProfit = await db.operationProfit.getNoComplete();
-  if (noCompleteProfit > MIN_OPERATION_PROFIT) payRewards(noCompleteProfit);
+  if (noCompleteProfit > MIN_OPERATION_PROFIT) {
+    await finishAuction();
+    payRewards(noCompleteProfit);
+  }
 };
 
 setTimeout(() => {
