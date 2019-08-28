@@ -137,7 +137,7 @@ module.exports = {
     getByLimit: getAll(request(dividends['get-by-limit'])),
   },
   auction: {
-    add: getId(request(auction['add'])),
+    add: getValue(request(auction['add'])),
     getMaxBet: getValue(request(auction['get-max-bet'])),
     getAllBets: getAll(request(auction['get-all-bets'])),
     setPrize: request(auction['set-prize']),
