@@ -1,4 +1,5 @@
 const { NODE, NODE_TOKEN } = process.env;
+const { ENABLED } = JSON.parse(process.env.AUCTION);
 
 const io = require('socket.io-client');
 
@@ -21,7 +22,7 @@ const auctionBet = async(data) => {
   const auctionNumber = currentAuctionNumber();
 
   const maxBet = await db.auction.getMaxBet({ auctionNumber });
-  if (bet >= maxBet + 1) {
+  if (bet >= maxBet + 1 && ENABLED) {
     await db.auction.add({ wallet, bet, auctionNumber });
 
     const bets = await db.auction.getByLimit({ auctionNumber, limit: 10 });
