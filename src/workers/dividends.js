@@ -29,7 +29,9 @@ const payRewards = async(profit) => {
     const params = { to: wallet, amount: dividend };
 
     console.log(params);
-    node.portal.func.withdraw(params);
+    const result = await node.portal.func.withdraw(params);
+    if (result.status === 'success')
+      await db.dividends.add({ wallet, amount: dividend });
   }
 };
 
