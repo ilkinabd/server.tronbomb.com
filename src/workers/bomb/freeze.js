@@ -33,7 +33,8 @@ const unfreeze = async(data) => {
   let userId = await db.users.getId({ wallet });
   if (!userId) userId = await db.users.add({ wallet });
 
-  const userFreeze = await db.freeze.getUserSum({ userId });
+  const userFreeze = await db.freeze.getUserSum({ wallet });
+
   if (userFreeze < amount) return;
 
   const type = 'unfreeze';

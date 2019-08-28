@@ -11,4 +11,14 @@ module.exports = {
       FROM "dividends"
       NATURAL JOIN "users"
       WHERE "wallet" = $wallet;`,
+
+  'get-by-limit': `
+      SELECT
+          "wallet",
+          "amount",
+          "time"
+      FROM "dividends"
+      NATURAL JOIN "users"
+      ORDER BY "dividend_id" DESC
+      LIMIT $limit;`,
 };

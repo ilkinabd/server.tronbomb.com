@@ -22,7 +22,6 @@ const payRewards = async(profit) => {
   const usersAmounts = await db.freeze.getUsersAmounts();
   const totalFreeze = await db.freeze.getSum();
 
-  console.log(usersAmounts);
   for (const { wallet, amount } of usersAmounts) {
     const dividend = profit * (amount / totalFreeze);
 

@@ -16,10 +16,10 @@ const operatingProfit = async() => {
   return balanceTRX - PLATFORM_BALANCE;
 };
 
-const userProfit = async(userId, operatingProfit) => {
+const userProfit = async(wallet, operatingProfit) => {
   const frozenBombSum = await db.freeze.getSum();
   if (frozenBombSum === 0) return 0;
-  const userFrozenBombs = await db.freeze.getUserSum(userId);
+  const userFrozenBombs = await db.freeze.getUserSum({ wallet });
   const result = operatingProfit * (userFrozenBombs / frozenBombSum);
   return result;
 };

@@ -28,6 +28,14 @@ module.exports = {
       SET "confirmed" = TRUE
       WHERE "index" = $index;`,
 
+  'get-bet-sum': `
+      SELECT COALESCE(SUM("bet"), 0) AS "value"
+      FROM "dice";`,
+
+  'get-prize-sum': `
+      SELECT COALESCE(SUM("prize"), 0) AS "value"
+      FROM "dice";`,
+
   'get-by-index': `
       SELECT
           "index",
