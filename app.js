@@ -6,9 +6,10 @@ const cors = require('cors');
 
 const bomb = require('@routes/bomb');
 const chat = require('@routes/chat');
+const user = require('@routes/user');
 const portal = require('@routes/portal');
 const referral = require('@routes/referral');
-const user = require('@routes/user');
+const dividends = require('@routes/dividends');
 
 const app = express();
 
@@ -39,8 +40,9 @@ app.get('/', (_req, res) => {
 
 app.use('/bomb', bomb);
 app.use('/chat', chat);
+app.use('/user', user);
 app.use('/portal', portal);
 app.use('/referral', referral);
-app.use('/user', user);
+app.use('/dividends', dividends);
 
 module.exports = app;

@@ -16,6 +16,7 @@ require('@workers/wheel/start-finish')(io.in('wheel'));
 
 require('@workers/rating')(io.in('rating'));
 require('@workers/operations');
+require('@workers/dividends');
 
 require('@workers/bomb/burn');
 require('@workers/bomb/freeze');

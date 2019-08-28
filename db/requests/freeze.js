@@ -2,35 +2,48 @@ module.exports = {
   'add': `
       INSERT INTO "freeze" (
           "hash",
+          "type",
           "user_id",
-          "amount",
-          "finish"
+          "amount"
       ) VALUES (
           $hash,
+          $type,
           $userId,
-          $amount,
-          $finishTime::TIMESTAMP AT TIME ZONE 'UTC'
-      ) RETURNING "tx_id" as "id";`,
+          $amount
+      ) RETURNING "tx_id" AS "id";`,
 
   'set-complete': `
       UPDATE "freeze"
       SET "status" = 'complete'
       WHERE "tx_id" = $txId;`,
 
-  'get-actives': `
+  'get-awaiting': `
       SELECT
-          "tx_id" as "txId",
-          "finish",
-          "amount",
+          "tx_id" AS "txId",
+          "time",
+          -"amount" AS "amount",
           "wallet"
       FROM "freeze"
       NATURAL JOIN "users"
-      WHERE "status" = 'active';`,
+      WHERE "type" = 'unfreeze' AND "status" = 'awaiting';`,
 
   'get-sum': `
       SELECT COALESCE(SUM("amount"), 0) AS "value"
+      FROM "freeze";`,
+
+  'get-user-sum': `
+      SELECT COALESCE(SUM("amount"), 0) AS "value"
       FROM "freeze"
-      WHERE "status" = 'active';`,
+      NATURAL JOIN "users"
+      WHERE "wallet" = $wallet;`,
+
+  'get-users-amounts': `
+      SELECT
+          "wallet",
+          SUM("amount") as "amount"
+      FROM "freeze"
+      NATURAL JOIN "users"
+      GROUP BY "wallet"`,
 
   'get-by-wallet': `
       SELECT

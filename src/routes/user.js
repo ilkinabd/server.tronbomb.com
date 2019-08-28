@@ -13,6 +13,12 @@ router.route('/total_bet')
 router.route('/total_win')
   .get(validate('getUserData'), controller.totalWin);
 
+router.route('/total_freeze')
+  .get(validate('getUserData'), controller.totalFreeze);
+
+router.route('/total_profit')
+  .get(validate('getUserData'), controller.totalProfit);
+
 router.route('/history/dice')
   .get(validate('getUserData'), controller.diceHistory);
 
