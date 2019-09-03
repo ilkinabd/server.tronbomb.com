@@ -139,6 +139,7 @@ module.exports = {
   },
   mining: {
     add: getId(request(mining['add'])),
+    getUserSum: getValue(request(mining['get-user-sum'])),
   },
   auction: {
     add: getValue(request(auction['add'])),

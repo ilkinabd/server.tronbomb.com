@@ -1,11 +1,11 @@
 const {
-  NODE, NODE_TOKEN, WITHDRAW_FEE, MIN_WITHDRAW, MAX_WITHDRAW
+  NODE, NODE_TOKEN, WITHDRAW_FEE, MIN_WITHDRAW, MAX_WITHDRAW, MIN_MINE
 } = process.env;
 
 const io = require('socket.io-client');
 
 const db = require('@db');
-const node = require('@controllers/node');
+const { fund, bomb } = require('@controllers/node');
 
 const socket = io.connect(NODE, { reconnect: true });
 const fee = parseFloat(WITHDRAW_FEE);
@@ -26,7 +26,7 @@ const withdrawReferralProfit = async(wallet, to, amount, txId) => {
   if (profit < delta) return;
 
   const type = 'referral-rewards';
-  const payload = await node.fund.transfer({ to, amount, type });
+  const payload = await fund.transfer({ to, amount, type });
   if (!payload || !payload.txID) return;
 
   await db.refWithdraws.setComplete({ txId, hash: payload.txID });
@@ -41,4 +41,14 @@ const referralProfit = async(data) => {
   withdrawReferralProfit(wallet, to, amount, txId);
 };
 
+const mine = async(data) => {
+  const { wallet } = data;
+  const sum = await db.mining.getUserSum({ wallet });
+  if (sum < MIN_MINE) return;
+
+  await db.mining.add({ type: 'withdraw', wallet, amount: -sum });
+  await bomb.func.transfer({ to: wallet, amount: sum });
+};
+
 socket.on('withdraw-referral-profit', referralProfit);
+socket.on('mine', mine);
