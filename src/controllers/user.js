@@ -20,6 +20,12 @@ const totalWin = async(req, res) => {
   res.json(resSuccess({ sum }));
 };
 
+const totalMine = async(req, res) => {
+  const { wallet } = req.query;
+  const sum = await db.mining.getUserSum({ wallet });
+  res.json(resSuccess({ sum }));
+};
+
 const totalFreeze = async(req, res) => {
   const { wallet } = req.query;
   const sum = await db.freeze.getUserSum({ wallet });
@@ -54,6 +60,7 @@ module.exports = {
   getLevel,
   totalBet,
   totalWin,
+  totalMine,
   totalFreeze,
   totalProfit,
   diceHistory,
