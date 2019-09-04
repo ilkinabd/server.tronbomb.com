@@ -81,7 +81,39 @@ console.log(await transfer('TMzciXEzxGvr74Kh7xSarvqf7RKPyWpeM8', 10));
 ...
 ```
 
-4. Freeze and unfreeze.
+4. Mine.
+
+```
+...
+
+let operationsContract;
+
+...
+
+operationsContract = await tronWeb.contract().at(< operations address >);
+
+...
+
+const processError = (payload) => {
+  const output = payload.output.contractResult[0];
+  const message = output.slice(136, output.indexOf('2e') + 2);
+  const error = (!message) ? 'FAILED.' : tronWeb.toAscii(message);
+  console.log(error);
+}
+
+...
+
+const mine = async() => {
+  await operationsContract.mine()
+    .send({ shouldPollResponse: true })
+    .catch(processError);
+
+  return true;
+}
+
+...
+
+5. Freeze and unfreeze.
 
 ```
 ...

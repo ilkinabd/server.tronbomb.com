@@ -1,5 +1,5 @@
 # Server
-v0.9.3 Aug 28, 2019
+v0.9.4 Sep 4, 2019
 
 Server for **TronBomb** games.
 
@@ -92,7 +92,10 @@ env:
 
   UNFREEZE_TIME     : 86400000                     # Unfreeze BOMB amount
 
-  START_MINING      : '2019-08-26T12:00:00.000Z'   # Start mining time
+  START_MINING : '2019-08-26T12:00:00.000Z'        # Start mining time
+  FUND_DELAY   : 300000                            # Withdraw and freeze fonds tokens < FUND_DELAY > before dividence distribution
+  TRONWEB_DELAY: 70000                             # Tronweb updates delay
+
   START_MINING_LEVEL: 50                           # First mining level
   MINING_LEVEL_DELTA: 10                           # Mining level delta
   # player, ad, random-jackpot, bet-amount-jackpot, technical, referral-rewards, team, auction
