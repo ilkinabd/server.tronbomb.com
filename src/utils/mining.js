@@ -19,46 +19,36 @@ const level = () => {
   return { level, step };
 };
 
-const getProfit = (type, count) => {
+const getProfit = (type, amount) => {
   switch (type) {
-    case 'ad': return profits[1] * count;
-    case 'random-jackpot': return profits[2] * count;
-    case 'bet-amount-jackpot': return profits[3] * count;
-    case 'technical': return profits[4] * count;
-    case 'referral-rewards': return profits[5] * count;
-    case 'team': return profits[6] * count;
-    case 'auction': return profits[7] * count;
-    default: return null;
+    case 'ad':                 return profits[1] * amount;
+    case 'random-jackpot':     return profits[2] * amount;
+    case 'bet-amount-jackpot': return profits[3] * amount;
+    case 'technical':          return profits[4] * amount;
+    case 'referral-rewards':   return profits[5] * amount;
+    case 'team':               return profits[6] * amount;
+    case 'auction':            return profits[7] * amount;
+    default: return 0;
   }
 };
 
-const payProfit = async(count, wallet) => {
+const fundsProfit = async(playerProfit) => {
   const { funds } = await node.tools.getFunds();
 
-  const rewards = Array.from(funds, (fund) => ({
-    to: fund.address,
-    amount: getProfit(fund.type, count),
-    type: fund.type,
-  })).filter(item => item.amount);
+  for (const { address: wallet, type } of funds) {
+    const amount = getProfit(type, playerProfit);
+    if (amount === 0) continue;
 
-  rewards.push({
-    to: wallet,
-    amount: profits[0] * count,
-  });
-
-  for (const { to, amount, type } of rewards) {
-    await node.bomb.func.transfer({ to, amount });
-    if (type) node.fund.freezeAll({ type });
+    await db.mining.add({ type: 'mine', wallet, amount });
   }
 };
 
 const mining = async(bet, wallet) => {
   const { step } = level();
+  const amount = bet / step;
+  await db.mining.add({ type: 'mine', wallet, amount });
 
-  const leftovers = (await db.users.getTRXBetSum({ wallet })) % step;
-  const count = Math.floor((leftovers + bet) / step);
-
-  if (count !== 0) payProfit(count, wallet);
+  fundsProfit(amount);
 };
 
 module.exports = {

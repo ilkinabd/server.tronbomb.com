@@ -15,6 +15,7 @@ const burn = require('./requests/burn');
 const freeze = require('./requests/freeze');
 const operationProfit = require('./requests/operation-profit');
 const dividends = require('./requests/dividends');
+const mining = require('./requests/mining');
 
 const dice = require('./requests/dice');
 const wheel = require('./requests/wheel');
@@ -135,6 +136,10 @@ module.exports = {
     add: getId(request(dividends['add'])),
     getUserSum: getValue(request(dividends['get-user-sum'])),
     getByLimit: getAll(request(dividends['get-by-limit'])),
+  },
+  mining: {
+    add: getId(request(mining['add'])),
+    getUserSum: getValue(request(mining['get-user-sum'])),
   },
   auction: {
     add: getValue(request(auction['add'])),

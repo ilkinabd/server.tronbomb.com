@@ -1,0 +1,2 @@
+DROP TABLE "mining";
+DROP TYPE MINING_TYPE;
