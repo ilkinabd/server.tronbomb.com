@@ -1,4 +1,4 @@
-const { NODE, NODE_TOKEN, UNFREEZE_TIME } = process.env;
+const { NODE, NODE_TOKEN, UNFREEZE_DELAY } = process.env;
 
 const io = require('socket.io-client');
 
@@ -14,7 +14,7 @@ socket.on('connect', () => {
   });
 });
 
-const unfreezeTime = parseInt(UNFREEZE_TIME);
+const delay = parseInt(UNFREEZE_DELAY);
 
 const freeze = async(data) => {
   const { amount, wallet, hash } = data;
@@ -42,21 +42,19 @@ const unfreezeAll = async(data) => {
   await db.freeze.add({ type, amount: -amount, userId });
 };
 
-const completeFrozen = async() => {
+const unfreezeWorker = async() => {
   const operations = await db.freeze.getAwaiting();
 
-  for (const { time, amount, wallet, txId } of operations) {
-    if (new Date(time).getTime() + unfreezeTime > Date.now()) continue;
+  for (const { time, amount, wallet: to, txId } of operations) {
+    if (new Date(time).getTime() + delay > Date.now()) continue;
 
-    await db.freeze.setComplete({ txId });
-
-    // TODO - other fund
-    const type = 'bomb-hodler';
-    await node.fund.transferBOMB({ to: wallet, amount, type });
+    const type = 'stack-hodler';
+    const hash = (await node.fund.transferBOMB({ to, amount, type })).result;
+    await db.freeze.setComplete({ hash, txId });
   }
 };
 
-setInterval(completeFrozen, 5000);
+setInterval(unfreezeWorker, 5000);
 
 socket.on('bomb-freeze', freeze);
 socket.on('bomb-unfreeze-all', unfreezeAll);
