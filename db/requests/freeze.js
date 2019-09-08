@@ -57,7 +57,7 @@ module.exports = {
   'get-users-amounts': `
       SELECT
           "wallet",
-          SUM("amount") as "amount"
+          SUM("amount") AS "amount"
       FROM "freeze"
       NATURAL JOIN "users"
       GROUP BY "wallet"`,
