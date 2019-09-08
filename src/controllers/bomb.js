@@ -1,6 +1,8 @@
+const { BUY_BACK_WALLET } = process.env;
+
 const db = require('@db');
 const { level } = require('@utils/mining');
-const { totalMined } = require('@controllers/node').tools;
+const { tools, bomb } = require('@controllers/node');
 const { successRes } = require('@utils/res-builder');
 
 const getBurn = async(_req, res) => {
@@ -14,7 +16,7 @@ const getTotalBurn = async(_req, res) => {
 };
 
 const getTotalMined = async(_req, res) => {
-  const sum = (await totalMined()).totalMined;
+  const sum = (await tools.totalMined()).totalMined;
   successRes(res, { sum });
 };
 
@@ -33,6 +35,12 @@ const miningLevel = async(_req, res) => {
   successRes(res, params);
 };
 
+const getBuyBackBalance = async(_req, res) => {
+  const address = BUY_BACK_WALLET;
+  const balance = (await bomb.get.balanceOf({ address })).amount;
+  successRes(res, { address, balance });
+};
+
 module.exports = {
   getBurn,
   getTotalBurn,
@@ -40,4 +48,5 @@ module.exports = {
   getFrozen,
   totalFrozen,
   miningLevel,
+  getBuyBackBalance,
 };

@@ -57,6 +57,9 @@ module.exports = {
     freezeAll: postRequest('/fund/freeze_all'),
   },
   bomb: {
+    get: {
+      balanceOf: getRequest('/bomb/get/balanceOf'),
+    },
     func: {
       transfer: postRequest('/bomb/func/transfer'),
     }

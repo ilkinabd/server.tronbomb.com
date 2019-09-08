@@ -21,4 +21,7 @@ router.route('/total_frozen')
 router.route('/mining_level')
   .get(controller.miningLevel);
 
+router.route('/buy_back_balance')
+  .get(controller.getBuyBackBalance);
+
 module.exports = router;
