@@ -50,9 +50,10 @@ const wheelHistory = async(req, res) => {
   res.json(resSuccess({ games }));
 };
 
-const frozenHistory = async(req, res) => {
+const getFreezeHistory = async(req, res) => {
   const { wallet } = req.query;
-  const operations = await db.freeze.getByWallet({ wallet });
+  const type = 'freeze';
+  const operations = await db.freeze.getByWallet({ type, wallet });
   successRes(res, { operations });
 };
 
@@ -65,5 +66,5 @@ module.exports = {
   totalProfit,
   diceHistory,
   wheelHistory,
-  frozenHistory,
+  getFreezeHistory,
 };

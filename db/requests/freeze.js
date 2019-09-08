@@ -57,11 +57,11 @@ module.exports = {
       SELECT
           "hash",
           "amount",
-          "type",
+          "time",
           "status"
       FROM "freeze"
-      NATURAL JOIN "users"
-      WHERE "wallet" = $wallet
+      WHERE "type" = $type AND "status" != 'cancel' AND
+      "user_id" = GET_USER_ID($wallet)
       ORDER BY "tx_id" DESC;`,
 
   'get-by-type-limit': `

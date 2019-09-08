@@ -17,7 +17,7 @@ router.route('/total_mine')
   .get(validate('getUserData'), controller.totalMine);
 
 router.route('/total_freeze')
-  .get(validate('getUserData'), controller.totalFreeze);
+  .get(validate('wallet'), controller.totalFreeze);
 
 router.route('/total_profit')
   .get(validate('getUserData'), controller.totalProfit);
@@ -28,7 +28,7 @@ router.route('/history/dice')
 router.route('/history/wheel')
   .get(validate('getUserData'), controller.wheelHistory);
 
-router.route('/history/frozen')
-  .get(validate('getUserData'), controller.frozenHistory);
+router.route('/history/freeze')
+  .get(validate('wallet'), controller.getFreezeHistory);
 
 module.exports = router;
