@@ -27,3 +27,7 @@ $$
   WHERE "wallet" = $1;
 $$
 LANGUAGE sql;
+
+--------------------------------------------------------------------------------
+
+ALTER TABLE "freeze" ALTER COLUMN "hash" DROP NOT NULL;

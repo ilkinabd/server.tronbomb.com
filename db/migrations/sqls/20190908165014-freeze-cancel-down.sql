@@ -20,3 +20,7 @@ ALTER TYPE NEW_FREEZE_STATUS RENAME TO FREEZE_STATUS;
 --------------------------------------------------------------------------------
 
 DROP FUNCTION GET_USER_ID;
+
+--------------------------------------------------------------------------------
+
+ALTER TABLE "freeze" ALTER COLUMN "hash" ADD NOT NULL;

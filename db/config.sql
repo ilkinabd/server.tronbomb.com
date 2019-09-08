@@ -180,7 +180,7 @@ CREATE TYPE FREEZE_TYPE AS ENUM (
 
 CREATE TABLE "freeze" (
   "tx_id"   SERIAL        NOT NULL,
-  "hash"    CHAR(64)      NOT NULL,
+  "hash"    CHAR(64),
   "user_id" INTEGER       NOT NULL REFERENCES "users"("user_id"),
   "amount"  FLOAT         NOT NULL,
   "time"    TIMESTAMP     WITHOUT TIME ZONE DEFAULT NOW(),
