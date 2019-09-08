@@ -35,7 +35,8 @@ module.exports = {
 
   'get-sum': `
       SELECT COALESCE(SUM("amount"), 0) AS "value"
-      FROM "freeze";`,
+      FROM "freeze"
+      WHERE "status" != 'cancel';`,
 
   'get-user-sum': `
       SELECT COALESCE(SUM("amount"), 0) AS "value"
@@ -72,7 +73,7 @@ module.exports = {
           "status"
       FROM "freeze"
       NATURAL JOIN "users"
-      WHERE type = $type AND "status" != 'cancel'
+      WHERE "type" = $type AND "status" != 'cancel'
       ORDER BY "tx_id" DESC
       LIMIT $limit;`,
 };

@@ -18,8 +18,8 @@ router.route('/history/freeze')
 router.route('/history/unfreeze')
   .get(controller.getUnfreezeHistory);
 
-router.route('/total_frozen')
-  .get(controller.totalFrozen);
+router.route('/total_freeze')
+  .get(controller.totalFreeze);
 
 router.route('/mining_level')
   .get(controller.miningLevel);
