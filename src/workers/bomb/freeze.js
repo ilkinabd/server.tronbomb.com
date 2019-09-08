@@ -1,4 +1,4 @@
-const { NODE, NODE_TOKEN, UNFREEZE_TIME } = process.env;
+const { NODE, NODE_TOKEN, UNFREEZE_DELAY } = process.env;
 
 const io = require('socket.io-client');
 
@@ -14,7 +14,7 @@ socket.on('connect', () => {
   });
 });
 
-const unfreezeTime = parseInt(UNFREEZE_TIME);
+const delay = parseInt(UNFREEZE_DELAY);
 
 const freeze = async(data) => {
   const { amount, wallet, hash } = data;
@@ -22,39 +22,39 @@ const freeze = async(data) => {
   let userId = await db.users.getId({ wallet });
   if (!userId) userId = await db.users.add({ wallet });
 
+  await db.freeze.cancelAllUnfreeze({ userId });
+
   const type = 'freeze';
-  const txId = await db.freeze.add({ hash, type, amount, userId });
-  await db.freeze.setComplete({ txId });
+  const txId = await db.freeze.add({ type, amount, userId });
+  await db.freeze.setComplete({ hash, txId });
 };
 
-const unfreeze = async(data) => {
-  const { amount, wallet, hash } = data;
+const unfreezeAll = async(data) => {
+  const { wallet } = data;
 
   let userId = await db.users.getId({ wallet });
   if (!userId) userId = await db.users.add({ wallet });
 
-  const userFreeze = await db.freeze.getUserSum({ wallet });
-
-  if (userFreeze < amount) return;
+  await db.freeze.cancelAllUnfreeze({ userId });
+  const amount = await db.freeze.getUserSum({ wallet });
 
   const type = 'unfreeze';
-  await db.freeze.add({ hash, type, amount: -amount, userId });
+  await db.freeze.add({ type, amount: -amount, userId });
 };
 
-const completeFrozen = async() => {
+const unfreezeWorker = async() => {
   const operations = await db.freeze.getAwaiting();
 
-  for (const { time, amount, wallet, txId } of operations) {
-    if (new Date(time).getTime() + unfreezeTime > Date.now()) continue;
+  for (const { time, amount, wallet: to, txId } of operations) {
+    if (new Date(time).getTime() + delay > Date.now()) continue;
 
-    await db.freeze.setComplete({ txId });
-
-    const type = 'bomb-hodler';
-    await node.fund.transferBOMB({ to: wallet, amount, type });
+    const type = 'stack-hodler';
+    const hash = (await node.fund.transferBOMB({ to, amount, type })).result;
+    await db.freeze.setComplete({ hash, txId });
   }
 };
 
-setInterval(completeFrozen, 5000);
+setInterval(unfreezeWorker, 5000);
 
 socket.on('bomb-freeze', freeze);
-socket.on('bomb-unfreeze', unfreeze);
+socket.on('bomb-unfreeze-all', unfreezeAll);

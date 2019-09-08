@@ -1,6 +1,9 @@
-const db = require('@db');
+const { UNFREEZE_DELAY } = process.env;
 
+const db = require('@db');
 const { resSuccess, successRes } = require('@utils/res-builder');
+
+const delay = parseInt(UNFREEZE_DELAY);
 
 const getLevel = async(req, res) => {
   const { wallet } = req.query;
@@ -38,6 +41,16 @@ const totalProfit = async(req, res) => {
   successRes(res, { sum });
 };
 
+const getAwaitingUnfreeze = async(req, res) => {
+  const { wallet } = req.query;
+  const { time, amount } = await db.freeze.getAwaitingByWallet({ wallet });
+  if (!time) return successRes(res);
+
+  const timeLeft = new Date(time).getTime() + delay - Date.now();
+
+  successRes(res, { time, timeLeft, amount });
+};
+
 const diceHistory = async(req, res) => {
   const { wallet } = req.query;
   const games = await db.dice.getByWallet({ wallet });
@@ -50,9 +63,17 @@ const wheelHistory = async(req, res) => {
   res.json(resSuccess({ games }));
 };
 
-const frozenHistory = async(req, res) => {
+const getFreezeHistory = async(req, res) => {
   const { wallet } = req.query;
-  const operations = await db.freeze.getByWallet({ wallet });
+  const type = 'freeze';
+  const operations = await db.freeze.getByWallet({ type, wallet });
+  successRes(res, { operations });
+};
+
+const getUnfreezeHistory = async(req, res) => {
+  const { wallet } = req.query;
+  const type = 'unfreeze';
+  const operations = await db.freeze.getByWallet({ type, wallet });
   successRes(res, { operations });
 };
 
@@ -63,7 +84,9 @@ module.exports = {
   totalMine,
   totalFreeze,
   totalProfit,
+  getAwaitingUnfreeze,
   diceHistory,
   wheelHistory,
-  frozenHistory,
+  getFreezeHistory,
+  getUnfreezeHistory,
 };

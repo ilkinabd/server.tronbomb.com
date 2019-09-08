@@ -12,11 +12,14 @@ router.route('/total_burn')
 router.route('/total_mined')
   .get(controller.getTotalMined);
 
-router.route('/frozen_txs')
-  .get(controller.getFrozen);
+router.route('/history/freeze')
+  .get(controller.getFreezeHistory);
 
-router.route('/total_frozen')
-  .get(controller.totalFrozen);
+router.route('/history/unfreeze')
+  .get(controller.getUnfreezeHistory);
+
+router.route('/total_freeze')
+  .get(controller.totalFreeze);
 
 router.route('/mining_level')
   .get(controller.miningLevel);

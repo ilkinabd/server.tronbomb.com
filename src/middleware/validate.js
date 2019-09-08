@@ -9,6 +9,9 @@ const templates = {
 };
 
 const schemas = {
+  wallet: Joi.object().keys({
+    wallet: templates.wallet.required(),
+  }),
   addBan: Joi.object().keys({
     wallet: templates.wallet.required(),
     reason: Joi.string().required(),

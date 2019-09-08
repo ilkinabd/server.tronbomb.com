@@ -15,6 +15,16 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+CREATE OR REPLACE FUNCTION GET_USER_ID(CHAR(34))
+RETURNS INTEGER AS
+$$
+  SELECT "user_id" FROM "users"
+  WHERE "wallet" = $1;
+$$
+LANGUAGE sql;
+
+--------------------------------------------------------------------------------
+
 CREATE TABLE "tokens" (
   "token_id" INTEGER     NOT NULL,
   "address"  CHAR(34),
@@ -157,13 +167,25 @@ CREATE TABLE "burn" (
   PRIMARY KEY("tx_id")
 );
 
+CREATE TYPE FREEZE_STATUS AS ENUM (
+  'cancel',
+  'awaiting',
+  'complete'
+);
+
+CREATE TYPE FREEZE_TYPE AS ENUM (
+  'freeze',
+  'unfreeze'
+);
+
 CREATE TABLE "freeze" (
-  "tx_id"   SERIAL                      NOT NULL,
-  "hash"    CHAR(64)                    NOT NULL,
-  "user_id" INTEGER                     NOT NULL REFERENCES "users"("user_id"),
-  "amount"  FLOAT                       NOT NULL,
-  "start"   TIMESTAMP WITHOUT TIME ZONE DEFAULT NOW(),
-  "finish"  TIMESTAMP WITHOUT TIME ZONE,
+  "tx_id"   SERIAL        NOT NULL,
+  "hash"    CHAR(64),
+  "user_id" INTEGER       NOT NULL REFERENCES "users"("user_id"),
+  "amount"  FLOAT         NOT NULL,
+  "time"    TIMESTAMP     WITHOUT TIME ZONE DEFAULT NOW(),
+  "status"  FREEZE_STATUS NOT NULL DEFAULT 'awaiting',
+  "type"    FREEZE_TYPE   NOT NULL DEFAULT 'freeze',
 
   PRIMARY KEY("tx_id")
 );

@@ -1,20 +1,26 @@
 module.exports = {
   'add': `
       INSERT INTO "freeze" (
-          "hash",
           "type",
           "user_id",
           "amount"
       ) VALUES (
-          $hash,
           $type,
           $userId,
           $amount
       ) RETURNING "tx_id" AS "id";`,
 
+  'cancel-all-unfreeze': `
+      UPDATE "freeze"
+      SET "status" = 'cancel'
+      WHERE
+          "type" = 'unfreeze' AND "status" = 'awaiting' AND
+          "user_id" = $userId;`,
+
   'set-complete': `
       UPDATE "freeze"
-      SET "status" = 'complete'
+      SET "status" = 'complete',
+          "hash" = $hash
       WHERE "tx_id" = $txId;`,
 
   'get-awaiting': `
@@ -27,20 +33,31 @@ module.exports = {
       NATURAL JOIN "users"
       WHERE "type" = 'unfreeze' AND "status" = 'awaiting';`,
 
+  'get-awaiting-by-wallet': `
+      SELECT
+          "time",
+          -"amount" AS "amount"
+      FROM "freeze"
+      WHERE
+          "type" = 'unfreeze' AND "status" = 'awaiting' AND
+          "user_id" = GET_USER_ID($wallet);`,
+
   'get-sum': `
       SELECT COALESCE(SUM("amount"), 0) AS "value"
-      FROM "freeze";`,
+      FROM "freeze"
+      WHERE "status" != 'cancel';`,
 
   'get-user-sum': `
       SELECT COALESCE(SUM("amount"), 0) AS "value"
       FROM "freeze"
-      NATURAL JOIN "users"
-      WHERE "wallet" = $wallet;`,
+      WHERE
+          "status" != 'cancel' AND
+          "user_id" = GET_USER_ID($wallet);`,
 
   'get-users-amounts': `
       SELECT
           "wallet",
-          SUM("amount") as "amount"
+          SUM("amount") AS "amount"
       FROM "freeze"
       NATURAL JOIN "users"
       GROUP BY "wallet"`,
@@ -49,24 +66,23 @@ module.exports = {
       SELECT
           "hash",
           "amount",
-          "start",
-          "finish",
+          "time",
           "status"
       FROM "freeze"
-      NATURAL JOIN "users"
-      WHERE "wallet" = $wallet
+      WHERE "type" = $type AND "status" != 'cancel' AND
+      "user_id" = GET_USER_ID($wallet)
       ORDER BY "tx_id" DESC;`,
 
-  'get-by-limit': `
+  'get-by-type-limit': `
       SELECT
           "hash",
           "wallet",
           "amount",
-          "start",
-          "finish",
+          "time",
           "status"
       FROM "freeze"
       NATURAL JOIN "users"
+      WHERE "type" = $type AND "status" != 'cancel'
       ORDER BY "tx_id" DESC
       LIMIT $limit;`,
 };
