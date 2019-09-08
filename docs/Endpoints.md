@@ -1,5 +1,5 @@
 # Endpoints List
-v0.9.5+
+v0.9.6+
 
 ## Auction
 
@@ -14,10 +14,11 @@ v0.9.5+
 | `/bomb/burn_txs`         | GET  | Get all burn txs.                    |
 | `/bomb/total_burn`       | GET  | Get total burn sum.                  |
 | `/bomb/total_mined`      | GET  | Get total mined sum.                 |
-| `/bomb/frozen_txs`       | GET  | Get all frozen txs.                  |
-| `/bomb/total_frozen`     | GET  | Get total frozen sum.                |
+| `/bomb/total_freeze`     | GET  | Get total freeze sum.                |
 | `/bomb/mining_level`     | GET  | Get mining level and params.         |
 | `/bomb/buy_back_balance` | GET  | Get **Buy Back** wallet and balance. |
+| `/bomb/history/freeze`   | GET  | Get all freeze txs.                  |
+| `/bomb/history/unfreeze` | GET  | Get all unfreeze txs.                |
 
 ## Chat
 
@@ -58,14 +59,16 @@ v0.9.5+
 
 ## User
 
-| Endpoint               | Type | Description                               |
-| ---------------------- | ---- | ----------------------------------------- |
-| `/user/level`          | GET  | Get level by wallet.                      |
-| `/user/total_bet`      | GET  | Get total bet sum by wallet.              |
-| `/user/total_win`      | GET  | Get total win sum by wallet.              |
-| `/user/total_mine`     | GET  | Get total mine sum by wallet.             |
-| `/user/total_freeze`   | GET  | Get total freeze sum by wallet.           |
-| `/user/total_profit`   | GET  | Get total dividends profit sum by wallet. |
-| `/user/history/dice`   | GET  | Get dice history by wallet.               |
-| `/user/history/wheel`  | GET  | Get wheel history by wallet.              |
-| `/user/history/frozen` | GET  | Get frozen history by wallet.             |
+| Endpoint                  | Type | Description                                |
+| ------------------------- | ---- | ------------------------------------------ |
+| `/user/level`             | GET  | Get level by wallet.                       |
+| `/user/total_bet`         | GET  | Get total bet sum by wallet.               |
+| `/user/total_win`         | GET  | Get total win sum by wallet.               |
+| `/user/total_mine`        | GET  | Get total mine sum by wallet.              |
+| `/user/total_freeze`      | GET  | Get total freeze sum by wallet.            |
+| `/user/total_profit`      | GET  | Get total dividends profit sum by wallet.  |
+| `/user/history/dice`      | GET  | Get dice history by wallet.                |
+| `/user/history/wheel`     | GET  | Get wheel history by wallet.               |
+| `/user/history/freeze`    | GET  | Get freeze history by wallet.              |
+| `/user/history/unfreeze`  | GET  | Get unfreeze history by wallet.            |
+| `/user/awaiting_unfreeze` | GET  | Get awaiting unfreeze operation by wallet. |

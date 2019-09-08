@@ -1,6 +1,6 @@
 # BOMB integration
 
-1. Get **portal** contract address.
+### 1. Get **portal** contract address.
 
 ```
 GET /portal/configs
@@ -22,7 +22,7 @@ Response:
 }
 ```
 
-2. Get balance.
+### 2. Get balance.
 
 ```
 ...
@@ -50,7 +50,7 @@ console.log(await getBalance('THnUkSQpPMpXMRSRNywrn5qpgrN7oLvSHQ'));
 ...
 ```
 
-3. Transfer.
+### 3. Transfer.
 
 ```
 ...
@@ -81,7 +81,7 @@ console.log(await transfer('TMzciXEzxGvr74Kh7xSarvqf7RKPyWpeM8', 10));
 ...
 ```
 
-4. Mine.
+### 4. Mine.
 
 ```
 ...
@@ -112,8 +112,9 @@ const mine = async() => {
 }
 
 ...
+```
 
-5. Freeze and unfreeze.
+### 5. Freeze and unfreeze.
 
 ```
 ...
@@ -128,10 +129,8 @@ const freeze = async(amount) => {
   return result;
 }
 
-const unfreeze = async(amount) => {
-  const freezeAmount = Math.floor(amount * 10 ** 6);
-
-  const result = await portalContract.unfreeze(freezeAmount).send({
+const unfreeze = async() => {
+  const result = await portalContract.unfreezeAll().send({
     shouldPollResponse: true,
   }).catch(processError);
 
@@ -141,7 +140,7 @@ const unfreeze = async(amount) => {
 ...
 
 console.log(await freeze(10));
-console.log(await unfreeze(10));
+console.log(await unfreeze());
 
 ...
 ```

@@ -1,5 +1,5 @@
 # Server
-v0.9.5 Sep 8, 2019
+v0.9.6 Sep 9, 2019
 
 Server for **TronBomb** games.
 
@@ -37,6 +37,7 @@ yarn errors
 * [Dice game](./docs/Dice.md)
 * [Wheel game](./docs/Wheel.md)
 * [Referral system](./docs/Referral.md)
+* [Endpoints List](./docs/Endpoints.md)
 
 ## Config
 
@@ -90,20 +91,25 @@ env:
   MAX_WITHDRAW      : 1000                         # Referrel profit max withdraw
   WITHDRAW_FEE      : 1                            # Referrel profit withdraw fee
 
-  UNFREEZE_TIME     : 86400000                     # Unfreeze BOMB amount
-
-  START_MINING : '2019-08-26T12:00:00.000Z'        # Start mining time
-  FUND_DELAY   : 300000                            # Withdraw and freeze fonds tokens < FUND_DELAY > before dividence distribution
-  TRONWEB_DELAY: 70000                             # Tronweb updates delay
-
+  # Mining
+  START_MINING      : '2019-08-26T12:00:00.000Z'   # Start mining time
   START_MINING_LEVEL: 50                           # First mining level
   MINING_LEVEL_DELTA: 10                           # Mining level delta
   # player, ad, random-jackpot, bet-amount-jackpot, technical, referral-rewards, team, auction
   MINING_PROFIT: 1.0000,0.1330,0.0170,0.0170,0.0800,0.0025,0.2170,0.2000
+  MIN_MINE     : 1                                 # Min mine amount
 
+  # Freeze & dividends
+  UNFREEZE_TIME       : 86400000                   # Unfreeze BOMB amount
+  FUND_DELAY          : 300000                     # Withdraw and freeze fonds tokens < FUND_DELAY > before dividence distribution
+  TRONWEB_DELAY       : 70000                      # Tronweb updates delay
   PLATFORM_BALANCE    : 10000                      # Min Platform contract balance
   MIN_OPERATION_PROFIT: 100                        # Min profit for withdraw
 
+  # Buy Back
+  BUY_BACK_WALLET: TGNR...dwNM                     # Buy Back wallet address
+
+  # Auction
   AUCTION:
     START_AUCTION: '2019-08-28T12:00:00.000Z'      # Start first auction time
     ENABLED: true                                  # Auction switch
