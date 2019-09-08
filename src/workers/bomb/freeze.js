@@ -25,22 +25,21 @@ const freeze = async(data) => {
   await db.freeze.cancelAllUnfreeze({ userId });
 
   const type = 'freeze';
-  const txId = await db.freeze.add({ hash, type, amount, userId });
-  await db.freeze.setComplete({ txId });
+  const txId = await db.freeze.add({ type, amount, userId });
+  await db.freeze.setComplete({ hash, txId });
 };
 
-const unfreeze = async(data) => {
-  const { amount, wallet, hash } = data;
+const unfreezeAll = async(data) => {
+  const { wallet } = data;
 
   let userId = await db.users.getId({ wallet });
   if (!userId) userId = await db.users.add({ wallet });
 
-  const userFreeze = await db.freeze.getUserSum({ wallet });
-
-  if (userFreeze < amount) return;
+  await db.freeze.cancelAllUnfreeze({ userId });
+  const amount = await db.freeze.getUserSum({ wallet });
 
   const type = 'unfreeze';
-  await db.freeze.add({ hash, type, amount: -amount, userId });
+  await db.freeze.add({ type, amount: -amount, userId });
 };
 
 const completeFrozen = async() => {
@@ -51,6 +50,7 @@ const completeFrozen = async() => {
 
     await db.freeze.setComplete({ txId });
 
+    // TODO - other fund
     const type = 'bomb-hodler';
     await node.fund.transferBOMB({ to: wallet, amount, type });
   }
@@ -59,4 +59,4 @@ const completeFrozen = async() => {
 setInterval(completeFrozen, 5000);
 
 socket.on('bomb-freeze', freeze);
-socket.on('bomb-unfreeze', unfreeze);
+socket.on('bomb-unfreeze-all', unfreezeAll);

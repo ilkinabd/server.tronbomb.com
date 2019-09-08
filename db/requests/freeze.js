@@ -1,27 +1,26 @@
 module.exports = {
   'add': `
       INSERT INTO "freeze" (
-          "hash",
           "type",
           "user_id",
           "amount"
       ) VALUES (
-          $hash,
           $type,
           $userId,
           $amount
       ) RETURNING "tx_id" AS "id";`,
 
   'cancel-all-unfreeze': `
-        UPDATE "freeze"
-        SET "status" = 'cancel'
-        WHERE
-            "type" = 'unfreeze' AND "status" = 'awaiting' AND
-            "user_id" = $userId;`,
+      UPDATE "freeze"
+      SET "status" = 'cancel'
+      WHERE
+          "type" = 'unfreeze' AND "status" = 'awaiting' AND
+          "user_id" = $userId;`,
 
   'set-complete': `
       UPDATE "freeze"
-      SET "status" = 'complete'
+      SET "status" = 'complete',
+          "hash" = $hash
       WHERE "tx_id" = $txId;`,
 
   'get-awaiting': `
@@ -41,8 +40,9 @@ module.exports = {
   'get-user-sum': `
       SELECT COALESCE(SUM("amount"), 0) AS "value"
       FROM "freeze"
-      NATURAL JOIN "users"
-      WHERE "wallet" = $wallet;`,
+      WHERE
+          "status" != 'cancel' AND
+          "user_id" = GET_USER_ID($wallet);`,
 
   'get-users-amounts': `
       SELECT
