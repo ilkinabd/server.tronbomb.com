@@ -12,23 +12,20 @@ const schemas = {
   wallet: Joi.object().keys({
     wallet: templates.wallet.required(),
   }),
+  refId: Joi.object().keys({
+    refId: templates.refId.required(),
+  }),
+  mail: Joi.object().keys({
+    mail: templates.mail.required(),
+  }),
   addBan: Joi.object().keys({
     wallet: templates.wallet.required(),
     reason: Joi.string().required(),
     endTime: Joi.date().required(),
   }),
-  getUserData: Joi.object().keys({
-    wallet: templates.wallet.required(),
-  }),
   setRef: Joi.object().keys({
     wallet: templates.wallet.required(),
     refId: templates.refId.required(),
-  }),
-  getWallet: Joi.object().keys({
-    refId: templates.refId.required(),
-  }),
-  subscribe: Joi.object().keys({
-    mail: templates.mail.required(),
   }),
 };
 

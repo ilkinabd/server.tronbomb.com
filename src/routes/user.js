@@ -5,31 +5,31 @@ const controller = require('@controllers/user');
 const validate = require('@middleware/validate');
 
 router.route('/level')
-  .get(validate('getUserData'), controller.getLevel);
+  .get(validate('wallet'), controller.getLevel);
 
 router.route('/total_bet')
-  .get(validate('getUserData'), controller.totalBet);
+  .get(validate('wallet'), controller.totalBet);
 
 router.route('/total_win')
-  .get(validate('getUserData'), controller.totalWin);
+  .get(validate('wallet'), controller.totalWin);
 
 router.route('/total_mine')
-  .get(validate('getUserData'), controller.totalMine);
+  .get(validate('wallet'), controller.totalMine);
 
 router.route('/total_freeze')
   .get(validate('wallet'), controller.totalFreeze);
 
 router.route('/total_profit')
-  .get(validate('getUserData'), controller.totalProfit);
+  .get(validate('wallet'), controller.totalProfit);
 
 router.route('/awaiting_unfreeze')
   .get(validate('wallet'), controller.getAwaitingUnfreeze);
 
 router.route('/history/dice')
-  .get(validate('getUserData'), controller.diceHistory);
+  .get(validate('wallet'), controller.diceHistory);
 
 router.route('/history/wheel')
-  .get(validate('getUserData'), controller.wheelHistory);
+  .get(validate('wallet'), controller.wheelHistory);
 
 router.route('/history/freeze')
   .get(validate('wallet'), controller.getFreezeHistory);
