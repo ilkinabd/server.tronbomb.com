@@ -12,8 +12,8 @@ router.route('/total_burn')
 router.route('/total_mined')
   .get(controller.getTotalMined);
 
-router.route('/frozen_txs')
-  .get(controller.getFrozen);
+router.route('/history/freeze')
+  .get(controller.getFreezeHistory);
 
 router.route('/total_frozen')
   .get(controller.totalFrozen);

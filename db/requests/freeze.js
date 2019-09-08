@@ -56,24 +56,23 @@ module.exports = {
       SELECT
           "hash",
           "amount",
-          "start",
-          "finish",
+          "type",
           "status"
       FROM "freeze"
       NATURAL JOIN "users"
       WHERE "wallet" = $wallet
       ORDER BY "tx_id" DESC;`,
 
-  'get-by-limit': `
+  'get-by-type-limit': `
       SELECT
           "hash",
           "wallet",
           "amount",
-          "start",
-          "finish",
+          "time",
           "status"
       FROM "freeze"
       NATURAL JOIN "users"
+      WHERE type = $type AND "status" != 'cancel'
       ORDER BY "tx_id" DESC
       LIMIT $limit;`,
 };

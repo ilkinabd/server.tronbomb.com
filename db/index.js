@@ -122,9 +122,9 @@ module.exports = {
     getAwaiting: getAll(request(freeze['get-awaiting'])),
     getSum: getValue(request(freeze['get-sum'])),
     getByWallet: getAll(request(freeze['get-by-wallet'])),
-    getByLimit: getAll(request(freeze['get-by-limit'])),
     getUserSum: getValue(request(freeze['get-user-sum'])),
     getUsersAmounts: getAll(request(freeze['get-users-amounts'])),
+    getByTypeLimit: getAll(request(freeze['get-by-type-limit'])),
   },
   operationProfit: {
     add: getId(request(operationProfit['add'])),

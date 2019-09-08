@@ -20,8 +20,9 @@ const getTotalMined = async(_req, res) => {
   successRes(res, { sum });
 };
 
-const getFrozen = async(_req, res) => {
-  const operations = await db.freeze.getByLimit({ limit: 100 });
+const getFreezeHistory = async(_req, res) => {
+  const type = 'freeze';
+  const operations = await db.freeze.getByTypeLimit({ type, limit: 100 });
   successRes(res, { operations });
 };
 
@@ -45,7 +46,7 @@ module.exports = {
   getBurn,
   getTotalBurn,
   getTotalMined,
-  getFrozen,
+  getFreezeHistory,
   totalFrozen,
   miningLevel,
   getBuyBackBalance,
