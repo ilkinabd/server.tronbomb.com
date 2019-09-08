@@ -117,6 +117,7 @@ module.exports = {
   },
   freeze: {
     add: getId(request(freeze['add'])),
+    cancelAllUnfreeze: request(freeze['cancel-all-unfreeze']),
     setComplete: request(freeze['set-complete']),
     getAwaiting: getAll(request(freeze['get-awaiting'])),
     getSum: getValue(request(freeze['get-sum'])),

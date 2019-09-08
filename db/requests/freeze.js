@@ -12,6 +12,13 @@ module.exports = {
           $amount
       ) RETURNING "tx_id" AS "id";`,
 
+  'cancel-all-unfreeze': `
+        UPDATE "freeze"
+        SET "status" = 'cancel'
+        WHERE
+            "type" = 'unfreeze' AND "status" = 'awaiting' AND
+            "user_id" = $userId;`,
+
   'set-complete': `
       UPDATE "freeze"
       SET "status" = 'complete'

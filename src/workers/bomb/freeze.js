@@ -22,6 +22,8 @@ const freeze = async(data) => {
   let userId = await db.users.getId({ wallet });
   if (!userId) userId = await db.users.add({ wallet });
 
+  await db.freeze.cancelAllUnfreeze({ userId });
+
   const type = 'freeze';
   const txId = await db.freeze.add({ hash, type, amount, userId });
   await db.freeze.setComplete({ txId });
