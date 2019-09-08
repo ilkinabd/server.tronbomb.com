@@ -15,6 +15,9 @@ router.route('/total_mined')
 router.route('/history/freeze')
   .get(controller.getFreezeHistory);
 
+router.route('/history/unfreeze')
+  .get(controller.getUnfreezeHistory);
+
 router.route('/total_frozen')
   .get(controller.totalFrozen);
 
