@@ -15,6 +15,16 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+CREATE OR REPLACE FUNCTION GET_USER_ID(CHAR(34))
+RETURNS INTEGER AS
+$$
+  SELECT "user_id" FROM "users"
+  WHERE "wallet" = $1;
+$$
+LANGUAGE sql;
+
+--------------------------------------------------------------------------------
+
 CREATE TABLE "tokens" (
   "token_id" INTEGER     NOT NULL,
   "address"  CHAR(34),

@@ -17,3 +17,13 @@ ALTER COLUMN "status" SET DEFAULT 'awaiting';
 DROP TYPE FREEZE_STATUS;
 
 ALTER TYPE NEW_FREEZE_STATUS RENAME TO FREEZE_STATUS;
+
+--------------------------------------------------------------------------------
+
+CREATE OR REPLACE FUNCTION GET_USER_ID(CHAR(34))
+RETURNS INTEGER AS
+$$
+  SELECT "user_id" FROM "users"
+  WHERE "wallet" = $1;
+$$
+LANGUAGE sql;

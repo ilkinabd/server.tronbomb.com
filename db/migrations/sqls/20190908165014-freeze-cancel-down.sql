@@ -16,3 +16,7 @@ ALTER COLUMN "status" SET DEFAULT 'awaiting';
 DROP TYPE FREEZE_STATUS;
 
 ALTER TYPE NEW_FREEZE_STATUS RENAME TO FREEZE_STATUS;
+
+--------------------------------------------------------------------------------
+
+DROP FUNCTION GET_USER_ID;
