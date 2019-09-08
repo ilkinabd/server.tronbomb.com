@@ -120,6 +120,7 @@ module.exports = {
     cancelAllUnfreeze: request(freeze['cancel-all-unfreeze']),
     setComplete: request(freeze['set-complete']),
     getAwaiting: getAll(request(freeze['get-awaiting'])),
+    getAwaitingByWallet: getRow(request(freeze['get-awaiting-by-wallet'])),
     getSum: getValue(request(freeze['get-sum'])),
     getByWallet: getAll(request(freeze['get-by-wallet'])),
     getUserSum: getValue(request(freeze['get-user-sum'])),

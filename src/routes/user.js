@@ -22,6 +22,9 @@ router.route('/total_freeze')
 router.route('/total_profit')
   .get(validate('getUserData'), controller.totalProfit);
 
+router.route('/awaiting_unfreeze')
+  .get(validate('wallet'), controller.getAwaitingUnfreeze);
+
 router.route('/history/dice')
   .get(validate('getUserData'), controller.diceHistory);
 

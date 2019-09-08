@@ -33,6 +33,15 @@ module.exports = {
       NATURAL JOIN "users"
       WHERE "type" = 'unfreeze' AND "status" = 'awaiting';`,
 
+  'get-awaiting-by-wallet': `
+      SELECT
+          "time",
+          -"amount" AS "amount"
+      FROM "freeze"
+      WHERE
+          "type" = 'unfreeze' AND "status" = 'awaiting' AND
+          "user_id" = GET_USER_ID($wallet);`,
+
   'get-sum': `
       SELECT COALESCE(SUM("amount"), 0) AS "value"
       FROM "freeze"
