@@ -115,6 +115,7 @@ module.exports = {
   },
   burn: {
     add: getId(request(burn['add'])),
+    getSum: getValue(request(burn['get-sum'])),
     getByLimit: getAll(request(burn['get-by-limit'])),
   },
   freeze: {

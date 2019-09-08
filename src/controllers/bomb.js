@@ -1,6 +1,6 @@
 const db = require('@db');
 const { level } = require('@utils/mining');
-const node = require('@controllers/node');
+const { totalMined } = require('@controllers/node').tools;
 const { successRes } = require('@utils/res-builder');
 
 const getBurn = async(_req, res) => {
@@ -8,8 +8,13 @@ const getBurn = async(_req, res) => {
   successRes(res, { operations });
 };
 
-const totalMined = async(_req, res) => {
-  const sum = (await node.tools.totalMined()).totalMined;
+const getTotalBurn = async(_req, res) => {
+  const sum = await db.burn.getSum();
+  successRes(res, { sum });
+};
+
+const getTotalMined = async(_req, res) => {
+  const sum = (await totalMined()).totalMined;
   successRes(res, { sum });
 };
 
@@ -30,7 +35,8 @@ const miningLevel = async(_req, res) => {
 
 module.exports = {
   getBurn,
-  totalMined,
+  getTotalBurn,
+  getTotalMined,
   getFrozen,
   totalFrozen,
   miningLevel,

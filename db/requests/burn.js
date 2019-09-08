@@ -10,6 +10,10 @@ module.exports = {
           $from
       ) RETURNING "tx_id" as "id";`,
 
+  'get-sum': `
+      SELECT COALESCE(SUM("amount"), 0) AS "value"
+      FROM "burn";`,
+
   'get-by-limit': `
       SELECT
           "hash",
