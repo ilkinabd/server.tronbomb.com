@@ -137,6 +137,7 @@ module.exports = {
   dividends: {
     add: getId(request(dividends['add'])),
     getUserSum: getValue(request(dividends['get-user-sum'])),
+    getByWallet: getAll(request(dividends['get-by-wallet'])),
     getByLimit: getAll(request(dividends['get-by-limit'])),
   },
   mining: {

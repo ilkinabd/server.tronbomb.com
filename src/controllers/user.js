@@ -77,6 +77,12 @@ const getUnfreezeHistory = async(req, res) => {
   successRes(res, { operations });
 };
 
+const getDividendsHistory = async(req, res) => {
+  const { wallet } = req.query;
+  const operations = await db.dividends.getByWallet({ wallet });
+  successRes(res, { operations });
+};
+
 module.exports = {
   getLevel,
   totalBet,
@@ -89,4 +95,5 @@ module.exports = {
   wheelHistory,
   getFreezeHistory,
   getUnfreezeHistory,
+  getDividendsHistory,
 };

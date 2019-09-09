@@ -37,4 +37,7 @@ router.route('/history/freeze')
 router.route('/history/unfreeze')
   .get(validate('wallet'), controller.getUnfreezeHistory);
 
+router.route('/history/dividends')
+  .get(validate('wallet'), controller.getDividendsHistory);
+
 module.exports = router;
