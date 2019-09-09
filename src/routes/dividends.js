@@ -7,7 +7,4 @@ const validate = require('@middleware/validate');
 router.route('/info')
   .get(validate('wallet'), controller.info);
 
-router.route('/history')
-  .get(controller.history);
-
 module.exports = router;

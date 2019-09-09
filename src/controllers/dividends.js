@@ -21,12 +21,6 @@ const info = async(req, res) => {
   successRes(res, params);
 };
 
-const history = async(_req, res) => {
-  const operations = await db.dividends.getByLimit({ limit: 100 });
-  successRes(res, { operations });
-};
-
 module.exports = {
   info,
-  history,
 };

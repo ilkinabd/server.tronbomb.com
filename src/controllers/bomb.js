@@ -48,6 +48,11 @@ const getBuyBackBalance = async(_req, res) => {
   successRes(res, { address, balance });
 };
 
+const getDividendsHistory = async(_req, res) => {
+  const operations = await db.dividends.getByLimit({ limit: 100 });
+  successRes(res, { operations });
+};
+
 module.exports = {
   getBurn,
   getTotalBurn,
@@ -57,4 +62,5 @@ module.exports = {
   totalFreeze,
   miningLevel,
   getBuyBackBalance,
+  getDividendsHistory,
 };
