@@ -1,15 +1,15 @@
 const {
   NODE, NODE_TOKEN,
   MIN_OPERATION_PROFIT, DIVIDENDS_INTERVAL, FUND_DELAY,
+  TRONWEB_DELAY,
 } = process.env;
-// const { TRONWEB_DELAY } = process.env;
 
 const io = require('socket.io-client');
 
 const db = require('@db');
 const { leftToPayout, operatingProfit } = require('@utils/dividends');
 const { finishAuction } = require('@workers/auction/finish');
-const { /*bomb, */portal/*, fund, tools*/ } = require('@controllers/node');
+const { bomb, portal, fund, tools } = require('@controllers/node');
 
 const socket = io.connect(NODE, { reconnect: true });
 
@@ -22,14 +22,6 @@ socket.on('connect', () => {
 
 const timeout = leftToPayout();
 let chanel;
-
-// const checkFund = (fund) => {
-//   const funds = [
-//     'ad', 'random-jackpot', 'bet-amount-jackpot',
-//     'technical', 'referral-rewards', 'team', 'auction'
-//   ];
-//   return funds.includes(fund);
-// };
 
 const withdraw = async(data) => {
   const { wallet } = data;
@@ -56,21 +48,17 @@ const payRewards = async(profit) => {
 };
 
 const freezeFunds = async() => {
-  console.log('freeze', new Date());
+  const { funds } = await tools.getFunds();
 
-  // const { funds } = await tools.getFunds();
+  for (const { address: wallet, type } of funds) {
+    const sum = await db.mining.getUserSum({ wallet });
+    if (sum <= 0) continue;
 
-  // for (const { address: wallet, type } of funds) {
-  //   if (!checkFund(type)) continue;
+    await db.mining.add({ type: 'withdraw', wallet, amount: -sum });
+    await bomb.func.transfer({ to: wallet, amount: sum });
 
-  //   const sum = await db.mining.getUserSum({ wallet });
-  //   if (sum < 0) continue;
-
-  //   await db.mining.add({ type: 'withdraw', wallet, amount: -sum });
-  //   await bomb.func.transfer({ to: wallet, amount: sum });
-
-  //   setTimeout(() => { fund.freezeAll({ type }); }, TRONWEB_DELAY);
-  // }
+    setTimeout(() => { fund.freezeAll({ type }); }, TRONWEB_DELAY);
+  }
 };
 
 const calculateProfit = async() => {
