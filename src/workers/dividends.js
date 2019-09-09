@@ -18,20 +18,13 @@ let chanel;
 // };
 
 const payRewards = async(profit) => {
-  console.log(profit);
+  const usersAmounts = await db.freeze.getUsersAmounts();
+  const totalFreeze = await db.freeze.getSum();
 
-  // const usersAmounts = await db.freeze.getUsersAmounts();
-  // const totalFreeze = await db.freeze.getSum();
-
-  // for (const { wallet, amount } of usersAmounts) {
-  //   const dividend = profit * (amount / totalFreeze);
-
-  //   const params = { to: wallet, amount: dividend };
-
-  //   const result = await portal.func.withdraw(params);
-  //   if (result.status === 'success')
-  //     await db.dividends.add({ wallet, amount: dividend });
-  // }
+  for (const { wallet, amount } of usersAmounts) {
+    const dividends = profit * (amount / totalFreeze);
+    if (dividends > 0) await db.dividends.add({ wallet, amount: dividends });
+  }
 };
 
 const freezeFunds = async() => {

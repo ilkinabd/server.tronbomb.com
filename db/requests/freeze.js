@@ -60,6 +60,7 @@ module.exports = {
           SUM("amount") AS "amount"
       FROM "freeze"
       NATURAL JOIN "users"
+      WHERE "status" != 'cancel'
       GROUP BY "wallet"`,
 
   'get-by-wallet': `
