@@ -36,6 +36,11 @@ const withdraw = async(data) => {
   console.info('Withdraw dividends:', wallet, result);
 };
 
+const payFundsRewards = async() => {
+  const { funds } = await tools.getFunds();
+  for (const { address } of funds) withdraw({ wallet: address });
+};
+
 const payRewards = async(profit) => {
   const usersAmounts = await db.freeze.getUsersAmounts();
   const totalFreeze = await db.freeze.getSum();
@@ -45,6 +50,8 @@ const payRewards = async(profit) => {
     const type = 'deposit';
     if (sum > 0) await db.dividends.add({ wallet, amount: sum, type });
   }
+
+  payFundsRewards();
 };
 
 const freezeFunds = async() => {
