@@ -1,70 +1,65 @@
-const { MIN_OPERATION_PROFIT, FUND_DELAY, TRONWEB_DELAY } = process.env;
+const {
+  NODE, NODE_TOKEN,
+  MIN_OPERATION_PROFIT, DIVIDENDS_INTERVAL, FUND_DELAY,
+  TRONWEB_DELAY,
+} = process.env;
 
-const { nextPayoutTimeout, operatingProfit } = require('@utils/dividends');
-const { bomb, portal, fund, tools } = require('@controllers/node');
+const io = require('socket.io-client');
+
 const db = require('@db');
+const { leftToPayout, operatingProfit } = require('@utils/dividends');
 const { finishAuction } = require('@workers/auction/finish');
+const { bomb, portal, fund, tools } = require('@controllers/node');
 
-const day = 24 * 60 * 60 * 1000;
-const timeout = nextPayoutTimeout();
+const socket = io.connect(NODE, { reconnect: true });
+
+socket.on('connect', () => {
+  socket.emit('subscribe', {
+    room: 'operations',
+    token: NODE_TOKEN,
+  });
+});
+
+const timeout = leftToPayout();
 let chanel;
 
-const checkFund = (fund) => {
-  const funds = [
-    'ad', 'random-jackpot', 'bet-amount-jackpot',
-    'technical', 'referral-rewards', 'team', 'auction'
-  ];
-  return funds.includes(fund);
+const withdraw = async(data) => {
+  const { wallet } = data;
+  const amount = await db.dividends.getUserSum({ wallet });
+  if (amount < 10) return;
+
+  const type = 'withdraw';
+  await db.dividends.add({ wallet, amount: -amount, type });
+
+  const params = { to: wallet, amount };
+  const result = await portal.func.withdraw(params);
+  console.info('Withdraw dividends:', wallet, result);
 };
 
-const fillPortal = async(profit) => {
-  const amount = -profit;
-
-  const { address } = await portal.get.params();
-
-  const params = { type: 'reserve', to: address, amount };
-  await fund.transfer(params);
+const payFundsRewards = async() => {
+  const { funds } = await tools.getFunds();
+  for (const { address } of funds) withdraw({ wallet: address });
 };
 
 const payRewards = async(profit) => {
-  await db.operationProfit.setCompleteAll();
-
   const usersAmounts = await db.freeze.getUsersAmounts();
   const totalFreeze = await db.freeze.getSum();
 
   for (const { wallet, amount } of usersAmounts) {
-    const dividend = profit * (amount / totalFreeze);
-
-    const params = { to: wallet, amount: dividend };
-
-    const result = await portal.func.withdraw(params);
-    if (result.status === 'success')
-      await db.dividends.add({ wallet, amount: dividend });
+    const sum = profit * (amount / totalFreeze);
+    const type = 'deposit';
+    if (sum > 0) await db.dividends.add({ wallet, amount: sum, type });
   }
+
+  payFundsRewards();
 };
 
-const calculateProfit = async() => {
-  const amount = await operatingProfit();
-
-  await db.operationProfit.add({ amount });
-
-  if (amount < 0) return await fillPortal(amount);
-
-  const noCompleteProfit = await db.operationProfit.getNoComplete();
-  if (noCompleteProfit > MIN_OPERATION_PROFIT) {
-    await finishAuction(chanel);
-    payRewards(noCompleteProfit);
-  }
-};
-
-const withdrawFunds = async() => {
+const freezeFunds = async() => {
   const { funds } = await tools.getFunds();
 
   for (const { address: wallet, type } of funds) {
-    if (!checkFund(type)) continue;
-
     const sum = await db.mining.getUserSum({ wallet });
-    if (sum < 0) continue;
+    if (sum <= 0) continue;
 
     await db.mining.add({ type: 'withdraw', wallet, amount: -sum });
     await bomb.func.transfer({ to: wallet, amount: sum });
@@ -73,12 +68,29 @@ const withdrawFunds = async() => {
   }
 };
 
-setTimeout(withdrawFunds, timeout - FUND_DELAY);
+const calculateProfit = async() => {
+  const profit = await operatingProfit();
+  await db.operationProfit.add({ profit });
+
+  const noCompleteProfit = await db.operationProfit.getNoComplete();
+  if (noCompleteProfit > MIN_OPERATION_PROFIT) {
+    await finishAuction(chanel);
+    payRewards(noCompleteProfit);
+
+    await db.operationProfit.setCompleteAll();
+  }
+
+  setTimeout(freezeFunds, DIVIDENDS_INTERVAL - FUND_DELAY);
+};
+
+setTimeout(freezeFunds, timeout - FUND_DELAY);
 
 setTimeout(() => {
+  setInterval(calculateProfit, DIVIDENDS_INTERVAL);
   calculateProfit();
-  setInterval(calculateProfit, day);
 }, timeout);
+
+socket.on('withdraw-dividends', withdraw);
 
 module.exports = (ioChanel) => {
   chanel = ioChanel;

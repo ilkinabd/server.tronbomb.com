@@ -10,6 +10,9 @@ router.route('/configs')
 router.route('/total_bet_prize')
   .get(controller.totalBetPrize);
 
+router.route('/dividends_params')
+  .get(controller.dividendsParams);
+
 router.route('/subscribe')
   .post(validate('mail', false), controller.subscribe);
 

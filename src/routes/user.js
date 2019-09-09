@@ -19,8 +19,8 @@ router.route('/total_mine')
 router.route('/total_freeze')
   .get(validate('wallet'), controller.totalFreeze);
 
-router.route('/total_profit')
-  .get(validate('wallet'), controller.totalProfit);
+router.route('/total_dividends')
+  .get(validate('wallet'), controller.totalDividends);
 
 router.route('/awaiting_unfreeze')
   .get(validate('wallet'), controller.getAwaitingUnfreeze);
@@ -36,5 +36,8 @@ router.route('/history/freeze')
 
 router.route('/history/unfreeze')
   .get(validate('wallet'), controller.getUnfreezeHistory);
+
+router.route('/history/dividends')
+  .get(validate('wallet'), controller.getDividendsHistory);
 
 module.exports = router;

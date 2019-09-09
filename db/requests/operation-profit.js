@@ -1,11 +1,11 @@
 module.exports = {
   'add': `
-      INSERT INTO "operation_profit" ("amount")
-      VALUES ($amount)
+      INSERT INTO "operation_profit" ("profit")
+      VALUES ($profit)
       RETURNING "profit_id" as "id";`,
 
   'get-no-complete': `
-      SELECT COALESCE(SUM("amount"), 0) as "value"
+      SELECT COALESCE(SUM("profit"), 0) as "value"
       FROM "operation_profit"
       WHERE "status" = FALSE;`,
 

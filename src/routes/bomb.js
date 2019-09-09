@@ -27,4 +27,7 @@ router.route('/mining_level')
 router.route('/buy_back_balance')
   .get(controller.getBuyBackBalance);
 
+router.route('/history/dividends')
+  .get(controller.getDividendsHistory);
+
 module.exports = router;

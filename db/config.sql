@@ -204,3 +204,27 @@ CREATE TABLE "mining" (
 
   PRIMARY KEY("mining_id")
 );
+
+CREATE TABLE "operation_profit" (
+  "profit_id" SERIAL    NOT NULL,
+  "profit"    FLOAT     NOT NULL,
+  "time"      TIMESTAMP WITHOUT TIME ZONE DEFAULT NOW(),
+  "status"    BOOLEAN   NOT NULL DEFAULT FALSE,
+
+  PRIMARY KEY("profit_id")
+);
+
+CREATE TYPE DIVIDENDS_TYPE AS ENUM (
+  'deposit',
+  'withdraw'
+);
+
+CREATE TABLE "dividends" (
+  "dividend_id" SERIAL         NOT NULL,
+  "user_id"     INTEGER        NOT NULL  REFERENCES "users"("user_id"),
+  "amount"      FLOAT          NOT NULL,
+  "time"        TIMESTAMP      WITHOUT TIME ZONE DEFAULT NOW(),
+  "type"        DIVIDENDS_TYPE NOT NULL DEFAULT 'deposit';
+
+  PRIMARY KEY("dividend_id")
+);

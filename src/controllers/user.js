@@ -35,7 +35,7 @@ const totalFreeze = async(req, res) => {
   successRes(res, { sum });
 };
 
-const totalProfit = async(req, res) => {
+const totalDividends = async(req, res) => {
   const { wallet } = req.query;
   const sum = await db.dividends.getUserSum({ wallet });
   successRes(res, { sum });
@@ -77,16 +77,23 @@ const getUnfreezeHistory = async(req, res) => {
   successRes(res, { operations });
 };
 
+const getDividendsHistory = async(req, res) => {
+  const { wallet } = req.query;
+  const operations = await db.dividends.getByWallet({ wallet });
+  successRes(res, { operations });
+};
+
 module.exports = {
   getLevel,
   totalBet,
   totalWin,
   totalMine,
   totalFreeze,
-  totalProfit,
+  totalDividends,
   getAwaitingUnfreeze,
   diceHistory,
   wheelHistory,
   getFreezeHistory,
   getUnfreezeHistory,
+  getDividendsHistory,
 };
