@@ -214,3 +214,18 @@ CREATE TABLE "operation_profit" (
 
   PRIMARY KEY("profit_id")
 );
+
+CREATE TYPE DIVIDENDS_TYPE AS ENUM (
+  'deposit',
+  'withdraw'
+);
+
+CREATE TABLE "dividends" (
+  "dividend_id" SERIAL         NOT NULL,
+  "user_id"     INTEGER        NOT NULL  REFERENCES "users"("user_id"),
+  "amount"      FLOAT          NOT NULL,
+  "time"        TIMESTAMP      WITHOUT TIME ZONE DEFAULT NOW(),
+  "type"        DIVIDENDS_TYPE NOT NULL DEFAULT 'deposit';
+
+  PRIMARY KEY("dividend_id")
+);
