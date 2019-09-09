@@ -1,13 +1,13 @@
 const { START_DIVIDENDS, DIVIDENDS_INTERVAL } = process.env;
 
 const db = require('@db');
-const node = require('@controllers/node');
 
 const start = new Date(START_DIVIDENDS);
+const interval = DIVIDENDS_INTERVAL;
 
 const leftToPayout = () => {
-  const delta = (Date.now() - start) % DIVIDENDS_INTERVAL;
-  const timeout = DIVIDENDS_INTERVAL - delta;
+  const delta = (Date.now() - start) % interval;
+  const timeout = interval - delta;
   return timeout;
 };
 
@@ -21,12 +21,9 @@ const nextPayoutTimeout = () => {
 };
 
 const operatingProfit = async() => {
-  const { balanceTRX } = await node.tools.portalBalance();
-  if (!balanceTRX) return 0;
-
-  const previousBalance = await db.operationProfit.getLastBalance();
-  const profit = balanceTRX - previousBalance;
-  return { balance: balanceTRX, profit };
+  const diceProfit = await db.dice.getProfit({ interval });
+  const wheelProfit = await db.wheel.getProfit({ interval });
+  return diceProfit + wheelProfit;
 };
 
 const userProfit = async(wallet, operatingProfit) => {

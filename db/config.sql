@@ -207,7 +207,6 @@ CREATE TABLE "mining" (
 
 CREATE TABLE "operation_profit" (
   "profit_id" SERIAL    NOT NULL,
-  "balance"   FLOAT     NOT NULL,
   "profit"    FLOAT     NOT NULL,
   "time"      TIMESTAMP WITHOUT TIME ZONE DEFAULT NOW(),
   "status"    BOOLEAN   NOT NULL DEFAULT FALSE,

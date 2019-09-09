@@ -95,6 +95,7 @@ module.exports = {
     setConfirm: request(dice['set-confirm']),
     getBetSum: getValue(request(dice['get-bet-sum'])),
     getPrizeSum: getValue(request(dice['get-prize-sum'])),
+    getProfit: getValue(request(dice['get-profit'])),
     getByIndex: getRow(request(dice['get-by-index'])),
     getByWallet: getAll(request(dice['get-by-wallet'])),
     getByFinishBlock: getAll(request(dice['get-by-finish-block'])),
@@ -106,6 +107,7 @@ module.exports = {
     setConfirm: request(wheel['set-confirm']),
     getBetSum: getValue(request(wheel['get-bet-sum'])),
     getPrizeSum: getValue(request(wheel['get-prize-sum'])),
+    getProfit: getValue(request(wheel['get-profit'])),
     getByStatus: getAll(request(wheel['get-by-status'])),
     getByWallet: getAll(request(wheel['get-by-wallet'])),
     getByLimit: getAll(request(wheel['get-by-limit'])),
@@ -129,7 +131,6 @@ module.exports = {
   },
   operationProfit: {
     add: getId(request(operationProfit['add'])),
-    getLastBalance: getValue(request(operationProfit['get-last-balance'])),
     getNoComplete: getValue(request(operationProfit['get-no-complete'])),
     setCompleteAll: request(operationProfit['set-complete-all']),
   },

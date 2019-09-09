@@ -36,6 +36,11 @@ module.exports = {
       SELECT COALESCE(SUM("prize"), 0) AS "value"
       FROM "dice";`,
 
+  'get-profit': `
+      SELECT COALESCE(SUM("bet") - SUM("prize"), 0) AS "value"
+      FROM "dice"
+      WHERE "time" > NOW() - ($interval / 1000) * INTERVAL '1 seconds';`,
+
   'get-by-index': `
       SELECT
           "index",

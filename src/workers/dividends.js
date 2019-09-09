@@ -74,8 +74,8 @@ const freezeFunds = async() => {
 };
 
 const calculateProfit = async() => {
-  const { balance, profit } = await operatingProfit();
-  await db.operationProfit.add({ balance, profit });
+  const profit = await operatingProfit();
+  await db.operationProfit.add({ profit });
 
   const noCompleteProfit = await db.operationProfit.getNoComplete();
   if (noCompleteProfit > MIN_OPERATION_PROFIT) {
