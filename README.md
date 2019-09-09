@@ -1,5 +1,5 @@
 # Server
-v0.9.6 Sep 9, 2019
+v0.9.7 Sep 10, 2019
 
 Server for **TronBomb** games.
 
@@ -99,10 +99,16 @@ env:
   MINING_PROFIT: 1.0000,0.1330,0.0170,0.0170,0.0800,0.0025,0.2170,0.2000
   MIN_MINE     : 1                                 # Min mine amount
 
-  # Freeze & dividends
+  # Freeze
   UNFREEZE_TIME       : 86400000                   # Unfreeze BOMB amount
-  FUND_DELAY          : 300000                     # Withdraw and freeze fonds tokens < FUND_DELAY > before dividence distribution
   TRONWEB_DELAY       : 70000                      # Tronweb updates delay
+
+  # Dividends
+  START_DIVIDENDS     : '2019-08-26T12:00:00.000Z' # Start dividends program
+  DIVIDENDS_INTERVAL  : 600000                     # Dividends payout interval
+  FUND_DELAY          : 300000                     # Withdraw and freeze fonds tokens < FUND_DELAY > before dividence distribution
+  MIN_OPERATION_PROFIT: 100                        # Min operation profit to provide dividends calculation
+
   PLATFORM_BALANCE    : 10000                      # Min Platform contract balance
   MIN_OPERATION_PROFIT: 100                        # Min profit for withdraw
 

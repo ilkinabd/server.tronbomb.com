@@ -114,7 +114,27 @@ const mine = async() => {
 ...
 ```
 
-### 5. Freeze and unfreeze.
+### 5. Withdraw dividends.
+
+```
+...
+
+const withdrawDividends = async() => {
+  const result = await operationsContract.withdrawDividends().send({
+    shouldPollResponse: true,
+  }).catch(processError);
+
+  return result;
+}
+
+...
+
+console.log(await withdrawDividends());
+
+...
+```
+
+### 6. Freeze and unfreeze.
 
 ```
 ...
