@@ -1,85 +1,92 @@
-const { MIN_OPERATION_PROFIT, FUND_DELAY, TRONWEB_DELAY } = process.env;
+const { DIVIDENDS_INTERVAL, FUND_DELAY } = process.env;
+// const { MIN_OPERATION_PROFIT, TRONWEB_DELAY } = process.env;
 
-const { nextPayoutTimeout, operatingProfit } = require('@utils/dividends');
-const { bomb, portal, fund, tools } = require('@controllers/node');
-const db = require('@db');
-const { finishAuction } = require('@workers/auction/finish');
+const { leftToPayout/*, operatingProfit*/ } = require('@utils/dividends');
+// const { bomb, portal, fund, tools } = require('@controllers/node');
+// const db = require('@db');
+// const { finishAuction } = require('@workers/auction/finish');
 
-const day = 24 * 60 * 60 * 1000;
-const timeout = nextPayoutTimeout();
-let chanel;
+const timeout = leftToPayout();
 
-const checkFund = (fund) => {
-  const funds = [
-    'ad', 'random-jackpot', 'bet-amount-jackpot',
-    'technical', 'referral-rewards', 'team', 'auction'
-  ];
-  return funds.includes(fund);
-};
+// let chanel;
 
-const fillPortal = async(profit) => {
-  const amount = -profit;
+// const checkFund = (fund) => {
+//   const funds = [
+//     'ad', 'random-jackpot', 'bet-amount-jackpot',
+//     'technical', 'referral-rewards', 'team', 'auction'
+//   ];
+//   return funds.includes(fund);
+// };
 
-  const { address } = await portal.get.params();
+// const fillPortal = async(profit) => {
+//   const amount = -profit;
 
-  const params = { type: 'reserve', to: address, amount };
-  await fund.transfer(params);
-};
+//   const { address } = await portal.get.params();
 
-const payRewards = async(profit) => {
-  await db.operationProfit.setCompleteAll();
+//   const params = { type: 'reserve', to: address, amount };
+//   await fund.transfer(params);
+// };
 
-  const usersAmounts = await db.freeze.getUsersAmounts();
-  const totalFreeze = await db.freeze.getSum();
+// const payRewards = async(profit) => {
+//   await db.operationProfit.setCompleteAll();
 
-  for (const { wallet, amount } of usersAmounts) {
-    const dividend = profit * (amount / totalFreeze);
+//   const usersAmounts = await db.freeze.getUsersAmounts();
+//   const totalFreeze = await db.freeze.getSum();
 
-    const params = { to: wallet, amount: dividend };
+//   for (const { wallet, amount } of usersAmounts) {
+//     const dividend = profit * (amount / totalFreeze);
 
-    const result = await portal.func.withdraw(params);
-    if (result.status === 'success')
-      await db.dividends.add({ wallet, amount: dividend });
-  }
+//     const params = { to: wallet, amount: dividend };
+
+//     const result = await portal.func.withdraw(params);
+//     if (result.status === 'success')
+//       await db.dividends.add({ wallet, amount: dividend });
+//   }
+// };
+
+const freezeFunds = async() => {
+  console.log('freeze', new Date());
+
+  // const { funds } = await tools.getFunds();
+
+  // for (const { address: wallet, type } of funds) {
+  //   if (!checkFund(type)) continue;
+
+  //   const sum = await db.mining.getUserSum({ wallet });
+  //   if (sum < 0) continue;
+
+  //   await db.mining.add({ type: 'withdraw', wallet, amount: -sum });
+  //   await bomb.func.transfer({ to: wallet, amount: sum });
+
+  //   setTimeout(() => { fund.freezeAll({ type }); }, TRONWEB_DELAY);
+  // }
 };
 
 const calculateProfit = async() => {
-  const amount = await operatingProfit();
+  console.log('profit', new Date());
 
-  await db.operationProfit.add({ amount });
+  // const amount = await operatingProfit();
 
-  if (amount < 0) return await fillPortal(amount);
+  // await db.operationProfit.add({ amount });
 
-  const noCompleteProfit = await db.operationProfit.getNoComplete();
-  if (noCompleteProfit > MIN_OPERATION_PROFIT) {
-    await finishAuction(chanel);
-    payRewards(noCompleteProfit);
-  }
+  // if (amount < 0) return await fillPortal(amount);
+
+  // const noCompleteProfit = await db.operationProfit.getNoComplete();
+  // if (noCompleteProfit > MIN_OPERATION_PROFIT) {
+  //   await finishAuction(chanel);
+  //   payRewards(noCompleteProfit);
+  // }
+
+  setTimeout(freezeFunds, DIVIDENDS_INTERVAL - FUND_DELAY);
 };
 
-const withdrawFunds = async() => {
-  const { funds } = await tools.getFunds();
-
-  for (const { address: wallet, type } of funds) {
-    if (!checkFund(type)) continue;
-
-    const sum = await db.mining.getUserSum({ wallet });
-    if (sum < 0) continue;
-
-    await db.mining.add({ type: 'withdraw', wallet, amount: -sum });
-    await bomb.func.transfer({ to: wallet, amount: sum });
-
-    setTimeout(() => { fund.freezeAll({ type }); }, TRONWEB_DELAY);
-  }
-};
-
-setTimeout(withdrawFunds, timeout - FUND_DELAY);
+setTimeout(freezeFunds, timeout - FUND_DELAY);
 
 setTimeout(() => {
+  setInterval(calculateProfit, DIVIDENDS_INTERVAL);
   calculateProfit();
-  setInterval(calculateProfit, day);
 }, timeout);
 
-module.exports = (ioChanel) => {
-  chanel = ioChanel;
+module.exports = (/*ioChanel*/) => {
+  // chanel = ioChanel;
 };

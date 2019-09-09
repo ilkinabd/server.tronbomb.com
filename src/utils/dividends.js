@@ -1,10 +1,20 @@
-const { PLATFORM_BALANCE } = process.env;
+const { START_DIVIDENDS, DIVIDENDS_INTERVAL, PLATFORM_BALANCE } = process.env;
 
 const db = require('@db');
 const node = require('@controllers/node');
 
+const start = new Date(START_DIVIDENDS);
+
+const leftToPayout = () => {
+  const delta = (Date.now() - start) % DIVIDENDS_INTERVAL;
+  const timeout = DIVIDENDS_INTERVAL - delta;
+  return timeout;
+};
+
+// TODO: remove it
 const day = 24 * 60 * 60 * 1000;
 
+// TODO: remove it
 const nextPayoutTimeout = () => {
   const result = new Date().setUTCHours(12, 0, 0) - Date.now();
   return (result > 0) ? result : result + day;
@@ -25,6 +35,7 @@ const userProfit = async(wallet, operatingProfit) => {
 };
 
 module.exports = {
+  leftToPayout,
   nextPayoutTimeout,
   operatingProfit,
   userProfit,
