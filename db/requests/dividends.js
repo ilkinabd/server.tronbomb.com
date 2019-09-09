@@ -1,9 +1,10 @@
 module.exports = {
   'add': `
-      INSERT INTO "dividends" ("user_id", "amount")
+      INSERT INTO "dividends" ("user_id", "amount", "type")
       VALUES (
           (SELECT "user_id" FROM "users" WHERE "wallet" = $wallet),
-          $amount
+          $amount,
+          $type
       ) RETURNING "dividend_id" as "id"`,
 
   'get-user-sum': `
