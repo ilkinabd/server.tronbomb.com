@@ -11,15 +11,6 @@ const leftToPayout = () => {
   return timeout;
 };
 
-// TODO: remove it
-const day = 24 * 60 * 60 * 1000;
-
-// TODO: remove it
-const nextPayoutTimeout = () => {
-  const result = new Date().setUTCHours(12, 0, 0) - Date.now();
-  return (result > 0) ? result : result + day;
-};
-
 const operatingProfit = async() => {
   const diceProfit = await db.dice.getProfit({ interval });
   const wheelProfit = await db.wheel.getProfit({ interval });
@@ -36,7 +27,6 @@ const userProfit = async(wallet, operatingProfit) => {
 
 module.exports = {
   leftToPayout,
-  nextPayoutTimeout,
   operatingProfit,
   userProfit,
 };
