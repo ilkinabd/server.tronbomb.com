@@ -1,14 +1,13 @@
-const { DIVIDENDS_INTERVAL, FUND_DELAY } = process.env;
-// const { MIN_OPERATION_PROFIT, TRONWEB_DELAY } = process.env;
+const { MIN_OPERATION_PROFIT, DIVIDENDS_INTERVAL, FUND_DELAY } = process.env;
+// const { TRONWEB_DELAY } = process.env;
 
-const { leftToPayout/*, operatingProfit*/ } = require('@utils/dividends');
+const db = require('@db');
+const { leftToPayout, operatingProfit } = require('@utils/dividends');
+const { finishAuction } = require('@workers/auction/finish');
 // const { bomb, portal, fund, tools } = require('@controllers/node');
-// const db = require('@db');
-// const { finishAuction } = require('@workers/auction/finish');
 
 const timeout = leftToPayout();
-
-// let chanel;
+let chanel;
 
 // const checkFund = (fund) => {
 //   const funds = [
@@ -18,31 +17,22 @@ const timeout = leftToPayout();
 //   return funds.includes(fund);
 // };
 
-// const fillPortal = async(profit) => {
-//   const amount = -profit;
+const payRewards = async(profit) => {
+  console.log(profit);
 
-//   const { address } = await portal.get.params();
+  // const usersAmounts = await db.freeze.getUsersAmounts();
+  // const totalFreeze = await db.freeze.getSum();
 
-//   const params = { type: 'reserve', to: address, amount };
-//   await fund.transfer(params);
-// };
+  // for (const { wallet, amount } of usersAmounts) {
+  //   const dividend = profit * (amount / totalFreeze);
 
-// const payRewards = async(profit) => {
-//   await db.operationProfit.setCompleteAll();
+  //   const params = { to: wallet, amount: dividend };
 
-//   const usersAmounts = await db.freeze.getUsersAmounts();
-//   const totalFreeze = await db.freeze.getSum();
-
-//   for (const { wallet, amount } of usersAmounts) {
-//     const dividend = profit * (amount / totalFreeze);
-
-//     const params = { to: wallet, amount: dividend };
-
-//     const result = await portal.func.withdraw(params);
-//     if (result.status === 'success')
-//       await db.dividends.add({ wallet, amount: dividend });
-//   }
-// };
+  //   const result = await portal.func.withdraw(params);
+  //   if (result.status === 'success')
+  //     await db.dividends.add({ wallet, amount: dividend });
+  // }
+};
 
 const freezeFunds = async() => {
   console.log('freeze', new Date());
@@ -63,19 +53,16 @@ const freezeFunds = async() => {
 };
 
 const calculateProfit = async() => {
-  console.log('profit', new Date());
+  const { balance, profit } = await operatingProfit();
+  await db.operationProfit.add({ balance, profit });
 
-  // const amount = await operatingProfit();
+  const noCompleteProfit = await db.operationProfit.getNoComplete();
+  if (noCompleteProfit > MIN_OPERATION_PROFIT) {
+    await finishAuction(chanel);
+    payRewards(noCompleteProfit);
 
-  // await db.operationProfit.add({ amount });
-
-  // if (amount < 0) return await fillPortal(amount);
-
-  // const noCompleteProfit = await db.operationProfit.getNoComplete();
-  // if (noCompleteProfit > MIN_OPERATION_PROFIT) {
-  //   await finishAuction(chanel);
-  //   payRewards(noCompleteProfit);
-  // }
+    await db.operationProfit.setCompleteAll();
+  }
 
   setTimeout(freezeFunds, DIVIDENDS_INTERVAL - FUND_DELAY);
 };
@@ -87,6 +74,6 @@ setTimeout(() => {
   calculateProfit();
 }, timeout);
 
-module.exports = (/*ioChanel*/) => {
-  // chanel = ioChanel;
+module.exports = (ioChanel) => {
+  chanel = ioChanel;
 };

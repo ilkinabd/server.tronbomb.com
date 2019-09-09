@@ -129,6 +129,7 @@ module.exports = {
   },
   operationProfit: {
     add: getId(request(operationProfit['add'])),
+    getLastBalance: getValue(request(operationProfit['get-last-balance'])),
     getNoComplete: getValue(request(operationProfit['get-no-complete'])),
     setCompleteAll: request(operationProfit['set-complete-all']),
   },
