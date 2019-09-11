@@ -16,6 +16,7 @@ const freeze = require('./requests/freeze');
 const operationProfit = require('./requests/operation-profit');
 const dividends = require('./requests/dividends');
 const mining = require('./requests/mining');
+const jackpots = require('./requests/jackpots');
 
 const dice = require('./requests/dice');
 const wheel = require('./requests/wheel');
@@ -151,5 +152,11 @@ module.exports = {
     getAll: getAll(request(auction['get-all'])),
     setPrize: request(auction['set-prize']),
     getLastWinner: getRow(request(auction['get-last-winner'])),
+  },
+  jackpots: {
+    add: getId(request(jackpots['add'])),
+    getRandomUnconfirmed: getAll(request(jackpots['get-random-unconfirmed'])),
+    deleteRandomUnconfirmed: request(jackpots['delete-random-unconfirmed']),
+    getAll: getAll(request(jackpots['get-all'])),
   },
 };
