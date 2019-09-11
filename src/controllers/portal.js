@@ -1,3 +1,5 @@
+const { JACKPOTS_ACTIVE, JACKPOT_MIN_BET_SUM } = process.env;
+
 const db = require('@db');
 const node = require('@controllers/node');
 const getResponse = require('@utils/get-response');
@@ -32,6 +34,16 @@ const dividendsParams = async(_req, res) => {
   const totalMined = (await node.tools.totalMined()).totalMined;
 
   successRes(res, { nextPayout, profit, totalFrozen, totalMined });
+};
+
+const getRandomJackpotParams = async(_req, res) => {
+  const active = JACKPOTS_ACTIVE === 'true';
+  const minBetSum = parseFloat(JACKPOT_MIN_BET_SUM);
+
+  const type = 'random-jackpot';
+  const fundBalance = (await node.fund.balance({ type })).balanceTRX;
+
+  successRes(res, { active, minBetSum, fundBalance });
 };
 
 // Only for random jackpot
@@ -78,5 +90,6 @@ module.exports = {
   totalBetPrize,
   dividendsParams,
   setJackpotWinner,
+  getRandomJackpotParams,
   subscribe,
 };

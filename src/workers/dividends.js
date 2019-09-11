@@ -83,7 +83,7 @@ const calculateProfit = async() => {
 
   setTimeout(freezeFunds, DIVIDENDS_INTERVAL - FUND_DELAY);
 
-  if (JACKPOTS_ACTIVE) setTimeout(() => {
+  if (JACKPOTS_ACTIVE === 'true') setTimeout(() => {
     randomJackpot(ws.in('jackpots'));
   }, JACKPOT_DELAY);
 };
