@@ -1,7 +1,7 @@
 const {
   NODE, NODE_TOKEN,
   MIN_OPERATION_PROFIT, DIVIDENDS_INTERVAL, FUND_DELAY,
-  TRONWEB_DELAY, JACKPOT_DELAY,
+  TRONWEB_DELAY, JACKPOT_DELAY, JACKPOTS_ACTIVE,
 } = process.env;
 
 const io = require('socket.io-client');
@@ -83,7 +83,7 @@ const calculateProfit = async() => {
 
   setTimeout(freezeFunds, DIVIDENDS_INTERVAL - FUND_DELAY);
 
-  setTimeout(randomJackpot, JACKPOT_DELAY);
+  if (JACKPOTS_ACTIVE) setTimeout(randomJackpot, JACKPOT_DELAY);
 };
 
 setTimeout(freezeFunds, timeout - FUND_DELAY);
