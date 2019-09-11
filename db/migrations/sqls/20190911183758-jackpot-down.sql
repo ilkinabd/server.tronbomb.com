@@ -1,0 +1,2 @@
+DROP TABLE "jackpots";
+DROP TYPE JACKPOT_TYPE;
