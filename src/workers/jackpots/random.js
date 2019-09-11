@@ -34,13 +34,16 @@ const addWinnersFromDB = async(winners) => {
   return winners;
 };
 
-const payRewards = async(winners) => {
+const payRewards = async(winners, chanel) => {
   const type = 'random-jackpot';
   const { balanceTRX } = await balance({ type });
+
+  const result = [];
 
   for (const i in winners) {
     const prize = balanceTRX * prizes[i];
     const wallet = winners[i];
+    result.push({ wallet, prize });
 
     await transfer({ to: wallet, amount: prize, type });
 
@@ -52,9 +55,11 @@ const payRewards = async(winners) => {
       status: true,
     });
   }
+
+  chanel.emit('random-jackpot', result);
 };
 
-module.exports = async() => {
+module.exports = async(chanel) => {
   const users = await db.users.getTop({ limit: 1000 });
   const members = users.filter(e => e.betSum >= JACKPOT_MIN_BET_SUM)
     .map(e => e.wallet);
@@ -62,5 +67,5 @@ module.exports = async() => {
   const randomWinners = await getRandomWinners(members);
   const winners = await addWinnersFromDB(randomWinners);
 
-  payRewards(winners);
+  payRewards(winners, chanel);
 };

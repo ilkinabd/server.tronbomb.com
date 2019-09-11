@@ -22,7 +22,7 @@ socket.on('connect', () => {
 });
 
 const timeout = leftToPayout();
-let chanel;
+let ws;
 
 const withdraw = async(data) => {
   const { wallet } = data;
@@ -75,7 +75,7 @@ const calculateProfit = async() => {
 
   const noCompleteProfit = await db.operationProfit.getNoComplete();
   if (noCompleteProfit > MIN_OPERATION_PROFIT) {
-    await finishAuction(chanel);
+    await finishAuction(ws.in('auction'));
     payRewards(noCompleteProfit);
 
     await db.operationProfit.setCompleteAll();
@@ -83,7 +83,9 @@ const calculateProfit = async() => {
 
   setTimeout(freezeFunds, DIVIDENDS_INTERVAL - FUND_DELAY);
 
-  if (JACKPOTS_ACTIVE) setTimeout(randomJackpot, JACKPOT_DELAY);
+  if (JACKPOTS_ACTIVE) setTimeout(() => {
+    randomJackpot(ws.in('jackpots'));
+  }, JACKPOT_DELAY);
 };
 
 setTimeout(freezeFunds, timeout - FUND_DELAY);
@@ -95,6 +97,6 @@ setTimeout(() => {
 
 socket.on('withdraw-dividends', withdraw);
 
-module.exports = (ioChanel) => {
-  chanel = ioChanel;
+module.exports = (io) => {
+  ws = io;
 };
