@@ -34,6 +34,19 @@ const dividendsParams = async(_req, res) => {
   successRes(res, { nextPayout, profit, totalFrozen, totalMined });
 };
 
+// Only for random jackpot
+const setJackpotWinner = async(req, res) => {
+  const { wallet, place } = req.body;
+
+  const type = 'random';
+  const prize = null;
+  const status = false;
+  const id = await db.jackpots.add({ wallet, type, place, prize, status });
+  if (!id) return errorRes(res, 500, 73500);
+
+  successRes(res);
+};
+
 const subscribe = async(req, res) => {
   const { mail } = req.body;
   const result = await getResponse(mail);
@@ -64,5 +77,6 @@ module.exports = {
   getConfigs,
   totalBetPrize,
   dividendsParams,
+  setJackpotWinner,
   subscribe,
 };
