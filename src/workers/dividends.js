@@ -1,7 +1,7 @@
 const {
   NODE, NODE_TOKEN,
   MIN_OPERATION_PROFIT, DIVIDENDS_INTERVAL, FUND_DELAY,
-  TRONWEB_DELAY,
+  TRONWEB_DELAY, JACKPOT_DELAY,
 } = process.env;
 
 const io = require('socket.io-client');
@@ -10,6 +10,7 @@ const db = require('@db');
 const { leftToPayout, operatingProfit } = require('@utils/dividends');
 const { finishAuction } = require('@workers/auction/finish');
 const { bomb, portal, fund, tools } = require('@controllers/node');
+const randomJackpot = require('@workers/jackpots/random');
 
 const socket = io.connect(NODE, { reconnect: true });
 
@@ -81,6 +82,8 @@ const calculateProfit = async() => {
   }
 
   setTimeout(freezeFunds, DIVIDENDS_INTERVAL - FUND_DELAY);
+
+  setTimeout(randomJackpot, JACKPOT_DELAY);
 };
 
 setTimeout(freezeFunds, timeout - FUND_DELAY);
