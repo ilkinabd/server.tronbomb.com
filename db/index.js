@@ -157,5 +157,6 @@ module.exports = {
     add: getId(request(jackpots['add'])),
     getRandomUnconfirmed: getAll(request(jackpots['get-random-unconfirmed'])),
     deleteRandomUnconfirmed: request(jackpots['delete-random-unconfirmed']),
+    getAll: getAll(request(jackpots['get-all'])),
   },
 };

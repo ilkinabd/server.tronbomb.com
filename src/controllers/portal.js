@@ -46,6 +46,11 @@ const getRandomJackpotParams = async(_req, res) => {
   successRes(res, { active, minBetSum, fundBalance });
 };
 
+const getRandomJackpotHistory = async(_req, res) => {
+  const payments = await db.jackpots.getAll();
+  successRes(res, { payments });
+};
+
 // Only for random jackpot
 const setJackpotWinner = async(req, res) => {
   const { wallet, place } = req.body;
@@ -91,5 +96,6 @@ module.exports = {
   dividendsParams,
   setJackpotWinner,
   getRandomJackpotParams,
+  getRandomJackpotHistory,
   subscribe,
 };

@@ -22,4 +22,15 @@ module.exports = {
   'delete-random-unconfirmed': `
       DELETE FROM "jackpots"
       WHERE "type" = 'random' AND "status" = FALSE;`,
+
+  'get-all': `
+      SELECT
+          "wallet",
+          "type",
+          "place",
+          "prize",
+          "time"
+      FROM "jackpots"
+      NATURAL JOIN "users"
+      WHERE "status" = TRUE;`,
 };
