@@ -38,6 +38,8 @@ const payRewards = async(winners, chanel) => {
   const type = 'random-jackpot';
   const { balanceTRX } = await balance({ type });
 
+  if (balanceTRX < 10) return;
+
   const result = [];
 
   for (const i in winners) {
