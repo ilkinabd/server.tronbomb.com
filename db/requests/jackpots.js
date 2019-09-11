@@ -7,5 +7,15 @@ module.exports = {
           $place,
           $prize,
           $status
-      ) RETURNING "payment_id" as "id"`,
+      ) RETURNING "payment_id" as "id";`,
+
+  'get-random-unconfirmed': `
+      SELECT
+          "wallet",
+          "place",
+          "prize",
+          "time"
+      FROM "jackpots"
+      NATURAL JOIN "users"
+      WHERE "type" = 'random' AND "status" = FALSE;`,
 };
