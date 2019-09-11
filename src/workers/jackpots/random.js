@@ -1,6 +1,9 @@
-const { JACKPOT_MIN_BET_SUM, JACKPOT_WINNERS } = process.env;
+const { JACKPOT_MIN_BET_SUM, JACKPOT_WINNERS, JACKPOTS_PRIZES } = process.env;
 
 const db = require('@db');
+const { balance, transfer } = require('@controllers/node').fund;
+
+const prizes = Array.from(JACKPOTS_PRIZES.split(','), parseFloat);
 
 const random = (max) => Math.floor(Math.random() * max);
 
@@ -26,7 +29,29 @@ const addWinnersFromDB = async(winners) => {
     else winners[place] = wallet;
   }
 
+  await db.jackpots.deleteRandomUnconfirmed();
+
   return winners;
+};
+
+const payRewards = async(winners) => {
+  const type = 'random-jackpot';
+  const { balanceTRX } = await balance({ type });
+
+  for (const i in winners) {
+    const prize = balanceTRX * prizes[i];
+    const wallet = winners[i];
+
+    await transfer({ to: wallet, amount: prize, type });
+
+    await db.jackpots.add({
+      wallet,
+      type: 'random',
+      place: parseInt(i) + 1,
+      prize,
+      status: true,
+    });
+  }
 };
 
 module.exports = async() => {
@@ -37,5 +62,5 @@ module.exports = async() => {
   const randomWinners = await getRandomWinners(members);
   const winners = await addWinnersFromDB(randomWinners);
 
-  console.log(winners);
+  payRewards(winners);
 };

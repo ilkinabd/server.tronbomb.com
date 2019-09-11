@@ -18,4 +18,8 @@ module.exports = {
       FROM "jackpots"
       NATURAL JOIN "users"
       WHERE "type" = 'random' AND "status" = FALSE;`,
+
+  'delete-random-unconfirmed': `
+      DELETE FROM "jackpots"
+      WHERE "type" = 'random' AND "status" = FALSE;`,
 };
