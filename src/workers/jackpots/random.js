@@ -1,4 +1,4 @@
-const { JACKPOT_MIN_BET_SUM, JACKPOT_WINNERS, JACKPOTS_PRIZES } = process.env;
+const { JACKPOT_MIN_BET_SUM, JACKPOT_PLACES, JACKPOTS_PRIZES } = process.env;
 
 const db = require('@db');
 const { balance, transfer } = require('@controllers/node').fund;
@@ -10,7 +10,7 @@ const random = (max) => Math.floor(Math.random() * max);
 const getRandomWinners = async(members) => {
   const winners = [];
 
-  for (let i = 0; i < JACKPOT_WINNERS; i++) {
+  for (let i = 0; i < JACKPOT_PLACES; i++) {
     const randomIndex = i + random(members.length - i);
     winners.push(members[randomIndex]);
     [members[i], members[randomIndex]] = [members[randomIndex], members[i]];

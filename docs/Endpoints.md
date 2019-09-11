@@ -1,5 +1,5 @@
 # Endpoints List
-v0.9.6+
+v0.9.8+
 
 ## Models
 
@@ -21,6 +21,14 @@ v0.9.6+
 ```
 {
   mail: < string, regex, max(60) >
+}
+```
+
+**jackpotWinner**
+```
+{
+  wallet: < string, alphanum, length(34) >
+  place: < number, integer, min(1) >
 }
 ```
 
@@ -70,12 +78,15 @@ v0.9.6+
 
 ## Portal
 
-| Endpoint                   | Model | Type | Description                        |
-| -------------------------- | ----- | ---- | ---------------------------------- |
-| `/portal/configs`          |       | GET  | Get smart contracts addresses.     |
-| `/portal/total_bet_prize`  |       | GET  | Get total bets and total win sum.  |
-| `/portal/dividends_params` |       | GET  | Get dividends distribution params. |
-| `/portal/subscribe`        | mail  | POST | Subscribe to the newsletter.       |
+| Endpoint                            | Model         | Type | Description                          |
+| ----------------------------------- | ------------- | ---- | ------------------------------------ |
+| `/portal/configs`                   |               | GET  | Get smart contracts addresses.       |
+| `/portal/total_bet_prize`           |               | GET  | Get total bets and total win sum.    |
+| `/portal/dividends_params`          |               | GET  | Get dividends distribution params.   |
+| `/portal/random_jackpot_params`     |               | GET  | Get random jackpot params.           |
+| `/portal/set_random_jackpot_winner` | jackpotWinner | POST | Set random jackpot winner manually.  |
+| `/history/random_jackpot`           |               | GET  | Get random jackpot payments history. |
+| `/portal/subscribe`                 | mail          | POST | Subscribe to the newsletter.         |
 
 ## Referral
 
