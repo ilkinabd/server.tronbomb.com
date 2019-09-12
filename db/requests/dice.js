@@ -11,12 +11,12 @@ module.exports = {
       ) VALUES (
           $index,
           $finishBlock,
-          $userId,
+          GET_USER_ID($wallet),
           $bet,
           $tokenId,
           $number,
           $roll
-      ) RETURNING "game_id" as "id";`,
+      ) RETURNING "game_id" AS "id";`,
 
   'set-finish': `
       UPDATE "dice"
