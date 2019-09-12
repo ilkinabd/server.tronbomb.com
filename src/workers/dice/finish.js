@@ -1,58 +1,28 @@
-const { NODE, NODE_TOKEN, DICE_RTP } = process.env;
-
-const io = require('socket.io-client');
-
 const db = require('@db');
-const { dice } = require('@controllers/node');
-const { getReward } = require('@utils/dice');
+const { finish } = require('@controllers/node').dice.func;
+const { getRandom, getReward } = require('@utils/dice');
 
-const socket = io.connect(NODE, { reconnect: true });
-let chanel;
-
-socket.on('connect', () => {
-  socket.emit('subscribe', {
-    room: 'blocks',
-    token: NODE_TOKEN,
-  });
-});
-
-const getRNGResult = async(address, block, hash) => {
-  const payload = await dice.func.rng({ address, block, hash });
-  return payload.result;
-};
-
-const setPrize = async(params, result, bet, index) => {
-  const prize = getReward(params, result, bet, DICE_RTP);
-  await db.dice.setFinish({ index, result, prize });
-  if (prize === 0) await db.dice.setConfirm({ index });
-
-  return prize;
-};
-
-const broadcastGame = async(index) => {
-  const game = await db.dice.getByIndex({ index });
-  chanel.emit('dice-finish', { games: [game] });
-};
-
-const getGameResult = async(game, block, hash) => {
-  const { index, wallet, bet, number, roll } = game;
-  const params = { number, roll };
-
-  const result = await getRNGResult(wallet, block, hash);
-  await setPrize(params, result, bet, index);
-
-  dice.func.finishGame({ index, hash });
-  broadcastGame(index);
-};
-
-const processBlocks = async(data) => {
-  const { number, hash } = data;
+const finishGames = async(block) => {
+  const { number, hash } = block;
   const games = await db.dice.getByFinishBlock({ finishBlock: number });
-  for (const game of games) getGameResult(game, number, hash);
+  if (games.length === 0) return;
+
+  for (const game of games) {
+    const { wallet, index, number, roll, bet } = game;
+
+    game.result = await getRandom(wallet, number, hash);
+    game.prize = getReward(number, roll, game.result, bet);
+
+    await db.dice.setFinish({ index, result: game.result, prize: game.prize });
+    if (game.prize === 0) await db.dice.setConfirm({ index });
+
+    finish({ index, hash });
+  }
+
+  this.chanel.emit('dice-finish', { games });
 };
 
-socket.on('blocks', processBlocks);
-
-module.exports = (ioChanel) => {
-  chanel = ioChanel;
+module.exports = (node, chanel) => {
+  node.on('blocks', finishGames);
+  this.chanel = chanel;
 };

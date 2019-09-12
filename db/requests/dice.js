@@ -81,12 +81,16 @@ module.exports = {
   'get-by-finish-block': `
       SELECT
           "index",
+          "finish_block" as "finishBlock",
           "wallet",
           "bet",
+          "SYMBOL" as "symbol",
           "number",
-          "roll"
+          "roll",
+          "time"
       FROM "dice"
       NATURAL JOIN "users"
+      NATURAL JOIN "tokens"
       WHERE "status" = 'start' AND "finish_block" = $finishBlock;`,
 
   'get-by-limit': `

@@ -34,7 +34,7 @@ module.exports = {
   dice: {
     func: {
       rng: getRequest('/dice/func/rng'),
-      finishGame: postRequest('/dice/func/finish_game'),
+      finish: postRequest('/dice/func/finish_game'),
     },
   },
   wheel: {
