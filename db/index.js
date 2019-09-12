@@ -46,6 +46,17 @@ module.exports = {
     add: getId(request(bans['add'])),
     get: getRow(request(bans['get'])),
   },
+  dice: {
+    add:                 getId(request(dice['add'])),
+    setFinish:                 request(dice['set-finish']),
+    setConfirm:                request(dice['set-confirm']),
+    getBetSum:        getValue(request(dice['get-bet-sum'])),
+    getPrizeSum:      getValue(request(dice['get-prize-sum'])),
+    getProfit:        getValue(request(dice['get-profit'])),
+    getByWallet:        getAll(request(dice['get-by-wallet'])),
+    getByFinishBlock:   getAll(request(dice['get-by-finish-block'])),
+    getByLimit:         getAll(request(dice['get-by-limit'])),
+  },
   tokens: {
     getSymbol: getValue(request(tokens['get-symbol'])),
     getAll: getAll(request(tokens['get-all'])),
@@ -89,18 +100,6 @@ module.exports = {
   messages: {
     add: getValue(request(messages['add'])),
     getByLimit: getAll(request(messages['get-by-limit'])),
-  },
-  dice: {
-    add: getId(request(dice['add'])),
-    setFinish: request(dice['set-finish']),
-    setConfirm: request(dice['set-confirm']),
-    getBetSum: getValue(request(dice['get-bet-sum'])),
-    getPrizeSum: getValue(request(dice['get-prize-sum'])),
-    getProfit: getValue(request(dice['get-profit'])),
-    getByIndex: getRow(request(dice['get-by-index'])),
-    getByWallet: getAll(request(dice['get-by-wallet'])),
-    getByFinishBlock: getAll(request(dice['get-by-finish-block'])),
-    getByLimit: getAll(request(dice['get-by-limit'])),
   },
   wheel: {
     add: getValue(request(wheel['add'])),
