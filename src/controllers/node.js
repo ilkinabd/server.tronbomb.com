@@ -1,24 +1,20 @@
 const { NODE, NODE_TOKEN } = process.env;
 
-const axios = require('axios');
-const qs = require('querystring');
+const axios = require('axios').create({
+  baseURL: NODE,
+  headers: {
+    'maxie-token': NODE_TOKEN,
+    'Content-type': 'application/json',
+  }
+});
 
 const getRequest = (path) => async(params = {}) => {
-  const res = await axios.get(NODE + path, { params, headers: {
-    'maxie-token': NODE_TOKEN,
-  } }).catch(console.error);
-
+  const res = await axios.get(path, { params }).catch(console.error);
   return (res) ? res.data : {};
 };
 
 const postRequest = (path) => async(params = {}) => {
-  const res = await axios.post(NODE + path, qs.stringify(params), { headers: {
-    'maxie-token': NODE_TOKEN,
-    'Content-type': 'application/x-www-form-urlencoded',
-  } }).catch(error => {
-    console.error(JSON.stringify(error));
-  });
-
+  const res = await axios.post(NODE + path, params).catch(console.error);
   return (res) ? res.data : {};
 };
 
@@ -34,7 +30,7 @@ module.exports = {
   dice: {
     func: {
       rng: getRequest('/dice/func/rng'),
-      finishGame: postRequest('/dice/func/finish_game'),
+      finish: postRequest('/dice/func/finish_game'),
     },
   },
   wheel: {

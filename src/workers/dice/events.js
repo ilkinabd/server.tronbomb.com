@@ -1,37 +1,22 @@
-const { NODE, NODE_TOKEN } = process.env;
-
-const io = require('socket.io-client');
-
 const db = require('@db');
 const { updateLevel, referrerProfit } = require('@utils/users');
 const { mining } = require('@utils/mining');
-
-const socket = io.connect(NODE, { reconnect: true });
-
-socket.on('connect', () => {
-  socket.emit('subscribe', {
-    room: 'dice',
-    token: NODE_TOKEN,
-  });
-});
+const { getSymbol } = require('@utils/dice');
 
 const takePart = async(data) => {
   const { index, wallet, finishBlock, bet, tokenId, number, roll } = data;
+  const symbol = getSymbol(tokenId);
 
-  let userId = await db.users.getId({ wallet });
-  if (!userId) userId = await db.users.add({ wallet });
-
-  if (tokenId === 0) await mining(bet, wallet);
-  await db.dice.add({ index, finishBlock, userId, bet, tokenId, number, roll });
+  if (symbol === 'TRX') await mining(bet, wallet);
+  await db.dice.add({ index, finishBlock, wallet, bet, symbol, number, roll });
 
   updateLevel(wallet);
   referrerProfit(wallet, index, bet, 'dice');
 };
 
-const reward = async(data) => {
-  const { index } = data;
-  db.dice.setConfirm({ index });
-};
+const reward = (data) => db.dice.setConfirm({ index: data.index });
 
-socket.on('dice-take-part', takePart);
-socket.on('dice-reward', reward);
+module.exports = (node) => {
+  node.on('dice-take-part', takePart);
+  node.on('dice-reward', reward);
+};

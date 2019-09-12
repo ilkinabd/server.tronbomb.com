@@ -5,18 +5,18 @@ module.exports = {
           "finish_block",
           "user_id",
           "bet",
-          "token_id",
+          "symbol",
           "number",
           "roll"
       ) VALUES (
           $index,
           $finishBlock,
-          $userId,
+          GET_USER_ID($wallet),
           $bet,
-          $tokenId,
+          $symbol,
           $number,
           $roll
-      ) RETURNING "game_id" as "id";`,
+      ) RETURNING "game_id" AS "id";`,
 
   'set-finish': `
       UPDATE "dice"
@@ -41,32 +41,13 @@ module.exports = {
       FROM "dice"
       WHERE "time" > NOW() - ($interval / 1000) * INTERVAL '1 seconds';`,
 
-  'get-by-index': `
-      SELECT
-          "index",
-          "finish_block" as "finishBlock",
-          "wallet",
-          "level",
-          "bet",
-          "SYMBOL" as "symbol",
-          "number",
-          "roll",
-          "result",
-          "prize",
-          "time"
-      FROM "dice"
-      NATURAL JOIN "users"
-      NATURAL JOIN "tokens"
-      WHERE "index" = $index;`,
-
   'get-by-wallet': `
       SELECT
           "index",
-          "finish_block" as "finishBlock",
+          "finish_block" AS "finishBlock",
           "wallet",
-          "level",
           "bet",
-          "SYMBOL" as "symbol",
+          "symbol",
           "number",
           "roll",
           "result",
@@ -74,17 +55,19 @@ module.exports = {
           "time"
       FROM "dice"
       NATURAL JOIN "users"
-      NATURAL JOIN "tokens"
       WHERE "wallet" = $wallet
-      ORDER BY "index" DESC;`,
+      ORDER BY "time" DESC;`,
 
   'get-by-finish-block': `
       SELECT
           "index",
+          "finish_block" AS "finishBlock",
           "wallet",
           "bet",
+          "symbol",
           "number",
-          "roll"
+          "roll",
+          "time"
       FROM "dice"
       NATURAL JOIN "users"
       WHERE "status" = 'start' AND "finish_block" = $finishBlock;`,
@@ -92,11 +75,10 @@ module.exports = {
   'get-by-limit': `
       SELECT
           "index",
-          "finish_block" as "finishBlock",
+          "finish_block" AS "finishBlock",
           "wallet",
-          "level",
           "bet",
-          "SYMBOL" as "symbol",
+          "symbol",
           "number",
           "roll",
           "result",
@@ -104,8 +86,7 @@ module.exports = {
           "time"
       FROM "dice"
       NATURAL JOIN "users"
-      NATURAL JOIN "tokens"
       WHERE "status" = 'finish'
-      ORDER BY "index" DESC
+      ORDER BY "time" DESC
       LIMIT $limit;`,
 };

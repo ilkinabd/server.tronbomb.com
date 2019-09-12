@@ -18,8 +18,10 @@ $$ LANGUAGE plpgsql;
 CREATE OR REPLACE FUNCTION GET_USER_ID(CHAR(34))
 RETURNS INTEGER AS
 $$
-  SELECT "user_id" FROM "users"
-  WHERE "wallet" = $1;
+  INSERT INTO "users" ("wallet")
+  SELECT $1
+  WHERE NOT EXISTS (SELECT * FROM "users" WHERE "wallet" = $1);
+  SELECT "user_id" FROM "users" WHERE "wallet" = $1;
 $$
 LANGUAGE sql;
 
@@ -64,13 +66,15 @@ CREATE TYPE ROLL_TYPE AS ENUM (
   'exact'
 );
 
+CREATE TYPE SYMBOL AS ENUM ('TRX', 'BOMB');
+
 CREATE TABLE "dice" (
   "game_id"      SERIAL      NOT NULL,
   "index"        INTEGER     NOT NULL,
   "finish_block" INTEGER     NOT NULL,
-  "user_id"      INTEGER     NOT NULL  REFERENCES "users"("user_id"),
+  "user_id"      INTEGER     NOT NULL REFERENCES "users"("user_id"),
   "bet"          FLOAT       NOT NULL,
-  "token_id"     INTEGER     NOT NULL  DEFAULT 0 REFERENCES "tokens"("token_id"),
+  "symbol"       SYMBOL      NOT NULL DEFAULT 'TRX',
   "number"       INTEGER     NOT NULL,
   "roll"         ROLL_TYPE   NOT NULL,
   "result"       INTEGER,

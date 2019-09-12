@@ -83,7 +83,8 @@ module.exports = {
   'get-trx-bet-sum': `
       SELECT SUM("bet") as "value"
       FROM (
-          SELECT "bet", "user_id", "token_id" FROM "dice"
+          SELECT "bet", "user_id", "token_id" AS 0 FROM "dice"
+          WHERE "symbol" = 'TRX'
           UNION ALL
           SELECT "bet", "user_id", "token_id" FROM "wheel"
       ) AS "bets"
