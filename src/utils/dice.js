@@ -1,10 +1,11 @@
-const { DICE_RTP, TOKENS } = process.env;
+const { DICE_RTP, TOKENS, DECIMAL } = process.env;
 
 const { rng } = require('@controllers/node').dice.func;
 
 const tokens = TOKENS.split(',');
 
 const getSymbol = (tokenId) => tokens[tokenId];
+const toDecimal = amount => Math.floor(amount * 10 ** DECIMAL) / 10 ** DECIMAL;
 
 const getRandom = async(address, block) => {
   const payload = await rng({ address, block });
@@ -12,18 +13,20 @@ const getRandom = async(address, block) => {
 };
 
 const getReward = (number, roll, result, bet) => {
+  let reward = 0;
   switch (roll) {
     case 'under':
-      if (result < number) return (bet * 77 / number) * DICE_RTP;
+      if (result < number) reward = (bet * 77 / number) * DICE_RTP;
       break;
     case 'over':
-      if (number < result) return (bet * 77 / (77 - number)) * DICE_RTP;
+      if (number < result) reward = (bet * 77 / (77 - number)) * DICE_RTP;
       break;
     case 'exact':
-      if (number === result) return (bet * 77) * DICE_RTP;
+      if (number === result) reward = (bet * 77) * DICE_RTP;
       break;
   }
-  return 0;
+
+  return toDecimal(reward);
 };
 
 module.exports = {
