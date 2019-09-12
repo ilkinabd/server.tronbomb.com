@@ -1,5 +1,5 @@
 # Server
-v0.9.8 Sep 11, 2019
+v0.10.0 Sep 12, 2019
 
 Server for **TronBomb** games.
 
@@ -90,6 +90,8 @@ env:
   MIN_WITHDRAW      : 10                           # Referrel profit min withdraw
   MAX_WITHDRAW      : 1000                         # Referrel profit max withdraw
   WITHDRAW_FEE      : 1                            # Referrel profit withdraw fee
+  TOKENS            : TRX,BOMB                     # Available tokens
+  DECIMAL           : 2                            # Tokens decimal
 
   # Mining
   START_MINING      : '2019-08-26T12:00:00.000Z'   # Start mining time
