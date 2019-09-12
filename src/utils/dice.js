@@ -1,9 +1,13 @@
-const { DICE_RTP } = process.env;
+const { DICE_RTP, TOKENS } = process.env;
 
 const { rng } = require('@controllers/node').dice.func;
 
-const getRandom = async(address, block, hash) => {
-  const payload = await rng({ address, block, hash });
+const tokens = TOKENS.split(',');
+
+const getSymbol = (tokenId) => tokens[tokenId];
+
+const getRandom = async(address, block) => {
+  const payload = await rng({ address, block });
   return payload.result;
 };
 
@@ -23,6 +27,7 @@ const getReward = (number, roll, result, bet) => {
 };
 
 module.exports = {
+  getSymbol,
   getRandom,
   getReward,
 };

@@ -1,12 +1,14 @@
 const db = require('@db');
 const { updateLevel, referrerProfit } = require('@utils/users');
 const { mining } = require('@utils/mining');
+const { getSymbol } = require('@utils/dice');
 
 const takePart = async(data) => {
   const { index, wallet, finishBlock, bet, tokenId, number, roll } = data;
+  const symbol = getSymbol(tokenId);
 
-  if (tokenId === 0) await mining(bet, wallet);
-  await db.dice.add({ index, finishBlock, wallet, bet, tokenId, number, roll });
+  if (symbol === 'TRX') await mining(bet, wallet);
+  await db.dice.add({ index, finishBlock, wallet, bet, symbol, number, roll });
 
   updateLevel(wallet);
   referrerProfit(wallet, index, bet, 'dice');

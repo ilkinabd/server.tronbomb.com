@@ -5,7 +5,7 @@ module.exports = {
           "finish_block",
           "user_id",
           "bet",
-          "token_id",
+          "symbol",
           "number",
           "roll"
       ) VALUES (
@@ -13,7 +13,7 @@ module.exports = {
           $finishBlock,
           GET_USER_ID($wallet),
           $bet,
-          $tokenId,
+          $symbol,
           $number,
           $roll
       ) RETURNING "game_id" AS "id";`,
@@ -48,7 +48,7 @@ module.exports = {
           "wallet",
           "level",
           "bet",
-          "SYMBOL" as "symbol",
+          "symbol",
           "number",
           "roll",
           "result",
@@ -56,7 +56,6 @@ module.exports = {
           "time"
       FROM "dice"
       NATURAL JOIN "users"
-      NATURAL JOIN "tokens"
       WHERE "index" = $index;`,
 
   'get-by-wallet': `
@@ -66,7 +65,7 @@ module.exports = {
           "wallet",
           "level",
           "bet",
-          "SYMBOL" as "symbol",
+          "symbol",
           "number",
           "roll",
           "result",
@@ -74,7 +73,6 @@ module.exports = {
           "time"
       FROM "dice"
       NATURAL JOIN "users"
-      NATURAL JOIN "tokens"
       WHERE "wallet" = $wallet
       ORDER BY "index" DESC;`,
 
@@ -84,13 +82,12 @@ module.exports = {
           "finish_block" as "finishBlock",
           "wallet",
           "bet",
-          "SYMBOL" as "symbol",
+          "symbol",
           "number",
           "roll",
           "time"
       FROM "dice"
       NATURAL JOIN "users"
-      NATURAL JOIN "tokens"
       WHERE "status" = 'start' AND "finish_block" = $finishBlock;`,
 
   'get-by-limit': `
@@ -100,7 +97,7 @@ module.exports = {
           "wallet",
           "level",
           "bet",
-          "SYMBOL" as "symbol",
+          "symbol",
           "number",
           "roll",
           "result",
@@ -108,7 +105,6 @@ module.exports = {
           "time"
       FROM "dice"
       NATURAL JOIN "users"
-      NATURAL JOIN "tokens"
       WHERE "status" = 'finish'
       ORDER BY "index" DESC
       LIMIT $limit;`,
