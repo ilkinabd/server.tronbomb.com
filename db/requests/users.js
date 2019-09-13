@@ -36,6 +36,14 @@ module.exports = {
           SELECT "referrer" FROM "users" WHERE "wallet" = $wallet
       );`,
 
+  'get-referrals': `
+      SELECT
+          "wallet",
+          "register_date",
+          GET_REFERRAL_PROFIT("referrer", "user_id") AS "profit"	
+      FROM "users"
+      WHERE "referrer" = GET_USER_ID($wallet);`,
+
   'get-ref-id': `
       SELECT GET_REF_ID($wallet) AS "value";`,
 
@@ -48,13 +56,6 @@ module.exports = {
       SELECT "wallet" as "value"
       FROM "users"
       WHERE "ref_id" = $refId;`,
-
-  'get-referrals': `
-      SELECT ARRAY_AGG("wallet") as "value"
-      FROM "users"
-      WHERE "referrer" = (
-          SELECT "user_id" FROM "users" WHERE "wallet" = $wallet
-      );`,
 
   'get-referrals-count': `
       SELECT COUNT("wallet")::INTEGER as "value"

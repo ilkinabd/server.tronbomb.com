@@ -13,7 +13,7 @@ router.route('/set_id')
 router.route('/wallet')
   .get(validate('refId'), controller.getWallet);
 
-router.route('/get_referrals')
+router.route('/referrals')
   .get(validate('wallet'), controller.getReferrals);
 
 router.route('/get_referrals_count')

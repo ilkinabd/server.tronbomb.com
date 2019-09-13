@@ -35,6 +35,15 @@ $$
 $$
 LANGUAGE sql;
 
+CREATE OR REPLACE FUNCTION GET_REFERRAL_PROFIT(INTEGER, INTEGER)
+RETURNS FLOAT AS
+$$
+  SELECT COALESCE(SUM("amount"), 0)
+  FROM "referrals"
+  WHERE "type" = 'income' AND "user_id" = $1 AND "referral" = $2;
+$$
+LANGUAGE sql;
+
 --------------------------------------------------------------------------------
 
 CREATE TABLE "users" (
