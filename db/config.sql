@@ -27,20 +27,6 @@ LANGUAGE sql;
 
 --------------------------------------------------------------------------------
 
-CREATE TABLE "tokens" (
-  "token_id" INTEGER     NOT NULL,
-  "address"  CHAR(34),
-  "SYMBOL"   VARCHAR(10) NOT NULL,
-  "NAME"     VARCHAR(25) NOT NULL,
-  "DECIMAL"  INTEGER NOT NULL,
-
-  PRIMARY KEY("token_id"),
-  UNIQUE("address")
-);
-
-INSERT INTO "tokens"
-VALUES (0, NULL, 'TRX', 'TRON network token', 6);
-
 CREATE TABLE "users" (
   "user_id"       SERIAL                      NOT NULL,
   "wallet"        CHAR(34)                    NOT NULL,
@@ -55,18 +41,10 @@ CREATE TABLE "users" (
   UNIQUE("ref_id")
 );
 
-CREATE TYPE GAME_STATUS AS ENUM (
-  'start',
-  'finish'
-);
-
-CREATE TYPE ROLL_TYPE AS ENUM (
-  'under',
-  'over',
-  'exact'
-);
-
+CREATE TYPE GAME_STATUS AS ENUM ('start', 'finish');
 CREATE TYPE SYMBOL AS ENUM ('TRX', 'BOMB');
+
+CREATE TYPE ROLL_TYPE AS ENUM ('under', 'over', 'exact');
 
 CREATE TABLE "dice" (
   "game_id"      SERIAL      NOT NULL,
@@ -93,7 +71,7 @@ CREATE TABLE "wheel" (
   "finish_block" INTEGER     NOT NULL,
   "user_id"      INTEGER     NOT NULL  REFERENCES "users"("user_id"),
   "bet"          FLOAT       NOT NULL,
-  "token_id"     INTEGER     NOT NULL  DEFAULT 0 REFERENCES "tokens"("token_id"),
+  "symbol"       SYMBOL      NOT NULL DEFAULT 'TRX',
   "sector"       INTEGER     NOT NULL,
   "result"       INTEGER,
   "prize"        FLOAT,
