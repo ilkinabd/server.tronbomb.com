@@ -10,3 +10,15 @@ CREATE TABLE "referrals" (
 
   PRIMARY KEY("operation_id")
 );
+
+--------------------------------------------------------------------------------
+
+CREATE OR REPLACE FUNCTION GET_REF_ID(CHAR(34))
+RETURNS CHAR(6) AS
+$$
+  INSERT INTO "users" ("wallet")
+  SELECT $1
+  WHERE NOT EXISTS (SELECT * FROM "users" WHERE "wallet" = $1);
+  SELECT "ref_id" FROM "users" WHERE "wallet" = $1;
+$$
+LANGUAGE sql;
