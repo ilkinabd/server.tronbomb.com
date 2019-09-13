@@ -1,10 +1,6 @@
 module.exports = {
   'add': `
-      INSERT INTO "users" ("wallet", "referrer")
-      SELECT
-          $wallet,
-          (SELECT "user_id" FROM "users" WHERE "wallet" = $referrer)
-      RETURNING "user_id" as "id";`,
+      SELECT GET_USER_ID($wallet) AS "id";`,
 
   'set-level': `
       UPDATE "users"
@@ -14,10 +10,9 @@ module.exports = {
   'set-ref-id': `
       UPDATE "users"
       SET "ref_id" = $refId
-      WHERE
-          "wallet" = $wallet AND
-          NOT EXISTS (SELECT "user_id" FROM "users" WHERE "ref_id" = $refId)
-      RETURNING TRUE as "value";`,
+      WHERE "user_id" = $userId AND NOT EXISTS (
+          SELECT "user_id" FROM "users" WHERE "ref_id" = $refId
+      ) RETURNING TRUE as "value";`,
 
   'set-ref-profit': `
       UPDATE "users"

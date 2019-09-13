@@ -1,6 +1,8 @@
 const db = require('@db');
 
-const { successRes, resSuccess, resError } = require('@utils/res-builder');
+const {
+  successRes, resSuccess, errorRes, resError
+} = require('@utils/res-builder');
 
 const getId = async(req, res) => {
   const { wallet } = req.query;
@@ -11,13 +13,11 @@ const getId = async(req, res) => {
 const setId = async(req, res) => {
   const { wallet, refId } = req.body;
 
-  const userId = await db.users.getId({ wallet });
-  if (!userId) await db.users.add({ wallet });
+  const userId = await db.users.add({ wallet });
+  const result = await db.users.setRefId({ userId, refId });
+  if (!result) return errorRes(res, 422, 73406);
 
-  const result = await db.users.setRefId({ wallet, refId });
-  if (!result) return res.status(422).json(resError(73406));
-
-  res.json(resSuccess());
+  successRes(res);
 };
 
 const getWallet = async(req, res) => {
