@@ -14,7 +14,7 @@ module.exports = {
           $bet,
           $symbol,
           $sector
-      ) RETURNING "time" as "value";`,
+      ) RETURNING "game_id" AS "id";`,
 
   'set-finish': `
       UPDATE "wheel"
@@ -22,8 +22,7 @@ module.exports = {
       WHERE "index" = $index;`,
 
   'set-confirm': `
-      UPDATE "wheel"
-      SET "confirmed" = TRUE
+      UPDATE "wheel" SET "confirmed" = TRUE
       WHERE "index" = $index;`,
 
   'get-bet-sum': `
@@ -42,14 +41,9 @@ module.exports = {
   'get-by-status': `
       SELECT
           "index",
-          "finish_block" as "finishBlock",
-          "wallet",
-          "level",
+          "finish_block" AS "finishBlock",
           "bet",
-          "symbol",
-          "sector",
-          "result",
-          "prize"
+          "sector"
       FROM "wheel"
       NATURAL JOIN "users"
       WHERE "status" = $status;`,
@@ -57,9 +51,8 @@ module.exports = {
   'get-by-wallet': `
       SELECT
           "index",
-          "finish_block" as "finishBlock",
+          "finish_block" AS "finishBlock",
           "wallet",
-          "level",
           "bet",
           "symbol",
           "sector",
@@ -74,9 +67,8 @@ module.exports = {
   'get-by-limit': `
       SELECT
           "index",
-          "finish_block" as "finishBlock",
+          "finish_block" AS "finishBlock",
           "wallet",
-          "level",
           "bet",
           "symbol",
           "sector",
