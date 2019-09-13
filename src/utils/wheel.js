@@ -1,5 +1,7 @@
 const { TOKENS, WHEEL_START_BLOCK, WHEEL_DURATION, DECIMAL } = process.env;
 
+const { rng } = require('@controllers/node').wheel.func;
+
 const tokens = TOKENS.split(',');
 const startBlock = parseInt(WHEEL_START_BLOCK);
 const duration = parseInt(WHEEL_DURATION);
@@ -20,7 +22,12 @@ const getSector = (index) => sectors[index];
 const getCoef = (sector) => coefs[sector];
 
 const toDecimal = amount => Math.floor(amount * 10 ** DECIMAL) / 10 ** DECIMAL;
-const getIndex = finish => Math.floor((finish - startBlock) / duration) - 1;
+const getIndex = finish => Math.floor((finish - startBlock) / duration);
+
+const getRandom = async(block) => {
+  const payload = await rng({ block });
+  return payload.result;
+};
 
 module.exports = {
   getSymbol,
@@ -28,4 +35,5 @@ module.exports = {
   getIndex,
   getSector,
   getCoef,
+  getRandom,
 };

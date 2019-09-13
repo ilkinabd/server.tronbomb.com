@@ -6,7 +6,7 @@ const { getSymbol, getIndex } = require('@utils/wheel');
 const takePart = async(data) => {
   const { wallet, bet, tokenId, sector, finishBlock, index } = data;
   const symbol = getSymbol(tokenId);
-  const game = getIndex(finishBlock);
+  const game = getIndex(finishBlock) - 1;
 
   if (symbol === 'TRX') await mining(bet, wallet);
   await db.wheel.add({ index, finishBlock, wallet, bet, tokenId, sector });
