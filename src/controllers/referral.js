@@ -22,11 +22,10 @@ const setId = async(req, res) => {
 
 const getWallet = async(req, res) => {
   const { refId } = req.query;
-
   const wallet = await db.users.getWalletByRefId({ refId });
-  if (!wallet) return res.status(422).json(resError(73407));
+  if (!wallet) return errorRes(res, 422, 73407);
 
-  res.json(resSuccess({ wallet }));
+  successRes(res, { wallet });
 };
 
 const getReferrals = async(req, res) => {

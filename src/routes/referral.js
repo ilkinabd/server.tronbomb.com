@@ -10,7 +10,7 @@ router.route('/id')
 router.route('/set_id')
   .post(validate('setRef', false), controller.setId);
 
-router.route('/get_wallet')
+router.route('/wallet')
   .get(validate('refId'), controller.getWallet);
 
 router.route('/get_referrals')
