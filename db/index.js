@@ -20,6 +20,7 @@ const jackpots = require('./requests/jackpots');
 const auction = require('./requests/auction');
 const dice = require('./requests/dice');
 const wheel = require('./requests/wheel');
+const referrals = require('./requests/referrals');
 
 const client = new PgClient({
   host: PG_HOST,
@@ -54,6 +55,9 @@ module.exports = {
     getByWallet:        getAll(request(dice['get-by-wallet'])),
     getByFinishBlock:   getAll(request(dice['get-by-finish-block'])),
     getByLimit:         getAll(request(dice['get-by-limit'])),
+  },
+  referrals: {
+    add: getId(request(referrals['add'])),
   },
   users: {
     add: getId(request(users['add'])),
