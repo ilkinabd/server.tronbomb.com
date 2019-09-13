@@ -1,8 +1,6 @@
 const db = require('@db');
 
-const {
-  successRes, resSuccess, errorRes, resError
-} = require('@utils/res-builder');
+const { successRes, resSuccess, errorRes } = require('@utils/res-builder');
 
 const getId = async(req, res) => {
   const { wallet } = req.query;
@@ -43,22 +41,20 @@ const getTotalReferrals = async(req, res) => {
 const getReferrer = async(req, res) => {
   const { wallet } = req.query;
   const referrer = await db.users.getReferrer({ wallet });
-  res.json(resSuccess({ referrer }));
+  successRes(res, { referrer });
 };
 
 const setReferrer = async(req, res) => {
   const { wallet, refId } = req.body;
 
-  const userId = await db.users.getId({ wallet });
-  if (userId) return res.status(422).json(resError(73409));
+  const isExist = await db.users.isExist({ wallet });
+  if (isExist) return errorRes(res, 422, 73409);
 
+  const userId = await db.users.add({ wallet });
   const referrer = await db.users.getWalletByRefId({ refId });
-  if (referrer === wallet) return res.status(422).json(resError(73411));
+  await db.users.setReferrer({ userId, referrer });
 
-  const id = await db.users.add({ wallet, referrer });
-  if (!id) return res.status(500).json(resError(73500));
-
-  res.json(resSuccess());
+  successRes(res);
 };
 
 const getProfit = async(req, res) => {

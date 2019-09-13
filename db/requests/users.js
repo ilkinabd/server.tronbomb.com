@@ -14,10 +14,20 @@ module.exports = {
           SELECT "user_id" FROM "users" WHERE "ref_id" = $refId
       ) RETURNING TRUE as "value";`,
 
+  'set-referrer': `
+      UPDATE "users"
+      SET "referrer" = GET_USER_ID($referrer)
+      WHERE "user_id" = $userId;`,
+
   'set-ref-profit': `
       UPDATE "users"
       SET "ref_profit" = "ref_profit" + $delta
       WHERE "wallet" = $wallet;`,
+
+  'is-exist': `
+      SELECT EXISTS (
+          SELECT * FROM "users" WHERE "wallet" = $wallet
+      ) AS "value";`,
 
   'get-id': `
       SELECT "user_id" as "id"
