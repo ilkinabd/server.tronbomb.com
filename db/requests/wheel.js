@@ -10,7 +10,7 @@ module.exports = {
       ) VALUES (
           $index,
           $finishBlock,
-          $userId,
+          GET_USER_ID($wallet),
           $bet,
           $tokenId,
           $sector
