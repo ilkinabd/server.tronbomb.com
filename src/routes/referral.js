@@ -25,7 +25,7 @@ router.route('/referrer')
 router.route('/set_referrer')
   .post(validate('setRef', false), controller.setReferrer);
 
-router.route('/get_profit')
+router.route('/profit')
   .get(validate('wallet'), controller.getProfit);
 
 router.route('/get_referral_payments')

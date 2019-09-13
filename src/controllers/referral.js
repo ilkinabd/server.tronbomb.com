@@ -60,7 +60,7 @@ const setReferrer = async(req, res) => {
 const getProfit = async(req, res) => {
   const { wallet } = req.query;
   const profit = await db.users.getRefProfit({ wallet });
-  res.json(resSuccess({ profit }));
+  successRes(res, { profit });
 };
 
 const getReferralPayments = async(req, res) => {

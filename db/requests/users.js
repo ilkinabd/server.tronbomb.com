@@ -63,7 +63,7 @@ module.exports = {
       SELECT GET_REF_ID($wallet) AS "value";`,
 
   'get-ref-profit': `
-      SELECT "ref_profit" as "value"
+      SELECT "ref_profit" AS "value"
       FROM "users"
       WHERE "wallet" = $wallet;`,
 
