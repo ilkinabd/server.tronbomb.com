@@ -1,6 +1,6 @@
 const db = require('@db');
 const { finish } = require('@controllers/node').dice.func;
-const { getRandom, getReward } = require('@utils/dice');
+const { diceRandom, diceReward } = require('@utils/game');
 
 const finishGames = async(block) => {
   const games = await db.dice.getByFinishBlock({ finishBlock: block });
@@ -9,8 +9,8 @@ const finishGames = async(block) => {
   for (const game of games) {
     const { wallet, index, number, roll, bet } = game;
 
-    game.result = await getRandom(wallet, block);
-    game.prize = getReward(number, roll, game.result, bet);
+    game.result = await diceRandom(wallet, block);
+    game.prize = diceReward(number, roll, game.result, bet);
 
     await db.dice.setFinish({ index, result: game.result, prize: game.prize });
     if (game.prize === 0) await db.dice.setConfirm({ index });

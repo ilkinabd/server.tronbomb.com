@@ -1,7 +1,7 @@
 const db = require('@db');
 const { updateLevel, referrerProfit } = require('@utils/users');
 const { mining } = require('@utils/mining');
-const { getSymbol, getIndex } = require('@utils/wheel');
+const { getSymbol, getIndex } = require('@utils/game');
 
 const takePart = async(data) => {
   const { wallet, bet, tokenId, sector, finishBlock, index } = data;
