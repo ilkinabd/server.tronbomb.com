@@ -51,12 +51,10 @@ const checkFinish = async(number) => {
   this.chanel.emit('wheel-finish', { index, result, sector });
 };
 
-const processBlocks = async(data) => {
-  const { number } = data;
-
-  checkStart(number);
-  checkStopBets(number);
-  checkFinish(number);
+const processBlocks = async(block) => {
+  checkStart(block);
+  checkStopBets(block);
+  checkFinish(block);
 };
 
 module.exports = (node, chanel) => {
