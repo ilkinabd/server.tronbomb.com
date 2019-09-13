@@ -9,7 +9,7 @@ const takePart = async(data) => {
   const game = getIndex(finishBlock) - 1;
 
   if (symbol === 'TRX') await mining(bet, wallet);
-  await db.wheel.add({ index, finishBlock, wallet, bet, tokenId, sector });
+  await db.wheel.add({ index, finishBlock, wallet, bet, symbol, sector });
 
   updateLevel(wallet);
   referrerProfit(wallet, index, bet, 'wheel');

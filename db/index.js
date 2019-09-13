@@ -4,7 +4,6 @@ const PgClient = require('pg').Client;
 
 const { getId, getValue, getRow, getAll, fillTemplate } = require('./tools');
 
-const tokens = require('./requests/tokens');
 const users = require('./requests/users');
 const sockets = require('./requests/sockets');
 const messages = require('./requests/messages');
@@ -56,10 +55,6 @@ module.exports = {
     getByWallet:        getAll(request(dice['get-by-wallet'])),
     getByFinishBlock:   getAll(request(dice['get-by-finish-block'])),
     getByLimit:         getAll(request(dice['get-by-limit'])),
-  },
-  tokens: {
-    getSymbol: getValue(request(tokens['get-symbol'])),
-    getAll: getAll(request(tokens['get-all'])),
   },
   users: {
     add: getId(request(users['add'])),

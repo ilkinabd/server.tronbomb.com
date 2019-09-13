@@ -5,14 +5,14 @@ module.exports = {
           "finish_block",
           "user_id",
           "bet",
-          "token_id",
+          "symbol",
           "sector"
       ) VALUES (
           $index,
           $finishBlock,
           GET_USER_ID($wallet),
           $bet,
-          $tokenId,
+          $symbol,
           $sector
       ) RETURNING "time" as "value";`,
 
@@ -46,13 +46,12 @@ module.exports = {
           "wallet",
           "level",
           "bet",
-          "SYMBOL" as "symbol",
+          "symbol",
           "sector",
           "result",
           "prize"
       FROM "wheel"
       NATURAL JOIN "users"
-      NATURAL JOIN "tokens"
       WHERE "status" = $status;`,
 
   'get-by-wallet': `
@@ -62,14 +61,13 @@ module.exports = {
           "wallet",
           "level",
           "bet",
-          "SYMBOL" as "symbol",
+          "symbol",
           "sector",
           "result",
           "prize",
           "time"
       FROM "wheel"
       NATURAL JOIN "users"
-      NATURAL JOIN "tokens"
       WHERE "wallet" = $wallet
       ORDER BY "index" DESC;`,
 
@@ -80,14 +78,13 @@ module.exports = {
           "wallet",
           "level",
           "bet",
-          "SYMBOL" as "symbol",
+          "symbol",
           "sector",
           "result",
           "prize",
           "time"
       FROM "wheel"
       NATURAL JOIN "users"
-      NATURAL JOIN "tokens"
       WHERE "status" = 'finish'
       ORDER BY "index" DESC
       LIMIT $limit;`,
