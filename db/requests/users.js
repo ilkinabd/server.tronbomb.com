@@ -42,9 +42,7 @@ module.exports = {
       );`,
 
   'get-ref-id': `
-      SELECT "ref_id" as "value"
-      FROM "users"
-      WHERE "wallet" = $wallet;`,
+      SELECT GET_REF_ID($wallet) AS "value";`,
 
   'get-ref-profit': `
       SELECT "ref_profit" as "value"

@@ -4,7 +4,7 @@ const router = new express.Router();
 const controller = require('@controllers/referral');
 const validate = require('@middleware/validate');
 
-router.route('/get_id')
+router.route('/id')
   .get(validate('wallet'), controller.getId);
 
 router.route('/set_id')
