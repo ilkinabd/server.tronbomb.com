@@ -57,7 +57,7 @@ module.exports = {
     getByLimit:         getAll(request(dice['get-by-limit'])),
   },
   referrals: {
-    addIncome: getId(request(referrals['add-income'])),
+    addIncome:   getId(request(referrals['add-income'])),
     addWithdraw: getId(request(referrals['add-withdraw'])),
   },
   users: {
@@ -80,15 +80,11 @@ module.exports = {
     getTop: getAll(request(users['get-top'])),
   },
   refPayments: {
-    add: getId(request(refPayments['add'])),
     getByWallet: getAll(request(refPayments['get-by-wallet'])),
     getGroupByWallet: getAll(request(refPayments['get-group-by-wallet'])),
   },
   refWithdraws: {
-    add: getId(request(refWithdraws['add'])),
-    setComplete: getRow(request(refWithdraws['set-complete'])),
     getByWallet: getAll(request(refWithdraws['get-by-wallet'])),
-    getByCode: getRow(request(refWithdraws['get-by-code'])),
   },
   sockets: {
     add: getId(request(sockets['add'])),
