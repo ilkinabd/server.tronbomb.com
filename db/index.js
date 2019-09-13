@@ -4,7 +4,6 @@ const PgClient = require('pg').Client;
 
 const { getId, getValue, getRow, getAll, fillTemplate } = require('./tools');
 
-const tokens = require('./requests/tokens');
 const users = require('./requests/users');
 const sockets = require('./requests/sockets');
 const messages = require('./requests/messages');
@@ -18,10 +17,9 @@ const dividends = require('./requests/dividends');
 const mining = require('./requests/mining');
 const jackpots = require('./requests/jackpots');
 
+const auction = require('./requests/auction');
 const dice = require('./requests/dice');
 const wheel = require('./requests/wheel');
-
-const auction = require('./requests/auction');
 
 const client = new PgClient({
   host: PG_HOST,
@@ -56,10 +54,6 @@ module.exports = {
     getByWallet:        getAll(request(dice['get-by-wallet'])),
     getByFinishBlock:   getAll(request(dice['get-by-finish-block'])),
     getByLimit:         getAll(request(dice['get-by-limit'])),
-  },
-  tokens: {
-    getSymbol: getValue(request(tokens['get-symbol'])),
-    getAll: getAll(request(tokens['get-all'])),
   },
   users: {
     add: getId(request(users['add'])),
@@ -100,17 +94,6 @@ module.exports = {
   messages: {
     add: getValue(request(messages['add'])),
     getByLimit: getAll(request(messages['get-by-limit'])),
-  },
-  wheel: {
-    add: getValue(request(wheel['add'])),
-    setFinish: request(wheel['set-finish']),
-    setConfirm: request(wheel['set-confirm']),
-    getBetSum: getValue(request(wheel['get-bet-sum'])),
-    getPrizeSum: getValue(request(wheel['get-prize-sum'])),
-    getProfit: getValue(request(wheel['get-profit'])),
-    getByStatus: getAll(request(wheel['get-by-status'])),
-    getByWallet: getAll(request(wheel['get-by-wallet'])),
-    getByLimit: getAll(request(wheel['get-by-limit'])),
   },
   burn: {
     add: getId(request(burn['add'])),
@@ -157,5 +140,16 @@ module.exports = {
     getRandomUnconfirmed: getAll(request(jackpots['get-random-unconfirmed'])),
     deleteRandomUnconfirmed: request(jackpots['delete-random-unconfirmed']),
     getAll: getAll(request(jackpots['get-all'])),
+  },
+  wheel: {
+    add:            getId(request(wheel['add'])),
+    setFinish:            request(wheel['set-finish']),
+    setConfirm:           request(wheel['set-confirm']),
+    getBetSum:   getValue(request(wheel['get-bet-sum'])),
+    getPrizeSum: getValue(request(wheel['get-prize-sum'])),
+    getProfit:   getValue(request(wheel['get-profit'])),
+    getByStatus:   getAll(request(wheel['get-by-status'])),
+    getByWallet:   getAll(request(wheel['get-by-wallet'])),
+    getByLimit:    getAll(request(wheel['get-by-limit'])),
   },
 };

@@ -5,16 +5,16 @@ module.exports = {
           "finish_block",
           "user_id",
           "bet",
-          "token_id",
+          "symbol",
           "sector"
       ) VALUES (
           $index,
           $finishBlock,
-          $userId,
+          GET_USER_ID($wallet),
           $bet,
-          $tokenId,
+          $symbol,
           $sector
-      ) RETURNING "time" as "value";`,
+      ) RETURNING "game_id" AS "id";`,
 
   'set-finish': `
       UPDATE "wheel"
@@ -22,8 +22,7 @@ module.exports = {
       WHERE "index" = $index;`,
 
   'set-confirm': `
-      UPDATE "wheel"
-      SET "confirmed" = TRUE
+      UPDATE "wheel" SET "confirmed" = TRUE
       WHERE "index" = $index;`,
 
   'get-bet-sum': `
@@ -42,52 +41,42 @@ module.exports = {
   'get-by-status': `
       SELECT
           "index",
-          "finish_block" as "finishBlock",
-          "wallet",
-          "level",
+          "finish_block" AS "finishBlock",
           "bet",
-          "SYMBOL" as "symbol",
-          "sector",
-          "result",
-          "prize"
+          "sector"
       FROM "wheel"
       NATURAL JOIN "users"
-      NATURAL JOIN "tokens"
       WHERE "status" = $status;`,
 
   'get-by-wallet': `
       SELECT
           "index",
-          "finish_block" as "finishBlock",
+          "finish_block" AS "finishBlock",
           "wallet",
-          "level",
           "bet",
-          "SYMBOL" as "symbol",
+          "symbol",
           "sector",
           "result",
           "prize",
           "time"
       FROM "wheel"
       NATURAL JOIN "users"
-      NATURAL JOIN "tokens"
       WHERE "wallet" = $wallet
       ORDER BY "index" DESC;`,
 
   'get-by-limit': `
       SELECT
           "index",
-          "finish_block" as "finishBlock",
+          "finish_block" AS "finishBlock",
           "wallet",
-          "level",
           "bet",
-          "SYMBOL" as "symbol",
+          "symbol",
           "sector",
           "result",
           "prize",
           "time"
       FROM "wheel"
       NATURAL JOIN "users"
-      NATURAL JOIN "tokens"
       WHERE "status" = 'finish'
       ORDER BY "index" DESC
       LIMIT $limit;`,

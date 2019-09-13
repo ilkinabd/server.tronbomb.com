@@ -3,14 +3,13 @@ const { finish } = require('@controllers/node').dice.func;
 const { getRandom, getReward } = require('@utils/dice');
 
 const finishGames = async(block) => {
-  const blockNumber = block.number;
-  const games = await db.dice.getByFinishBlock({ finishBlock: blockNumber });
+  const games = await db.dice.getByFinishBlock({ finishBlock: block });
   if (games.length === 0) return;
 
   for (const game of games) {
     const { wallet, index, number, roll, bet } = game;
 
-    game.result = await getRandom(wallet, blockNumber);
+    game.result = await getRandom(wallet, block);
     game.prize = getReward(number, roll, game.result, bet);
 
     await db.dice.setFinish({ index, result: game.result, prize: game.prize });

@@ -12,15 +12,15 @@ serverIO.on('connection', (socket) => ws(socket, serverIO));
 const node = clientIO.connect(NODE, { reconnect: true });
 
 node.on('connect', () => {
-  const rooms = ['dice', 'blocks'];
+  const rooms = ['blocks', 'dice', 'wheel'];
   for (const room of rooms) node.emit('subscribe', { room, token: NODE_TOKEN });
 });
 
 require('@workers/dice/events')(node);
 require('@workers/dice/finish')(node, serverIO.in('dice'));
 
-require('@workers/wheel/events')(serverIO.in('wheel'));
-require('@workers/wheel/start-finish')(serverIO.in('wheel'));
+require('@workers/wheel/events')(node, serverIO.in('wheel'));
+require('@workers/wheel/start-finish')(node, serverIO.in('wheel'));
 
 require('@workers/rating')(serverIO.in('rating'));
 require('@workers/operations');

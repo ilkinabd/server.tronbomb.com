@@ -83,13 +83,12 @@ module.exports = {
   'get-trx-bet-sum': `
       SELECT SUM("bet") as "value"
       FROM (
-          SELECT "bet", "user_id", "token_id" AS 0 FROM "dice"
-          WHERE "symbol" = 'TRX'
+          SELECT "bet", "user_id", "symbol" FROM "dice"
           UNION ALL
-          SELECT "bet", "user_id", "token_id" FROM "wheel"
+          SELECT "bet", "user_id", "symbol" FROM "wheel"
       ) AS "bets"
       NATURAL JOIN "users"
-      WHERE "wallet" = $wallet AND "token_id" = 0;`,
+      WHERE "wallet" = $wallet AND "symbol" = 'TRX';`,
 
   'get-win-sum': `
       SELECT SUM("prize") as "value"

@@ -59,8 +59,8 @@ const diceHistory = async(req, res) => {
 
 const wheelHistory = async(req, res) => {
   const { wallet } = req.query;
-  const games = await db.wheel.getByWallet({ wallet });
-  res.json(resSuccess({ games }));
+  const bets = await db.wheel.getByWallet({ wallet });
+  successRes(res, { bets });
 };
 
 const getFreezeHistory = async(req, res) => {
