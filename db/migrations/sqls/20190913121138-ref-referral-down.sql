@@ -1,0 +1,2 @@
+DROP TABLE "referrals";
+DROP TYPE OPERATION_TYPE;
