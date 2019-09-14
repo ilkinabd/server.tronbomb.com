@@ -28,10 +28,10 @@ router.route('/set_referrer')
 router.route('/profit')
   .get(validate('wallet'), controller.getProfit);
 
-router.route('/get_referral_payments')
-  .get(validate('wallet'), controller.getReferralPayments);
+router.route('/history/income')
+  .get(validate('wallet'), controller.getIncome);
 
-router.route('/withdraw_txs')
-  .get(validate('wallet'), controller.withdrawTxs);
+router.route('/history/withdraw')
+  .get(validate('wallet'), controller.getWithdraw);
 
 module.exports = router;

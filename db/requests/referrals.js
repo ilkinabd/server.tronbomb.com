@@ -22,4 +22,21 @@ module.exports = {
           'withdraw',
           $amount
       ) RETURNING "operation_id" AS "id";`,
+
+  'get-income-by-wallet': `
+      SELECT
+          (
+              SELECT "wallet" FROM "users" WHERE "user_id" = "referral"
+          ) AS "referral",
+          "amount",
+          "time"
+      FROM "referrals"
+      WHERE "user_id" = GET_USER_ID($wallet) AND type = 'income'
+      ORDER BY "time" DESC;`,
+
+  'get-withdraw-by-wallet': `
+      SELECT -"amount" AS "amount", "time"
+      FROM "referrals"
+      WHERE "user_id" = GET_USER_ID($wallet) AND type = 'withdraw'
+      ORDER BY "time" DESC;`,
 };

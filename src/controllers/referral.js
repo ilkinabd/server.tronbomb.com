@@ -1,6 +1,6 @@
 const db = require('@db');
 
-const { successRes, resSuccess, errorRes } = require('@utils/res-builder');
+const { successRes, errorRes } = require('@utils/res-builder');
 
 const getId = async(req, res) => {
   const { wallet } = req.query;
@@ -63,16 +63,16 @@ const getProfit = async(req, res) => {
   successRes(res, { profit });
 };
 
-const getReferralPayments = async(req, res) => {
+const getIncome = async(req, res) => {
   const { wallet } = req.query;
-  const payments = await db.refPayments.getByWallet({ wallet });
-  res.json(resSuccess({ payments }));
+  const operations = await db.referrals.getIncomeByWallet({ wallet });
+  successRes(res, { operations });
 };
 
-const withdrawTxs = async(req, res) => {
+const getWithdraw = async(req, res) => {
   const { wallet } = req.query;
-  const txs = await db.refWithdraws.getByWallet({ wallet });
-  res.json(resSuccess({ txs }));
+  const operations = await db.referrals.getWithdrawByWallet({ wallet });
+  successRes(res, { operations });
 };
 
 module.exports = {
@@ -84,6 +84,6 @@ module.exports = {
   getReferrer,
   setReferrer,
   getProfit,
-  getReferralPayments,
-  withdrawTxs,
+  getIncome,
+  getWithdraw,
 };
