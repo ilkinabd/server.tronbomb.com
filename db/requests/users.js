@@ -24,6 +24,11 @@ module.exports = {
       SET "ref_profit" = "ref_profit" + $delta
       WHERE "wallet" = $wallet;`,
 
+  'set-mine': `
+      UPDATE "users"
+      SET "mine" = "mine" + $delta
+      WHERE "wallet" = $wallet;`,
+
   'is-exist': `
       SELECT EXISTS (
           SELECT * FROM "users" WHERE "wallet" = $wallet
@@ -64,6 +69,11 @@ module.exports = {
 
   'get-ref-profit': `
       SELECT "ref_profit" AS "value"
+      FROM "users"
+      WHERE "wallet" = $wallet;`,
+
+  'get-mine': `
+      SELECT "mine" AS "value"
       FROM "users"
       WHERE "wallet" = $wallet;`,
 

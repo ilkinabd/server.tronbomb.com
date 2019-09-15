@@ -1,53 +1,35 @@
-const {
-  START_MINING, START_MINING_LEVEL, MINING_LEVEL_DELTA, MINING_PROFIT
-} = process.env;
+const { START, START_LEVEL, DELTA, PROFIT } = JSON.parse(process.env.MINING);
 
 const db = require('@db');
-const node = require('@controllers/node');
+const { getFunds } = require('@controllers/node').tools;
 
-const start = new Date(START_MINING);
-const startLevel = parseFloat(START_MINING_LEVEL);
-const levelDelta = parseFloat(MINING_LEVEL_DELTA);
-
-const profits = Array.from(MINING_PROFIT.split(','), parseFloat);
+const start = new Date(START);
+const startLevel = parseFloat(START_LEVEL);
+const delta = parseFloat(DELTA);
 
 const day = 24 * 60 * 60 * 1000;
 
+const toDecimal = amount => Math.floor(amount * 1e6) / 1e6;
+
 const level = () => {
   const level = Math.ceil((new Date() - start) / day);
-  const step = startLevel + (level - 1) * levelDelta;
+  const step = startLevel + (level - 1) * delta;
   return { level, step };
 };
 
-const getProfit = (type, amount) => {
-  switch (type) {
-    case 'ad':                 return profits[1] * amount;
-    case 'random-jackpot':     return profits[2] * amount;
-    case 'bet-amount-jackpot': return profits[3] * amount;
-    case 'technical':          return profits[4] * amount;
-    case 'referral-rewards':   return profits[5] * amount;
-    case 'team':               return profits[6] * amount;
-    case 'auction':            return profits[7] * amount;
-    default: return 0;
-  }
-};
-
 const fundsProfit = async(playerProfit) => {
-  const { funds } = await node.tools.getFunds();
+  const { funds } = await getFunds();
 
   for (const { address: wallet, type } of funds) {
-    const amount = getProfit(type, playerProfit);
+    const amount = toDecimal(playerProfit * (PROFIT[type] || 0));
     if (amount === 0) continue;
-
-    await db.mining.add({ type: 'mine', wallet, amount });
+    db.users.setMine({ wallet, delta: amount });
   }
 };
 
 const mining = async(bet, wallet) => {
-  const { step } = level();
-  const amount = bet / step;
-  await db.mining.add({ type: 'mine', wallet, amount });
-
+  const amount = toDecimal(bet / (level()).step);
+  await db.users.setMine({ wallet, delta: amount });
   fundsProfit(amount);
 };
 

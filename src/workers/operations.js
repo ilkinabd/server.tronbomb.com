@@ -22,11 +22,11 @@ const referralProfit = async(data) => {
 
 const mine = async(data) => {
   const { wallet } = data;
-  const sum = await db.mining.getUserSum({ wallet });
-  if (sum < MIN_MINE) return;
+  const amount = await db.users.getMine({ wallet });
+  if (amount < MIN_MINE) return;
 
-  await db.mining.add({ type: 'withdraw', wallet, amount: -sum });
-  await bomb.func.transfer({ to: wallet, amount: sum });
+  await db.users.setMine({ wallet, delta: -amount });
+  await bomb.func.transfer({ to: wallet, amount });
 };
 
 module.exports = (node) => {

@@ -12,7 +12,6 @@ const burn = require('./requests/burn');
 const freeze = require('./requests/freeze');
 const operationProfit = require('./requests/operation-profit');
 const dividends = require('./requests/dividends');
-const mining = require('./requests/mining');
 const jackpots = require('./requests/jackpots');
 const auction = require('./requests/auction');
 
@@ -60,10 +59,11 @@ module.exports = {
   },
   users: {
     add:                  getId(request(users['add'])),
-    setLevel: request(users['set-level']),
+    setLevel:                   request(users['set-level']),
     setRefId:          getValue(request(users['set-ref-id'])),
     setReferrer:                request(users['set-referrer']),
-    setRefProfit: getValue(request(users['set-ref-profit'])),
+    setRefProfit:               request(users['set-ref-profit']),
+    setMine:                    request(users['set-mine']),
     isExist:            getValue(request(users['is-exist'])),
     getId: getId(request(users['get-id'])),
     getLevel: getValue(request(users['get-level'])),
@@ -72,6 +72,7 @@ module.exports = {
     getReferralsCount: getValue(request(users['get-referrals-count'])),
     getRefId:          getValue(request(users['get-ref-id'])),
     getRefProfit:      getValue(request(users['get-ref-profit'])),
+    getMine:           getValue(request(users['get-mine'])),
     getWalletByRefId:  getValue(request(users['get-wallet-by-ref-id'])),
     getCount: getValue(request(users['get-count'])),
     getBetSum: getValue(request(users['get-bet-sum'])),
@@ -116,10 +117,6 @@ module.exports = {
     getUserSum: getValue(request(dividends['get-user-sum'])),
     getByWallet: getAll(request(dividends['get-by-wallet'])),
     getByLimit: getAll(request(dividends['get-by-limit'])),
-  },
-  mining: {
-    add: getId(request(mining['add'])),
-    getUserSum: getValue(request(mining['get-user-sum'])),
   },
   auction: {
     add: getValue(request(auction['add'])),

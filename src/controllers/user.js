@@ -25,8 +25,8 @@ const totalWin = async(req, res) => {
 
 const totalMine = async(req, res) => {
   const { wallet } = req.query;
-  const sum = await db.mining.getUserSum({ wallet });
-  res.json(resSuccess({ sum }));
+  const sum = await db.users.getMine({ wallet });
+  successRes(res, { sum });
 };
 
 const totalFreeze = async(req, res) => {

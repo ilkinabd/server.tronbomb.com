@@ -8,6 +8,9 @@ const validate = require('@middleware/validate');
 router.route('/configs')
   .get(controller.getConfigs);
 
+router.route('/mining_level')
+  .get(controller.miningLevel);
+
 router.route('/total_bet_prize')
   .get(controller.totalBetPrize);
 
