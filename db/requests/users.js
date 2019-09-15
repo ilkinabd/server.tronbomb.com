@@ -24,6 +24,11 @@ module.exports = {
       SET "ref_profit" = "ref_profit" + $delta
       WHERE "wallet" = $wallet;`,
 
+  'set-mine': `
+      UPDATE "users"
+      SET "mine" = "mine" + $delta
+      WHERE "wallet" = $wallet;`,
+
   'is-exist': `
       SELECT EXISTS (
           SELECT * FROM "users" WHERE "wallet" = $wallet

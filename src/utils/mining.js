@@ -21,13 +21,13 @@ const fundsProfit = async(playerProfit) => {
   for (const { address: wallet, type } of funds) {
     const amount = playerProfit * (PROFIT[type] || 0);
     if (amount === 0) continue;
-    await db.mining.add({ type: 'mine', wallet, amount });
+    db.users.setMine({ wallet, delta: amount });
   }
 };
 
 const mining = async(bet, wallet) => {
   const amount = bet / (level()).step;
-  await db.mining.add({ type: 'mine', wallet, amount });
+  await db.users.setMine({ wallet, delta: amount });
   fundsProfit(amount);
 };
 

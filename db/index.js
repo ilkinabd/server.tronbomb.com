@@ -60,10 +60,11 @@ module.exports = {
   },
   users: {
     add:                  getId(request(users['add'])),
-    setLevel: request(users['set-level']),
+    setLevel:                   request(users['set-level']),
     setRefId:          getValue(request(users['set-ref-id'])),
     setReferrer:                request(users['set-referrer']),
-    setRefProfit: getValue(request(users['set-ref-profit'])),
+    setRefProfit:               request(users['set-ref-profit']),
+    setMine:                    request(users['set-mine']),
     isExist:            getValue(request(users['is-exist'])),
     getId: getId(request(users['get-id'])),
     getLevel: getValue(request(users['get-level'])),
