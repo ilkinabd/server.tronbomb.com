@@ -15,7 +15,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE OR REPLACE FUNCTION GET_USER_ID(CHAR(34))
+CREATE OR REPLACE FUNCTION ADD_WALLET(CHAR(34))
 RETURNS INTEGER AS
 $$
   INSERT INTO "users" ("wallet")
@@ -25,13 +25,27 @@ $$
 $$
 LANGUAGE sql;
 
+CREATE OR REPLACE FUNCTION GET_USER_ID(CHAR(34))
+RETURNS INTEGER AS
+$$
+  SELECT "user_id" FROM "users"
+  WHERE "wallet" = $1;
+$$
+LANGUAGE sql;
+
+CREATE OR REPLACE FUNCTION GET_WALLET(INTEGER)
+RETURNS CHAR(34) AS
+$$
+  SELECT "wallet" FROM "users"
+  WHERE "user_id" = $1;
+$$
+LANGUAGE sql;
+
 CREATE OR REPLACE FUNCTION GET_REF_ID(CHAR(34))
 RETURNS CHAR(6) AS
 $$
-  INSERT INTO "users" ("wallet")
-  SELECT $1
-  WHERE NOT EXISTS (SELECT * FROM "users" WHERE "wallet" = $1);
-  SELECT "ref_id" FROM "users" WHERE "wallet" = $1;
+  SELECT "ref_id" FROM "users"
+  WHERE "wallet" = $1;
 $$
 LANGUAGE sql;
 

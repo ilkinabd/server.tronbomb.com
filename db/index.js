@@ -57,10 +57,8 @@ module.exports = {
     getByLimit:         getAll(request(dice['get-by-limit'])),
   },
   referrals: {
-    addIncome:            getId(request(referrals['add-income'])),
-    addWithdraw:          getId(request(referrals['add-withdraw'])),
-    getIncomeByWallet:   getAll(request(referrals['get-income-by-wallet'])),
-    getWithdrawByWallet: getAll(request(referrals['get-withdraw-by-wallet'])),
+    add:              getId(request(referrals['add'])),
+    getTypeByWallet: getAll(request(referrals['get-type-by-wallet'])),
   },
   users: {
     add:                  getId(request(users['add'])),

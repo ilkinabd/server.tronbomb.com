@@ -1,5 +1,5 @@
 module.exports = {
-  'add-income': `
+  'add': `
       INSERT INTO "referrals" (
           "user_id",
           "type",
@@ -7,36 +7,17 @@ module.exports = {
           "amount"
       ) VALUES (
           GET_USER_ID($wallet),
-          'income',
+          COALESCE($type, 'income')::OPERATION_TYPE,
           GET_USER_ID($referral),
           $amount
       ) RETURNING "operation_id" AS "id";`,
 
-  'add-withdraw': `
-      INSERT INTO "referrals" (
-          "user_id",
-          "type",
-          "amount"
-      ) VALUES (
-          GET_USER_ID($wallet),
-          'withdraw',
-          $amount
-      ) RETURNING "operation_id" AS "id";`,
-
-  'get-income-by-wallet': `
+  'get-type-by-wallet': `
       SELECT
-          (
-              SELECT "wallet" FROM "users" WHERE "user_id" = "referral"
-          ) AS "referral",
-          "amount",
+          GET_WALLET("referral") AS "referral",
+          ABS("amount"),
           "time"
       FROM "referrals"
-      WHERE "user_id" = GET_USER_ID($wallet) AND type = 'income'
-      ORDER BY "time" DESC;`,
-
-  'get-withdraw-by-wallet': `
-      SELECT -"amount" AS "amount", "time"
-      FROM "referrals"
-      WHERE "user_id" = GET_USER_ID($wallet) AND type = 'withdraw'
+      WHERE "user_id" = GET_USER_ID($wallet) AND type = $type
       ORDER BY "time" DESC;`,
 };

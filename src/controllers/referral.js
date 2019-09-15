@@ -4,15 +4,15 @@ const { successRes, errorRes } = require('@utils/res-builder');
 
 const getId = async(req, res) => {
   const { wallet } = req.query;
+  await db.users.add({ wallet });
   const refId = await db.users.getRefId({ wallet });
+
   successRes(res, { refId });
 };
 
 const setId = async(req, res) => {
   const { wallet, refId } = req.body;
-
-  const userId = await db.users.add({ wallet });
-  const result = await db.users.setRefId({ userId, refId });
+  const result = await db.users.setRefId({ wallet, refId });
   if (!result) return errorRes(res, 422, 73406);
 
   successRes(res);
@@ -65,13 +65,18 @@ const getProfit = async(req, res) => {
 
 const getIncome = async(req, res) => {
   const { wallet } = req.query;
-  const operations = await db.referrals.getIncomeByWallet({ wallet });
+  const type = 'income';
+  const operations = await db.referrals.getTypeByWallet({ wallet, type });
   successRes(res, { operations });
 };
 
 const getWithdraw = async(req, res) => {
   const { wallet } = req.query;
-  const operations = await db.referrals.getWithdrawByWallet({ wallet });
+
+  const type = 'withdraw';
+  const operations = await db.referrals.getTypeByWallet({ wallet, type });
+  for (const operation of operations) delete operation.referral;
+
   successRes(res, { operations });
 };
 

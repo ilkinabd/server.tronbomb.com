@@ -17,7 +17,7 @@ const referralProfit = async(data) => {
   if (!payload || !payload.txID) return;
 
   await db.users.setRefProfit({ wallet, delta: -profit });
-  db.referrals.addWithdraw({ wallet, amount: -profit });
+  db.referrals.add({ wallet, amount: -profit, type: 'withdraw' });
 };
 
 const mine = async(data) => {

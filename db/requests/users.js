@@ -1,6 +1,6 @@
 module.exports = {
   'add': `
-      SELECT GET_USER_ID($wallet) AS "id";`,
+      SELECT ADD_WALLET($wallet) AS "id";`,
 
   'set-level': `
       UPDATE "users"
@@ -10,7 +10,7 @@ module.exports = {
   'set-ref-id': `
       UPDATE "users"
       SET "ref_id" = $refId
-      WHERE "user_id" = $userId AND NOT EXISTS (
+      WHERE "user_id" = ADD_WALLET($wallet) AND NOT EXISTS (
           SELECT "user_id" FROM "users" WHERE "ref_id" = $refId
       ) RETURNING TRUE as "value";`,
 
@@ -25,9 +25,7 @@ module.exports = {
       WHERE "wallet" = $wallet;`,
 
   'is-exist': `
-      SELECT EXISTS (
-          SELECT * FROM "users" WHERE "wallet" = $wallet
-      ) AS "value";`,
+      SELECT EXISTS (SELECT GET_USER_ID($wallet)) AS "value";`,
 
   'get-id': `
       SELECT "user_id" as "id"
@@ -49,8 +47,8 @@ module.exports = {
   'get-referrals': `
       SELECT
           "wallet",
-          "register_date",
-          GET_REFERRAL_PROFIT("referrer", "user_id") AS "profit"	
+          "register_date" AS "registerDate",
+          GET_REFERRAL_PROFIT("referrer", "user_id") AS "profit"
       FROM "users"
       WHERE "referrer" = GET_USER_ID($wallet);`,
 
@@ -68,7 +66,7 @@ module.exports = {
       WHERE "wallet" = $wallet;`,
 
   'get-wallet-by-ref-id': `
-      SELECT "wallet" as "value"
+      SELECT "wallet" AS "value"
       FROM "users"
       WHERE "ref_id" = $refId;`,
 

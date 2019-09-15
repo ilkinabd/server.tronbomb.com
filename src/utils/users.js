@@ -27,7 +27,7 @@ const referrerProfit = async(wallet, bet) => {
 
   const amount = toDecimal(bet * REFERRER_PROFIT);
   db.users.setRefProfit({ wallet: referrer, delta: amount });
-  db.referrals.addIncome({ wallet: referrer, referral: wallet, amount });
+  db.referrals.add({ wallet: referrer, referral: wallet, amount });
 };
 
 module.exports = {
