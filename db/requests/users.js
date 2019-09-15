@@ -72,6 +72,11 @@ module.exports = {
       FROM "users"
       WHERE "wallet" = $wallet;`,
 
+  'get-mine': `
+      SELECT "mine" AS "value"
+      FROM "users"
+      WHERE "wallet" = $wallet;`,
+
   'get-wallet-by-ref-id': `
       SELECT "wallet" AS "value"
       FROM "users"
