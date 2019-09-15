@@ -59,10 +59,10 @@ const freezeFunds = async() => {
   const { funds } = await tools.getFunds();
 
   for (const { address: wallet, type } of funds) {
-    const sum = await db.mining.getUserSum({ wallet });
+    const sum = await db.users.getMine({ wallet });
     if (sum <= 0) continue;
 
-    await db.mining.add({ type: 'withdraw', wallet, amount: -sum });
+    await db.users.setMine({ wallet, delta: -sum });
     await bomb.func.transfer({ to: wallet, amount: sum });
 
     setTimeout(() => { fund.freezeAll({ type }); }, TRONWEB_DELAY);
