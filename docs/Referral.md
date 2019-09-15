@@ -15,7 +15,7 @@ Response:
     ...
     {
       "type": "operations",
-      "address": "TRuJzaPRarKRNYd7CjpMdQR5pSRG7fjdSP",
+      "address": < operations address >,
       "title": "Operations"
     },
     ...
@@ -45,10 +45,8 @@ const processError = (payload) => {
 
 ...
 
-const withdrawReferralProfit = async(to, amount) => {
-  const withdrawAmount = amount * 10 ** 6;
-
-  await operationsContract.withdrawReferralProfit(to, withdrawAmount)
+const withdrawReferralProfit = async() => {
+  await operationsContract.withdrawReferralProfit()
     .send({ shouldPollResponse: true })
     .catch(processError);
 
@@ -57,7 +55,7 @@ const withdrawReferralProfit = async(to, amount) => {
 
 ...
 
-console.log(await withdrawReferralProfit('TSRb25AXQHaKbe51LLetgVS1NnpffzmCig', 15));
+console.log(await withdrawReferralProfit());
 
 ...
 ```

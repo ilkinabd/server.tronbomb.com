@@ -1,5 +1,5 @@
 # Server
-v0.10.1 Sep 13, 2019
+v0.10.2 Sep 15, 2019
 
 Server for **TronBomb** games.
 
@@ -73,6 +73,7 @@ env:
   NODE_ENV          : development
   NODE_URL          : localhost
   NODE_PORT         : 3000
+  CORS_TRUST        : '*'                          # CORS trust hosts
   PG_HOST           : 127.0.0.1                    # Postgres host
   PG_USER           : postgres                     # Postgres user
   PG_PORT           : 5432                         # Postgres port
@@ -88,7 +89,6 @@ env:
   GET_RESPONSE_KEY  : 12345                        # GetResponse service key
   REFERRER_PROFIT   : 0.0015                       # Referrel profit multiplier
   MIN_WITHDRAW      : 10                           # Referrel profit min withdraw
-  MAX_WITHDRAW      : 1000                         # Referrel profit max withdraw
   WITHDRAW_FEE      : 1                            # Referrel profit withdraw fee
   TOKENS            : TRX,BOMB                     # Available tokens
   DECIMAL           : 2                            # Tokens decimal
@@ -110,9 +110,6 @@ env:
   DIVIDENDS_INTERVAL  : 600000                     # Dividends payout interval
   FUND_DELAY          : 300000                     # Withdraw and freeze fonds tokens < FUND_DELAY > before dividence distribution
   MIN_OPERATION_PROFIT: 100                        # Min operation profit to provide dividends calculation
-
-  PLATFORM_BALANCE    : 10000                      # Min Platform contract balance
-  MIN_OPERATION_PROFIT: 100                        # Min profit for withdraw
 
   # Buy Back
   BUY_BACK_WALLET: TGNR...dwNM                     # Buy Back wallet address

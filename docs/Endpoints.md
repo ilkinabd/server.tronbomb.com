@@ -1,5 +1,5 @@
 # Endpoints List
-v0.9.8+
+v0.10.2+
 
 ## Models
 
@@ -90,18 +90,18 @@ v0.9.8+
 
 ## Referral
 
-| Endpoint                          | Model  | Type | Description                         |
-| --------------------------------- | ------ | ---- | ----------------------------------- |
-| `/referral/get_id`                | wallet | GET  | Get referral id by wallet.          |
-| `/referral/set_id`                | setRef | POST | Set referral id by wallet.          |
-| `/referral/get_wallet`            | refId  | GET  | Get wallet by referral id.          |
-| `/referral/get_referrals`         | wallet | GET  | Get referrals by wallet.            |
-| `/referral/get_referrals_count`   | wallet | GET  | Get referrals count by wallet.      |
-| `/referral/get_referrer`          | wallet | GET  | Get referrer by wallet.             |
-| `/referral/set_referrer`          | setRef | POST | Set referrer to user by wallet.     |
-| `/referral/get_profit`            | wallet | GET  | Get referrals profit by wallet.     |
-| `/referral/get_referral_payments` | wallet | GET  | Withdraw profit operations history. |
-| `/referral/withdraw_txs`          | wallet | GET  | Withdraw profit operations history. |
+| Endpoint                     | Model  | Type | Description                     |
+| ---------------------------- | ------ | ---- | ------------------------------- |
+| `/referral/id`               | wallet | GET  | Get referral id by wallet.      |
+| `/referral/set_id`           | setRef | POST | Set referral id by wallet.      |
+| `/referral/wallet`           | refId  | GET  | Get wallet by referral id.      |
+| `/referral/referrals`        | wallet | GET  | Get referrals by wallet.        |
+| `/referral/total_referrals`  | wallet | GET  | Get referrals count by wallet.  |
+| `/referral/referrer`         | wallet | GET  | Get referrer by wallet.         |
+| `/referral/set_referrer`     | setRef | POST | Set referrer to user by wallet. |
+| `/referral/profit`           | wallet | GET  | Get referrals profit by wallet. |
+| `/referral/history/income`   | wallet | GET  | Income profit history.          |
+| `/referral/history/withdraw` | wallet | GET  | Withdraw profit history.        |
 
 ## User
 
