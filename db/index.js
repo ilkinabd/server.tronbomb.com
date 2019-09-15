@@ -8,18 +8,17 @@ const users = require('./requests/users');
 const sockets = require('./requests/sockets');
 const messages = require('./requests/messages');
 const bans = require('./requests/bans');
-const refPayments = require('./requests/ref-payments');
-const refWithdraws = require('./requests/ref-withdraws');
 const burn = require('./requests/burn');
 const freeze = require('./requests/freeze');
 const operationProfit = require('./requests/operation-profit');
 const dividends = require('./requests/dividends');
 const mining = require('./requests/mining');
 const jackpots = require('./requests/jackpots');
-
 const auction = require('./requests/auction');
+
 const dice = require('./requests/dice');
 const wheel = require('./requests/wheel');
+const referrals = require('./requests/referrals');
 
 const client = new PgClient({
   host: PG_HOST,
@@ -55,35 +54,30 @@ module.exports = {
     getByFinishBlock:   getAll(request(dice['get-by-finish-block'])),
     getByLimit:         getAll(request(dice['get-by-limit'])),
   },
+  referrals: {
+    add:              getId(request(referrals['add'])),
+    getTypeByWallet: getAll(request(referrals['get-type-by-wallet'])),
+  },
   users: {
-    add: getId(request(users['add'])),
+    add:                  getId(request(users['add'])),
     setLevel: request(users['set-level']),
-    setRefId: getValue(request(users['set-ref-id'])),
+    setRefId:          getValue(request(users['set-ref-id'])),
+    setReferrer:                request(users['set-referrer']),
     setRefProfit: getValue(request(users['set-ref-profit'])),
+    isExist:            getValue(request(users['is-exist'])),
     getId: getId(request(users['get-id'])),
     getLevel: getValue(request(users['get-level'])),
-    getReferrer: getValue(request(users['get-referrer'])),
-    getRefId: getValue(request(users['get-ref-id'])),
-    getRefProfit: getValue(request(users['get-ref-profit'])),
-    getWalletByRefId: getValue(request(users['get-wallet-by-ref-id'])),
-    getReferrals: getValue(request(users['get-referrals'])),
+    getReferrer:       getValue(request(users['get-referrer'])),
+    getReferrals:        getAll(request(users['get-referrals'])),
     getReferralsCount: getValue(request(users['get-referrals-count'])),
+    getRefId:          getValue(request(users['get-ref-id'])),
+    getRefProfit:      getValue(request(users['get-ref-profit'])),
+    getWalletByRefId:  getValue(request(users['get-wallet-by-ref-id'])),
     getCount: getValue(request(users['get-count'])),
     getBetSum: getValue(request(users['get-bet-sum'])),
     getTRXBetSum: getValue(request(users['get-trx-bet-sum'])),
     getWinSum: getValue(request(users['get-win-sum'])),
     getTop: getAll(request(users['get-top'])),
-  },
-  refPayments: {
-    add: getId(request(refPayments['add'])),
-    getByWallet: getAll(request(refPayments['get-by-wallet'])),
-    getGroupByWallet: getAll(request(refPayments['get-group-by-wallet'])),
-  },
-  refWithdraws: {
-    add: getId(request(refWithdraws['add'])),
-    setComplete: getRow(request(refWithdraws['set-complete'])),
-    getByWallet: getAll(request(refWithdraws['get-by-wallet'])),
-    getByCode: getRow(request(refWithdraws['get-by-code'])),
   },
   sockets: {
     add: getId(request(sockets['add'])),

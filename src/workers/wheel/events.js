@@ -1,18 +1,20 @@
 const db = require('@db');
 const { updateLevel, referrerProfit } = require('@utils/users');
 const { mining } = require('@utils/mining');
-const { getSymbol, getIndex } = require('@utils/wheel');
+const { getSymbol, getIndex } = require('@utils/game');
 
 const takePart = async(data) => {
   const { wallet, bet, tokenId, sector, finishBlock, index } = data;
   const symbol = getSymbol(tokenId);
   const game = getIndex(finishBlock) - 1;
 
-  if (symbol === 'TRX') await mining(bet, wallet);
-  await db.wheel.add({ index, finishBlock, wallet, bet, symbol, sector });
+  if (symbol === 'TRX') {
+    mining(bet, wallet);
+    referrerProfit(wallet, bet);
+  }
 
+  db.wheel.add({ index, finishBlock, wallet, bet, symbol, sector });
   updateLevel(wallet);
-  referrerProfit(wallet, index, bet, 'wheel');
 
   this.chanel.emit('wheel-bet', { index: game, wallet, bet, symbol, sector });
 };

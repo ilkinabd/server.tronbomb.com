@@ -15,13 +15,46 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE OR REPLACE FUNCTION GET_USER_ID(CHAR(34))
+CREATE OR REPLACE FUNCTION ADD_WALLET(CHAR(34))
 RETURNS INTEGER AS
 $$
   INSERT INTO "users" ("wallet")
   SELECT $1
   WHERE NOT EXISTS (SELECT * FROM "users" WHERE "wallet" = $1);
   SELECT "user_id" FROM "users" WHERE "wallet" = $1;
+$$
+LANGUAGE sql;
+
+CREATE OR REPLACE FUNCTION GET_USER_ID(CHAR(34))
+RETURNS INTEGER AS
+$$
+  SELECT "user_id" FROM "users"
+  WHERE "wallet" = $1;
+$$
+LANGUAGE sql;
+
+CREATE OR REPLACE FUNCTION GET_WALLET(INTEGER)
+RETURNS CHAR(34) AS
+$$
+  SELECT "wallet" FROM "users"
+  WHERE "user_id" = $1;
+$$
+LANGUAGE sql;
+
+CREATE OR REPLACE FUNCTION GET_REF_ID(CHAR(34))
+RETURNS CHAR(6) AS
+$$
+  SELECT "ref_id" FROM "users"
+  WHERE "wallet" = $1;
+$$
+LANGUAGE sql;
+
+CREATE OR REPLACE FUNCTION GET_REFERRAL_PROFIT(INTEGER, INTEGER)
+RETURNS FLOAT AS
+$$
+  SELECT COALESCE(SUM("amount"), 0)
+  FROM "referrals"
+  WHERE "type" = 'income' AND "user_id" = $1 AND "referral" = $2;
 $$
 LANGUAGE sql;
 
@@ -83,34 +116,17 @@ CREATE TABLE "wheel" (
   UNIQUE("index")
 );
 
-CREATE TYPE GAME_TYPE AS ENUM (
-  'dice',
-  'wheel'
-);
+CREATE TYPE OPERATION_TYPE AS ENUM ('income', 'withdraw');
 
-CREATE TABLE "ref_payments" (
-  "payment_id" SERIAL                      NOT NULL,
-  "user_id"    INTEGER                     NOT NULL REFERENCES "users"("user_id"),
-  "game_type"  GAME_TYPE                   NOT NULL,
-  "game_id"    INTEGER                     NOT NULL,
-  "referral"   INTEGER                     NOT NULL REFERENCES "users"("user_id"),
-  "profit"     FLOAT                       NOT NULL,
-  "time"       TIMESTAMP WITHOUT TIME ZONE DEFAULT now(),
+CREATE TABLE "referrals" (
+  "operation_id" SERIAL         NOT NULL,
+  "user_id"      INTEGER        NOT NULL REFERENCES "users"("user_id"),
+  "type"         OPERATION_TYPE NOT NULL,
+  "referral"     INTEGER        REFERENCES "users"("user_id"),
+  "amount"       FLOAT          NOT NULL,
+  "time"         TIMESTAMP      WITHOUT TIME ZONE DEFAULT now(),
 
-  PRIMARY KEY("payment_id")
-);
-
-CREATE TABLE "ref_withdraws" (
-  "tx_id"   SERIAL                      NOT NULL,
-  "user_id" INTEGER                     NOT NULL REFERENCES "users"("user_id"),
-  "status"  BOOLEAN                     NOT NULL DEFAULT FALSE,
-  "hash"    CHAR(64),
-  "amount"  FLOAT                       NOT NULL,
-  "to"      CHAR(34)                    NOT NULL,
-  "fee"     FLOAT,
-  "time"    TIMESTAMP WITHOUT TIME ZONE DEFAULT now(),
-
-  PRIMARY KEY("tx_id")
+  PRIMARY KEY("operation_id")
 );
 
 CREATE TABLE "sockets" (

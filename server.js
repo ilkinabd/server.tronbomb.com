@@ -12,7 +12,7 @@ serverIO.on('connection', (socket) => ws(socket, serverIO));
 const node = clientIO.connect(NODE, { reconnect: true });
 
 node.on('connect', () => {
-  const rooms = ['blocks', 'dice', 'wheel'];
+  const rooms = ['blocks', 'dice', 'wheel', 'operations'];
   for (const room of rooms) node.emit('subscribe', { room, token: NODE_TOKEN });
 });
 
@@ -23,7 +23,7 @@ require('@workers/wheel/events')(node, serverIO.in('wheel'));
 require('@workers/wheel/start-finish')(node, serverIO.in('wheel'));
 
 require('@workers/rating')(serverIO.in('rating'));
-require('@workers/operations');
+require('@workers/operations')(node);
 require('@workers/dividends')(serverIO);
 
 require('@workers/bomb/burn');

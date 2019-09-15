@@ -1,10 +1,6 @@
 module.exports = {
   'add': `
-      INSERT INTO "users" ("wallet", "referrer")
-      SELECT
-          $wallet,
-          (SELECT "user_id" FROM "users" WHERE "wallet" = $referrer)
-      RETURNING "user_id" as "id";`,
+      SELECT ADD_WALLET($wallet) AS "id";`,
 
   'set-level': `
       UPDATE "users"
@@ -14,15 +10,22 @@ module.exports = {
   'set-ref-id': `
       UPDATE "users"
       SET "ref_id" = $refId
-      WHERE
-          "wallet" = $wallet AND
-          NOT EXISTS (SELECT "user_id" FROM "users" WHERE "ref_id" = $refId)
-      RETURNING TRUE as "value";`,
+      WHERE "user_id" = ADD_WALLET($wallet) AND NOT EXISTS (
+          SELECT "user_id" FROM "users" WHERE "ref_id" = $refId
+      ) RETURNING TRUE as "value";`,
+
+  'set-referrer': `
+      UPDATE "users"
+      SET "referrer" = GET_USER_ID($referrer)
+      WHERE "user_id" = $userId;`,
 
   'set-ref-profit': `
       UPDATE "users"
       SET "ref_profit" = "ref_profit" + $delta
       WHERE "wallet" = $wallet;`,
+
+  'is-exist': `
+      SELECT EXISTS (SELECT GET_USER_ID($wallet)) AS "value";`,
 
   'get-id': `
       SELECT "user_id" as "id"
@@ -35,40 +38,37 @@ module.exports = {
       WHERE "wallet" = $wallet;`,
 
   'get-referrer': `
-      SELECT "wallet" as "value"
+      SELECT "wallet" AS "value"
       FROM "users"
       WHERE "user_id" = (
           SELECT "referrer" FROM "users" WHERE "wallet" = $wallet
       );`,
 
-  'get-ref-id': `
-      SELECT "ref_id" as "value"
+  'get-referrals': `
+      SELECT
+          "wallet",
+          "register_date" AS "registerDate",
+          GET_REFERRAL_PROFIT("referrer", "user_id") AS "profit"
       FROM "users"
-      WHERE "wallet" = $wallet;`,
+      WHERE "referrer" = GET_USER_ID($wallet);`,
+
+  'get-referrals-count': `
+      SELECT COUNT("wallet")::INTEGER AS "value"
+      FROM "users"
+      WHERE "referrer" = GET_USER_ID($wallet);`,
+
+  'get-ref-id': `
+      SELECT GET_REF_ID($wallet) AS "value";`,
 
   'get-ref-profit': `
-      SELECT "ref_profit" as "value"
+      SELECT "ref_profit" AS "value"
       FROM "users"
       WHERE "wallet" = $wallet;`,
 
   'get-wallet-by-ref-id': `
-      SELECT "wallet" as "value"
+      SELECT "wallet" AS "value"
       FROM "users"
       WHERE "ref_id" = $refId;`,
-
-  'get-referrals': `
-      SELECT ARRAY_AGG("wallet") as "value"
-      FROM "users"
-      WHERE "referrer" = (
-          SELECT "user_id" FROM "users" WHERE "wallet" = $wallet
-      );`,
-
-  'get-referrals-count': `
-      SELECT COUNT("wallet")::INTEGER as "value"
-      FROM "users"
-      WHERE "referrer" = (
-          SELECT "user_id" FROM "users" WHERE "wallet" = $wallet
-      );`,
 
   'get-bet-sum': `
       SELECT SUM("bet") as "value"

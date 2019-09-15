@@ -1,89 +1,83 @@
 const db = require('@db');
 
-const { resSuccess, resError } = require('@utils/res-builder');
+const { successRes, errorRes } = require('@utils/res-builder');
 
 const getId = async(req, res) => {
   const { wallet } = req.query;
+  await db.users.add({ wallet });
+  const refId = await db.users.getRefId({ wallet });
 
-  let refId = await db.users.getRefId({ wallet });
-  if (!refId) {
-    await db.users.add({ wallet });
-    refId = await db.users.getRefId({ wallet });
-  }
-
-  res.json(resSuccess({ refId }));
+  successRes(res, { refId });
 };
 
 const setId = async(req, res) => {
   const { wallet, refId } = req.body;
-
-  const userId = await db.users.getId({ wallet });
-  if (!userId) await db.users.add({ wallet });
-
   const result = await db.users.setRefId({ wallet, refId });
-  if (!result) return res.status(422).json(resError(73406));
+  if (!result) return errorRes(res, 422, 73406);
 
-  res.json(resSuccess());
+  successRes(res);
 };
 
 const getWallet = async(req, res) => {
   const { refId } = req.query;
-
   const wallet = await db.users.getWalletByRefId({ refId });
-  if (!wallet) return res.status(422).json(resError(73407));
+  if (!wallet) return errorRes(res, 422, 73407);
 
-  res.json(resSuccess({ wallet }));
+  successRes(res, { wallet });
 };
 
 const getReferrals = async(req, res) => {
   const { wallet } = req.query;
-  const referrals = await db.refPayments.getGroupByWallet({ wallet });
-  res.json(resSuccess({ referrals }));
+  const referrals = await db.users.getReferrals({ wallet });
+  successRes(res, { referrals });
 };
 
-const getReferralsCount = async(req, res) => {
+const getTotalReferrals = async(req, res) => {
   const { wallet } = req.query;
   const count = await db.users.getReferralsCount({ wallet });
-  res.json(resSuccess({ count }));
+  successRes(res, { count });
 };
 
 const getReferrer = async(req, res) => {
   const { wallet } = req.query;
   const referrer = await db.users.getReferrer({ wallet });
-  res.json(resSuccess({ referrer }));
+  successRes(res, { referrer });
 };
 
 const setReferrer = async(req, res) => {
   const { wallet, refId } = req.body;
 
-  const userId = await db.users.getId({ wallet });
-  if (userId) return res.status(422).json(resError(73409));
+  const isExist = await db.users.isExist({ wallet });
+  if (isExist) return errorRes(res, 422, 73409);
 
+  const userId = await db.users.add({ wallet });
   const referrer = await db.users.getWalletByRefId({ refId });
-  if (referrer === wallet) return res.status(422).json(resError(73411));
+  await db.users.setReferrer({ userId, referrer });
 
-  const id = await db.users.add({ wallet, referrer });
-  if (!id) return res.status(500).json(resError(73500));
-
-  res.json(resSuccess());
+  successRes(res);
 };
 
 const getProfit = async(req, res) => {
   const { wallet } = req.query;
   const profit = await db.users.getRefProfit({ wallet });
-  res.json(resSuccess({ profit }));
+  successRes(res, { profit });
 };
 
-const getReferralPayments = async(req, res) => {
+const getIncome = async(req, res) => {
   const { wallet } = req.query;
-  const payments = await db.refPayments.getByWallet({ wallet });
-  res.json(resSuccess({ payments }));
+  const type = 'income';
+  const operations = await db.referrals.getTypeByWallet({ wallet, type });
+  successRes(res, { operations });
 };
 
-const withdrawTxs = async(req, res) => {
+const getWithdraw = async(req, res) => {
   const { wallet } = req.query;
-  const txs = await db.refWithdraws.getByWallet({ wallet });
-  res.json(resSuccess({ txs }));
+
+  const type = 'withdraw';
+  const operations = await db.referrals.getTypeByWallet({ wallet, type });
+  for (const operation of operations) delete operation.referral;
+
+  successRes(res, { operations });
 };
 
 module.exports = {
@@ -91,10 +85,10 @@ module.exports = {
   setId,
   getWallet,
   getReferrals,
-  getReferralsCount,
+  getTotalReferrals,
   getReferrer,
   setReferrer,
   getProfit,
-  getReferralPayments,
-  withdrawTxs,
+  getIncome,
+  getWithdraw,
 };

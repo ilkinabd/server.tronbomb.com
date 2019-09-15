@@ -11,7 +11,7 @@ module.exports = {
       ) VALUES (
           $index,
           $finishBlock,
-          GET_USER_ID($wallet),
+          ADD_WALLET($wallet),
           $bet,
           $symbol,
           $number,
