@@ -15,7 +15,7 @@ module.exports = {
   'get-type-by-wallet': `
       SELECT
           GET_WALLET("referral") AS "referral",
-          ABS("amount"),
+          ABS("amount") AS "amount",
           "time"
       FROM "referrals"
       WHERE "user_id" = GET_USER_ID($wallet) AND type = $type

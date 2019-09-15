@@ -1,4 +1,4 @@
-const { WITHDRAW_FEE, MIN_WITHDRAW, MAX_WITHDRAW, MIN_MINE } = process.env;
+const { WITHDRAW_FEE, MIN_WITHDRAW, MIN_MINE } = process.env;
 
 const db = require('@db');
 const { fund, bomb } = require('@controllers/node');
@@ -9,7 +9,7 @@ const referralProfit = async(data) => {
   const { wallet } = data;
 
   const profit = await db.users.getRefProfit({ wallet });
-  if (profit < MIN_WITHDRAW || MAX_WITHDRAW < profit) return;
+  if (profit < MIN_WITHDRAW) return;
 
   const amount = profit - fee;
   const type = 'referral-rewards';
