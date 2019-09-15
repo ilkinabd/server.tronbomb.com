@@ -7,10 +7,7 @@ const { getSector, getCoef, getIndex, wheelRandom } = require('@utils/game');
 const startBlock = parseInt(WHEEL_START_BLOCK);
 const duration = parseInt(WHEEL_DURATION);
 
-const finishBets = async() => {
-  const bets = await db.wheel.getByStatus({ status: 'start' });
-  if (bets.length === 0) return;
-
+const finishBets = async(bets) => {
   for (const { index, finishBlock, bet, sector } of bets) {
     const random = await wheelRandom(finishBlock);
     if (random === undefined) continue;
@@ -44,10 +41,13 @@ const checkFinish = async(number) => {
   const result = await wheelRandom(number);
   const sector = getSector(result);
 
-  finishBets();
-  finish();
-
   this.chanel.emit('wheel-finish', { index, result, sector });
+
+  const bets = await db.wheel.getByStatus({ status: 'start' });
+  if (bets.length === 0) return;
+
+  finishBets(bets);
+  finish();
 };
 
 const processBlocks = async(block) => {
