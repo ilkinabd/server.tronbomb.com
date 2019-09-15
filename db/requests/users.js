@@ -25,7 +25,9 @@ module.exports = {
       WHERE "wallet" = $wallet;`,
 
   'is-exist': `
-      SELECT EXISTS (SELECT GET_USER_ID($wallet)) AS "value";`,
+      SELECT EXISTS (
+          SELECT * FROM "users" WHERE "wallet" = $wallet
+      ) AS "value";`,
 
   'get-id': `
       SELECT "user_id" as "id"
