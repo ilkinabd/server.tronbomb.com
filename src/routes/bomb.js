@@ -21,9 +21,6 @@ router.route('/history/unfreeze')
 router.route('/total_freeze')
   .get(controller.totalFreeze);
 
-router.route('/mining_level')
-  .get(controller.miningLevel);
-
 router.route('/buy_back_balance')
   .get(controller.getBuyBackBalance);
 

@@ -2,6 +2,7 @@ const { JACKPOTS_ACTIVE, JACKPOT_MIN_BET_SUM } = process.env;
 
 const db = require('@db');
 const node = require('@controllers/node');
+const { level } = require('@utils/mining');
 const getResponse = require('@utils/get-response');
 const { leftToPayout, operatingProfit } = require('@utils/dividends');
 const { successRes, errorRes } = require('@utils/res-builder');
@@ -13,6 +14,11 @@ const getConfigs = async(_req, res) => {
   const { contracts } = config;
 
   successRes(res, { contracts });
+};
+
+const miningLevel = async(_req, res) => {
+  const params = await level();
+  successRes(res, params);
 };
 
 const totalBetPrize = async(_req, res) => {
@@ -92,6 +98,7 @@ const subscribe = async(req, res) => {
 
 module.exports = {
   getConfigs,
+  miningLevel,
   totalBetPrize,
   dividendsParams,
   setJackpotWinner,
