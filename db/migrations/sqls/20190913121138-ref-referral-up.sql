@@ -55,3 +55,9 @@ $$
   WHERE "type" = 'income' AND "user_id" = $1 AND "referral" = $2;
 $$
 LANGUAGE sql;
+
+--------------------------------------------------------------------------------
+
+DROP TABLE "ref_payments";
+DROP TABLE "ref_withdraws";
+DROP TYPE GAME_TYPE;

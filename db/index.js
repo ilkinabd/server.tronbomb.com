@@ -8,16 +8,14 @@ const users = require('./requests/users');
 const sockets = require('./requests/sockets');
 const messages = require('./requests/messages');
 const bans = require('./requests/bans');
-const refPayments = require('./requests/ref-payments');
-const refWithdraws = require('./requests/ref-withdraws');
 const burn = require('./requests/burn');
 const freeze = require('./requests/freeze');
 const operationProfit = require('./requests/operation-profit');
 const dividends = require('./requests/dividends');
 const mining = require('./requests/mining');
 const jackpots = require('./requests/jackpots');
-
 const auction = require('./requests/auction');
+
 const dice = require('./requests/dice');
 const wheel = require('./requests/wheel');
 const referrals = require('./requests/referrals');
@@ -80,13 +78,6 @@ module.exports = {
     getTRXBetSum: getValue(request(users['get-trx-bet-sum'])),
     getWinSum: getValue(request(users['get-win-sum'])),
     getTop: getAll(request(users['get-top'])),
-  },
-  refPayments: {
-    getByWallet: getAll(request(refPayments['get-by-wallet'])),
-    getGroupByWallet: getAll(request(refPayments['get-group-by-wallet'])),
-  },
-  refWithdraws: {
-    getByWallet: getAll(request(refWithdraws['get-by-wallet'])),
   },
   sockets: {
     add: getId(request(sockets['add'])),
