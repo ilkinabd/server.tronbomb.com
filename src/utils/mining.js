@@ -9,6 +9,8 @@ const delta = parseFloat(DELTA);
 
 const day = 24 * 60 * 60 * 1000;
 
+const toDecimal = amount => Math.floor(amount * 1e6) / 1e6;
+
 const level = () => {
   const level = Math.ceil((new Date() - start) / day);
   const step = startLevel + (level - 1) * delta;
@@ -19,14 +21,14 @@ const fundsProfit = async(playerProfit) => {
   const { funds } = await getFunds();
 
   for (const { address: wallet, type } of funds) {
-    const amount = playerProfit * (PROFIT[type] || 0);
+    const amount = toDecimal(playerProfit * (PROFIT[type] || 0));
     if (amount === 0) continue;
     db.users.setMine({ wallet, delta: amount });
   }
 };
 
 const mining = async(bet, wallet) => {
-  const amount = bet / (level()).step;
+  const amount = toDecimal(bet / (level()).step);
   await db.users.setMine({ wallet, delta: amount });
   fundsProfit(amount);
 };
