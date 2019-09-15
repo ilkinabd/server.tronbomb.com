@@ -1,5 +1,5 @@
 # Server
-v0.10.2 Sep 15, 2019
+v0.10.3 Sep 15, 2019
 
 Server for **TronBomb** games.
 
@@ -89,17 +89,21 @@ env:
   GET_RESPONSE_KEY  : 12345                        # GetResponse service key
   REFERRER_PROFIT   : 0.0015                       # Referrel profit multiplier
   MIN_WITHDRAW      : 10                           # Referrel profit min withdraw
+  MIN_MINE     : 1                                 # Min mine amount
   WITHDRAW_FEE      : 1                            # Referrel profit withdraw fee
   TOKENS            : TRX,BOMB                     # Available tokens
   DECIMAL           : 2                            # Tokens decimal
 
-  # Mining
-  START_MINING      : '2019-08-26T12:00:00.000Z'   # Start mining time
-  START_MINING_LEVEL: 50                           # First mining level
-  MINING_LEVEL_DELTA: 10                           # Mining level delta
-  # player, ad, random-jackpot, bet-amount-jackpot, technical, referral-rewards, team, auction
-  MINING_PROFIT: 1.0000,0.1330,0.0170,0.0170,0.0800,0.0025,0.2170,0.2000
-  MIN_MINE     : 1                                 # Min mine amount
+  MINING:
+    START      : '2019-08-26T12:00:00.000Z'        # Start mining time
+    START_LEVEL: 50                                # Start mining level
+    DELTA      : 10                                # Mining level delta
+    PROFIT:                                        # Mining funds profit
+      team              : 0.4300
+      random-jackpot    : 0.0175
+      bet-amount-jackpot: 0.0175
+      referral-rewards  : 0.0050
+      auction           : 0.2000
 
   # Freeze
   UNFREEZE_TIME       : 86400000                   # Unfreeze BOMB amount

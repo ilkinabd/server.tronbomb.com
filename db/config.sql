@@ -61,13 +61,14 @@ LANGUAGE sql;
 --------------------------------------------------------------------------------
 
 CREATE TABLE "users" (
-  "user_id"       SERIAL                      NOT NULL,
-  "wallet"        CHAR(34)                    NOT NULL,
-  "level"         INTEGER                     NOT NULL DEFAULT 1,
-  "referrer"      INTEGER                     REFERENCES "users"("user_id"),
+  "user_id"       SERIAL    NOT NULL,
+  "wallet"        CHAR(34)  NOT NULL,
+  "level"         INTEGER   NOT NULL DEFAULT 1,
+  "referrer"      INTEGER   REFERENCES "users"("user_id"),
   "register_date" TIMESTAMP WITHOUT TIME ZONE DEFAULT now(),
-  "ref_id"        CHAR(6)                     NOT NULL DEFAULT random_string(6),
-  "ref_profit"    FLOAT                       NOT NULL DEFAULT 0,
+  "ref_id"        CHAR(6)   NOT NULL DEFAULT random_string(6),
+  "ref_profit"    FLOAT     NOT NULL DEFAULT 0,
+  "mine"          FLOAT     NOT NULL DEFAULT 0,
 
   PRIMARY KEY("user_id"),
   UNIQUE("wallet"),
@@ -186,21 +187,6 @@ CREATE TABLE "freeze" (
   "type"    FREEZE_TYPE   NOT NULL DEFAULT 'freeze',
 
   PRIMARY KEY("tx_id")
-);
-
-CREATE TYPE MINING_TYPE AS ENUM (
-  'mine',
-  'withdraw'
-);
-
-CREATE TABLE "mining" (
-  "mining_id" SERIAL      NOT NULL,
-  "user_id"   INTEGER     NOT NULL REFERENCES "users"("user_id"),
-  "type"      MINING_TYPE NOT NULL,
-  "amount"    FLOAT       NOT NULL,
-  "time"      TIMESTAMP   WITHOUT TIME ZONE DEFAULT NOW(),
-
-  PRIMARY KEY("mining_id")
 );
 
 CREATE TABLE "operation_profit" (
