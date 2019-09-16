@@ -62,7 +62,14 @@ const getJackpotParams = async(_req, res) => {
 };
 
 const getRandomJackpotHistory = async(_req, res) => {
-  const payments = await db.jackpots.getAll();
+  const type = 'random';
+  const payments = await db.jackpots.getByType({ type });
+  successRes(res, { payments });
+};
+
+const getBetAmountJackpotHistory = async(_req, res) => {
+  const type = 'bet_amount';
+  const payments = await db.jackpots.getByType({ type });
   successRes(res, { payments });
 };
 
@@ -113,5 +120,6 @@ module.exports = {
   setJackpotWinner,
   getJackpotParams,
   getRandomJackpotHistory,
+  getBetAmountJackpotHistory,
   subscribe,
 };

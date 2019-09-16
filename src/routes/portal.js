@@ -26,6 +26,9 @@ router.route('/set_random_jackpot_winner')
 router.route('/history/random_jackpot')
   .get(controller.getRandomJackpotHistory);
 
+router.route('/history/bet_amount_jackpot')
+  .get(controller.getBetAmountJackpotHistory);
+
 router.route('/subscribe')
   .post(validate('mail', false), controller.subscribe);
 
