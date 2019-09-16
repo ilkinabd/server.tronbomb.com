@@ -1,5 +1,5 @@
 # Server
-v0.10.4 Sep 16, 2019
+v0.10.5 Sep 16, 2019
 
 Server for **TronBomb** games.
 
@@ -120,12 +120,15 @@ env:
   # Buy Back
   BUY_BACK_WALLET: TGNR...dwNM                     # Buy Back wallet address
 
-  # Jackpots
-  JACKPOTS_ACTIVE    : TRUE                        # Jackpot switch
-  JACKPOT_DELAY      : 120000                      # Delay before dividends distribution
-  JACKPOT_MIN_BET_SUM: 150                         # Min bet sum to take part in jackpot
-  JACKPOT_PLACES     : 5                           # Jackpot winners count
-  JACKPOTS_PRIZES    : 0.5,0.2,0.15,0.09,0.06      # Jackpot prizes
+  JACKPOTS:
+    ACTIVE     : TRUE
+    DELAY      : 120000
+    MIN_BET_SUM: 10
+    MIN_FUND   : 10
+    MAX_FUND   : 200
+    WINNERS    : 5
+    PLACES     : 5
+    PRIZES     : [0.5,0.2,0.15,0.09,0.06]
 
   # Auction
   AUCTION:
