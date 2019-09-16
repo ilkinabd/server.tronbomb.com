@@ -1,19 +1,16 @@
-const { START_DIVIDENDS, DIVIDENDS_INTERVAL } = process.env;
+const { START, INTERVAL } = JSON.parse(process.env.DIVIDENDS);
 
 const db = require('@db');
 
-const start = new Date(START_DIVIDENDS);
-const interval = DIVIDENDS_INTERVAL;
-
 const leftToPayout = () => {
-  const delta = (Date.now() - start) % interval;
-  const timeout = interval - delta;
+  const delta = (Date.now() - START) % INTERVAL;
+  const timeout = INTERVAL - delta;
   return timeout;
 };
 
 const operatingProfit = async() => {
-  const diceProfit = await db.dice.getProfit({ interval });
-  const wheelProfit = await db.wheel.getProfit({ interval });
+  const diceProfit = await db.dice.getProfit({ interval: INTERVAL });
+  const wheelProfit = await db.wheel.getProfit({ interval: INTERVAL });
   return diceProfit + wheelProfit;
 };
 
