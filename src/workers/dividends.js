@@ -11,6 +11,7 @@ const { round, leftToPayout, operatingProfit } = require('@utils/dividends');
 const { finishAuction } = require('@workers/auction/finish');
 const { portal, fund } = require('@controllers/node');
 const randomJackpot = require('@workers/jackpots/random');
+const betAmountJackpot = require('@workers/jackpots/bet-amount');
 
 const withdraw = async(data) => {
   const { wallet } = data;
@@ -74,6 +75,7 @@ const calculateProfit = async() => {
   if (ACTIVE) {
     console.info('Preparing jackpots.');
     setTimeout(() => { randomJackpot(this.io.in('jackpots')); }, DELAY);
+    setTimeout(() => { betAmountJackpot(this.io.in('jackpots')); }, DELAY);
   }
 };
 
