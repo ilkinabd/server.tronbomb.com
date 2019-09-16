@@ -27,7 +27,7 @@ module.exports = {
       SELECT
           "tx_id" AS "txId",
           "time",
-          -"amount" AS "amount",
+          ABS("amount") AS "amount",
           "wallet"
       FROM "freeze"
       NATURAL JOIN "users"
