@@ -24,7 +24,7 @@ require('@workers/wheel/start-finish')(node, serverIO.in('wheel'));
 
 require('@workers/rating')(serverIO.in('rating'));
 require('@workers/operations')(node);
-require('@workers/dividends')(serverIO);
+require('@workers/dividends')(node, serverIO);
 
 require('@workers/bomb/burn');
 require('@workers/bomb/freeze');

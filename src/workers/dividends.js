@@ -1,10 +1,7 @@
 const {
-  NODE, NODE_TOKEN,
   MIN_OPERATION_PROFIT, DIVIDENDS_INTERVAL, FUND_DELAY,
   TRONWEB_DELAY, JACKPOT_DELAY, JACKPOTS_ACTIVE,
 } = process.env;
-
-const io = require('socket.io-client');
 
 const db = require('@db');
 const { leftToPayout, operatingProfit } = require('@utils/dividends');
@@ -12,17 +9,7 @@ const { finishAuction } = require('@workers/auction/finish');
 const { bomb, portal, fund, tools } = require('@controllers/node');
 const randomJackpot = require('@workers/jackpots/random');
 
-const socket = io.connect(NODE, { reconnect: true });
-
-socket.on('connect', () => {
-  socket.emit('subscribe', {
-    room: 'operations',
-    token: NODE_TOKEN,
-  });
-});
-
 const timeout = leftToPayout();
-let ws;
 
 const withdraw = async(data) => {
   const { wallet } = data;
@@ -75,7 +62,7 @@ const calculateProfit = async() => {
 
   const noCompleteProfit = await db.operationProfit.getNoComplete();
   if (noCompleteProfit > MIN_OPERATION_PROFIT) {
-    await finishAuction(ws.in('auction'));
+    await finishAuction(this.io.in('auction'));
     payRewards(noCompleteProfit);
 
     await db.operationProfit.setCompleteAll();
@@ -84,7 +71,7 @@ const calculateProfit = async() => {
   setTimeout(freezeFunds, DIVIDENDS_INTERVAL - FUND_DELAY);
 
   if (JACKPOTS_ACTIVE === 'true') setTimeout(() => {
-    randomJackpot(ws.in('jackpots'));
+    randomJackpot(this.io.in('jackpots'));
   }, JACKPOT_DELAY);
 };
 
@@ -95,8 +82,7 @@ setTimeout(() => {
   calculateProfit();
 }, timeout);
 
-socket.on('withdraw-dividends', withdraw);
-
-module.exports = (io) => {
-  ws = io;
+module.exports = (node, io) => {
+  node.on('withdraw-dividends', withdraw);
+  this.io = io;
 };
