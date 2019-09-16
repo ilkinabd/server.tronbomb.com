@@ -25,6 +25,7 @@ const mine = async(data) => {
   const amount = await db.users.getMine({ wallet });
   if (amount < MIN_MINE) return;
 
+  console.info(`Mine ${amount} from ${wallet}.`);
   await db.users.setMine({ wallet, delta: -amount });
   await bomb.func.transfer({ to: wallet, amount });
 };
