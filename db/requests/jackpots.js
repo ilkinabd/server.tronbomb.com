@@ -12,9 +12,7 @@ module.exports = {
   'get-random-unconfirmed': `
       SELECT
           "wallet",
-          "place",
-          "prize",
-          "time"
+          "place"
       FROM "jackpots"
       NATURAL JOIN "users"
       WHERE "type" = 'random' AND "status" = FALSE;`,

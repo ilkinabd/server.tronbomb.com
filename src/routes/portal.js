@@ -23,6 +23,9 @@ router.route('/jackpot_params')
 router.route('/set_random_jackpot_winner')
   .post(admin, validate('jackpotWinner', false), controller.setJackpotWinner);
 
+router.route('/random_jackpot_winner')
+  .get(admin, controller.getJackpotWinner);
+
 router.route('/history/random_jackpot')
   .get(controller.getRandomJackpotHistory);
 

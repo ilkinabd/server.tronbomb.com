@@ -86,6 +86,11 @@ const setJackpotWinner = async(req, res) => {
   successRes(res);
 };
 
+const getJackpotWinner = async(_req, res) => {
+  const winners = await db.jackpots.getRandomUnconfirmed();
+  successRes(res, { winners });
+};
+
 const subscribe = async(req, res) => {
   const { mail } = req.body;
   const result = await getResponse(mail);
@@ -117,9 +122,10 @@ module.exports = {
   miningLevel,
   totalBetPrize,
   dividendsParams,
-  setJackpotWinner,
   getJackpotParams,
   getRandomJackpotHistory,
   getBetAmountJackpotHistory,
+  setJackpotWinner,
+  getJackpotWinner,
   subscribe,
 };
