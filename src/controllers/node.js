@@ -52,6 +52,7 @@ module.exports = {
     transferBOMB: postRequest('/fund/transfer_bomb'),
     mine: postRequest('/fund/mine'),
     freezeAll: postRequest('/fund/freeze_all'),
+    withdrawDividends: postRequest('/fund/withdraw_dividends'),
   },
   bomb: {
     get: {

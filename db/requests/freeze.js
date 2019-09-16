@@ -54,10 +54,10 @@ module.exports = {
           "status" != 'cancel' AND
           "user_id" = GET_USER_ID($wallet);`,
 
-  'get-users-amounts': `
+  'get-users-sums': `
       SELECT
           "wallet",
-          SUM("amount") AS "amount"
+          COALESCE(SUM("amount"), 0) AS "sum"
       FROM "freeze"
       NATURAL JOIN "users"
       WHERE "status" != 'cancel'

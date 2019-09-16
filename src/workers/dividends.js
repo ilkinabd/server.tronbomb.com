@@ -1,14 +1,15 @@
 const {
-  MIN_WITHDRAW, TRONWEB_DELAY, FREEZE, MINING,
-  MIN_OPERATION_PROFIT, JACKPOT_DELAY, JACKPOTS_ACTIVE,
+  MIN_WITHDRAW, TRONWEB_DELAY, FREEZE, MINING, DIVIDENDS,
+  JACKPOT_DELAY, JACKPOTS_ACTIVE,
 } = process.env;
 const { PROFIT } = JSON.parse(MINING);
-const { FUND_DELAY, INTERVAL } = JSON.parse(FREEZE);
+const { FUND_DELAY } = JSON.parse(FREEZE);
+const { INTERVAL, MIN_PROFIT } = JSON.parse(DIVIDENDS);
 
 const db = require('@db');
-const { leftToPayout, operatingProfit } = require('@utils/dividends');
+const { round, leftToPayout, operatingProfit } = require('@utils/dividends');
 const { finishAuction } = require('@workers/auction/finish');
-const { portal, fund, tools } = require('@controllers/node');
+const { portal, fund } = require('@controllers/node');
 const randomJackpot = require('@workers/jackpots/random');
 
 const withdraw = async(data) => {
@@ -31,33 +32,33 @@ const freezeFunds = async() => {
   }
 };
 
-const payFundsRewards = async() => {
-  const { funds } = await tools.getFunds();
-  for (const { address } of funds) withdraw({ wallet: address });
+const withdrawFundsProfit = async() => {
+  const funds = Object.keys(PROFIT);
+  for (const type of funds) fund.withdrawDividends({ type });
 };
 
 const payRewards = async(profit) => {
-  const usersAmounts = await db.freeze.getUsersAmounts();
-  const totalFreeze = await db.freeze.getSum();
+  const usersSums = await db.freeze.getUsersSums();
+  const total = await db.freeze.getSum();
 
-  for (const { wallet, amount } of usersAmounts) {
-    const sum = profit * (amount / totalFreeze);
-    const type = 'deposit';
-    if (sum > 0) await db.dividends.add({ wallet, amount: sum, type });
+  for (const { wallet, sum } of usersSums) {
+    const amount = round(profit * (sum / total));
+    if (amount === 0) continue;
+
+    db.dividends.add({ wallet, amount, type: 'deposit' });
   }
 
-  payFundsRewards();
+  withdrawFundsProfit();
 };
 
 const calculateProfit = async() => {
-  const profit = await operatingProfit();
-  await db.operationProfit.add({ profit });
+  const intervalProfit = await operatingProfit();
+  await db.operationProfit.add({ profit: intervalProfit });
 
-  const noCompleteProfit = await db.operationProfit.getNoComplete();
-  if (noCompleteProfit > MIN_OPERATION_PROFIT) {
+  const profit = await db.operationProfit.getNoComplete();
+  if (profit > MIN_PROFIT) {
     await finishAuction(this.io.in('auction'));
-    payRewards(noCompleteProfit);
-
+    payRewards(profit);
     await db.operationProfit.setCompleteAll();
   }
 

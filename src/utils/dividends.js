@@ -1,6 +1,9 @@
-const { START, INTERVAL } = JSON.parse(process.env.DIVIDENDS);
+const { DECIMAL, DIVIDENDS } = process.env;
+const { START, INTERVAL } = JSON.parse(DIVIDENDS);
 
 const db = require('@db');
+
+const round = amount => Math.floor(amount * 10 ** DECIMAL) / 10 ** DECIMAL;
 
 const leftToPayout = () => {
   const delta = (Date.now() - START) % INTERVAL;
@@ -23,6 +26,7 @@ const userProfit = async(wallet, operatingProfit) => {
 };
 
 module.exports = {
+  round,
   leftToPayout,
   operatingProfit,
   userProfit,
