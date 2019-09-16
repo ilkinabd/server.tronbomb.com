@@ -2,10 +2,10 @@ module.exports = {
   'add': `
       INSERT INTO "dividends" ("user_id", "amount", "type")
       VALUES (
-          (SELECT "user_id" FROM "users" WHERE "wallet" = $wallet),
+          GET_USER_ID($wallet),
           $amount,
           $type
-      ) RETURNING "dividend_id" as "id"`,
+      ) RETURNING "dividend_id" AS "id"`,
 
   'get-user-sum': `
       SELECT COALESCE(SUM("amount"), 0) AS "value"

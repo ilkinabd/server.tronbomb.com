@@ -42,4 +42,4 @@ module.exports = (node) => {
   node.on('bomb-unfreeze-all', unfreezeAll);
 
   setInterval(unfreezeWorker, INTERVAL);
-}
+};

@@ -1,4 +1,5 @@
 const {
+  MIN_WITHDRAW,
   MIN_OPERATION_PROFIT, DIVIDENDS_INTERVAL, FUND_DELAY,
   TRONWEB_DELAY, JACKPOT_DELAY, JACKPOTS_ACTIVE,
 } = process.env;
@@ -13,15 +14,13 @@ const timeout = leftToPayout();
 
 const withdraw = async(data) => {
   const { wallet } = data;
+
   const amount = await db.dividends.getUserSum({ wallet });
-  if (amount < 10) return;
+  if (amount < MIN_WITHDRAW) return;
 
   const type = 'withdraw';
   await db.dividends.add({ wallet, amount: -amount, type });
-
-  const params = { to: wallet, amount };
-  const result = await portal.func.withdraw(params);
-  console.info('Withdraw dividends:', wallet, result);
+  portal.func.withdraw({ to: wallet, amount });
 };
 
 const payFundsRewards = async() => {
