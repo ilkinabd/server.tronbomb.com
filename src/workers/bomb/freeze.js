@@ -1,9 +1,7 @@
-const { UNFREEZE_DELAY } = process.env;
+const { DELAY, INTERVAL } = JSON.parse(process.env.FREEZE);
 
 const db = require('@db');
 const { transferBOMB } = require('@controllers/node').fund;
-
-const delay = parseInt(UNFREEZE_DELAY);
 
 const freeze = async(data) => {
   const { amount, wallet, hash } = data;
@@ -31,7 +29,7 @@ const unfreezeWorker = async() => {
   const operations = await db.freeze.getAwaiting();
 
   for (const { time, amount, wallet: to, txId } of operations) {
-    if (new Date(time).getTime() + delay > Date.now()) continue;
+    if (new Date(time).getTime() + DELAY > Date.now()) continue;
 
     const type = 'stack-hodler';
     const hash = (await transferBOMB({ to, amount, type })).result;
@@ -39,9 +37,9 @@ const unfreezeWorker = async() => {
   }
 };
 
-setInterval(unfreezeWorker, 5000);
-
 module.exports = (node) => {
   node.on('bomb-freeze', freeze);
   node.on('bomb-unfreeze-all', unfreezeAll);
+
+  setInterval(unfreezeWorker, INTERVAL);
 }
