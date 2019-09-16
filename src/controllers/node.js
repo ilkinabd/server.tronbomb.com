@@ -50,6 +50,7 @@ module.exports = {
     balance: getRequest('/fund/balance'),
     transfer: postRequest('/fund/transfer'),
     transferBOMB: postRequest('/fund/transfer_bomb'),
+    mine: postRequest('/fund/mine'),
     freezeAll: postRequest('/fund/freeze_all'),
   },
   bomb: {

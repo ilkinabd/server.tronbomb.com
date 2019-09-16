@@ -1,14 +1,14 @@
 const {
-  MIN_WITHDRAW, FREEZE,
-  MIN_OPERATION_PROFIT,
-  TRONWEB_DELAY, JACKPOT_DELAY, JACKPOTS_ACTIVE,
+  MIN_WITHDRAW, TRONWEB_DELAY, FREEZE, MINING,
+  MIN_OPERATION_PROFIT, JACKPOT_DELAY, JACKPOTS_ACTIVE,
 } = process.env;
+const { PROFIT } = JSON.parse(MINING);
 const { FUND_DELAY, INTERVAL } = JSON.parse(FREEZE);
 
 const db = require('@db');
 const { leftToPayout, operatingProfit } = require('@utils/dividends');
 const { finishAuction } = require('@workers/auction/finish');
-const { bomb, portal, fund, tools } = require('@controllers/node');
+const { portal, fund, tools } = require('@controllers/node');
 const randomJackpot = require('@workers/jackpots/random');
 
 const withdraw = async(data) => {
@@ -20,6 +20,15 @@ const withdraw = async(data) => {
   const type = 'withdraw';
   await db.dividends.add({ wallet, amount: -amount, type });
   portal.func.withdraw({ to: wallet, amount });
+};
+
+const freezeFunds = async() => {
+  const funds = Object.keys(PROFIT);
+
+  for (const type of funds) {
+    await fund.mine({ type });
+    setTimeout(() => { fund.freezeAll({ type }); }, TRONWEB_DELAY);
+  }
 };
 
 const payFundsRewards = async() => {
@@ -38,20 +47,6 @@ const payRewards = async(profit) => {
   }
 
   payFundsRewards();
-};
-
-const freezeFunds = async() => {
-  const { funds } = await tools.getFunds();
-
-  for (const { address: wallet, type } of funds) {
-    const sum = await db.users.getMine({ wallet });
-    if (sum <= 0) continue;
-
-    await db.users.setMine({ wallet, delta: -sum });
-    await bomb.func.transfer({ to: wallet, amount: sum });
-
-    setTimeout(() => { fund.freezeAll({ type }); }, TRONWEB_DELAY);
-  }
 };
 
 const calculateProfit = async() => {
@@ -77,10 +72,12 @@ module.exports = (node, io) => {
   node.on('withdraw-dividends', withdraw);
   this.io = io;
 
+  const timeout = leftToPayout();
+
   setTimeout(freezeFunds, timeout - FUND_DELAY);
 
   setTimeout(() => {
     setInterval(calculateProfit, INTERVAL);
     calculateProfit();
-  }, leftToPayout());
+  }, timeout);
 };
