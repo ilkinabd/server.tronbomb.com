@@ -1,5 +1,5 @@
 # Server
-v0.10.3 Sep 15, 2019
+v0.10.4 Sep 16, 2019
 
 Server for **TronBomb** games.
 
@@ -89,10 +89,11 @@ env:
   GET_RESPONSE_KEY  : 12345                        # GetResponse service key
   REFERRER_PROFIT   : 0.0015                       # Referrel profit multiplier
   MIN_WITHDRAW      : 10                           # Referrel profit min withdraw
-  MIN_MINE     : 1                                 # Min mine amount
+  MIN_MINE          : 1                            # Min mine amount
   WITHDRAW_FEE      : 1                            # Referrel profit withdraw fee
   TOKENS            : TRX,BOMB                     # Available tokens
   DECIMAL           : 2                            # Tokens decimal
+  TRONWEB_DELAY       : 70000                      # Tronweb updates delay
 
   MINING:
     START      : '2019-08-26T12:00:00.000Z'        # Start mining time
@@ -105,15 +106,16 @@ env:
       referral-rewards  : 0.0050
       auction           : 0.2000
 
-  # Freeze
-  UNFREEZE_TIME       : 86400000                   # Unfreeze BOMB amount
-  TRONWEB_DELAY       : 70000                      # Tronweb updates delay
+  FREEZE:
+    DELAY     : 120000                             # Unfreeze BOMB delay
+    INTERVAL  : 5000                               # Unfreeze BOMB worker interval
+    FUND_DELAY: 300000                             # Withdraw and freeze fonds tokens < FUND_DELAY > before dividence
 
-  # Dividends
-  START_DIVIDENDS     : '2019-08-26T12:00:00.000Z' # Start dividends program
-  DIVIDENDS_INTERVAL  : 600000                     # Dividends payout interval
-  FUND_DELAY          : 300000                     # Withdraw and freeze fonds tokens < FUND_DELAY > before dividence distribution
-  MIN_OPERATION_PROFIT: 100                        # Min operation profit to provide dividends calculation
+  DIVIDENDS:
+    START      : '2019-08-26T12:00:00.000Z'        # Start dividends program
+    INTERVAL   : 600000                            # Dividends payout interval
+    MIN_PROFIT : 100                               # Min operation profit to provide dividends distribution
+    MIN_BALANCE: 5                                 # Min contract balance
 
   # Buy Back
   BUY_BACK_WALLET: TGNR...dwNM                     # Buy Back wallet address
