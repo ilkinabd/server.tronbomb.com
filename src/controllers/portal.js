@@ -1,4 +1,4 @@
-const { JACKPOTS_ACTIVE, JACKPOT_MIN_BET_SUM } = process.env;
+const { ACTIVE, MIN_BET_SUM } = JSON.parse(process.env.JACKPOTS);
 
 const db = require('@db');
 const node = require('@controllers/node');
@@ -43,13 +43,9 @@ const dividendsParams = async(_req, res) => {
 };
 
 const getRandomJackpotParams = async(_req, res) => {
-  const active = JACKPOTS_ACTIVE === 'true';
-  const minBetSum = parseFloat(JACKPOT_MIN_BET_SUM);
-
   const type = 'random-jackpot';
   const fundBalance = (await node.fund.balance({ type })).balanceTRX;
-
-  successRes(res, { active, minBetSum, fundBalance });
+  successRes(res, { active: ACTIVE, minBetSum: MIN_BET_SUM, fundBalance });
 };
 
 const getRandomJackpotHistory = async(_req, res) => {
