@@ -6,7 +6,7 @@ const db = require('@db');
 const round = amount => Math.floor(amount * 10 ** DECIMAL) / 10 ** DECIMAL;
 
 const leftToPayout = () => {
-  const delta = (Date.now() - START) % INTERVAL;
+  const delta = (Date.now() - new Date(START)) % INTERVAL;
   const timeout = INTERVAL - delta;
   return timeout;
 };

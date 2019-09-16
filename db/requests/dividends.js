@@ -25,10 +25,11 @@ module.exports = {
   'get-by-limit': `
       SELECT
           "wallet",
-          "amount",
+          ABS("amount") AS "amount",
           "time"
       FROM "dividends"
       NATURAL JOIN "users"
+      WHERE "type" = $type
       ORDER BY "time" DESC
       LIMIT $limit;`,
 };

@@ -66,7 +66,7 @@ module.exports = {
   'get-by-wallet': `
       SELECT
           "hash",
-          "amount",
+          ABS("amount") AS "amount",
           "time",
           "status"
       FROM "freeze"

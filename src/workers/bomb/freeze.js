@@ -5,6 +5,7 @@ const { transferBOMB } = require('@controllers/node').fund;
 
 const freeze = async(data) => {
   const { amount, wallet, hash } = data;
+  if (amount === 0) return;
 
   const userId = await db.users.add({ wallet });
   await db.freeze.cancelAllUnfreeze({ userId });
@@ -20,6 +21,7 @@ const unfreezeAll = async(data) => {
   const userId = await db.users.add({ wallet });
   await db.freeze.cancelAllUnfreeze({ userId });
   const amount = await db.freeze.getUserSum({ wallet });
+  if (amount === 0) return;
 
   const type = 'unfreeze';
   db.freeze.add({ type, amount: -amount, userId });

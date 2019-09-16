@@ -4,7 +4,7 @@ const {
 } = process.env;
 const { PROFIT } = JSON.parse(MINING);
 const { FUND_DELAY } = JSON.parse(FREEZE);
-const { INTERVAL, MIN_PROFIT } = JSON.parse(DIVIDENDS);
+const { INTERVAL, MIN_PROFIT, MIN_BALANCE } = JSON.parse(DIVIDENDS);
 
 const db = require('@db');
 const { round, leftToPayout, operatingProfit } = require('@utils/dividends');
@@ -18,17 +18,24 @@ const withdraw = async(data) => {
   const amount = await db.dividends.getUserSum({ wallet });
   if (amount < MIN_WITHDRAW) return;
 
+  console.info(`Withdraw ${amount} from ${wallet}.`);
   const type = 'withdraw';
   await db.dividends.add({ wallet, amount: -amount, type });
   portal.func.withdraw({ to: wallet, amount });
 };
 
 const freezeFunds = async() => {
+  console.info('Freeze for funds.');
   const funds = Object.keys(PROFIT);
 
   for (const type of funds) {
+    console.info(`Mine from ${type} fund.`);
     await fund.mine({ type });
-    setTimeout(() => { fund.freezeAll({ type }); }, TRONWEB_DELAY);
+
+    setTimeout(() => {
+      console.info(`Freeze all from ${type} fund.`);
+      fund.freezeAll({ type });
+    }, TRONWEB_DELAY);
   }
 };
 
@@ -55,7 +62,7 @@ const calculateProfit = async() => {
   const intervalProfit = await operatingProfit();
   await db.operationProfit.add({ profit: intervalProfit });
 
-  const profit = await db.operationProfit.getNoComplete();
+  const profit = (await db.operationProfit.getNoComplete()) - MIN_BALANCE;
   if (profit > MIN_PROFIT) {
     await finishAuction(this.io.in('auction'));
     payRewards(profit);
