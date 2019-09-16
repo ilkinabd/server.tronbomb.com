@@ -10,8 +10,7 @@ module.exports = {
   'get-user-sum': `
       SELECT COALESCE(SUM("amount"), 0) AS "value"
       FROM "dividends"
-      NATURAL JOIN "users"
-      WHERE "wallet" = $wallet;`,
+      WHERE "user_id" = GET_USER_ID($wallet);`,
 
   'get-by-wallet': `
       SELECT

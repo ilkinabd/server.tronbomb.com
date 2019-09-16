@@ -36,7 +36,7 @@ module.exports = {
   'get-awaiting-by-wallet': `
       SELECT
           "time",
-          -"amount" AS "amount"
+          ABS("amount") AS "amount"
       FROM "freeze"
       WHERE
           "type" = 'unfreeze' AND "status" = 'awaiting' AND
@@ -71,8 +71,8 @@ module.exports = {
           "status"
       FROM "freeze"
       WHERE "type" = $type AND "status" != 'cancel' AND
-      "user_id" = GET_USER_ID($wallet)
-      ORDER BY "tx_id" DESC;`,
+            "user_id" = GET_USER_ID($wallet)
+      ORDER BY "time" DESC;`,
 
   'get-by-type-limit': `
       SELECT
