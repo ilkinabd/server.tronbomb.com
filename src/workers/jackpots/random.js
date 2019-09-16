@@ -1,16 +1,17 @@
-const { JACKPOT_MIN_BET_SUM, JACKPOT_PLACES, JACKPOTS_PRIZES } = process.env;
+const {
+  MIN_BET_SUM, PLACES, PRIZES, MIN_FUND, MAX_FUND,
+} = JSON.parse(process.env.JACKPOTS);
 
 const db = require('@db');
 const { balance, transfer } = require('@controllers/node').fund;
 
-const prizes = Array.from(JACKPOTS_PRIZES.split(','), parseFloat);
-
 const random = (max) => Math.floor(Math.random() * max);
+const toDecimal = amount => Math.floor(amount * 1e6) / 1e6;
 
 const getRandomWinners = async(members) => {
   const winners = [];
 
-  for (let i = 0; i < JACKPOT_PLACES; i++) {
+  for (let i = 0; i < PLACES; i++) {
     const randomIndex = i + random(members.length - i);
     winners.push(members[randomIndex]);
     [members[i], members[randomIndex]] = [members[randomIndex], members[i]];
@@ -30,32 +31,28 @@ const addWinnersFromDB = async(winners) => {
   }
 
   await db.jackpots.deleteRandomUnconfirmed();
-
   return winners;
 };
 
 const payRewards = async(winners, chanel) => {
-  const type = 'random-jackpot';
-  const { balanceTRX } = await balance({ type });
+  const fund = 'random-jackpot';
+  const { balanceTRX } = await balance({ type: fund });
 
-  if (balanceTRX < 10) return;
+  if (balanceTRX < MIN_FUND) return;
+  const prizePool = Math.min(balanceTRX, MAX_FUND);
 
   const result = [];
 
   for (const i in winners) {
-    const prize = balanceTRX * prizes[i];
+    const prize = toDecimal(prizePool * PRIZES[i]);
     const wallet = winners[i];
     result.push({ wallet, prize });
 
-    await transfer({ to: wallet, amount: prize, type });
+    await transfer({ to: wallet, amount: prize, type: fund });
 
-    await db.jackpots.add({
-      wallet,
-      type: 'random',
-      place: parseInt(i) + 1,
-      prize,
-      status: true,
-    });
+    const type = 'random';
+    const place = parseInt(i) + 1;
+    await db.jackpots.add({ wallet, type, place, prize, status: true });
   }
 
   chanel.emit('random-jackpot', result);
@@ -63,8 +60,7 @@ const payRewards = async(winners, chanel) => {
 
 module.exports = async(chanel) => {
   const users = await db.users.getTop({ limit: 1000 });
-  const members = users.filter(e => e.betSum >= JACKPOT_MIN_BET_SUM)
-    .map(e => e.wallet);
+  const members = users.filter(e => e.betSum >= MIN_BET_SUM).map(e => e.wallet);
 
   const randomWinners = await getRandomWinners(members);
   const winners = await addWinnersFromDB(randomWinners);

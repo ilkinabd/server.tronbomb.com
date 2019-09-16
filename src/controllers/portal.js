@@ -1,14 +1,16 @@
-const { JACKPOTS_ACTIVE, JACKPOT_MIN_BET_SUM } = process.env;
+const {
+  ACTIVE, MIN_BET_SUM, MAX_FUND, DELAY,
+} = JSON.parse(process.env.JACKPOTS);
 
 const db = require('@db');
-const node = require('@controllers/node');
+const { fund, tools } = require('@controllers/node');
 const { level } = require('@utils/mining');
 const getResponse = require('@utils/get-response');
 const { leftToPayout, operatingProfit } = require('@utils/dividends');
 const { successRes, errorRes } = require('@utils/res-builder');
 
 const getConfigs = async(_req, res) => {
-  const config = await node.tools.getContracts();
+  const config = await tools.getContracts();
   if (config.status !== 'success') return errorRes(res, 500, 73500);
 
   const { contracts } = config;
@@ -37,23 +39,37 @@ const dividendsParams = async(_req, res) => {
   const nextPayout = Date.now() + leftToPayout();
   const profit = await operatingProfit();
   const totalFrozen = await db.freeze.getSum();
-  const totalMined = (await node.tools.totalMined()).totalMined;
+  const totalMined = (await tools.totalMined()).totalMined;
 
   successRes(res, { nextPayout, profit, totalFrozen, totalMined });
 };
 
-const getRandomJackpotParams = async(_req, res) => {
-  const active = JACKPOTS_ACTIVE === 'true';
-  const minBetSum = parseFloat(JACKPOT_MIN_BET_SUM);
+const getJackpotParams = async(_req, res) => {
+  let type = 'random-jackpot';
+  const randomBalance = (await fund.balance({ type })).balanceTRX;
+  type = 'bet-amount-jackpot';
+  const betAmountBalance = (await fund.balance({ type })).balanceTRX;
 
-  const type = 'random-jackpot';
-  const fundBalance = (await node.fund.balance({ type })).balanceTRX;
+  const nextPayout = Date.now() + leftToPayout() + DELAY;
 
-  successRes(res, { active, minBetSum, fundBalance });
+  successRes(res, {
+    active: ACTIVE,
+    minBetSum: MIN_BET_SUM,
+    randomFund: Math.min(randomBalance, MAX_FUND),
+    betAmountFund: Math.min(betAmountBalance, MAX_FUND),
+    nextPayout,
+  });
 };
 
 const getRandomJackpotHistory = async(_req, res) => {
-  const payments = await db.jackpots.getAll();
+  const type = 'random';
+  const payments = await db.jackpots.getByType({ type });
+  successRes(res, { payments });
+};
+
+const getBetAmountJackpotHistory = async(_req, res) => {
+  const type = 'bet_amount';
+  const payments = await db.jackpots.getByType({ type });
   successRes(res, { payments });
 };
 
@@ -68,6 +84,11 @@ const setJackpotWinner = async(req, res) => {
   if (!id) return errorRes(res, 500, 73500);
 
   successRes(res);
+};
+
+const getJackpotWinner = async(_req, res) => {
+  const winners = await db.jackpots.getRandomUnconfirmed();
+  successRes(res, { winners });
 };
 
 const subscribe = async(req, res) => {
@@ -101,8 +122,10 @@ module.exports = {
   miningLevel,
   totalBetPrize,
   dividendsParams,
-  setJackpotWinner,
-  getRandomJackpotParams,
+  getJackpotParams,
   getRandomJackpotHistory,
+  getBetAmountJackpotHistory,
+  setJackpotWinner,
+  getJackpotWinner,
   subscribe,
 };

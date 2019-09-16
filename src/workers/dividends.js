@@ -1,16 +1,17 @@
 const {
-  MIN_WITHDRAW, TRONWEB_DELAY, FREEZE, MINING, DIVIDENDS,
-  JACKPOT_DELAY, JACKPOTS_ACTIVE,
+  MIN_WITHDRAW, TRONWEB_DELAY, FREEZE, MINING, DIVIDENDS, JACKPOTS,
 } = process.env;
 const { PROFIT } = JSON.parse(MINING);
 const { FUND_DELAY } = JSON.parse(FREEZE);
 const { INTERVAL, MIN_PROFIT, MIN_BALANCE } = JSON.parse(DIVIDENDS);
+const { ACTIVE, DELAY } = JSON.parse(JACKPOTS);
 
 const db = require('@db');
 const { round, leftToPayout, operatingProfit } = require('@utils/dividends');
 const { finishAuction } = require('@workers/auction/finish');
 const { portal, fund } = require('@controllers/node');
 const randomJackpot = require('@workers/jackpots/random');
+const betAmountJackpot = require('@workers/jackpots/bet-amount');
 
 const withdraw = async(data) => {
   const { wallet } = data;
@@ -71,9 +72,11 @@ const calculateProfit = async() => {
 
   setTimeout(freezeFunds, INTERVAL - FUND_DELAY);
 
-  if (JACKPOTS_ACTIVE === 'true') setTimeout(() => {
-    randomJackpot(this.io.in('jackpots'));
-  }, JACKPOT_DELAY);
+  if (ACTIVE) {
+    console.info('Preparing jackpots.');
+    setTimeout(() => { randomJackpot(this.io.in('jackpots')); }, DELAY);
+    setTimeout(() => { betAmountJackpot(this.io.in('jackpots')); }, DELAY);
+  }
 };
 
 module.exports = (node, io) => {

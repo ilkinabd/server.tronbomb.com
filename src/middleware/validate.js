@@ -1,9 +1,9 @@
-const { JACKPOT_PLACES } = process.env;
+const { PLACES } = JSON.parse(process.env.JACKPOTS);
 
 const Joi = require('@hapi/joi');
 
 const templates = {
-  place: Joi.number().integer().min(1).max(parseInt(JACKPOT_PLACES)),
+  place: Joi.number().integer().min(1).max(PLACES),
   wallet: Joi.string().alphanum().length(34),
   refId: Joi.string().alphanum().uppercase({ force: true }).length(6),
   mail: Joi.string()

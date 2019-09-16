@@ -12,9 +12,7 @@ module.exports = {
   'get-random-unconfirmed': `
       SELECT
           "wallet",
-          "place",
-          "prize",
-          "time"
+          "place"
       FROM "jackpots"
       NATURAL JOIN "users"
       WHERE "type" = 'random' AND "status" = FALSE;`,
@@ -23,7 +21,7 @@ module.exports = {
       DELETE FROM "jackpots"
       WHERE "type" = 'random' AND "status" = FALSE;`,
 
-  'get-all': `
+  'get-by-type': `
       SELECT
           "wallet",
           "type",
@@ -32,5 +30,6 @@ module.exports = {
           "time"
       FROM "jackpots"
       NATURAL JOIN "users"
-      WHERE "status" = TRUE;`,
+      WHERE "type" = $type AND "status" = TRUE
+      ORDER BY "time" DESC;`,
 };
