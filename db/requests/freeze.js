@@ -27,7 +27,7 @@ module.exports = {
       SELECT
           "tx_id" AS "txId",
           "time",
-          -"amount" AS "amount",
+          ABS("amount") AS "amount",
           "wallet"
       FROM "freeze"
       NATURAL JOIN "users"
@@ -36,7 +36,7 @@ module.exports = {
   'get-awaiting-by-wallet': `
       SELECT
           "time",
-          -"amount" AS "amount"
+          ABS("amount") AS "amount"
       FROM "freeze"
       WHERE
           "type" = 'unfreeze' AND "status" = 'awaiting' AND
@@ -54,10 +54,10 @@ module.exports = {
           "status" != 'cancel' AND
           "user_id" = GET_USER_ID($wallet);`,
 
-  'get-users-amounts': `
+  'get-users-sums': `
       SELECT
           "wallet",
-          SUM("amount") AS "amount"
+          COALESCE(SUM("amount"), 0) AS "sum"
       FROM "freeze"
       NATURAL JOIN "users"
       WHERE "status" != 'cancel'
@@ -66,13 +66,13 @@ module.exports = {
   'get-by-wallet': `
       SELECT
           "hash",
-          "amount",
+          ABS("amount") AS "amount",
           "time",
           "status"
       FROM "freeze"
       WHERE "type" = $type AND "status" != 'cancel' AND
-      "user_id" = GET_USER_ID($wallet)
-      ORDER BY "tx_id" DESC;`,
+            "user_id" = GET_USER_ID($wallet)
+      ORDER BY "time" DESC;`,
 
   'get-by-type-limit': `
       SELECT

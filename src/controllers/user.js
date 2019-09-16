@@ -1,9 +1,7 @@
-const { UNFREEZE_DELAY } = process.env;
+const { DELAY } = JSON.parse(process.env.FREEZE);
 
 const db = require('@db');
 const { resSuccess, successRes } = require('@utils/res-builder');
-
-const delay = parseInt(UNFREEZE_DELAY);
 
 const getLevel = async(req, res) => {
   const { wallet } = req.query;
@@ -43,10 +41,10 @@ const totalDividends = async(req, res) => {
 
 const getAwaitingUnfreeze = async(req, res) => {
   const { wallet } = req.query;
+
   const { time, amount } = await db.freeze.getAwaitingByWallet({ wallet });
   if (!time) return successRes(res);
-
-  const timeLeft = new Date(time).getTime() + delay - Date.now();
+  const timeLeft = new Date(time).getTime() - Date.now() + DELAY;
 
   successRes(res, { time, timeLeft, amount });
 };

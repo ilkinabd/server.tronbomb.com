@@ -1,102 +1,91 @@
 const {
-  NODE, NODE_TOKEN,
-  MIN_OPERATION_PROFIT, DIVIDENDS_INTERVAL, FUND_DELAY,
-  TRONWEB_DELAY, JACKPOT_DELAY, JACKPOTS_ACTIVE,
+  MIN_WITHDRAW, TRONWEB_DELAY, FREEZE, MINING, DIVIDENDS,
+  JACKPOT_DELAY, JACKPOTS_ACTIVE,
 } = process.env;
-
-const io = require('socket.io-client');
+const { PROFIT } = JSON.parse(MINING);
+const { FUND_DELAY } = JSON.parse(FREEZE);
+const { INTERVAL, MIN_PROFIT, MIN_BALANCE } = JSON.parse(DIVIDENDS);
 
 const db = require('@db');
-const { leftToPayout, operatingProfit } = require('@utils/dividends');
+const { round, leftToPayout, operatingProfit } = require('@utils/dividends');
 const { finishAuction } = require('@workers/auction/finish');
-const { bomb, portal, fund, tools } = require('@controllers/node');
+const { portal, fund } = require('@controllers/node');
 const randomJackpot = require('@workers/jackpots/random');
-
-const socket = io.connect(NODE, { reconnect: true });
-
-socket.on('connect', () => {
-  socket.emit('subscribe', {
-    room: 'operations',
-    token: NODE_TOKEN,
-  });
-});
-
-const timeout = leftToPayout();
-let ws;
 
 const withdraw = async(data) => {
   const { wallet } = data;
-  const amount = await db.dividends.getUserSum({ wallet });
-  if (amount < 10) return;
 
+  const amount = await db.dividends.getUserSum({ wallet });
+  if (amount < MIN_WITHDRAW) return;
+
+  console.info(`Withdraw ${amount} from ${wallet}.`);
   const type = 'withdraw';
   await db.dividends.add({ wallet, amount: -amount, type });
-
-  const params = { to: wallet, amount };
-  const result = await portal.func.withdraw(params);
-  console.info('Withdraw dividends:', wallet, result);
-};
-
-const payFundsRewards = async() => {
-  const { funds } = await tools.getFunds();
-  for (const { address } of funds) withdraw({ wallet: address });
-};
-
-const payRewards = async(profit) => {
-  const usersAmounts = await db.freeze.getUsersAmounts();
-  const totalFreeze = await db.freeze.getSum();
-
-  for (const { wallet, amount } of usersAmounts) {
-    const sum = profit * (amount / totalFreeze);
-    const type = 'deposit';
-    if (sum > 0) await db.dividends.add({ wallet, amount: sum, type });
-  }
-
-  payFundsRewards();
+  portal.func.withdraw({ to: wallet, amount });
 };
 
 const freezeFunds = async() => {
-  const { funds } = await tools.getFunds();
+  console.info('Freeze for funds.');
+  const funds = Object.keys(PROFIT);
 
-  for (const { address: wallet, type } of funds) {
-    const sum = await db.users.getMine({ wallet });
-    if (sum <= 0) continue;
+  for (const type of funds) {
+    console.info(`Mine from ${type} fund.`);
+    await fund.mine({ type });
 
-    await db.users.setMine({ wallet, delta: -sum });
-    await bomb.func.transfer({ to: wallet, amount: sum });
-
-    setTimeout(() => { fund.freezeAll({ type }); }, TRONWEB_DELAY);
+    setTimeout(() => {
+      console.info(`Freeze all from ${type} fund.`);
+      fund.freezeAll({ type });
+    }, TRONWEB_DELAY);
   }
+};
+
+const withdrawFundsProfit = async() => {
+  const funds = Object.keys(PROFIT);
+  for (const type of funds) fund.withdrawDividends({ type });
+};
+
+const payRewards = async(profit) => {
+  const usersSums = await db.freeze.getUsersSums();
+  const total = await db.freeze.getSum();
+
+  for (const { wallet, sum } of usersSums) {
+    const amount = round(profit * (sum / total));
+    if (amount === 0) continue;
+
+    db.dividends.add({ wallet, amount, type: 'deposit' });
+  }
+
+  withdrawFundsProfit();
 };
 
 const calculateProfit = async() => {
-  const profit = await operatingProfit();
-  await db.operationProfit.add({ profit });
+  const intervalProfit = await operatingProfit();
+  await db.operationProfit.add({ profit: intervalProfit });
 
-  const noCompleteProfit = await db.operationProfit.getNoComplete();
-  if (noCompleteProfit > MIN_OPERATION_PROFIT) {
-    await finishAuction(ws.in('auction'));
-    payRewards(noCompleteProfit);
-
+  const profit = (await db.operationProfit.getNoComplete()) - MIN_BALANCE;
+  if (profit > MIN_PROFIT) {
+    await finishAuction(this.io.in('auction'));
+    payRewards(profit);
     await db.operationProfit.setCompleteAll();
   }
 
-  setTimeout(freezeFunds, DIVIDENDS_INTERVAL - FUND_DELAY);
+  setTimeout(freezeFunds, INTERVAL - FUND_DELAY);
 
   if (JACKPOTS_ACTIVE === 'true') setTimeout(() => {
-    randomJackpot(ws.in('jackpots'));
+    randomJackpot(this.io.in('jackpots'));
   }, JACKPOT_DELAY);
 };
 
-setTimeout(freezeFunds, timeout - FUND_DELAY);
+module.exports = (node, io) => {
+  node.on('withdraw-dividends', withdraw);
+  this.io = io;
 
-setTimeout(() => {
-  setInterval(calculateProfit, DIVIDENDS_INTERVAL);
-  calculateProfit();
-}, timeout);
+  const timeout = leftToPayout();
 
-socket.on('withdraw-dividends', withdraw);
+  setTimeout(freezeFunds, timeout - FUND_DELAY);
 
-module.exports = (io) => {
-  ws = io;
+  setTimeout(() => {
+    setInterval(calculateProfit, INTERVAL);
+    calculateProfit();
+  }, timeout);
 };

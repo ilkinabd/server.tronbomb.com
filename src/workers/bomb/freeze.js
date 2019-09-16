@@ -1,60 +1,47 @@
-const { NODE, NODE_TOKEN, UNFREEZE_DELAY } = process.env;
-
-const io = require('socket.io-client');
+const { DELAY, INTERVAL } = JSON.parse(process.env.FREEZE);
 
 const db = require('@db');
-const node = require('@controllers/node');
-
-const socket = io.connect(NODE, { reconnect: true });
-
-socket.on('connect', () => {
-  socket.emit('subscribe', {
-    room: 'bomb',
-    token: NODE_TOKEN,
-  });
-});
-
-const delay = parseInt(UNFREEZE_DELAY);
+const { transferBOMB } = require('@controllers/node').fund;
 
 const freeze = async(data) => {
   const { amount, wallet, hash } = data;
+  if (amount === 0) return;
 
-  let userId = await db.users.getId({ wallet });
-  if (!userId) userId = await db.users.add({ wallet });
-
+  const userId = await db.users.add({ wallet });
   await db.freeze.cancelAllUnfreeze({ userId });
 
   const type = 'freeze';
   const txId = await db.freeze.add({ type, amount, userId });
-  await db.freeze.setComplete({ hash, txId });
+  db.freeze.setComplete({ hash, txId });
 };
 
 const unfreezeAll = async(data) => {
   const { wallet } = data;
 
-  let userId = await db.users.getId({ wallet });
-  if (!userId) userId = await db.users.add({ wallet });
-
+  const userId = await db.users.add({ wallet });
   await db.freeze.cancelAllUnfreeze({ userId });
   const amount = await db.freeze.getUserSum({ wallet });
+  if (amount === 0) return;
 
   const type = 'unfreeze';
-  await db.freeze.add({ type, amount: -amount, userId });
+  db.freeze.add({ type, amount: -amount, userId });
 };
 
 const unfreezeWorker = async() => {
   const operations = await db.freeze.getAwaiting();
 
   for (const { time, amount, wallet: to, txId } of operations) {
-    if (new Date(time).getTime() + delay > Date.now()) continue;
+    if (new Date(time).getTime() + DELAY > Date.now()) continue;
 
     const type = 'stack-hodler';
-    const hash = (await node.fund.transferBOMB({ to, amount, type })).result;
+    const hash = (await transferBOMB({ to, amount, type })).result;
     await db.freeze.setComplete({ hash, txId });
   }
 };
 
-setInterval(unfreezeWorker, 5000);
+module.exports = (node) => {
+  node.on('bomb-freeze', freeze);
+  node.on('bomb-unfreeze-all', unfreezeAll);
 
-socket.on('bomb-freeze', freeze);
-socket.on('bomb-unfreeze-all', unfreezeAll);
+  setInterval(unfreezeWorker, INTERVAL);
+};
