@@ -1,7 +1,7 @@
 const db = require('@db');
 const { newMessage } = require('@controllers/chat');
 
-const { getIndex, expectedPrize } = require('@utils/auction');
+const { getIndex, addExpected } = require('@utils/auction');
 const { leftToPayout } = require('@utils/dividends');
 
 db.sockets.clear();
@@ -27,7 +27,7 @@ const joinAuction = async(socket) => {
   const bets = await db.auction.getByLimit({ auctionNumber, limit: 100 });
   const lastWinner = await db.auction.getLastWinner();
   const params = {
-    bets: await expectedPrize(bets),
+    bets: await addExpected(bets),
     lastWinner,
     nextPayout: Date.now() + leftToPayout(),
   };
