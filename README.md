@@ -121,14 +121,13 @@ env:
   BUY_BACK_WALLET: TGNR...dwNM                     # Buy Back wallet address
 
   JACKPOTS:
-    ACTIVE     : TRUE
-    DELAY      : 120000
-    MIN_BET_SUM: 10
-    MIN_FUND   : 10
-    MAX_FUND   : 200
-    WINNERS    : 5
-    PLACES     : 5
-    PRIZES     : [0.5,0.2,0.15,0.09,0.06]
+    ACTIVE     : TRUE                              # Jackpots status
+    DELAY      : 120000                            # Delay to payout before dividends distribution
+    MIN_BET_SUM: 10                                # Min bet sum for random jackpot
+    MIN_FUND   : 10                                # Min jackpot fund balance
+    MAX_FUND   : 200                               # Max jackpot fund balance
+    PLACES     : 5                                 # Winners count
+    PRIZES     : [0.5,0.2,0.15,0.09,0.06]          # Places percents
 
   # Auction
   AUCTION:
