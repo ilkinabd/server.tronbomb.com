@@ -27,7 +27,7 @@ const addWinnersFromDB = async(winners) => {
     const i = winners.indexOf(wallet);
     if (i >= 0)
       [winners[place - 1], winners[i]] = [winners[i], winners[place - 1]];
-    else winners[place] = wallet;
+    else winners[place - 1] = wallet;
   }
 
   await db.jackpots.deleteRandomUnconfirmed();
