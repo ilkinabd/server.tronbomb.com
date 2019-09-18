@@ -1,4 +1,5 @@
-const { NODE, NODE_TOKEN, NODE_URL, NODE_PORT } = process.env;
+const { NODE, NODE_TOKEN, NODE_URL, NODE_PORT, AUCTION } = process.env;
+const { ACTIVE } = JSON.parse(AUCTION);
 require('module-alias/register');
 
 const app = require('./app');
@@ -29,7 +30,7 @@ require('@workers/dividends')(node, serverIO);
 require('@workers/bomb/burn');
 require('@workers/bomb/freeze')(node);
 
-require('@workers/auction/bets.js')(node, serverIO.in('auction'));
+if (ACTIVE) require('@workers/auction/bets.js')(node, serverIO.in('auction'));
 
 server.listen(NODE_PORT, NODE_URL, () => {
   console.info(`${NODE_URL}:${NODE_PORT}`);
