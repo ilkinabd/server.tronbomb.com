@@ -2,11 +2,11 @@ const { ENABLED } = JSON.parse(process.env.AUCTION);
 
 const db = require('@db');
 const node = require('@controllers/node');
-const { currentAuctionNumber, expectedPrize } = require('@utils/auction');
+const { getIndex, expectedPrize } = require('@utils/auction');
 
 const auctionBet = async(data) => {
   const { bet, wallet } = data;
-  const auctionNumber = currentAuctionNumber();
+  const auctionNumber = getIndex();
 
   const maxBet = await db.auction.getMaxBet({ auctionNumber });
   if (bet >= maxBet + 1 && ENABLED) {

@@ -1,6 +1,6 @@
 const db = require('@db');
 const node = require('@controllers/node');
-const { currentAuctionNumber, expectedPrize } = require('@utils/auction');
+const { getIndex, expectedPrize } = require('@utils/auction');
 
 const payRewards = async(topBets) => {
   let burnFund = 0;
@@ -25,7 +25,7 @@ const sendBackBomb = async(loseBets) => {
 };
 
 const finishAuction = async(chanel) => {
-  const auctionNumber = currentAuctionNumber();
+  const auctionNumber = getIndex();
   const payload = await db.auction.getAll({ auctionNumber });
   const bets = await expectedPrize(payload);
 

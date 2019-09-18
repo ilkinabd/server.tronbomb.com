@@ -1,14 +1,10 @@
 const {
-  START_AUCTION, FUND_LIMIT, PAYOUT_COEFS
+  START, FUND_LIMIT, PAYOUT_COEFS, INTERVAL
 } = JSON.parse(process.env.AUCTION);
 
 const node = require('@controllers/node');
 
-const currentAuctionNumber = () => {
-  const day = 24 * 60 * 60 * 1000;
-  const result = Math.round((new Date() - new Date(START_AUCTION)) / day);
-  return result;
-};
+const getIndex = () => Math.round((new Date() - new Date(START)) / INTERVAL);
 
 const expectedPrize = async(bets) => {
   const type = 'auction';
@@ -25,6 +21,6 @@ const expectedPrize = async(bets) => {
 };
 
 module.exports = {
-  currentAuctionNumber,
+  getIndex,
   expectedPrize,
 };
