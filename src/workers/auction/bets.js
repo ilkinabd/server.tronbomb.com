@@ -1,7 +1,7 @@
 const { BET_STEP } = JSON.parse(process.env.AUCTION);
 
 const db = require('@db');
-const node = require('@controllers/node');
+const { transferBOMB } = require('@controllers/node').fund;
 const { getIndex, addExpected } = require('@utils/auction');
 
 const auctionBet = async(data) => {
@@ -18,7 +18,7 @@ const auctionBet = async(data) => {
     this.chanel.emit('auction-bet', topBets);
   } else {
     const type = 'auction';
-    node.fund.transferBOMB({ to: wallet, amount: bet, type });
+    transferBOMB({ to: wallet, amount: bet, type });
   }
 };
 
