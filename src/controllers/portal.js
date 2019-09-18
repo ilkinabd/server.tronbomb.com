@@ -5,6 +5,7 @@ const {
 const db = require('@db');
 const { fund, tools } = require('@controllers/node');
 const { level } = require('@utils/mining');
+const { getIndex } = require('@utils/auction');
 const getResponse = require('@utils/get-response');
 const { leftToPayout, operatingProfit } = require('@utils/dividends');
 const { successRes, errorRes } = require('@utils/res-builder');
@@ -91,6 +92,13 @@ const getJackpotWinner = async(_req, res) => {
   successRes(res, { winners });
 };
 
+const getAuctionParams = async(_req, res) => {
+  const type = 'auction';
+  const { balanceTRX } = await fund.balance({ type });
+  const index = getIndex();
+  successRes(res, { prizePool: balanceTRX, index });
+};
+
 const subscribe = async(req, res) => {
   const { mail } = req.body;
   const result = await getResponse(mail);
@@ -127,5 +135,6 @@ module.exports = {
   getBetAmountJackpotHistory,
   setJackpotWinner,
   getJackpotWinner,
+  getAuctionParams,
   subscribe,
 };

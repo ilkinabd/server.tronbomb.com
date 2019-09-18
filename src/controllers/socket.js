@@ -23,10 +23,11 @@ const joinWheel = async(socket) => {
   socket.emit('wheel', { bets });
 };
 const joinAuction = async(socket) => {
-  const auctionNumber = getIndex();
-  const bets = await db.auction.getByLimit({ auctionNumber, limit: 100 });
+  const index = getIndex();
+  const bets = await db.auction.getByLimit({ index, limit: 100 });
   const lastWinner = await db.auction.getLastWinner();
   const params = {
+    index,
     bets: await addExpected(bets),
     lastWinner,
     nextPayout: Date.now() + leftToPayout(),

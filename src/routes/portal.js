@@ -32,6 +32,9 @@ router.route('/history/random_jackpot')
 router.route('/history/bet_amount_jackpot')
   .get(controller.getBetAmountJackpotHistory);
 
+router.route('/auction_params')
+  .get(controller.getAuctionParams);
+
 router.route('/subscribe')
   .post(validate('mail', false), controller.subscribe);
 

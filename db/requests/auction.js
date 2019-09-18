@@ -17,7 +17,7 @@ module.exports = {
 
   'finish-all': `
       UPDATE "auction"
-      SET status" = 'finish';`,
+      SET "status" = 'finish';`,
 
   'get-max-bet': `
       SELECT COALESCE(MAX("bet"), 0) AS "value"
