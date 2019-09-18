@@ -40,10 +40,11 @@ const request = template => params => {
 module.exports = {
   auction: {
     add:        getValue(request(auction['add'])),
+    setPrize:            request(auction['set-prize']),
+    finishAll:           request(auction['finish-all']),
     getMaxBet:  getValue(request(auction['get-max-bet'])),
     getByLimit:   getAll(request(auction['get-by-limit'])),
-    getAll: getAll(request(auction['get-all'])),
-    setPrize: request(auction['set-prize']),
+    getAll:       getAll(request(auction['get-all'])),
     getLastWinner: getRow(request(auction['get-last-winner'])),
   },
   bans: {

@@ -10,6 +10,15 @@ module.exports = {
           $bet
       ) RETURNING "time" AS "value";`,
 
+  'set-prize': `
+      UPDATE "auction"
+      SET "prize" = $prize
+      WHERE "auction_id" = $auctionId;`,
+
+  'finish-all': `
+      UPDATE "auction"
+      SET status" = 'finish';`,
+
   'get-max-bet': `
       SELECT COALESCE(MAX("bet"), 0) AS "value"
       FROM "auction"
@@ -28,16 +37,14 @@ module.exports = {
       LIMIT $limit;`,
 
   'get-all': `
-      SELECT "auction_id" AS "auctionId", "wallet", "bet"
+      SELECT
+          "auction_id" AS "auctionId",
+          "wallet",
+          "bet"
       FROM "auction"
       NATURAL JOIN "users"
-      WHERE "auction_number" = $auctionNumber
+      WHERE "index" = $index
       ORDER BY "bet" DESC;`,
-
-  'set-prize': `
-      UPDATE "auction"
-      SET ("prize", "status") = ($prize, 'finish')
-      WHERE "auction_id" = $auctionId;`,
 
   'get-last-winner': `
       SELECT "wallet", "bet", "prize", "status", "time"
