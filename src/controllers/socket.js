@@ -2,7 +2,7 @@ const db = require('@db');
 const { newMessage } = require('@controllers/chat');
 
 const { currentAuctionNumber, expectedPrize } = require('@utils/auction');
-const { nextPayoutTimeout } = require('@utils/dividends');
+const { leftToPayout } = require('@utils/dividends');
 
 db.sockets.clear();
 
@@ -29,7 +29,7 @@ const joinAuction = async(socket) => {
   const params = {
     bets: await expectedPrize(bets),
     lastWinner,
-    nextPayout: Date.now() + nextPayoutTimeout()
+    nextPayout: Date.now() + leftToPayout(),
   };
   socket.emit('auction', params);
 };
