@@ -1,5 +1,5 @@
 # Server
-v0.10.5 Sep 16, 2019
+v0.10.6 Sep 19, 2019
 
 Server for **TronBomb** games.
 
@@ -129,23 +129,14 @@ env:
     PLACES     : 5                                 # Winners count
     PRIZES     : [0.5,0.2,0.15,0.09,0.06]          # Places percents
 
-  # Auction
   AUCTION:
-    START_AUCTION: '2019-08-28T12:00:00.000Z'      # Start first auction time
-    ENABLED: true                                  # Auction switch
-    WINNERS_COUNT: 10                              # Auction winners count switch
-    FUND_LIMIT: 1000                               # Auction fund limit
-    PAYOUT_COEFS:                                  # Payout coefs
-      0: 0.7
-      1: 0.05
-      2: 0.049
-      3: 0.048
-      4: 0.047
-      5: 0.046
-      6: 0.045
-      7: 0.01
-      8: 0.003
-      9: 0.002
+    ACTIVE       : TRUE                            # Auction status
+    START        : '2019-08-28T12:00:00.000Z'      # Start of first auction
+    INTERVAL     : 600000                          # Interval between auctions
+    BET_STEP     : 1                               # Min bet diffeerence
+    MAX_FUND     : 1000                            # Max auction fund balance
+    WINNERS_COUNT: 10                              # Winners count
+    PRIZES: [0.7,0.05,0.049, ... ,0.003,0.002]     # Places percents
 ```
 
 Powered by 2019 © MaxieMind for © TronBomb.

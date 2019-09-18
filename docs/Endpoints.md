@@ -1,5 +1,5 @@
 # Endpoints List
-v0.10.5+
+v0.10.6+
 
 ## Models
 
@@ -49,12 +49,6 @@ v0.10.5+
 }
 ```
 
-## Auction
-
-| Endpoint        | Model | Type | Description                 |
-| --------------- | ----- | ---- | --------------------------- |
-| `/auction/fund` |       | GET  | Get current auction params. |
-
 ## BOMB
 
 | Endpoint                  | Model | Type | Description                          |
@@ -77,18 +71,19 @@ v0.10.5+
 
 ## Portal
 
-| Endpoint                            | Model         | Type | Description                              |
-| ----------------------------------- | ------------- | ---- | ---------------------------------------- |
-| `/portal/configs`                   |               | GET  | Get smart contracts addresses.           |
-| `/portal/mining_level`              |               | GET  | Get mining level and params.             |
-| `/portal/total_bet_prize`           |               | GET  | Get total bets and total win sum.        |
-| `/portal/dividends_params`          |               | GET  | Get dividends distribution params.       |
-| `/portal/jackpot_params`            |               | GET  | Get jackpot params.                      |
-| `/portal/set_random_jackpot_winner` | jackpotWinner | POST | Set random jackpot winner manually.      |
-| `/portal/random_jackpot_winner`     |               | GET  | Get random jackpot manually winner.      |
-| `/history/random_jackpot`           |               | GET  | Get random jackpot payments history.     |
-| `/history/bet_amount_jackpot`       |               | GET  | Get bet amount jackpot payments history. |
-| `/portal/subscribe`                 | mail          | POST | Subscribe to the newsletter.             |
+| Endpoint                             | Model         | Type | Description                              |
+| ------------------------------------ | ------------- | ---- | ---------------------------------------- |
+| `/portal/configs`                    |               | GET  | Get smart contracts addresses.           |
+| `/portal/mining_level`               |               | GET  | Get mining level and params.             |
+| `/portal/total_bet_prize`            |               | GET  | Get total bets and total win sum.        |
+| `/portal/dividends_params`           |               | GET  | Get dividends distribution params.       |
+| `/portal/jackpot_params`             |               | GET  | Get jackpot params.                      |
+| `/portal/set_random_jackpot_winner`  | jackpotWinner | POST | Set random jackpot winner manually.      |
+| `/portal/random_jackpot_winner`      |               | GET  | Get random jackpot manually winner.      |
+| `/portal/history/random_jackpot`     |               | GET  | Get random jackpot payments history.     |
+| `/portal/history/bet_amount_jackpot` |               | GET  | Get bet amount jackpot payments history. |
+| `/portal/auction_params`             |               | GET  | Get current auction params.              |
+| `/portal/subscribe`                  | mail          | POST | Subscribe to the newsletter.             |
 
 ## Referral
 
