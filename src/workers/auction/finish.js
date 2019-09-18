@@ -1,43 +1,39 @@
 const db = require('@db');
-const node = require('@controllers/node');
-const { currentAuctionNumber, expectedPrize } = require('@utils/auction');
+const { transfer, transferBOMB } = require('@controllers/node').fund;
+const { getIndex, addExpected } = require('@utils/auction');
 
-const payRewards = async(topBets) => {
+const zeroAddress = 'T9yD14Nj9j7xAB4dbGeiX9h8unkKHxuWwb';
+const type = 'auction';
+
+const payRewards = (bets) => {
   let burnFund = 0;
-  const type = 'auction';
 
-  for (const { auctionId, wallet, bet, expected } of topBets) {
-    node.fund.transfer({ to: wallet, amount: expected, type });
+  for (const { auctionId, wallet, bet, expected } of bets) {
     db.auction.setPrize({ auctionId, prize: expected });
+    transfer({ to: wallet, amount: expected, type });
     burnFund += bet;
   }
 
-  const zeroAddress = 'T9yD14Nj9j7xAB4dbGeiX9h8unkKHxuWwb';
-  node.fund.transferBOMB({ to: zeroAddress, amount: burnFund, type });
+  transferBOMB({ to: zeroAddress, amount: burnFund, type });
 };
 
-const sendBackBomb = async(loseBets) => {
-  for (const { auctionId, wallet, bet } of loseBets) {
-    const type = 'auction';
-    node.fund.transferBOMB({ to: wallet, amount: bet, type });
-    db.auction.setPrize({ auctionId, prize: 0 });
-  }
+const sendBackBomb = (bets) => {
+  for (const { wallet, bet } of bets)
+    transferBOMB({ to: wallet, amount: bet, type });
 };
 
-const finishAuction = async(chanel) => {
-  const auctionNumber = currentAuctionNumber();
-  const payload = await db.auction.getAll({ auctionNumber });
-  const bets = await expectedPrize(payload);
+module.exports = async(chanel) => {
+  const index = getIndex();
+  const payload = await db.auction.getAll({ index });
+  const bets = await addExpected(payload);
 
   const topBets = bets.slice(0, 10);
   const loseBets = bets.slice(10);
 
   chanel.emit('auction-finish', { topBets });
 
-  await payRewards(topBets);
-  await sendBackBomb(loseBets);
-};
+  payRewards(topBets);
+  sendBackBomb(loseBets);
 
-module.exports = {
-  finishAuction,
+  db.auction.finishAll();
 };

@@ -1,42 +1,28 @@
-const { NODE, NODE_TOKEN } = process.env;
-const { ENABLED } = JSON.parse(process.env.AUCTION);
-
-const io = require('socket.io-client');
+const { BET_STEP } = JSON.parse(process.env.AUCTION);
 
 const db = require('@db');
-const node = require('@controllers/node');
-const { currentAuctionNumber, expectedPrize } = require('@utils/auction');
-
-const socket = io.connect(NODE, { reconnect: true });
-let chanel;
-
-socket.on('connect', () => {
-  socket.emit('subscribe', {
-    room: 'wheel',
-    token: NODE_TOKEN,
-  });
-});
+const { transferBOMB } = require('@controllers/node').fund;
+const { getIndex, addExpected } = require('@utils/auction');
 
 const auctionBet = async(data) => {
   const { bet, wallet } = data;
-  const auctionNumber = currentAuctionNumber();
+  const index = getIndex();
 
-  const maxBet = await db.auction.getMaxBet({ auctionNumber });
-  if (bet >= maxBet + 1 && ENABLED) {
-    await db.auction.add({ wallet, bet, auctionNumber });
+  const maxBet = await db.auction.getMaxBet({ index });
+  if (bet >= maxBet + BET_STEP) {
+    await db.auction.add({ wallet, bet, index });
 
-    const bets = await db.auction.getByLimit({ auctionNumber, limit: 10 });
-    const topBets = await expectedPrize(bets);
+    const bets = await db.auction.getByLimit({ index, limit: 10 });
+    const topBets = await addExpected(bets);
 
-    chanel.emit('auction-bet', topBets);
+    this.chanel.emit('auction-bet', topBets);
   } else {
     const type = 'auction';
-    node.fund.transferBOMB({ to: wallet, amount: bet, type });
+    transferBOMB({ to: wallet, amount: bet, type });
   }
 };
 
-socket.on('auction-bet', auctionBet);
-
-module.exports = (ioChanel) => {
-  chanel = ioChanel;
+module.exports = (node, chanel) => {
+  node.on('auction-bet', auctionBet);
+  this.chanel = chanel;
 };
