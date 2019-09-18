@@ -4,6 +4,7 @@ const PgClient = require('pg').Client;
 
 const { getId, getValue, getRow, getAll, fillTemplate } = require('./tools');
 
+const auction = require('./requests/auction');
 const users = require('./requests/users');
 const sockets = require('./requests/sockets');
 const messages = require('./requests/messages');
@@ -13,7 +14,6 @@ const freeze = require('./requests/freeze');
 const operationProfit = require('./requests/operation-profit');
 const dividends = require('./requests/dividends');
 const jackpots = require('./requests/jackpots');
-const auction = require('./requests/auction');
 
 const dice = require('./requests/dice');
 const wheel = require('./requests/wheel');
@@ -38,6 +38,14 @@ const request = template => params => {
 };
 
 module.exports = {
+  auction: {
+    add:        getValue(request(auction['add'])),
+    getMaxBet:  getValue(request(auction['get-max-bet'])),
+    getByLimit:   getAll(request(auction['get-by-limit'])),
+    getAll: getAll(request(auction['get-all'])),
+    setPrize: request(auction['set-prize']),
+    getLastWinner: getRow(request(auction['get-last-winner'])),
+  },
   bans: {
     add: getId(request(bans['add'])),
     get: getRow(request(bans['get'])),
@@ -117,14 +125,6 @@ module.exports = {
     getUserSum: getValue(request(dividends['get-user-sum'])),
     getByWallet: getAll(request(dividends['get-by-wallet'])),
     getByLimit: getAll(request(dividends['get-by-limit'])),
-  },
-  auction: {
-    add: getValue(request(auction['add'])),
-    getMaxBet: getValue(request(auction['get-max-bet'])),
-    getByLimit: getAll(request(auction['get-by-limit'])),
-    getAll: getAll(request(auction['get-all'])),
-    setPrize: request(auction['set-prize']),
-    getLastWinner: getRow(request(auction['get-last-winner'])),
   },
   jackpots: {
     add: getId(request(jackpots['add'])),
