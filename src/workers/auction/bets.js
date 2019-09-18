@@ -1,19 +1,19 @@
-const { ENABLED } = JSON.parse(process.env.AUCTION);
+const { BET_STEP } = JSON.parse(process.env.AUCTION);
 
 const db = require('@db');
 const node = require('@controllers/node');
-const { getIndex, expectedPrize } = require('@utils/auction');
+const { getIndex, addExpected } = require('@utils/auction');
 
 const auctionBet = async(data) => {
   const { bet, wallet } = data;
-  const auctionNumber = getIndex();
+  const index = getIndex();
 
-  const maxBet = await db.auction.getMaxBet({ auctionNumber });
-  if (bet >= maxBet + 1 && ENABLED) {
-    await db.auction.add({ wallet, bet, auctionNumber });
+  const maxBet = await db.auction.getMaxBet({ index });
+  if (bet >= maxBet + BET_STEP) {
+    await db.auction.add({ wallet, bet, index });
 
-    const bets = await db.auction.getByLimit({ auctionNumber, limit: 10 });
-    const topBets = await expectedPrize(bets);
+    const bets = await db.auction.getByLimit({ index, limit: 10 });
+    const topBets = await addExpected(bets);
 
     this.chanel.emit('auction-bet', topBets);
   } else {
