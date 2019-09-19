@@ -10,6 +10,8 @@ const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20');
 const cookieSession = require('cookie-session');
 
+const db = require('@db');
+
 const bomb = require('@routes/bomb');
 const chat = require('@routes/chat');
 const user = require('@routes/user');
@@ -39,19 +41,20 @@ app.use(cookieSession({
   keys: [COOKIE_KEY],
 }));
 
-passport.serializeUser((user, done) => done(null, user.id));
-passport.deserializeUser((id, done) => done(null, id));
+passport.serializeUser((user, done) => done(null, user));
+passport.deserializeUser(async(id, done) => {
+  const user = await db.oauthUsers.get({ index: id });
+  done(null, user);
+});
 
 passport.use(
   new GoogleStrategy({
     callbackURL: '/chat/google/redirect',
     clientID: GOOGLE_CLIENT_ID,
     clientSecret: GOOGLE_SECRET,
-  }, (_accessToken, _refreshToken, profile, done) => {
-    const user = {
-      id: profile.id,
-      displayName: profile.displayName,
-    };
+  }, async(_accessToken, _refreshToken, profile, done) => {
+    const user = { index: profile.id, name: profile.displayName };
+    await db.oauthUsers.add(user);
     done(null, user);
   })
 );

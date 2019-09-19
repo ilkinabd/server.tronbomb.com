@@ -11,6 +11,7 @@ const messages = require('./requests/messages');
 const bans = require('./requests/bans');
 const burn = require('./requests/burn');
 const freeze = require('./requests/freeze');
+const oauthUsers = require('./requests/oauth-users');
 const operationProfit = require('./requests/operation-profit');
 const dividends = require('./requests/dividends');
 const jackpots = require('./requests/jackpots');
@@ -115,6 +116,10 @@ module.exports = {
     getUserSum: getValue(request(freeze['get-user-sum'])),
     getUsersSums:         getAll(request(freeze['get-users-sums'])),
     getByTypeLimit: getAll(request(freeze['get-by-type-limit'])),
+  },
+  oauthUsers: {
+    add:  getId(request(oauthUsers['add'])),
+    get: getRow(request(oauthUsers['get'])),
   },
   operationProfit: {
     add: getId(request(operationProfit['add'])),
