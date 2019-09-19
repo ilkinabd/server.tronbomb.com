@@ -2,7 +2,9 @@ const { CHAT_USER_LEVEL } = process.env;
 
 const db = require('@db');
 
-const { resSuccess, resError } = require('@utils/res-builder');
+const { successRes, resSuccess, resError } = require('@utils/res-builder');
+
+const redirect = async(req, res) => successRes(res, req.user);
 
 const getBanStatus = async(req, res) => {
   const { wallet } = req.query;
@@ -38,6 +40,7 @@ const newMessage = async(data, socket, chanel) => {
 };
 
 module.exports = {
+  redirect,
   addBan,
   getBanStatus,
   newMessage,
