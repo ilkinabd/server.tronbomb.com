@@ -6,7 +6,6 @@ const user = async(req, res) => successRes(res, req.user);
 const send = async(req, res) => {
   const { data } = req.body;
   const { index, name } = req.user;
-  if (!index) return errorRes(res, 401, 73411);
 
   const { reason, endTime } = await db.bans.get({ index });
   if (reason) return errorRes(res, 401, 73402, { reason, endTime });
