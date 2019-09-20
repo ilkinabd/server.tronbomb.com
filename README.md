@@ -1,5 +1,5 @@
 # Server
-v0.10.7.2 Sep 20, 2019
+v0.10.8 Sep 21, 2019
 
 Server for **TronBomb** games.
 
@@ -71,7 +71,6 @@ merge_logs      : true
 autorestart     : true
 env:
   NODE_ENV          : development
-  NODE_URL          : localhost
   NODE_PORT         : 3000
   CORS_TRUST        : '*'                          # CORS trust hosts
   PG_HOST           : 127.0.0.1                    # Postgres host
@@ -92,7 +91,7 @@ env:
   WITHDRAW_FEE      : 1                            # Referrel profit withdraw fee
   TOKENS            : TRX,BOMB                     # Available tokens
   DECIMAL           : 2                            # Tokens decimal
-  TRONWEB_DELAY       : 70000                      # Tronweb updates delay
+  TRONWEB_DELAY     : 70000                        # Tronweb updates delay
 
   MINING:
     START      : '2019-08-26T12:00:00.000Z'        # Start mining time
@@ -111,6 +110,7 @@ env:
     FUND_DELAY: 300000                             # Withdraw and freeze fonds tokens < FUND_DELAY > before dividence
 
   DIVIDENDS:
+    ACTIVE     : FALSE
     START      : '2019-08-26T12:00:00.000Z'        # Start dividends program
     INTERVAL   : 600000                            # Dividends payout interval
     MIN_PROFIT : 100                               # Min operation profit to provide dividends distribution
@@ -142,7 +142,7 @@ env:
     BET_STEP     : 1                               # Min bet diffeerence
     MAX_FUND     : 1000                            # Max auction fund balance
     WINNERS_COUNT: 10                              # Winners count
-    PRIZES: [0.7,0.05,0.049, ... ,0.003,0.002]     # Places percents
+    PRIZES       : [0.7,0.05,0.049,...]            # Places percents
 ```
 
 Powered by 2019 © MaxieMind for © TronBomb.
