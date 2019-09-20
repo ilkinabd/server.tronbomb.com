@@ -1,6 +1,6 @@
-const {
-  ACTIVE, MIN_BET_SUM, MAX_FUND, DELAY,
-} = JSON.parse(process.env.JACKPOTS);
+const { JACKPOTS, DIVIDENDS } = process.env;
+const { ACTIVE, MIN_BET_SUM, MAX_FUND, DELAY } = JSON.parse(JACKPOTS);
+const { ACTIVE: DIVIDENDS_ACTIVE } = JSON.parse(DIVIDENDS);
 
 const db = require('@db');
 const { fund, tools } = require('@controllers/node');
@@ -37,12 +37,13 @@ const totalBetPrize = async(_req, res) => {
 };
 
 const dividendsParams = async(_req, res) => {
+  const active = DIVIDENDS_ACTIVE;
   const nextPayout = Date.now() + leftToPayout();
   const profit = await operatingProfit();
   const totalFrozen = await db.freeze.getSum();
   const totalMined = (await tools.totalMined()).totalMined;
 
-  successRes(res, { nextPayout, profit, totalFrozen, totalMined });
+  successRes(res, { active, nextPayout, profit, totalFrozen, totalMined });
 };
 
 const getJackpotParams = async(_req, res) => {

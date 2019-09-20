@@ -1,15 +1,16 @@
-const { NODE, NODE_TOKEN, NODE_URL, NODE_PORT, AUCTION } = process.env;
-const { ACTIVE } = JSON.parse(AUCTION);
+const { NODE, NODE_TOKEN, NODE_PORT, AUCTION, DIVIDENDS } = process.env;
+const { ACTIVE: DIVIDENDS_ACTIVE } = JSON.parse(DIVIDENDS);
+const { ACTIVE: AUCTION_ACTIVE } = JSON.parse(AUCTION);
 require('module-alias/register');
 
 const app = require('./app');
 const server = require('http').createServer(app);
-const serverIO = require('socket.io')(server);
 const clientIO = require('socket.io-client');
 
-const ws = require('@controllers/socket');
-serverIO.on('connection', ws);
-process.frontWS = serverIO;
+const ws = require('socket.io')(server);
+const controller = require('@controllers/socket');
+ws.on('connection', controller);
+process.ws = ws;
 
 const node = clientIO.connect(NODE, { reconnect: true });
 
@@ -19,20 +20,19 @@ node.on('connect', () => {
 });
 
 require('@workers/dice/events')(node);
-require('@workers/dice/finish')(node, serverIO.in('dice'));
+require('@workers/dice/finish')(node, ws.in('dice'));
 
-require('@workers/wheel/events')(node, serverIO.in('wheel'));
-require('@workers/wheel/start-finish')(node, serverIO.in('wheel'));
+require('@workers/wheel/events')(node, ws.in('wheel'));
+require('@workers/wheel/start-finish')(node, ws.in('wheel'));
 
-require('@workers/rating')(serverIO.in('rating'));
+require('@workers/rating')(ws.in('rating'));
 require('@workers/operations')(node);
-require('@workers/dividends')(node, serverIO);
-
-require('@workers/bomb/burn');
+require('@workers/bomb/burn')(node);
 require('@workers/bomb/freeze')(node);
 
-if (ACTIVE) require('@workers/auction/bets.js')(node, serverIO.in('auction'));
+if (DIVIDENDS_ACTIVE) require('@workers/dividends')(node, ws);
+if (AUCTION_ACTIVE) require('@workers/auction/bets.js')(node, ws.in('auction'));
 
-server.listen(NODE_PORT, NODE_URL, () => {
-  console.info(`${NODE_URL}:${NODE_PORT}`);
+server.listen(NODE_PORT, 'localhost', () => {
+  console.info(`localhost:${NODE_PORT}`);
 });

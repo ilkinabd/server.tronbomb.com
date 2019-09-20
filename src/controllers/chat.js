@@ -12,7 +12,7 @@ const send = async(req, res) => {
 
   const time = new Date();
   const id = await db.chat.add({ index, data });
-  process.frontWS.emit('chat', { messages: [{ id, index, name, data, time }] });
+  process.ws.emit('chat', { messages: [{ id, index, name, data, time }] });
 
   successRes(res);
 };
