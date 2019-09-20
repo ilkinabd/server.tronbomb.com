@@ -9,3 +9,8 @@ CREATE TABLE "messages" (
 
 DROP TABLE "oauth_users";
 DROP TABLE "chat";
+
+--------------------------------------------------------------------------------
+
+ALTER TABLE "bans"
+ADD FOREIGN KEY ("user_id") REFERENCES "users"("user_id");

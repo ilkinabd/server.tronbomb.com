@@ -3,7 +3,6 @@ const passport = require('passport');
 const router = new express.Router();
 
 const controller = require('@controllers/chat');
-const { admin } = require('@middleware/auth');
 const validate = require('@middleware/validate');
 
 router.route('/google/auth')
@@ -15,10 +14,7 @@ router.route('/google/redirect')
 router.route('/send')
   .post(validate('msg', false), controller.send);
 
-router.route('/get_ban_status')
-  .get(validate('wallet'), controller.getBanStatus);
-
-router.route('/add_ban')
-  .post(admin, validate('addBan', false), controller.addBan);
+router.route('/set_ban')
+  .post(validate('setBan', false), controller.setBan);
 
 module.exports = router;
