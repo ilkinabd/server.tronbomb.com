@@ -1,5 +1,6 @@
 const { ADMIN_TOKEN } = process.env;
 
+const passport = require('passport');
 const { errorRes } = require('@utils/res-builder');
 
 const admin = (req, res, next) => {
@@ -10,12 +11,9 @@ const admin = (req, res, next) => {
   next();
 };
 
-const oauth = (req, res, next) => {
-  if (!req.user) return errorRes(res, 401, 73411);
-  next();
-};
+const googleOauth = passport.authenticate('google-token', { session: false });
 
 module.exports = {
   admin,
-  oauth,
+  googleOauth,
 };

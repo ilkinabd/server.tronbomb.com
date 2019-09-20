@@ -53,8 +53,8 @@ module.exports = {
     get: getRow(request(bans['get'])),
   },
   chat: {
-    add:        getValue(request(chat['add'])),
-    getByLimit:   getAll(request(chat['get-by-limit'])),
+    add:       getId(request(chat['add'])),
+    getLasts: getAll(request(chat['get-lasts'])),
   },
   dice: {
     add:                 getId(request(dice['add'])),

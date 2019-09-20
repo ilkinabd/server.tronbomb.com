@@ -9,7 +9,7 @@ const clientIO = require('socket.io-client');
 
 const ws = require('@controllers/socket');
 serverIO.on('connection', ws);
-process.serverIO = serverIO;
+process.frontWS = serverIO;
 
 const node = clientIO.connect(NODE, { reconnect: true });
 

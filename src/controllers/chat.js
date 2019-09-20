@@ -10,8 +10,10 @@ const send = async(req, res) => {
   const { reason, endTime } = await db.bans.get({ index });
   if (reason) return errorRes(res, 401, 73402, { reason, endTime });
 
-  const time = await db.chat.add({ index, data });
-  process.serverIO.emit('chat', { messages: [{ data, time, name, index }] });
+  const time = new Date();
+  const id = await db.chat.add({ index, data });
+  process.frontWS.emit('chat', { messages: [{ id, index, name, data, time }] });
+
   successRes(res);
 };
 
