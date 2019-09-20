@@ -1,8 +1,6 @@
 const db = require('@db');
 const { successRes, errorRes } = require('@utils/res-builder');
 
-const admins = JSON.parse(process.env.CHAT_ADMINS);
-
 const redirect = async(req, res) => successRes(res, req.user);
 
 const send = async(req, res) => {
@@ -15,12 +13,12 @@ const send = async(req, res) => {
 
   const time = await db.chat.add({ index, data });
   process.serverIO.emit('chat', { messages: [{ data, time, name, index }] });
-  successRes(res, { admin: admins.includes(index) });
+  successRes(res);
 };
 
 const setBan = async(req, res) => {
   const { index, reason, endTime } = req.body;
-  if (!admins.includes(req.user.index)) return errorRes(res, 401, 73411);
+  if (!req.user.admin) return errorRes(res, 401, 73411);
 
   const id = await db.bans.add({ index, reason, endTime });
   if (!id) return errorRes(res, 500, 73500);

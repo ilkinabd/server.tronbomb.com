@@ -18,6 +18,8 @@ const user = require('@routes/user');
 const portal = require('@routes/portal');
 const referral = require('@routes/referral');
 
+const admins = JSON.parse(process.env.CHAT_ADMINS);
+
 const app = express();
 
 app.use(bodyParser.json());
@@ -50,7 +52,11 @@ passport.use(
     clientID: GOOGLE_CLIENT_ID,
     clientSecret: GOOGLE_SECRET,
   }, async(_accessToken, _refreshToken, profile, done) => {
-    const user = { index: profile.id, name: profile.displayName };
+    const user = {
+      index: profile.id,
+      name: profile.displayName,
+      admin: admins.includes(profile.id),
+    };
     await db.oauthUsers.add(user);
     done(null, user);
   })
