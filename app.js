@@ -1,4 +1,5 @@
-const { version, CORS_TRUST, GOOGLE_CLIENT_ID, GOOGLE_SECRET } = process.env;
+const { version, CORS_TRUST, CHAT } = process.env;
+const { GOOGLE_ID, GOOGLE_SECRET, FB_ID, FB_SECRET } = JSON.parse(CHAT);
 
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -6,6 +7,7 @@ const cors = require('cors');
 
 const passport = require('passport');
 const GoogleTokenStrategy = require('passport-google-token').Strategy;
+const FacebookTokenStrategy = require('passport-facebook-token');
 
 const db = require('@db');
 
@@ -35,17 +37,27 @@ app.use((_req, res, next) => {
   next();
 });
 
-passport.use(
-  new GoogleTokenStrategy({
-    clientID: GOOGLE_CLIENT_ID,
-    clientSecret: GOOGLE_SECRET,
-  }, async(_accessToken, _refreshToken, profile, done) => {
-    const user = { index: profile.id, name: profile.displayName };
-    await db.oauthUsers.add(user);
-    user.admin = admins.includes(profile.id),
-    done(null, user);
-  })
-);
+passport.use(new GoogleTokenStrategy({
+  clientID: GOOGLE_ID,
+  clientSecret: GOOGLE_SECRET,
+}, async(_accessToken, _refreshToken, profile, done) => {
+  const user = { index: profile.id, name: profile.displayName };
+  await db.oauthUsers.add(user);
+  user.admin = admins.includes(profile.id),
+  done(null, user);
+}));
+
+passport.use(new FacebookTokenStrategy({
+  clientID: FB_ID,
+  clientSecret: FB_SECRET,
+}, async(_accessToken, _refreshToken, profile, done) => {
+  console.log(profile);
+  const user = { index: profile.id, name: profile.displayName };
+  await db.oauthUsers.add(user);
+  user.admin = admins.includes(profile.id),
+  done(null, user);
+}));
+
 
 app.use(cors({
   origin: CORS_TRUST.split(','),
