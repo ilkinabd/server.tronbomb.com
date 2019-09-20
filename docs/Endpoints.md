@@ -1,5 +1,5 @@
 # Endpoints List
-v0.10.7+
+v0.10.7.1+
 
 ## Models
 
@@ -71,11 +71,11 @@ v0.10.7+
 
 ## Chat
 
-| Endpoint            | Model  | Type | Description          |
-| ------------------- | ------ | ---- | -------------------- |
-| `/chat/google/auth` |        | GET  | Google oauth.        |
-| `/chat/send`        | msg    | POST | Send new message.    |
-| `/chat/set_ban`     | setBan | GET  | Set user ban status. |
+| Endpoint        | Model  | Type | Description          |
+| --------------- | ------ | ---- | -------------------- |
+| `/chat/user`    |        | POST | Get user params.     |
+| `/chat/send`    | msg    | POST | Send new message.    |
+| `/chat/set_ban` | setBan | POST | Set user ban status. |
 
 ## Portal
 

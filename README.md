@@ -1,5 +1,5 @@
 # Server
-v0.10.7 Sep 20, 2019
+v0.10.7.1 Sep 20, 2019
 
 Server for **TronBomb** games.
 
@@ -121,8 +121,6 @@ env:
 
   GOOGLE_CLIENT_ID: 7671...sav5.apps.googleusercontent.com
   GOOGLE_SECRET   : cOZ0...o6_C
-  CALLBACK_URL    : /chat/google/redirect
-  COOKIE_KEY      : wegf...endn
   CHAT_ADMINS     : ['1175...5859', '3431...4224']
 
   JACKPOTS:
