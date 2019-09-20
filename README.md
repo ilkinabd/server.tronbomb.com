@@ -1,5 +1,5 @@
 # Server
-v0.10.9 Sep 21, 2019
+v0.10.10 Sep 21, 2019
 
 Server for **TronBomb** games.
 
@@ -92,6 +92,7 @@ env:
   TOKENS            : TRX,BOMB                     # Available tokens
   DECIMAL           : 2                            # Tokens decimal
   TRONWEB_DELAY     : 70000                        # Tronweb updates delay
+  PUBLIC_PATH       : src/public/                  # Public folder path
 
   MINING:
     START      : '2019-08-26T12:00:00.000Z'        # Start mining time

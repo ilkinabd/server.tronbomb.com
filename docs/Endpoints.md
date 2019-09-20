@@ -24,6 +24,13 @@ v0.10.9+
 }
 ```
 
+**language**
+```
+{
+  language: < string, alphanum >
+}
+```
+
 **jackpotWinner**
 ```
 {
@@ -137,3 +144,10 @@ v0.10.9+
 | `/user/history/freeze`    | wallet | GET  | Get freeze history by wallet.              |
 | `/user/history/unfreeze`  | wallet | GET  | Get unfreeze history by wallet.            |
 | `/user/history/dividends` | wallet | GET  | Get dividends history by wallet.           |
+
+## i18n
+
+| Endpoint          | Model    | Type | Description             |
+| ----------------- | -------- | ---- | ----------------------- |
+| `/i18n/language`  | language | GET  | Get language json.      |
+| `/i18n/languages` |          | GET  | Get all languages list. |
