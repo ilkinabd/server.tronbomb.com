@@ -27,6 +27,9 @@ const schemas = {
   mail: Joi.object().keys({
     mail: templates.mail.required(),
   }),
+  oauth: Joi.object().keys({
+    'access_token': templates['access_token'].required(),
+  }),
   msg: Joi.object().keys({
     'access_token': templates['access_token'].required(),
     data: Joi.object().required(),
