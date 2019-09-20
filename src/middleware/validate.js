@@ -4,6 +4,7 @@ const Joi = require('@hapi/joi');
 
 const templates = {
   place: Joi.number().integer().min(1).max(PLACES),
+  index: Joi.string().regex(/[0-9]+/).length(21),
   wallet: Joi.string().alphanum().length(34),
   refId: Joi.string().alphanum().uppercase({ force: true }).length(6),
   mail: Joi.string()
@@ -25,8 +26,11 @@ const schemas = {
   mail: Joi.object().keys({
     mail: templates.mail.required(),
   }),
-  addBan: Joi.object().keys({
-    wallet: templates.wallet.required(),
+  msg: Joi.object().keys({
+    data: Joi.object().required(),
+  }),
+  setBan: Joi.object().keys({
+    index: templates.index.required(),
     reason: Joi.string().required(),
     endTime: Joi.date().required(),
   }),

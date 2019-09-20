@@ -1,44 +1,35 @@
-const { CHAT_USER_LEVEL } = process.env;
-
 const db = require('@db');
+const { successRes, errorRes } = require('@utils/res-builder');
 
-const { resSuccess, resError } = require('@utils/res-builder');
+const admins = JSON.parse(process.env.CHAT_ADMINS);
 
-const getBanStatus = async(req, res) => {
-  const { wallet } = req.query;
+const redirect = async(req, res) => successRes(res, req.user);
 
-  const ban = await db.bans.get({ wallet });
-  if (!ban.status) return res.json(resSuccess({ status: false }));
+const send = async(req, res) => {
+  const { data } = req.body;
+  const { index, name } = req.user;
+  if (!index) return errorRes(res, 401, 73411);
 
-  res.json(resSuccess({ ban }));
+  const { reason, endTime } = await db.bans.get({ index });
+  if (reason) return errorRes(res, 401, 73402, { reason, endTime });
+
+  const time = await db.chat.add({ index, data });
+  process.serverIO.emit('chat', { messages: [{ data, time, name, index }] });
+  successRes(res, { admin: admins.includes(index) });
 };
 
-const addBan = async(req, res) => {
-  const { wallet, reason, endTime } = req.body;
+const setBan = async(req, res) => {
+  const { index, reason, endTime } = req.body;
+  if (!admins.includes(req.user.index)) return errorRes(res, 401, 73411);
 
-  const id = await db.bans.add({ wallet, reason, endTime });
-  if (!id) return res.status(500).json(resError(73500));
+  const id = await db.bans.add({ index, reason, endTime });
+  if (!id) return errorRes(res, 500, 73500);
 
-  res.json(resSuccess());
-};
-
-const newMessage = async(data, socket, chanel) => {
-  const { msg, wallet } = data;
-
-  if (!msg || !wallet) return socket.emit('fail', resError(73401));
-
-  const level = await db.users.getLevel({ wallet });
-  if (level < CHAT_USER_LEVEL) return socket.emit('fail', resError(73403));
-
-  const ban = await db.bans.get({ wallet });
-  if (ban.status) return socket.emit('fail', resError(73402, ban));
-
-  const time = await db.messages.add({ data: JSON.stringify(msg), wallet });
-  chanel.emit('chat', { messages: [{ data: msg, time, wallet }] });
+  successRes(res);
 };
 
 module.exports = {
-  addBan,
-  getBanStatus,
-  newMessage,
+  redirect,
+  send,
+  setBan,
 };

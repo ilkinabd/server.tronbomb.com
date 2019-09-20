@@ -7,10 +7,11 @@ const { getId, getValue, getRow, getAll, fillTemplate } = require('./tools');
 const auction = require('./requests/auction');
 const users = require('./requests/users');
 const sockets = require('./requests/sockets');
-const messages = require('./requests/messages');
+const chat = require('./requests/chat');
 const bans = require('./requests/bans');
 const burn = require('./requests/burn');
 const freeze = require('./requests/freeze');
+const oauthUsers = require('./requests/oauth-users');
 const operationProfit = require('./requests/operation-profit');
 const dividends = require('./requests/dividends');
 const jackpots = require('./requests/jackpots');
@@ -50,6 +51,10 @@ module.exports = {
   bans: {
     add: getId(request(bans['add'])),
     get: getRow(request(bans['get'])),
+  },
+  chat: {
+    add:        getValue(request(chat['add'])),
+    getByLimit:   getAll(request(chat['get-by-limit'])),
   },
   dice: {
     add:                 getId(request(dice['add'])),
@@ -95,10 +100,6 @@ module.exports = {
     delete: getAll(request(sockets['delete'])),
     clear: getValue(request(sockets['clear'])),
   },
-  messages: {
-    add: getValue(request(messages['add'])),
-    getByLimit: getAll(request(messages['get-by-limit'])),
-  },
   burn: {
     add: getId(request(burn['add'])),
     getSum: getValue(request(burn['get-sum'])),
@@ -115,6 +116,10 @@ module.exports = {
     getUserSum: getValue(request(freeze['get-user-sum'])),
     getUsersSums:         getAll(request(freeze['get-users-sums'])),
     getByTypeLimit: getAll(request(freeze['get-by-type-limit'])),
+  },
+  oauthUsers: {
+    add:  getId(request(oauthUsers['add'])),
+    get: getRow(request(oauthUsers['get'])),
   },
   operationProfit: {
     add: getId(request(operationProfit['add'])),
