@@ -1,5 +1,5 @@
 # Server
-v0.10.7.1 Sep 20, 2019
+v0.10.7.2 Sep 20, 2019
 
 Server for **TronBomb** games.
 
@@ -119,9 +119,12 @@ env:
   # Buy Back
   BUY_BACK_WALLET: TGNR...dwNM                     # Buy Back wallet address
 
-  GOOGLE_CLIENT_ID: 7671...sav5.apps.googleusercontent.com
-  GOOGLE_SECRET   : cOZ0...o6_C
-  CHAT_ADMINS     : ['1175...5859', '3431...4224']
+  CHAT:
+    GOOGLE_ID    : 7671...googleusercontent.com    # Google client id
+    GOOGLE_SECRET: cOZ0...O6_C                     # Google secret
+    FB_ID        : 3720...2071                     # Facebook client id
+    FB_SECRET    : 38d3...2c87                     # Facebook secret
+    ADMINS       : ['1175...5859',...]             # Chat admin ids
 
   JACKPOTS:
     ACTIVE     : TRUE                              # Jackpots status
