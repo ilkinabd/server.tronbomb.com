@@ -10,6 +10,12 @@ const admin = (req, res, next) => {
   next();
 };
 
+const oauth = (req, res, next) => {
+  if (!req.user) return errorRes(res, 401, 73411);
+  next();
+};
+
 module.exports = {
   admin,
+  oauth,
 };

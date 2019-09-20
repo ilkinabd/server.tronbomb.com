@@ -3,18 +3,21 @@ const passport = require('passport');
 const router = new express.Router();
 
 const controller = require('@controllers/chat');
+const { oauth } = require('@middleware/auth');
 const validate = require('@middleware/validate');
 
-router.route('/google/auth')
-  .get(passport.authenticate('google', { scope: ['profile'] }));
+router.route('/send').post(
+  validate('msg', false),
+  passport.authenticate('google-token', { session: false }),
+  oauth,
+  controller.send,
+);
 
-router.route('/google/user')
-  .get(controller.user);
-
-router.route('/send')
-  .post(validate('msg', false), controller.send);
-
-router.route('/set_ban')
-  .post(validate('setBan', false), controller.setBan);
+router.route('/set_ban').post(
+  validate('setBan', false),
+  passport.authenticate('google-token', { session: false }),
+  oauth,
+  controller.setBan,
+);
 
 module.exports = router;
