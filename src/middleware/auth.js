@@ -12,8 +12,10 @@ const admin = (req, res, next) => {
 };
 
 const googleOauth = passport.authenticate('google-token', { session: false });
+const fbOauth = passport.authenticate('facebook-token', { session: false });
 
 module.exports = {
   admin,
   googleOauth,
+  fbOauth,
 };
