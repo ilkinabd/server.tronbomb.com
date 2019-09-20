@@ -13,7 +13,11 @@ router.route('/send').post(
   controller.send,
 );
 
-router.route('/set_ban')
-  .post(validate('setBan', false), controller.setBan);
+router.route('/set_ban').post(
+  validate('setBan', false),
+  passport.authenticate('google-token', { session: false }),
+  oauth,
+  controller.setBan,
+);
 
 module.exports = router;

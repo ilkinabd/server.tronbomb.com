@@ -32,6 +32,7 @@ const schemas = {
     data: Joi.object().required(),
   }),
   setBan: Joi.object().keys({
+    'access_token': templates['access_token'].required(),
     index: templates.index.required(),
     reason: Joi.string().required(),
     endTime: Joi.date().required(),
