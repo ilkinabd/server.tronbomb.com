@@ -1,12 +1,12 @@
 module.exports = {
   'add': `
-      INSERT INTO "messages" (
+      INSERT INTO "chat" (
           "user_id",
           "data"
       ) VALUES (
-          (SELECT "user_id" FROM "users" WHERE "wallet" = $wallet),
+          (SELECT "user_id" FROM "oauth_users" WHERE "index" = $index),
           $data
-      ) RETURNING NOW() as "value";`,
+      ) RETURNING "time" AS "value";`,
 
   'get-by-limit': `
       WITH "msg" AS (

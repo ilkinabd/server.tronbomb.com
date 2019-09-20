@@ -1,10 +1,22 @@
-const { CHAT_USER_LEVEL } = process.env;
+// const { CHAT_USER_LEVEL } = process.env;
 
 const db = require('@db');
 
-const { successRes, resSuccess, resError } = require('@utils/res-builder');
+const {
+  successRes, resSuccess, errorRes, resError
+} = require('@utils/res-builder');
 
 const redirect = async(req, res) => successRes(res, req.user);
+
+const send = async(req, res) => {
+  const { data } = req.body;
+  const { index, name } = req.user;
+  if (!index) return errorRes(res, 401, 73411);
+
+  const time = await db.chat.add({ index, data });
+  process.serverIO.emit('chat', { messages: [{ data, time, name }] });
+  successRes(res);
+};
 
 const getBanStatus = async(req, res) => {
   const { wallet } = req.query;
@@ -24,24 +36,9 @@ const addBan = async(req, res) => {
   res.json(resSuccess());
 };
 
-const newMessage = async(data, socket, chanel) => {
-  const { msg, wallet } = data;
-
-  if (!msg || !wallet) return socket.emit('fail', resError(73401));
-
-  const level = await db.users.getLevel({ wallet });
-  if (level < CHAT_USER_LEVEL) return socket.emit('fail', resError(73403));
-
-  const ban = await db.bans.get({ wallet });
-  if (ban.status) return socket.emit('fail', resError(73402, ban));
-
-  const time = await db.messages.add({ data: JSON.stringify(msg), wallet });
-  chanel.emit('chat', { messages: [{ data: msg, time, wallet }] });
-};
-
 module.exports = {
   redirect,
+  send,
   addBan,
   getBanStatus,
-  newMessage,
 };

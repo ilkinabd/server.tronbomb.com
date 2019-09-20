@@ -2,6 +2,7 @@ module.exports = {
   'add': `
       INSERT INTO "oauth_users" ("index", "name")
       VALUES ($index, $name)
+      ON CONFLICT ("index") DO NOTHING
       RETURNING "user_id" AS "id";`,
 
   'get': `

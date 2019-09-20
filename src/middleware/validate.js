@@ -25,6 +25,9 @@ const schemas = {
   mail: Joi.object().keys({
     mail: templates.mail.required(),
   }),
+  msg: Joi.object().keys({
+    data: Joi.object().required(),
+  }),
   addBan: Joi.object().keys({
     wallet: templates.wallet.required(),
     reason: Joi.string().required(),

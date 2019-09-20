@@ -7,7 +7,7 @@ const { getId, getValue, getRow, getAll, fillTemplate } = require('./tools');
 const auction = require('./requests/auction');
 const users = require('./requests/users');
 const sockets = require('./requests/sockets');
-const messages = require('./requests/messages');
+const chat = require('./requests/chat');
 const bans = require('./requests/bans');
 const burn = require('./requests/burn');
 const freeze = require('./requests/freeze');
@@ -52,6 +52,10 @@ module.exports = {
     add: getId(request(bans['add'])),
     get: getRow(request(bans['get'])),
   },
+  chat: {
+    add:        getValue(request(chat['add'])),
+    getByLimit:   getAll(request(chat['get-by-limit'])),
+  },
   dice: {
     add:                 getId(request(dice['add'])),
     setFinish:                 request(dice['set-finish']),
@@ -95,10 +99,6 @@ module.exports = {
     setRooms: request(sockets['set-rooms']),
     delete: getAll(request(sockets['delete'])),
     clear: getValue(request(sockets['clear'])),
-  },
-  messages: {
-    add: getValue(request(messages['add'])),
-    getByLimit: getAll(request(messages['get-by-limit'])),
   },
   burn: {
     add: getId(request(burn['add'])),

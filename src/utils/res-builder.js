@@ -11,6 +11,7 @@ errors.set(73407, 'Referral id does not exist.');
 errors.set(73408, 'Invalid Referral id.');
 errors.set(73409, 'User is already exist.');
 errors.set(73410, 'Not enought funds.');
+errors.set(73411, 'Unauthorized.');
 errors.set(73500, 'Internal server error.');
 errors.set(73600, 'Email already added.');
 errors.set(73601, 'Incorrect email format.');

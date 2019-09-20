@@ -1,6 +1,4 @@
 const db = require('@db');
-const { newMessage } = require('@controllers/chat');
-
 const { getIndex, addExpected } = require('@utils/auction');
 const { leftToPayout } = require('@utils/dividends');
 
@@ -80,13 +78,11 @@ const unsubscribe = async(data, socket) => {
   await db.sockets.setRooms({ id, rooms });
 };
 
-module.exports = (socket, io) => {
+module.exports = (socket) => {
   connected(socket);
 
   socket.on('subscribe', data => subscribe(data, socket));
   socket.on('unsubscribe', data => unsubscribe(data, socket));
-
-  socket.on('new_message', data => newMessage(data, socket, io.in('chat')));
 
   socket.on('disconnect', () => {
     disconnected(socket);

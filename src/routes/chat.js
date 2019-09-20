@@ -12,6 +12,9 @@ router.route('/google/auth')
 router.route('/google/redirect')
   .get(passport.authenticate('google'), controller.redirect);
 
+router.route('/send')
+  .post(validate('msg', false), controller.send);
+
 router.route('/get_ban_status')
   .get(validate('wallet'), controller.getBanStatus);
 

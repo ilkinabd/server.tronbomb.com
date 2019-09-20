@@ -42,10 +42,7 @@ app.use(cookieSession({
 }));
 
 passport.serializeUser((user, done) => done(null, user));
-passport.deserializeUser(async(id, done) => {
-  const user = await db.oauthUsers.get({ index: id });
-  done(null, user);
-});
+passport.deserializeUser(async(user, done) => done(null, user));
 
 passport.use(
   new GoogleStrategy({

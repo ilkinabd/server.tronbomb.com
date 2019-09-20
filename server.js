@@ -8,7 +8,8 @@ const serverIO = require('socket.io')(server);
 const clientIO = require('socket.io-client');
 
 const ws = require('@controllers/socket');
-serverIO.on('connection', (socket) => ws(socket, serverIO));
+serverIO.on('connection', ws);
+process.serverIO = serverIO;
 
 const node = clientIO.connect(NODE, { reconnect: true });
 
