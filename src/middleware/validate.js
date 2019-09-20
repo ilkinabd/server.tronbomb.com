@@ -28,14 +28,14 @@ const schemas = {
     mail: templates.mail.required(),
   }),
   oauth: Joi.object().keys({
-    'access_token': templates['access_token'].required(),
+    'access_token': templates.access_token.required(),
   }),
   msg: Joi.object().keys({
-    'access_token': templates['access_token'].required(),
+    'access_token': templates.access_token.required(),
     data: Joi.object().required(),
   }),
   setBan: Joi.object().keys({
-    'access_token': templates['access_token'].required(),
+    'access_token': templates.access_token.required(),
     index: templates.index.required(),
     reason: Joi.string().required(),
     endTime: Joi.date().required(),

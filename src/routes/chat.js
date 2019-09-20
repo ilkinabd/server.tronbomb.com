@@ -1,30 +1,17 @@
 const express = require('express');
-const passport = require('passport');
 const router = new express.Router();
 
 const controller = require('@controllers/chat');
-const { oauth } = require('@middleware/auth');
+const { googleOauth } = require('@middleware/auth');
 const validate = require('@middleware/validate');
 
-router.route('/user').post(
-  validate('oauth', false),
-  passport.authenticate('google-token', { session: false }),
-  oauth,
-  controller.user,
-);
+router.route('/user')
+  .post(validate('oauth', false), googleOauth, controller.user);
 
-router.route('/send').post(
-  validate('msg', false),
-  passport.authenticate('google-token', { session: false }),
-  oauth,
-  controller.send,
-);
+router.route('/send')
+  .post(validate('msg', false), googleOauth, controller.send);
 
-router.route('/set_ban').post(
-  validate('setBan', false),
-  passport.authenticate('google-token', { session: false }),
-  oauth,
-  controller.setBan,
-);
+router.route('/set_ban')
+  .post(validate('setBan', false), googleOauth, controller.setBan);
 
 module.exports = router;
