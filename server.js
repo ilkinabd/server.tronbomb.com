@@ -1,6 +1,4 @@
-const {
-  NODE, NODE_TOKEN, NODE_URL, NODE_PORT, AUCTION, DIVIDENDS
-} = process.env;
+const { NODE, NODE_TOKEN, NODE_PORT, AUCTION, DIVIDENDS } = process.env;
 const { ACTIVE: DIVIDENDS_ACTIVE } = JSON.parse(DIVIDENDS);
 const { ACTIVE: AUCTION_ACTIVE } = JSON.parse(AUCTION);
 require('module-alias/register');
@@ -37,6 +35,6 @@ if (DIVIDENDS_ACTIVE)
 if (AUCTION_ACTIVE)
   require('@workers/auction/bets.js')(node, serverIO.in('auction'));
 
-server.listen(NODE_PORT, NODE_URL, () => {
-  console.info(`${NODE_URL}:${NODE_PORT}`);
+server.listen(NODE_PORT, 'localhost', () => {
+  console.info(`localhost:${NODE_PORT}`);
 });
