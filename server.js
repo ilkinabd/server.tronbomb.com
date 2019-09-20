@@ -27,7 +27,7 @@ require('@workers/wheel/start-finish')(node, ws.in('wheel'));
 
 require('@workers/rating')(ws.in('rating'));
 require('@workers/operations')(node);
-require('@workers/bomb/burn');
+require('@workers/bomb/burn')(node);
 require('@workers/bomb/freeze')(node);
 
 if (DIVIDENDS_ACTIVE) require('@workers/dividends')(node, ws);
