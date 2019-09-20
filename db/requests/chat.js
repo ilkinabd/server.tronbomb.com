@@ -10,10 +10,10 @@ module.exports = {
 
   'get-by-limit': `
       WITH "msg" AS (
-          SELECT * FROM "messages" ORDER BY "message_id" DESC LIMIT $limit
+          SELECT * FROM "chat" ORDER BY "message_id" DESC LIMIT $limit
       )
-      SELECT "wallet", "create_at" as "createAt", "data"
+      SELECT "name", "data", "time"
       FROM "msg"
-      NATURAL JOIN "users"
+      NATURAL JOIN "oauth_users"
       ORDER BY "message_id" ASC;`,
 };

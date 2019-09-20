@@ -9,7 +9,7 @@ const joinRating = async(socket) => {
   socket.emit('rating', { rating });
 };
 const joinChat = async(socket) => {
-  const messages = await db.messages.getByLimit({ limit: 50 });
+  const messages = await db.chat.getByLimit({ limit: 50 });
   socket.emit('chat', { messages });
 };
 const joinDice = async(socket) => {
