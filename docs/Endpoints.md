@@ -1,5 +1,5 @@
 # Endpoints List
-v0.10.6+
+v0.10.7+
 
 ## Models
 
@@ -32,10 +32,17 @@ v0.10.6+
 }
 ```
 
-**addBan**
+**msg**
 ```
 {
-  wallet: < string, alphanum, length(34) >
+  data: < object >
+}
+```
+
+**setBan**
+```
+{
+  index: < string, numeric, length(21) >
   reason: < string >
   endTime: < date >
 }
@@ -64,10 +71,11 @@ v0.10.6+
 
 ## Chat
 
-| Endpoint                 | Model  | Type | Description            |
-| ------------------------ | ------ | ---- | ---------------------- |
-| `/chat/add`              | wallet | POST | Add new ban.           |
-| `/chat/get_ban_status`   | addBan | GET  | Get wallet ban status. |
+| Endpoint            | Model  | Type | Description          |
+| ------------------- | ------ | ---- | -------------------- |
+| `/chat/google/auth` |        | GET  | Google oauth.        |
+| `/chat/send`        | msg    | POST | Send new message.    |
+| `/chat/set_ban`     | setBan | GET  | Set user ban status. |
 
 ## Portal
 

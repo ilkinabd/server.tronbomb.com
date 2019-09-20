@@ -1,5 +1,5 @@
 # Server
-v0.10.6 Sep 19, 2019
+v0.10.7 Sep 20, 2019
 
 Server for **TronBomb** games.
 
@@ -81,7 +81,6 @@ env:
   NODE              : http://localhost:3000        # Node endpoint
   NODE_TOKEN        : dhgf...fiew                  # Node security token
   ADMIN_TOKEN       : TFGY...ubaj                  # Admin access token
-  CHAT_USER_LEVEL   : 5                            # User level for chat
   WHEEL_START_BLOCK : 1501511                      # Wheel start block
   WHEEL_DURATION    : 10                           # Wheel duration
   DICE_RTP          : 0.98                         # Dice game RTP
@@ -119,6 +118,11 @@ env:
 
   # Buy Back
   BUY_BACK_WALLET: TGNR...dwNM                     # Buy Back wallet address
+
+  GOOGLE_CLIENT_ID: 7671...sav5.apps.googleusercontent.com
+  GOOGLE_SECRET   : cOZ0...o6_C
+  COOKIE_KEY      : wegf...endn
+  CHAT_ADMINS     : ['1175...5859', '3431...4224']
 
   JACKPOTS:
     ACTIVE     : TRUE                              # Jackpots status
