@@ -3,7 +3,7 @@ const { ACTIVE, MIN_BET_SUM, MAX_FUND, DELAY } = JSON.parse(JACKPOTS);
 const { ACTIVE: DIVIDENDS_ACTIVE } = JSON.parse(DIVIDENDS);
 
 const db = require('@db');
-const { fund, tools } = require('@controllers/node');
+const { portal, fund, tools } = require('@controllers/node');
 const { level } = require('@utils/mining');
 const { getIndex } = require('@utils/auction');
 const getResponse = require('@utils/get-response');
@@ -126,6 +126,23 @@ const subscribe = async(req, res) => {
   }
 };
 
+const getPortalParams = async(_req, res) => {
+  const params = await portal.get.params();
+  delete params.status;
+  successRes(res, { params });
+};
+
+const getPortalStatus = async(_req, res) => {
+  const { mainStatus } = await portal.get.params();
+  successRes(res, { mainStatus });
+};
+
+const setPortalStatus = async(req, res) => {
+  const { status } = req.body;
+  const payload = await portal.set.mainStatus({ status });
+  successRes(res, { result: payload.status });
+};
+
 module.exports = {
   getConfigs,
   miningLevel,
@@ -138,4 +155,7 @@ module.exports = {
   getJackpotWinner,
   getAuctionParams,
   subscribe,
+  getPortalParams,
+  getPortalStatus,
+  setPortalStatus,
 };
