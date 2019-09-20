@@ -12,6 +12,9 @@ test
 process.yml
 process.json
 
+# Public folder
+public/
+
 # Database config
 db/database.json
 
