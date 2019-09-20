@@ -1,7 +1,7 @@
 const db = require('@db');
 const { successRes, errorRes } = require('@utils/res-builder');
 
-const redirect = async(req, res) => successRes(res, req.user);
+const user = async(req, res) => successRes(res, req.user);
 
 const send = async(req, res) => {
   const { data } = req.body;
@@ -27,7 +27,7 @@ const setBan = async(req, res) => {
 };
 
 module.exports = {
-  redirect,
+  user,
   send,
   setBan,
 };

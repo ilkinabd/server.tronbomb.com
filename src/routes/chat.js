@@ -8,8 +8,8 @@ const validate = require('@middleware/validate');
 router.route('/google/auth')
   .get(passport.authenticate('google', { scope: ['profile'] }));
 
-router.route('/google/redirect')
-  .get(passport.authenticate('google'), controller.redirect);
+router.route('/google/user')
+  .get(controller.user);
 
 router.route('/send')
   .post(validate('msg', false), controller.send);
