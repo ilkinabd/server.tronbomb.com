@@ -6,14 +6,19 @@ module.exports = {
       ) VALUES (
           (SELECT "user_id" FROM "oauth_users" WHERE "index" = $index),
           $data
-      ) RETURNING "time" AS "value";`,
+      ) RETURNING "message_id" AS "id";`,
 
-  'get-by-limit': `
+  'get-lasts': `
       WITH "msg" AS (
-          SELECT * FROM "chat" ORDER BY "message_id" DESC LIMIT $limit
-      )
-      SELECT "name", "data", "time"
+          SELECT * FROM "chat"
+          ORDER BY "message_id" DESC LIMIT $limit
+      ) SELECT
+          "message_id" AS "id",
+          "index",
+          "name",
+          "data",
+          "time"
       FROM "msg"
       NATURAL JOIN "oauth_users"
-      ORDER BY "message_id" ASC;`,
+      ORDER BY "time" ASC;`,
 };
