@@ -38,4 +38,13 @@ router.route('/auction_params')
 router.route('/subscribe')
   .post(validate('mail', false), controller.subscribe);
 
+router.route('/contracts/params')
+  .get(admin, controller.getPortalParams);
+
+router.route('/contracts/main_status')
+  .get(admin, controller.getPortalStatus);
+
+router.route('/contracts/set_main_status')
+  .post(admin, validate('status', false), controller.setPortalStatus);
+
 module.exports = router;

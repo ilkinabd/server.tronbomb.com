@@ -23,6 +23,9 @@ module.exports = {
     get: {
       params: getRequest('/portal/get/params'),
     },
+    set: {
+      mainStatus: postRequest('/portal/set/main_status'),
+    },
     func: {
       withdraw: postRequest('/portal/func/withdraw'),
     },
