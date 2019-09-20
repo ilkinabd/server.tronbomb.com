@@ -1,5 +1,5 @@
 # Endpoints List
-v0.10.7.2+
+v0.10.9+
 
 ## Models
 
@@ -36,6 +36,13 @@ v0.10.7.2+
 ```
 {
   data: < object >
+}
+```
+
+**status**
+```
+{
+  status: < boolean >
 }
 ```
 
@@ -95,6 +102,9 @@ v0.10.7.2+
 | `/portal/history/bet_amount_jackpot` |               | GET  | Get bet amount jackpot payments history. |
 | `/portal/auction_params`             |               | GET  | Get current auction params.              |
 | `/portal/subscribe`                  | mail          | POST | Subscribe to the newsletter.             |
+| `/portal/contracts/params`           |               | GET  | Get portal contract params.              |
+| `/portal/contracts/main_status`      |               | GET  | Get main status param.                   |
+| `/portal/contracts/set_main_status`  | status        | POST | Set main status param.                   |
 
 ## Referral
 
