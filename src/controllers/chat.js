@@ -15,7 +15,7 @@ const send = async(req, res) => {
 
   const time = await db.chat.add({ index, data });
   process.serverIO.emit('chat', { messages: [{ data, time, name, index }] });
-  successRes(res);
+  successRes(res, { admin: admins.includes(index) });
 };
 
 const setBan = async(req, res) => {
