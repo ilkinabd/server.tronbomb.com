@@ -13,6 +13,7 @@ const db = require('@db');
 
 const bomb = require('@routes/bomb');
 const chat = require('@routes/chat');
+const i18n = require('@routes/i18n');
 const user = require('@routes/user');
 const portal = require('@routes/portal');
 const referral = require('@routes/referral');
@@ -58,7 +59,6 @@ passport.use(new FacebookTokenStrategy({
   done(null, user);
 }));
 
-
 app.use(cors({
   origin: CORS_TRUST.split(','),
   credentials: true
@@ -70,6 +70,7 @@ app.get('/', (_req, res) => {
 
 app.use('/bomb', bomb);
 app.use('/chat', chat);
+app.use('/i18n', i18n);
 app.use('/user', user);
 app.use('/portal', portal);
 app.use('/referral', referral);

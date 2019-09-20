@@ -11,6 +11,7 @@ const chat = require('./requests/chat');
 const bans = require('./requests/bans');
 const burn = require('./requests/burn');
 const freeze = require('./requests/freeze');
+const i18n = require('./requests/i18n');
 const oauthUsers = require('./requests/oauth-users');
 const operationProfit = require('./requests/operation-profit');
 const dividends = require('./requests/dividends');
@@ -116,6 +117,10 @@ module.exports = {
     getUserSum: getValue(request(freeze['get-user-sum'])),
     getUsersSums:         getAll(request(freeze['get-users-sums'])),
     getByTypeLimit: getAll(request(freeze['get-by-type-limit'])),
+  },
+  i18n: {
+    getPath:      getValue(request(i18n['get-path'])),
+    getLanguages: getValue(request(i18n['get-languages'])),
   },
   oauthUsers: {
     add:  getId(request(oauthUsers['add'])),

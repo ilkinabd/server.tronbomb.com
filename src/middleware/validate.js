@@ -6,6 +6,7 @@ const templates = {
   place: Joi.number().integer().min(1).max(PLACES),
   index: Joi.string().regex(/[0-9]+/).length(21),
   wallet: Joi.string().alphanum().length(34),
+  language: Joi.string().alphanum(),
   status: Joi.boolean(),
   refId: Joi.string().alphanum().uppercase({ force: true }).length(6),
   'access_token': Joi.string(),
@@ -33,6 +34,9 @@ const schemas = {
   }),
   status: Joi.object().keys({
     status: templates.status.required(),
+  }),
+  language: Joi.object().keys({
+    language: templates.language.required(),
   }),
   msg: Joi.object().keys({
     'access_token': templates.access_token.required(),
