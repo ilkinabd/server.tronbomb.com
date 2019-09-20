@@ -1,5 +1,6 @@
 const {
-  version, CORS_TRUST, GOOGLE_CLIENT_ID, GOOGLE_SECRET, COOKIE_KEY,
+  version, CORS_TRUST,
+  GOOGLE_CLIENT_ID, GOOGLE_SECRET, COOKIE_KEY, CALLBACK_URL,
 } = process.env;
 
 const express = require('express');
@@ -48,7 +49,7 @@ passport.deserializeUser(async(user, done) => done(null, user));
 
 passport.use(
   new GoogleStrategy({
-    callbackURL: '/chat/google/redirect',
+    callbackURL: CALLBACK_URL,
     clientID: GOOGLE_CLIENT_ID,
     clientSecret: GOOGLE_SECRET,
   }, async(_accessToken, _refreshToken, profile, done) => {
