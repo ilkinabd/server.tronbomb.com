@@ -6,7 +6,7 @@ const controller = require('@controllers/chat');
 const { oauth } = require('@middleware/auth');
 const validate = require('@middleware/validate');
 
-router.route('/user').get(
+router.route('/user').post(
   validate('oauth', false),
   passport.authenticate('google-token', { session: false }),
   oauth,
