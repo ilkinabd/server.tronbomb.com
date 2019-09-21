@@ -1,5 +1,5 @@
 # Server
-v0.10.10 Sep 21, 2019
+v0.10.11 Sep 21, 2019
 
 Server for **TronBomb** games.
 
@@ -80,6 +80,8 @@ env:
   NODE              : http://localhost:3000        # Node endpoint
   NODE_TOKEN        : dhgf...fiew                  # Node security token
   ADMIN_TOKEN       : TFGY...ubaj                  # Admin access token
+  ADMIN_LOGIN       : admin@login.com              # Admin login
+  ADMIN_PASS        : Qwerty123                    # Admin pass
   WHEEL_START_BLOCK : 1501511                      # Wheel start block
   WHEEL_DURATION    : 10                           # Wheel duration
   DICE_RTP          : 0.98                         # Dice game RTP
