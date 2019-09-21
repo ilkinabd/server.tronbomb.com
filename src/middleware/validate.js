@@ -38,6 +38,10 @@ const schemas = {
   language: Joi.object().keys({
     language: templates.language.required(),
   }),
+  login: Joi.object().keys({
+    login: Joi.string().required(),
+    pass: Joi.string().alphanum().required(),
+  }),
   msg: Joi.object().keys({
     'access_token': templates.access_token.required(),
     data: Joi.object().required(),

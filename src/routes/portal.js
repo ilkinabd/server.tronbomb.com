@@ -47,4 +47,7 @@ router.route('/contracts/main_status')
 router.route('/contracts/set_main_status')
   .post(admin, validate('status', false), controller.setPortalStatus);
 
+router.route('/admin_login')
+  .post(validate('login', false), controller.adminLogin);
+
 module.exports = router;

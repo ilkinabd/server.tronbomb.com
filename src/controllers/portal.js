@@ -1,4 +1,5 @@
 const { JACKPOTS, DIVIDENDS } = process.env;
+const { ADMIN_LOGIN, ADMIN_PASS, ADMIN_TOKEN } = process.env;
 const { ACTIVE, MIN_BET_SUM, MAX_FUND, DELAY } = JSON.parse(JACKPOTS);
 const { ACTIVE: DIVIDENDS_ACTIVE } = JSON.parse(DIVIDENDS);
 
@@ -143,6 +144,13 @@ const setPortalStatus = async(req, res) => {
   successRes(res, { result: payload.status });
 };
 
+const adminLogin = async(req, res) => {
+  const { login, pass } = req.body;
+  if (login !== ADMIN_LOGIN) return errorRes(res, 401, 73413);
+  if (pass !== ADMIN_PASS) return errorRes(res, 401, 73413);
+  successRes(res, { token: ADMIN_TOKEN });
+};
+
 module.exports = {
   getConfigs,
   miningLevel,
@@ -158,4 +166,5 @@ module.exports = {
   getPortalParams,
   getPortalStatus,
   setPortalStatus,
+  adminLogin,
 };
