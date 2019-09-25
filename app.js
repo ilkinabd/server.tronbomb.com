@@ -1,5 +1,5 @@
 const { version, CORS_TRUST, CHAT } = process.env;
-const { GOOGLE_ID, GOOGLE_SECRET, FB_ID, FB_SECRET } = JSON.parse(CHAT);
+const { GOOGLE_ID, GOOGLE_SECRET, FB_ID, FB_SECRET, ADMINS } = JSON.parse(CHAT);
 
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -17,8 +17,6 @@ const i18n = require('@routes/i18n');
 const user = require('@routes/user');
 const portal = require('@routes/portal');
 const referral = require('@routes/referral');
-
-const admins = JSON.parse(process.env.CHAT_ADMINS);
 
 const app = express();
 
@@ -44,7 +42,7 @@ passport.use(new GoogleTokenStrategy({
 }, async(_accessToken, _refreshToken, profile, done) => {
   const user = { index: profile.id, name: profile.displayName };
   await db.oauthUsers.add(user);
-  user.admin = admins.includes(profile.id),
+  user.admin = ADMINS.includes(profile.id),
   done(null, user);
 }));
 
@@ -55,7 +53,7 @@ passport.use(new FacebookTokenStrategy({
   console.log(profile);
   const user = { index: profile.id, name: profile.displayName };
   await db.oauthUsers.add(user);
-  user.admin = admins.includes(profile.id),
+  user.admin = ADMINS.includes(profile.id),
   done(null, user);
 }));
 
