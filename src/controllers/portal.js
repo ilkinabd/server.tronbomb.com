@@ -1,6 +1,7 @@
 const { JACKPOTS, DIVIDENDS } = process.env;
 const { ADMIN_LOGIN, ADMIN_PASS, ADMIN_TOKEN } = process.env;
-const { ACTIVE, MIN_BET_SUM, MAX_FUND, DELAY } = JSON.parse(JACKPOTS);
+const { RANDOM_ACTIVE, BET_AMOUNT_ACTIVE } = JSON.parse(JACKPOTS);
+const { MIN_BET_SUM, MAX_FUND, DELAY } = JSON.parse(JACKPOTS);
 const { ACTIVE: DIVIDENDS_ACTIVE } = JSON.parse(DIVIDENDS);
 
 const db = require('@db');
@@ -56,7 +57,8 @@ const getJackpotParams = async(_req, res) => {
   const nextPayout = Date.now() + leftToPayout() + DELAY;
 
   successRes(res, {
-    active: ACTIVE,
+    randomActive: RANDOM_ACTIVE,
+    betAmountActive: BET_AMOUNT_ACTIVE,
     minBetSum: MIN_BET_SUM,
     randomFund: Math.min(randomBalance, MAX_FUND),
     betAmountFund: Math.min(betAmountBalance, MAX_FUND),

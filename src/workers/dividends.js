@@ -4,7 +4,7 @@ const {
 const { PROFIT } = JSON.parse(MINING);
 const { FUND_DELAY } = JSON.parse(FREEZE);
 const { INTERVAL, MIN_PROFIT, MIN_BALANCE } = JSON.parse(DIVIDENDS);
-const { ACTIVE: JACKPOTS_ACTIVE, DELAY } = JSON.parse(JACKPOTS);
+const { RANDOM_ACTIVE, BET_AMOUNT_ACTIVE, DELAY } = JSON.parse(JACKPOTS);
 const { ACTIVE: AUCTION_ACTIVE } = JSON.parse(AUCTION);
 
 const db = require('@db');
@@ -73,11 +73,11 @@ const calculateProfit = async() => {
 
   setTimeout(freezeFunds, INTERVAL - FUND_DELAY);
 
-  if (JACKPOTS_ACTIVE) {
-    console.info('Preparing jackpots.');
+  console.info('Preparing jackpots.');
+  if (RANDOM_ACTIVE)
     setTimeout(() => { randomJackpot(this.io.in('jackpots')); }, DELAY);
+  if (BET_AMOUNT_ACTIVE)
     setTimeout(() => { betAmountJackpot(this.io.in('jackpots')); }, DELAY);
-  }
 };
 
 module.exports = (node, io) => {
