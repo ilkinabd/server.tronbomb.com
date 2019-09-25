@@ -1,3 +1,5 @@
+const { ADMINS } = JSON.parse(process.env.CHAT);
+
 const db = require('@db');
 const { successRes, errorRes } = require('@utils/res-builder');
 
@@ -9,10 +11,11 @@ const send = async(req, res) => {
 
   const { reason, endTime } = await db.bans.get({ index });
   if (reason) return errorRes(res, 401, 73402, { reason, endTime });
-
-  const time = new Date();
   const id = await db.chat.add({ index, data });
-  process.ws.emit('chat', { messages: [{ id, index, name, data, time }] });
+  const admin = ADMINS.includes(index);
+
+  const messages = [{ id, index, name, data, time: new Date(), admin }];
+  process.ws.emit('chat', { messages });
 
   successRes(res);
 };
