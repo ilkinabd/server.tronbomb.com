@@ -1,3 +1,5 @@
+const { ADMINS } = JSON.parse(process.env.CHAT);
+
 const db = require('@db');
 const { getIndex, addExpected } = require('@utils/auction');
 const { leftToPayout } = require('@utils/dividends');
@@ -10,6 +12,7 @@ const joinRating = async(socket) => {
 };
 const joinChat = async(socket) => {
   const messages = await db.chat.getLasts({ limit: 50 });
+  for (const mes of messages) mes.admin = ADMINS.includes(mes.index);
   socket.emit('chat', { messages });
 };
 const joinDice = async(socket) => {

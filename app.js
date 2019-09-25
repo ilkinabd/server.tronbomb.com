@@ -50,7 +50,6 @@ passport.use(new FacebookTokenStrategy({
   clientID: FB_ID,
   clientSecret: FB_SECRET,
 }, async(_accessToken, _refreshToken, profile, done) => {
-  console.log(profile);
   const user = { index: profile.id, name: profile.displayName };
   await db.oauthUsers.add(user);
   user.admin = ADMINS.includes(profile.id),
