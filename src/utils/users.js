@@ -1,4 +1,4 @@
-const { REFERRER_PROFIT } = process.env;
+const profits = JSON.parse(process.env.REFERRER_PROFIT);
 
 const db = require('@db');
 const { toDecimal } = require('@utils/game');
@@ -22,12 +22,15 @@ const updateLevel = async(wallet) => {
 };
 
 const referrerProfit = async(wallet, bet) => {
-  const referrer = await db.users.getReferrer({ wallet });
-  if (!referrer) return;
+  const referrers = await db.users.getReferrers({ wallet });
 
-  const amount = toDecimal(bet * REFERRER_PROFIT);
-  db.users.setRefProfit({ wallet: referrer, delta: amount });
-  db.referrals.add({ wallet: referrer, referral: wallet, amount });
+  for (const i in referrers) {
+    if (!referrers[i]) continue;
+    const amount = toDecimal(bet * profits[i]);
+
+    db.users.setRefProfit({ wallet: referrers[i], delta: amount });
+    db.referrals.add({ wallet: referrers[i], referral: wallet, amount });
+  }
 };
 
 module.exports = {
