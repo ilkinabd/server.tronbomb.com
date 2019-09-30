@@ -1,5 +1,5 @@
 # Server
-v0.10.11.3 Sep 25, 2019
+v0.10.12 Sep 30, 2019
 
 Server for **TronBomb** games.
 
@@ -87,7 +87,7 @@ env:
   DICE_RTP          : 0.98                         # Dice game RTP
   GET_RESPONSE_TOKEN: rhbd...wd3lm                 # GetResponse service token
   GET_RESPONSE_KEY  : 12345                        # GetResponse service key
-  REFERRER_PROFIT   : 0.0015                       # Referrel profit multiplier
+  REFERRER_PROFIT   : [0.0010,0.0005]              # Referrel profits multiplier
   MIN_WITHDRAW      : 10                           # Referrel profit min withdraw
   MIN_MINE          : 1                            # Min mine amount
   WITHDRAW_FEE      : 1                            # Referrel profit withdraw fee
