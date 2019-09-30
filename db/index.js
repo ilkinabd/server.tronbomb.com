@@ -82,7 +82,7 @@ module.exports = {
     isExist:            getValue(request(users['is-exist'])),
     getId: getId(request(users['get-id'])),
     getLevel: getValue(request(users['get-level'])),
-    getReferrer:       getValue(request(users['get-referrer'])),
+    getReferrers:      getValue(request(users['get-referrers'])),
     getReferrals:        getAll(request(users['get-referrals'])),
     getReferralsCount: getValue(request(users['get-referrals-count'])),
     getRefId:          getValue(request(users['get-ref-id'])),
