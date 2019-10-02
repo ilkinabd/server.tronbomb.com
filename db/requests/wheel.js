@@ -35,7 +35,7 @@ module.exports = {
 
   'get-profit': `
       SELECT COALESCE(SUM("bet") - SUM("prize"), 0) AS "value"
-      FROM "dice"
+      FROM "wheel"
       WHERE "time" > NOW() - ($interval / 1000) * INTERVAL '1 seconds';`,
 
   'get-by-status': `
