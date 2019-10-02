@@ -122,7 +122,7 @@ v0.10.9+
 | `/referral/wallet`           | refId  | GET  | Get wallet by referral id.      |
 | `/referral/referrals`        | wallet | GET  | Get referrals by wallet.        |
 | `/referral/total_referrals`  | wallet | GET  | Get referrals count by wallet.  |
-| `/referral/referrer`         | wallet | GET  | Get referrer by wallet.         |
+| `/referral/referrers`        | wallet | GET  | Get referrers by wallet.        |
 | `/referral/set_referrer`     | setRef | POST | Set referrer to user by wallet. |
 | `/referral/profit`           | wallet | GET  | Get referrals profit by wallet. |
 | `/referral/history/income`   | wallet | GET  | Income profit history.          |

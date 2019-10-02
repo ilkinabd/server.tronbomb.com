@@ -1,5 +1,5 @@
 # Server
-v0.10.12 Sep 30, 2019
+v0.10.12.1 Oct 2, 2019
 
 Server for **TronBomb** games.
 
