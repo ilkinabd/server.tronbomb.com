@@ -8,6 +8,7 @@ const auction = require('./requests/auction');
 const users = require('./requests/users');
 const sockets = require('./requests/sockets');
 const chat = require('./requests/chat');
+const configs = require('./requests/configs');
 const bans = require('./requests/bans');
 const burn = require('./requests/burn');
 const freeze = require('./requests/freeze');
@@ -56,6 +57,10 @@ module.exports = {
   chat: {
     add:       getId(request(chat['add'])),
     getLasts: getAll(request(chat['get-lasts'])),
+  },
+  configs: {
+    get: getValue(request(configs['get'])),
+    set:          request(configs['set']),
   },
   dice: {
     add:                 getId(request(dice['add'])),
