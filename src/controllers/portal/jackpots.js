@@ -42,6 +42,18 @@ const setWinner = async(req, res) => {
   successRes(res);
 };
 
+const setRandomStatus = async(req, res) => {
+  const { status } = req.body;
+  await db.configs.set({ key: 'RANDOM_JACKPOT_STATUS', value: status });
+  successRes(res);
+};
+
+const setBetAmountStatus = async(req, res) => {
+  const { status } = req.body;
+  await db.configs.set({ key: 'BET_AMOUNT_JACKPOT_STATUS', value: status });
+  successRes(res);
+};
+
 const getWinner = async(_req, res) => {
   const winners = await db.jackpots.getRandomUnconfirmed();
   successRes(res, { winners });
@@ -53,4 +65,6 @@ module.exports = {
   betAmountHistory,
   setWinner,
   getWinner,
+  setRandomStatus,
+  setBetAmountStatus,
 };
