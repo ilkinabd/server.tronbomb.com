@@ -1,7 +1,4 @@
-const { JACKPOTS, DIVIDENDS } = process.env;
-const { ADMIN_LOGIN, ADMIN_PASS, ADMIN_TOKEN } = process.env;
-const { RANDOM_ACTIVE, BET_AMOUNT_ACTIVE } = JSON.parse(JACKPOTS);
-const { MIN_BET_SUM, MAX_FUND, DELAY } = JSON.parse(JACKPOTS);
+const { ADMIN_LOGIN, ADMIN_PASS, ADMIN_TOKEN, DIVIDENDS } = process.env;
 const { ACTIVE: DIVIDENDS_ACTIVE } = JSON.parse(DIVIDENDS);
 
 const db = require('@db');
@@ -46,54 +43,6 @@ const dividendsParams = async(_req, res) => {
   const totalMined = (await tools.totalMined()).totalMined;
 
   successRes(res, { active, nextPayout, profit, totalFrozen, totalMined });
-};
-
-const getJackpotParams = async(_req, res) => {
-  let type = 'random-jackpot';
-  const randomBalance = (await fund.balance({ type })).balanceTRX;
-  type = 'bet-amount-jackpot';
-  const betAmountBalance = (await fund.balance({ type })).balanceTRX;
-
-  const nextPayout = Date.now() + leftToPayout() + DELAY;
-
-  successRes(res, {
-    randomActive: RANDOM_ACTIVE,
-    betAmountActive: BET_AMOUNT_ACTIVE,
-    minBetSum: MIN_BET_SUM,
-    randomFund: Math.min(randomBalance, MAX_FUND),
-    betAmountFund: Math.min(betAmountBalance, MAX_FUND),
-    nextPayout,
-  });
-};
-
-const getRandomJackpotHistory = async(_req, res) => {
-  const type = 'random';
-  const payments = await db.jackpots.getByType({ type });
-  successRes(res, { payments });
-};
-
-const getBetAmountJackpotHistory = async(_req, res) => {
-  const type = 'bet_amount';
-  const payments = await db.jackpots.getByType({ type });
-  successRes(res, { payments });
-};
-
-// Only for random jackpot
-const setJackpotWinner = async(req, res) => {
-  const { wallet, place } = req.body;
-
-  const type = 'random';
-  const prize = null;
-  const status = false;
-  const id = await db.jackpots.add({ wallet, type, place, prize, status });
-  if (!id) return errorRes(res, 500, 73500);
-
-  successRes(res);
-};
-
-const getJackpotWinner = async(_req, res) => {
-  const winners = await db.jackpots.getRandomUnconfirmed();
-  successRes(res, { winners });
 };
 
 const getAuctionParams = async(_req, res) => {
@@ -158,11 +107,6 @@ module.exports = {
   miningLevel,
   totalBetPrize,
   dividendsParams,
-  getJackpotParams,
-  getRandomJackpotHistory,
-  getBetAmountJackpotHistory,
-  setJackpotWinner,
-  getJackpotWinner,
   getAuctionParams,
   subscribe,
   getPortalParams,

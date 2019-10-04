@@ -1,53 +1,58 @@
 const express = require('express');
 const router = new express.Router();
 
-const controller = require('@controllers/portal');
+const main = require('@controllers/portal');
+const jackpots = require('@controllers/portal/jackpots');
 const { admin } = require('@middleware/auth');
 const validate = require('@middleware/validate');
 
+// Main
+
 router.route('/configs')
-  .get(controller.getConfigs);
+  .get(main.getConfigs);
 
 router.route('/mining_level')
-  .get(controller.miningLevel);
+  .get(main.miningLevel);
 
 router.route('/total_bet_prize')
-  .get(controller.totalBetPrize);
+  .get(main.totalBetPrize);
 
 router.route('/dividends_params')
-  .get(controller.dividendsParams);
-
-router.route('/jackpot_params')
-  .get(controller.getJackpotParams);
-
-router.route('/set_random_jackpot_winner')
-  .post(admin, validate('jackpotWinner', false), controller.setJackpotWinner);
-
-router.route('/random_jackpot_winner')
-  .get(admin, controller.getJackpotWinner);
-
-router.route('/history/random_jackpot')
-  .get(controller.getRandomJackpotHistory);
-
-router.route('/history/bet_amount_jackpot')
-  .get(controller.getBetAmountJackpotHistory);
+  .get(main.dividendsParams);
 
 router.route('/auction_params')
-  .get(controller.getAuctionParams);
+  .get(main.getAuctionParams);
 
 router.route('/subscribe')
-  .post(validate('mail', false), controller.subscribe);
+  .post(validate('mail', false), main.subscribe);
 
 router.route('/contracts/params')
-  .get(admin, controller.getPortalParams);
+  .get(admin, main.getPortalParams);
 
 router.route('/contracts/main_status')
-  .get(admin, controller.getPortalStatus);
+  .get(admin, main.getPortalStatus);
 
 router.route('/contracts/set_main_status')
-  .post(admin, validate('status', false), controller.setPortalStatus);
+  .post(admin, validate('status', false), main.setPortalStatus);
 
 router.route('/admin_login')
-  .post(validate('login', false), controller.adminLogin);
+  .post(validate('login', false), main.adminLogin);
+
+// Jackpots
+
+router.route('/jackpot_params')
+  .get(jackpots.getJackpotParams);
+
+router.route('/set_random_jackpot_winner')
+  .post(admin, validate('jackpotWinner', false), jackpots.setJackpotWinner);
+
+router.route('/random_jackpot_winner')
+  .get(admin, jackpots.getJackpotWinner);
+
+router.route('/history/random_jackpot')
+  .get(jackpots.getRandomJackpotHistory);
+
+router.route('/history/bet_amount_jackpot')
+  .get(jackpots.getBetAmountJackpotHistory);
 
 module.exports = router;
