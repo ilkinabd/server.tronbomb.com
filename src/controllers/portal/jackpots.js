@@ -1,26 +1,18 @@
-const { RANDOM_ACTIVE, BET_AMOUNT_ACTIVE } = JSON.parse(process.env.JACKPOTS);
-const { MIN_BET_SUM, MAX_FUND, DELAY } = JSON.parse(process.env.JACKPOTS);
+const { MIN_BET_SUM, DELAY } = JSON.parse(process.env.JACKPOTS);
 
 const db = require('@db');
-const { fund } = require('@controllers/node');
 const { leftToPayout } = require('@utils/dividends');
+const { getFund } = require('@utils/jackpots');
 const { successRes, errorRes } = require('@utils/res-builder');
 
-const getJackpotParams = async(_req, res) => {
-  let type = 'random-jackpot';
-  const randomBalance = (await fund.balance({ type })).balanceTRX;
-  type = 'bet-amount-jackpot';
-  const betAmountBalance = (await fund.balance({ type })).balanceTRX;
-
-  const nextPayout = Date.now() + leftToPayout() + DELAY;
-
+const params = async(_req, res) => {
   successRes(res, {
-    randomActive: RANDOM_ACTIVE,
-    betAmountActive: BET_AMOUNT_ACTIVE,
+    randomStatus: await db.configs.get({ key: 'RANDOM_JACKPOT_STATUS' }),
+    betAmountStatus: await db.configs.get({ key: 'BET_AMOUNT_JACKPOT_STATUS' }),
     minBetSum: MIN_BET_SUM,
-    randomFund: Math.min(randomBalance, MAX_FUND),
-    betAmountFund: Math.min(betAmountBalance, MAX_FUND),
-    nextPayout,
+    randomFund: await getFund('random-jackpot'),
+    betAmountFund: await getFund('bet-amount-jackpot'),
+    nextPayout: Date.now() + leftToPayout() + DELAY,
   });
 };
 
@@ -55,7 +47,7 @@ const getJackpotWinner = async(_req, res) => {
 };
 
 module.exports = {
-  getJackpotParams,
+  params,
   getRandomJackpotHistory,
   getBetAmountJackpotHistory,
   setJackpotWinner,

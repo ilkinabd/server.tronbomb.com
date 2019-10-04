@@ -40,8 +40,8 @@ router.route('/admin_login')
 
 // Jackpots
 
-router.route('/jackpot_params')
-  .get(jackpots.getJackpotParams);
+router.route('/jackpots/params')
+  .get(jackpots.params);
 
 router.route('/set_random_jackpot_winner')
   .post(admin, validate('jackpotWinner', false), jackpots.setJackpotWinner);
