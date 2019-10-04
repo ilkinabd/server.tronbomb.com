@@ -1,5 +1,5 @@
 # Server
-v0.10.12.1 Oct 2, 2019
+v0.10.13 Oct 4, 2019
 
 Server for **TronBomb** games.
 
@@ -130,8 +130,6 @@ env:
     ADMINS       : ['1175...5859',...]             # Chat admin ids
 
   JACKPOTS:
-    RANDOM_ACTIVE    : TRUE                        # Random jackpots status
-    BET_AMOUNT_ACTIVE: TRUE                        # Bet amount jackpots status
     DELAY            : 120000                      # Delay to payout before dividends distribution
     MIN_BET_SUM      : 10                          # Min bet sum for random jackpot
     MIN_FUND         : 10                          # Min jackpot fund balance
