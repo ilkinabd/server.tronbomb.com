@@ -43,11 +43,11 @@ router.route('/admin_login')
 router.route('/jackpots/params')
   .get(jackpots.params);
 
-router.route('/set_random_jackpot_winner')
-  .post(admin, validate('jackpotWinner', false), jackpots.setJackpotWinner);
+router.route('/jackpots/set_random_winner')
+  .post(admin, validate('jackpotWinner', false), jackpots.setWinner);
 
-router.route('/random_jackpot_winner')
-  .get(admin, jackpots.getJackpotWinner);
+router.route('/jackpots/random_winner')
+  .get(admin, jackpots.getWinner);
 
 router.route('/jackpots/history/random')
   .get(jackpots.randomHistory);

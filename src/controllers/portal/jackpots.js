@@ -27,19 +27,22 @@ const betAmountHistory = async(_req, res) => {
 };
 
 // Only for random jackpot
-const setJackpotWinner = async(req, res) => {
+const setWinner = async(req, res) => {
   const { wallet, place } = req.body;
 
-  const type = 'random';
-  const prize = null;
-  const status = false;
-  const id = await db.jackpots.add({ wallet, type, place, prize, status });
+  const id = await db.jackpots.add({
+    wallet,
+    type: 'random',
+    place,
+    prize: null,
+    status: false,
+  });
   if (!id) return errorRes(res, 500, 73500);
 
   successRes(res);
 };
 
-const getJackpotWinner = async(_req, res) => {
+const getWinner = async(_req, res) => {
   const winners = await db.jackpots.getRandomUnconfirmed();
   successRes(res, { winners });
 };
@@ -48,6 +51,6 @@ module.exports = {
   params,
   randomHistory,
   betAmountHistory,
-  setJackpotWinner,
-  getJackpotWinner,
+  setWinner,
+  getWinner,
 };
