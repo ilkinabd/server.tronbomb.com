@@ -49,10 +49,10 @@ router.route('/set_random_jackpot_winner')
 router.route('/random_jackpot_winner')
   .get(admin, jackpots.getJackpotWinner);
 
-router.route('/history/random_jackpot')
-  .get(jackpots.getRandomJackpotHistory);
+router.route('/jackpots/history/random')
+  .get(jackpots.randomHistory);
 
-router.route('/history/bet_amount_jackpot')
-  .get(jackpots.getBetAmountJackpotHistory);
+router.route('/jackpots/history/bet_amount')
+  .get(jackpots.betAmountHistory);
 
 module.exports = router;
