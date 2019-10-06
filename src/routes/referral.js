@@ -19,8 +19,8 @@ router.route('/referrals')
 router.route('/total_referrals')
   .get(validate('wallet'), controller.getTotalReferrals);
 
-router.route('/referrer')
-  .get(validate('wallet'), controller.getReferrer);
+router.route('/referrers')
+  .get(validate('wallet'), controller.getReferrers);
 
 router.route('/set_referrer')
   .post(validate('setRef', false), controller.setReferrer);

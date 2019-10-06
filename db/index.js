@@ -8,6 +8,7 @@ const auction = require('./requests/auction');
 const users = require('./requests/users');
 const sockets = require('./requests/sockets');
 const chat = require('./requests/chat');
+const configs = require('./requests/configs');
 const bans = require('./requests/bans');
 const burn = require('./requests/burn');
 const freeze = require('./requests/freeze');
@@ -57,6 +58,10 @@ module.exports = {
     add:       getId(request(chat['add'])),
     getLasts: getAll(request(chat['get-lasts'])),
   },
+  configs: {
+    get: getValue(request(configs['get'])),
+    set:          request(configs['set']),
+  },
   dice: {
     add:                 getId(request(dice['add'])),
     setFinish:                 request(dice['set-finish']),
@@ -82,7 +87,7 @@ module.exports = {
     isExist:            getValue(request(users['is-exist'])),
     getId: getId(request(users['get-id'])),
     getLevel: getValue(request(users['get-level'])),
-    getReferrer:       getValue(request(users['get-referrer'])),
+    getReferrers:      getValue(request(users['get-referrers'])),
     getReferrals:        getAll(request(users['get-referrals'])),
     getReferralsCount: getValue(request(users['get-referrals-count'])),
     getRefId:          getValue(request(users['get-ref-id'])),

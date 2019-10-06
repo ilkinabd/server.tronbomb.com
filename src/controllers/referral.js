@@ -38,10 +38,10 @@ const getTotalReferrals = async(req, res) => {
   successRes(res, { count });
 };
 
-const getReferrer = async(req, res) => {
+const getReferrers = async(req, res) => {
   const { wallet } = req.query;
-  const referrer = await db.users.getReferrer({ wallet });
-  successRes(res, { referrer });
+  const referrers = await db.users.getReferrers({ wallet });
+  successRes(res, { referrers });
 };
 
 const setReferrer = async(req, res) => {
@@ -86,7 +86,7 @@ module.exports = {
   getWallet,
   getReferrals,
   getTotalReferrals,
-  getReferrer,
+  getReferrers,
   setReferrer,
   getProfit,
   getIncome,

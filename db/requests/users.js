@@ -44,12 +44,21 @@ module.exports = {
       FROM "users"
       WHERE "wallet" = $wallet;`,
 
-  'get-referrer': `
-      SELECT "wallet" AS "value"
-      FROM "users"
-      WHERE "user_id" = (
-          SELECT "referrer" FROM "users" WHERE "wallet" = $wallet
-      );`,
+  'get-referrers': `
+      WITH RECURSIVE "rec" AS (
+          SELECT "referrer", "wallet", 0 AS "level"
+          FROM "users" WHERE "wallet" = $wallet
+          UNION ALL
+          SELECT
+              "users"."referrer",
+              "users"."wallet",
+              "rec"."level" + 1 AS "level"
+          FROM "users"
+          JOIN "rec" ON "rec"."referrer" = "users"."user_id"
+          WHERE "rec"."level" < 2
+      )
+      SELECT ARRAY_AGG("wallet") AS "value" FROM "rec"
+      WHERE "level" > 0;`,
 
   'get-referrals': `
       SELECT
