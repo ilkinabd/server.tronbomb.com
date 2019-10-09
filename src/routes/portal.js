@@ -3,7 +3,7 @@ const router = new express.Router();
 
 const main = require('@controllers/portal');
 const jackpots = require('@controllers/portal/jackpots');
-const { admin } = require('@middleware/auth');
+const { admin, recaptchaVerify } = require('@middleware/auth');
 const validate = require('@middleware/validate');
 
 // Main
@@ -36,7 +36,7 @@ router.route('/contracts/set_main_status')
   .post(admin, validate('status', false), main.setPortalStatus);
 
 router.route('/admin_login')
-  .post(validate('login', false), main.adminLogin);
+  .post(validate('adminLogin', false), recaptchaVerify, main.adminLogin);
 
 // Jackpots
 
