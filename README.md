@@ -1,5 +1,5 @@
 # Server
-v0.10.13 Oct 4, 2019
+v0.10.14 Oct 10, 2019
 
 Server for **TronBomb** games.
 
@@ -128,6 +128,11 @@ env:
     FB_ID        : 3720...2071                     # Facebook client id
     FB_SECRET    : 38d3...2c87                     # Facebook secret
     ADMINS       : ['1175...5859',...]             # Chat admin ids
+
+  RECAPTCHA:
+    SITE_KEY  : "6LfTAB8UAAAAAKK7Ii3VA1F5wN3vJ9xkGqfBkDqv"         # Google recaptcha site key
+    SECRET_KEY: "6LfTAB8UAAAAAKO2WL9PMJjMUrBURNfWNygc2FZD"         # Google recaptcha secret key
+    VERIFY_URL: "https://www.google.com/recaptcha/api/siteverify"  # Google recaptcha verify url
 
   JACKPOTS:
     DELAY            : 120000                      # Delay to payout before dividends distribution

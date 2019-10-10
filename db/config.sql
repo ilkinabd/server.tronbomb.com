@@ -61,14 +61,14 @@ LANGUAGE sql;
 --------------------------------------------------------------------------------
 
 CREATE TABLE "users" (
-  "user_id"       SERIAL    NOT NULL,
-  "wallet"        CHAR(34)  NOT NULL,
-  "level"         INTEGER   NOT NULL DEFAULT 1,
-  "referrer"      INTEGER   REFERENCES "users"("user_id"),
-  "register_date" TIMESTAMP WITHOUT TIME ZONE DEFAULT now(),
-  "ref_id"        CHAR(6)   NOT NULL DEFAULT random_string(6),
-  "ref_profit"    FLOAT     NOT NULL DEFAULT 0,
-  "mine"          FLOAT     NOT NULL DEFAULT 0,
+  "user_id"       SERIAL      NOT NULL,
+  "wallet"        CHAR(34)    NOT NULL,
+  "level"         INTEGER     NOT NULL DEFAULT 1,
+  "referrer"      INTEGER     REFERENCES "users"("user_id"),
+  "register_date" TIMESTAMP   WITHOUT TIME ZONE DEFAULT now(),
+  "ref_id"        VARCHAR(20) NOT NULL DEFAULT random_string(6),
+  "ref_profit"    FLOAT       NOT NULL DEFAULT 0,
+  "mine"          FLOAT       NOT NULL DEFAULT 0,
 
   PRIMARY KEY("user_id"),
   UNIQUE("wallet"),
