@@ -42,11 +42,6 @@ const schemas = {
     login: Joi.string().required(),
     pass: Joi.string().alphanum().required(),
   }),
-  adminLogin: Joi.object().keys({
-    login: Joi.string().required(),
-    pass: Joi.string().alphanum().required(),
-    'g-recaptcha-response': Joi.string().required(),
-  }),
   msg: Joi.object().keys({
     'access_token': templates.access_token.required(),
     data: Joi.object().required(),
