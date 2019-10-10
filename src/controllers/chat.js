@@ -1,20 +1,20 @@
 const { ADMINS } = JSON.parse(process.env.CHAT);
 
-const db = require("@db");
-const { successRes, errorRes } = require("@utils/res-builder");
-const { getUserFromToken } = require("@utils/users");
-const user = async (req, res) => successRes(res, req.user);
+const db = require('@db');
+const { successRes, errorRes } = require('@utils/res-builder');
+const { getUserFromToken } = require('@utils/users');
+const user = async(req, res) => successRes(res, req.user);
 
-const tuser = async (req, res) => {
-  let token = req.body["access_token"];
-  let user = getUserFromToken(token);
+const tuser = async(req, res) => {
+  const token = req.body['access_token'];
+  const user = getUserFromToken(token);
   await db.oauthUsers.add(user);
   user.admin = ADMINS.includes(user.index);
   req.user = user;
   successRes(res, req.user);
 };
 
-const send = async (req, res) => {
+const send = async(req, res) => {
   const { data } = req.body;
   const { index, name } = req.user;
 
@@ -24,13 +24,13 @@ const send = async (req, res) => {
   const admin = ADMINS.includes(index);
 
   const messages = [{ id, index, name, data, time: new Date(), admin }];
-  process.ws.emit("chat", { messages });
+  process.ws.emit('chat', { messages });
 
   successRes(res);
 };
 
-const tsend = async (req, res) => {
-  let token = req.body["access_token"];
+const tsend = async(req, res) => {
+  const token = req.body['access_token'];
   req.user = getUserFromToken(token);
   const { data } = req.body;
   const { index, name } = req.user;
@@ -41,12 +41,12 @@ const tsend = async (req, res) => {
   const admin = ADMINS.includes(index);
 
   const messages = [{ id, index, name, data, time: new Date(), admin }];
-  process.ws.emit("chat", { messages });
+  process.ws.emit('chat', { messages });
 
   successRes(res);
 };
 
-const setBan = async (req, res) => {
+const setBan = async(req, res) => {
   const { index, reason, endTime } = req.body;
   if (!req.user.admin) return errorRes(res, 401, 73411);
 
