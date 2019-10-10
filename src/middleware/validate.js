@@ -8,7 +8,7 @@ const templates = {
   wallet: Joi.string().alphanum().length(34),
   language: Joi.string().alphanum(),
   status: Joi.boolean(),
-  refId: Joi.string().alphanum().uppercase({ force: true }).length(6),
+  refId: Joi.string().alphanum().uppercase({ force: true }).min(4).max(20),
   'access_token': Joi.string(),
   mail: Joi.string()
     .regex(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i)

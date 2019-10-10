@@ -1,0 +1,2 @@
+ALTER TABLE "users"
+ALTER COLUMN "ref_id" TYPE VARCHAR(20);

@@ -1,9 +1,9 @@
 const profits = JSON.parse(process.env.REFERRER_PROFIT);
 
-const db = require("@db");
-const { toDecimal } = require("@utils/game");
-const base64 = require("base-64");
-const utf8 = require("utf8");
+const db = require('@db');
+const { toDecimal } = require('@utils/game');
+const base64 = require('base-64');
+const utf8 = require('utf8');
 
 const getLevel = betsSum => {
   const point = 265;
@@ -37,12 +37,12 @@ const referrerProfit = async(wallet, bet) => {
 };
 
 const getUserFromToken = token => {
-  let bytes = base64.decode(token);
-  let json = utf8.decode(bytes);
-  let profile = JSON.parse(json);
-  let user =  {
+  const bytes = base64.decode(token);
+  const json = utf8.decode(bytes);
+  const profile = JSON.parse(json);
+  const user =  {
     index: profile.id,
-    name: `${profile["first_name"]} ${profile["last_name"]}`
+    name: `${profile['first_name']} ${profile['last_name']}`
   };
 
   return user;

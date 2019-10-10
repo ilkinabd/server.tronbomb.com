@@ -14,11 +14,11 @@ const admin = (req, res, next) => {
   next();
 };
 
-const recaptchaVerify = async (req, res, next) => {
+const recaptchaVerify = async(req, res, next) => {
   const response = req.body['g-recaptcha-response'];
-  let body = {
+  const body = {
     secret: SECRET_KEY,
-    response: response
+    response
   };
   const result = await axios.post(VERIFY_URL, querystring.stringify(body));
   if (!result.data) return errorRes(res, 401, 73413);
