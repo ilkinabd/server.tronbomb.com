@@ -25,6 +25,9 @@ router.route('/total_dividends')
 router.route('/awaiting_unfreeze')
   .get(validate('wallet'), controller.getAwaitingUnfreeze);
 
+router.route('/awaiting_dividends')
+  .get(validate('wallet'), controller.getAwaitingDividends);
+
 router.route('/history/dice')
   .get(validate('wallet'), controller.diceHistory);
 
