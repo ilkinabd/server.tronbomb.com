@@ -1,5 +1,5 @@
 # Endpoints List
-v0.10.13+
+v0.10.15+
 
 ## Models
 
@@ -132,20 +132,21 @@ v0.10.13+
 
 ## User
 
-| Endpoint                  | Model  | Type | Description                                |
-| ------------------------- | ------ | ---- | ------------------------------------------ |
-| `/user/level`             | wallet | GET  | Get level by wallet.                       |
-| `/user/total_bet`         | wallet | GET  | Get total bet sum by wallet.               |
-| `/user/total_win`         | wallet | GET  | Get total win sum by wallet.               |
-| `/user/total_mine`        | wallet | GET  | Get total mine sum by wallet.              |
-| `/user/total_freeze`      | wallet | GET  | Get total freeze sum by wallet.            |
-| `/user/total_dividends`   | wallet | GET  | Get total dividends profit by wallet.      |
-| `/user/awaiting_unfreeze` | wallet | GET  | Get awaiting unfreeze operation by wallet. |
-| `/user/history/dice`      | wallet | GET  | Get dice history by wallet.                |
-| `/user/history/wheel`     | wallet | GET  | Get wheel history by wallet.               |
-| `/user/history/freeze`    | wallet | GET  | Get freeze history by wallet.              |
-| `/user/history/unfreeze`  | wallet | GET  | Get unfreeze history by wallet.            |
-| `/user/history/dividends` | wallet | GET  | Get dividends history by wallet.           |
+| Endpoint                   | Model  | Type | Description                                |
+| -------------------------- | ------ | ---- | ------------------------------------------ |
+| `/user/level`              | wallet | GET  | Get level by wallet.                       |
+| `/user/total_bet`          | wallet | GET  | Get total bet sum by wallet.               |
+| `/user/total_win`          | wallet | GET  | Get total win sum by wallet.               |
+| `/user/total_mine`         | wallet | GET  | Get total mine sum by wallet.              |
+| `/user/total_freeze`       | wallet | GET  | Get total freeze sum by wallet.            |
+| `/user/total_dividends`    | wallet | GET  | Get total dividends profit by wallet.      |
+| `/user/awaiting_unfreeze`  | wallet | GET  | Get awaiting unfreeze operation by wallet. |
+| `/user/awaiting_dividends` | wallet | GET  | Get awaiting dividends by wallet.          |
+| `/user/history/dice`       | wallet | GET  | Get dice history by wallet.                |
+| `/user/history/wheel`      | wallet | GET  | Get wheel history by wallet.               |
+| `/user/history/freeze`     | wallet | GET  | Get freeze history by wallet.              |
+| `/user/history/unfreeze`   | wallet | GET  | Get unfreeze history by wallet.            |
+| `/user/history/dividends`  | wallet | GET  | Get dividends history by wallet.           |
 
 ## i18n
 
