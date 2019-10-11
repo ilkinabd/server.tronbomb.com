@@ -1,6 +1,7 @@
 const { DELAY } = JSON.parse(process.env.FREEZE);
 
 const db = require('@db');
+const { operatingProfit, round } = require('@utils/dividends');
 const { resSuccess, successRes } = require('@utils/res-builder');
 
 const getLevel = async(req, res) => {
@@ -49,6 +50,17 @@ const getAwaitingUnfreeze = async(req, res) => {
   successRes(res, { time, timeLeft, amount });
 };
 
+const getAwaitingDividends = async(req, res) => {
+  const { wallet } = req.query;
+
+  const profit = await operatingProfit();
+  const totalFrozen = await db.freeze.getSum();
+  const userFrozen = await db.freeze.getUserSum({ wallet });
+  const amount = round(profit * (userFrozen / totalFrozen));
+
+  successRes(res, { amount });
+};
+
 const diceHistory = async(req, res) => {
   const { wallet } = req.query;
   const games = await db.dice.getByWallet({ wallet });
@@ -89,6 +101,7 @@ module.exports = {
   totalFreeze,
   totalDividends,
   getAwaitingUnfreeze,
+  getAwaitingDividends,
   diceHistory,
   wheelHistory,
   getFreezeHistory,
