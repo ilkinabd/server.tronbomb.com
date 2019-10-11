@@ -62,12 +62,13 @@ module.exports = {
 
   'get-referrals': `
       WITH RECURSIVE "rec" AS (
-          SELECT "user_id",  "wallet", 0 AS "level"
+          SELECT "user_id", "wallet", "register_date", 0 AS "level"
           FROM "users" WHERE "user_id" = GET_USER_ID($wallet)
           UNION ALL
           SELECT
               "users"."user_id",
               "users"."wallet",
+              "users"."register_date",
               "rec"."level" + 1 AS "level"
           FROM "users"
           JOIN "rec" ON "users"."referrer" = "rec"."user_id"
@@ -78,6 +79,7 @@ module.exports = {
           COALESCE(
               GET_REFERRAL_PROFIT(GET_USER_ID($wallet), GET_USER_ID("wallet")),
           0) AS "profit",
+          "register_date" AS "registerDate",
           "level"
       FROM "rec"
       WHERE "level" > 0;`,
