@@ -61,12 +61,26 @@ module.exports = {
       WHERE "level" > 0;`,
 
   'get-referrals': `
+      WITH RECURSIVE "rec" AS (
+          SELECT "user_id",  "wallet", 0 AS "level"
+          FROM "users" WHERE "user_id" = GET_USER_ID($wallet)
+          UNION ALL
+          SELECT
+              "users"."user_id",
+              "users"."wallet",
+              "rec"."level" + 1 AS "level"
+          FROM "users"
+          JOIN "rec" ON "users"."referrer" = "rec"."user_id"
+          WHERE "rec"."level" < 2
+      )
       SELECT
-          "wallet",
-          "register_date" AS "registerDate",
-          GET_REFERRAL_PROFIT("referrer", "user_id") AS "profit"
-      FROM "users"
-      WHERE "referrer" = GET_USER_ID($wallet);`,
+          "wallet" AS "referral",
+          COALESCE(
+              GET_REFERRAL_PROFIT(GET_USER_ID($wallet), GET_USER_ID("wallet")),
+          0) AS "profit",
+          "level"
+      FROM "rec"
+      WHERE "level" > 0;`,
 
   'get-referrals-count': `
       SELECT COUNT("wallet")::INTEGER AS "value"
