@@ -12,8 +12,9 @@ const leftToPayout = () => {
 };
 
 const operatingProfit = async() => {
-  const diceProfit = await db.dice.getProfit({ interval: INTERVAL });
-  const wheelProfit = await db.wheel.getProfit({ interval: INTERVAL });
+  const interval = (Date.now() - new Date(START)) % INTERVAL;
+  const diceProfit = await db.dice.getProfit({ interval });
+  const wheelProfit = await db.wheel.getProfit({ interval });
   return diceProfit + wheelProfit;
 };
 
