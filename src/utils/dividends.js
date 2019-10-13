@@ -3,6 +3,8 @@ const { START, INTERVAL } = JSON.parse(DIVIDENDS);
 
 const db = require('@db');
 
+const delay = 60 * 1000;
+
 const round = amount => Math.floor(amount * 10 ** DECIMAL) / 10 ** DECIMAL;
 
 const leftToPayout = () => {
@@ -12,7 +14,7 @@ const leftToPayout = () => {
 };
 
 const operatingProfit = async() => {
-  const interval = (Date.now() - new Date(START)) % INTERVAL;
+  const interval = ((Date.now() - delay) - new Date(START)) % INTERVAL;
   const diceProfit = await db.dice.getProfit({ interval });
   const wheelProfit = await db.wheel.getProfit({ interval });
   return diceProfit + wheelProfit;
