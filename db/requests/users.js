@@ -158,6 +158,6 @@ module.exports = {
       ) AS "bets"
       NATURAL JOIN "users"
       GROUP BY "wallet", "level"
-      ORDER BY "level" DESC, "betSum" DESC
+      ORDER BY "betSum" DESC
       LIMIT $limit;`
 };
