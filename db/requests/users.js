@@ -148,4 +148,16 @@ module.exports = {
       GROUP BY "wallet", "level"
       ORDER BY "level" DESC, "betSum" DESC
       LIMIT $limit;`,
+
+  'get-top-24': `
+      SELECT "wallet", "level", SUM("bet") as "betSum"
+      FROM (
+          SELECT "bet", "user_id" FROM "dice" WHERE time BETWEEN NOW() - INTERVAL '24 HOURS' AND NOW()
+          UNION ALL
+          SELECT "bet", "user_id" FROM "wheel" WHERE time BETWEEN NOW() - INTERVAL '24 HOURS' AND NOW()
+      ) AS "bets"
+      NATURAL JOIN "users"
+      GROUP BY "wallet", "level"
+      ORDER BY "level" DESC, "betSum" DESC
+      LIMIT $limit;`
 };

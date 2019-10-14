@@ -99,6 +99,7 @@ module.exports = {
     getTRXBetSum: getValue(request(users['get-trx-bet-sum'])),
     getWinSum: getValue(request(users['get-win-sum'])),
     getTop: getAll(request(users['get-top'])),
+    getTop24: getAll(request(users['get-top-24'])),
   },
   sockets: {
     add: getId(request(sockets['add'])),
