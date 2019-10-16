@@ -151,11 +151,7 @@ module.exports = {
 
   'get-top-24': `
       SELECT "wallet", "level", SUM("bet") as "betSum"
-      FROM (
-          SELECT "bet", "user_id" FROM "dice" WHERE time between (date(now() - interval '1 day')||' 15:00')::timestamp and (date(now())||' 15:00')::timestamp
-          UNION ALL
-          SELECT "bet", "user_id" FROM "wheel" WHERE time between (date(now() - interval '1 day')||' 15:00')::timestamp and (date(now())||' 15:00')::timestamp
-      ) AS "bets"
+      FROM (SELECT * FROM get_bets_for_interval()) AS "bets"
       NATURAL JOIN "users"
       GROUP BY "wallet", "level"
       ORDER BY "betSum" DESC
