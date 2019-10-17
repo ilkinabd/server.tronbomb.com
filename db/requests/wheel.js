@@ -25,8 +25,8 @@ module.exports = {
       UPDATE "wheel" SET "confirmed" = TRUE
       WHERE "index" = $index;`,
 
-  'get-bet-sum': `
-      SELECT COALESCE(SUM("bet"), 0) AS "value"
+  'get-bet-count': `
+      SELECT COUNT("bet")::FLOAT AS "value"
       FROM "wheel";`,
 
   'get-prize-sum': `

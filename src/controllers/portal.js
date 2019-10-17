@@ -24,12 +24,12 @@ const miningLevel = async(_req, res) => {
 };
 
 const totalBetPrize = async(_req, res) => {
-  const diceBetSum = await db.dice.getBetSum();
+  const diceBetCount = await db.dice.getBetCount();
   const dicePrizeSum = await db.dice.getPrizeSum();
-  const wheelBetSum = await db.wheel.getBetSum();
+  const wheelBetCount = await db.wheel.getBetCount();
   const wheelPrizeSum = await db.wheel.getPrizeSum();
 
-  const betSum = diceBetSum + wheelBetSum;
+  const betSum = diceBetCount + wheelBetCount;
   const prizeSum = dicePrizeSum + wheelPrizeSum;
 
   successRes(res, { betSum, prizeSum });
