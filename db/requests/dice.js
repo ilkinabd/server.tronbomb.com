@@ -84,7 +84,7 @@ module.exports = {
           "time"
       FROM "dice"
       NATURAL JOIN "users"
-      WHERE "result" IS NULL;`,
+      WHERE "result" IS NULL AND ("time" + INTERVAL '2 minutes') < NOW();`,
 
   'get-by-limit': `
       SELECT

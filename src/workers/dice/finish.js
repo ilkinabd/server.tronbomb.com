@@ -21,7 +21,31 @@ const finishGames = async(block) => {
   this.chanel.emit('dice-finish', { games });
 };
 
+const autoFinish = async() => {
+  const games = await db.dice.getNonFinished();
+  const indexes = [];
+
+  if (games.length === 0) return;
+
+  for (const game of games) {
+    const { index, finishBlock, wallet, number, roll, bet } = game;
+
+    const result = await diceRandom(wallet, finishBlock);
+    const prize = diceReward(number, roll, result, bet);
+
+    await db.dice.setFinish({ index, result, prize });
+    if (prize === 0) await db.dice.setConfirm({ index });
+
+    finish({ index });
+    indexes.push(index);
+  }
+
+  console.info(`AutoFinish: ${indexes}.`);
+};
+
 module.exports = (node, chanel) => {
   node.on('blocks', finishGames);
   this.chanel = chanel;
+
+  setInterval(autoFinish, 120000);
 };
