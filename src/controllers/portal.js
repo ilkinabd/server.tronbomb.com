@@ -2,7 +2,8 @@ const { ADMIN_LOGIN, ADMIN_PASS, ADMIN_TOKEN, DIVIDENDS } = process.env;
 const { ACTIVE: DIVIDENDS_ACTIVE } = JSON.parse(DIVIDENDS);
 
 const db = require('@db');
-const { portal, fund, tools } = require('@controllers/node');
+const { portal, dice, fund, tools } = require('@controllers/node');
+const { diceRandom, diceReward } = require('@utils/game');
 const { level } = require('@utils/mining');
 const { getIndex } = require('@utils/auction');
 const getResponse = require('@utils/get-response');
@@ -102,6 +103,28 @@ const adminLogin = async(req, res) => {
   successRes(res, { token: ADMIN_TOKEN });
 };
 
+const finishDice = async(_req, res) => {
+  const games = await db.dice.getNonFinished();
+  const indexes = [];
+
+  if (games.length === 0) return successRes(res, { indexes });
+
+  for (const game of games) {
+    const { index, finishBlock, wallet, number, roll, bet } = game;
+
+    const result = await diceRandom(wallet, finishBlock);
+    const prize = diceReward(number, roll, result, bet);
+
+    await db.dice.setFinish({ index, result, prize });
+    if (prize === 0) await db.dice.setConfirm({ index });
+
+    dice.func.finish({ index });
+    indexes.push(index);
+  }
+
+  successRes(res, { indexes });
+};
+
 module.exports = {
   getConfigs,
   miningLevel,
@@ -113,4 +136,5 @@ module.exports = {
   getPortalStatus,
   setPortalStatus,
   adminLogin,
+  finishDice,
 };

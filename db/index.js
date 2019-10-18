@@ -71,6 +71,7 @@ module.exports = {
     getProfit:        getValue(request(dice['get-profit'])),
     getByWallet:        getAll(request(dice['get-by-wallet'])),
     getByFinishBlock:   getAll(request(dice['get-by-finish-block'])),
+    getNonFinished:     getAll(request(dice['get-non-finished'])),
     getByLimit:         getAll(request(dice['get-by-limit'])),
   },
   referrals: {

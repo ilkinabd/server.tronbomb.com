@@ -35,6 +35,9 @@ router.route('/contracts/main_status')
 router.route('/contracts/set_main_status')
   .post(admin, validate('status', false), main.setPortalStatus);
 
+router.route('/finish_dice')
+  .post(admin, main.finishDice);
+
 router.route('/admin_login')
   .post(validate('adminLogin', false), recaptchaVerify, main.adminLogin);
 

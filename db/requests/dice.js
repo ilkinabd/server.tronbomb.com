@@ -72,6 +72,20 @@ module.exports = {
       NATURAL JOIN "users"
       WHERE "status" = 'start' AND "finish_block" = $finishBlock;`,
 
+  'get-non-finished': `
+      SELECT
+          "index",
+          "finish_block" AS "finishBlock",
+          "wallet",
+          "bet",
+          "symbol",
+          "number",
+          "roll",
+          "time"
+      FROM "dice"
+      NATURAL JOIN "users"
+      WHERE "result" IS NULL;`,
+
   'get-by-limit': `
       SELECT
           "index",
