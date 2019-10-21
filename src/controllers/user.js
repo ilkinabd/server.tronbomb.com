@@ -96,10 +96,10 @@ const getDividendsHistory = async (req, res) => {
 
 const getBetsHistory = async (req, res) => {
   const { wallet } = req.query;
-  const filename = "bets.csv";
+  const filename = "bets.txt";
   const diceBets = await db.dice.getByWallet({ wallet });
   const wheelBets = await db.wheel.getByWallet({ wallet });
-  const mimetype = "text/csv";
+  const mimetype = "text/plain";
   res.setHeader("Content-disposition", "attachment; filename=" + filename);
   res.setHeader("Content-type", mimetype);
 
