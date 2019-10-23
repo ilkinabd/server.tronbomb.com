@@ -35,17 +35,17 @@ const diceReward = (number, roll, result, bet) => {
   let reward = 0;
   switch (roll) {
     case 'under':
-      if (result < number) reward = (bet * 77 / number) * DICE_RTP;
+      if (result < number) reward = bet * 77 / (number - 1);
       break;
     case 'over':
-      if (number < result) reward = (bet * 77 / (77 - number)) * DICE_RTP;
+      if (number < result) reward = bet * 77 / (77 - number);
       break;
     case 'exact':
-      if (number === result) reward = (bet * 77) * DICE_RTP;
+      if (number === result) reward = bet * 77;
       break;
   }
 
-  return toDecimal(reward);
+  return toDecimal(reward * DICE_RTP);
 };
 
 module.exports = {
