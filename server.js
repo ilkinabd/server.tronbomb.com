@@ -26,6 +26,7 @@ require('@workers/wheel/start-finish')(node, ws.in('wheel'));
 
 require('@workers/rating')(ws.in('rating'));
 require('@workers/rating24')(ws.in('rating24'));
+require('@workers/tbetprize')(ws.in('tbetprize'));
 require('@workers/statistics')(ws.in('statistics'));
 require('@workers/operations')(node);
 require('@workers/bomb/burn')(node);
