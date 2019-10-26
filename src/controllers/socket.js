@@ -39,13 +39,27 @@ const joinAuction = async(socket) => {
   };
   socket.emit('auction', params);
 };
+const joinTotalBetPrize = async(socket) => {
+  const diceBetCount = await db.dice.getBetCount();
+  const dicePrizeSum = await db.dice.getPrizeSum();
+  const wheelBetCount = await db.wheel.getBetCount();
+  const wheelPrizeSum = await db.wheel.getPrizeSum();
 
+  const betSum = diceBetCount + wheelBetCount;
+  const prizeSum = dicePrizeSum + wheelPrizeSum; 
+  const data = {
+    betSum: betSum,
+    prizeSum:prizeSum
+  }
+  socket.emit('tbetprize', { data });
+};
 const joinRoom = (room, socket) => {
   socket.join(room);
 
   switch (room) {
     case 'rating': joinRating(socket); break;
     case 'rating24': joinRating24(socket); break;
+    case 'tbetprize': joinTotalBetPrize(socket); break;
     case 'chat': joinChat(socket); break;
     case 'dice': joinDice(socket); break;
     case 'wheel': joinWheel(socket); break;
