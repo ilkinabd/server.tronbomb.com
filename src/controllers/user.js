@@ -1,47 +1,47 @@
 const { DELAY } = JSON.parse(process.env.FREEZE);
 
-const db = require("@db");
-const { operatingProfit, round } = require("@utils/dividends");
-const { resSuccess, successRes } = require("@utils/res-builder");
-const csvWriter = require("csv-write-stream");
+const db = require('@db');
+const { operatingProfit, round } = require('@utils/dividends');
+const { resSuccess, successRes } = require('@utils/res-builder');
+const csvWriter = require('csv-write-stream');
 
-const getLevel = async (req, res) => {
+const getLevel = async(req, res) => {
   const { wallet } = req.query;
   const level = (await db.users.getLevel({ wallet })) || 0;
   res.json(resSuccess({ level }));
 };
 
-const totalBet = async (req, res) => {
+const totalBet = async(req, res) => {
   const { wallet } = req.query;
   const sum = await db.users.getBetSum({ wallet });
   res.json(resSuccess({ sum }));
 };
 
-const totalWin = async (req, res) => {
+const totalWin = async(req, res) => {
   const { wallet } = req.query;
   const sum = await db.users.getWinSum({ wallet });
   res.json(resSuccess({ sum }));
 };
 
-const totalMine = async (req, res) => {
+const totalMine = async(req, res) => {
   const { wallet } = req.query;
   const sum = await db.users.getMine({ wallet });
   successRes(res, { sum });
 };
 
-const totalFreeze = async (req, res) => {
+const totalFreeze = async(req, res) => {
   const { wallet } = req.query;
   const sum = await db.freeze.getUserSum({ wallet });
   successRes(res, { sum });
 };
 
-const totalDividends = async (req, res) => {
+const totalDividends = async(req, res) => {
   const { wallet } = req.query;
   const sum = await db.dividends.getUserSum({ wallet });
   successRes(res, { sum });
 };
 
-const getAwaitingUnfreeze = async (req, res) => {
+const getAwaitingUnfreeze = async(req, res) => {
   const { wallet } = req.query;
 
   const { time, amount } = await db.freeze.getAwaitingByWallet({ wallet });
@@ -51,7 +51,7 @@ const getAwaitingUnfreeze = async (req, res) => {
   successRes(res, { time, timeLeft, amount });
 };
 
-const getAwaitingDividends = async (req, res) => {
+const getAwaitingDividends = async(req, res) => {
   const { wallet } = req.query;
 
   const profit = await operatingProfit();
@@ -62,58 +62,58 @@ const getAwaitingDividends = async (req, res) => {
   successRes(res, { amount });
 };
 
-const diceHistory = async (req, res) => {
+const diceHistory = async(req, res) => {
   const { wallet } = req.query;
   const games = await db.dice.getByWallet({ wallet });
   successRes(res, { games });
 };
 
-const wheelHistory = async (req, res) => {
+const wheelHistory = async(req, res) => {
   const { wallet } = req.query;
   const bets = await db.wheel.getByWallet({ wallet });
   successRes(res, { bets });
 };
 
-const getFreezeHistory = async (req, res) => {
+const getFreezeHistory = async(req, res) => {
   const { wallet } = req.query;
-  const type = "freeze";
+  const type = 'freeze';
   const operations = await db.freeze.getByWallet({ type, wallet });
   successRes(res, { operations });
 };
 
-const getUnfreezeHistory = async (req, res) => {
+const getUnfreezeHistory = async(req, res) => {
   const { wallet } = req.query;
-  const type = "unfreeze";
+  const type = 'unfreeze';
   const operations = await db.freeze.getByWallet({ type, wallet });
   successRes(res, { operations });
 };
 
-const getDividendsHistory = async (req, res) => {
+const getDividendsHistory = async(req, res) => {
   const { wallet } = req.query;
   const operations = await db.dividends.getByWallet({ wallet });
   successRes(res, { operations });
 };
 
-const getBetsHistory = async (req, res) => {
+const getBetsHistory = async(req, res) => {
   const { wallet } = req.query;
-  const filename = "bets.txt";
+  const filename = 'bets.txt';
   const diceBets = await db.dice.getByWallet({ wallet });
   const wheelBets = await db.wheel.getByWallet({ wallet });
-  const mimetype = "text/plain";
-  res.setHeader("Content-disposition", "attachment; filename=" + filename);
-  res.setHeader("Content-type", mimetype);
+  const mimetype = 'text/plain';
+  res.setHeader('Content-disposition', 'attachment; filename=' + filename);
+  res.setHeader('Content-type', mimetype);
 
-  let writer = csvWriter();
+  const writer = csvWriter();
   writer.pipe(res);
 
   for (let i = 0; i < wheelBets.length; i++) {
     const { bet, sector, result, prize, time } = wheelBets[i];
     writer.write({
-      game: "wheel",
-      bet: bet,
+      game: 'wheel',
+      bet,
       number: sector,
-      result: result,
-      prize: prize,
+      result,
+      prize,
       date: time
     });
   }
@@ -121,11 +121,11 @@ const getBetsHistory = async (req, res) => {
   for (let i = 0; i < diceBets.length; i++) {
     const { bet, number, result, prize, time } = diceBets[i];
     writer.write({
-      game: "dice",
-      bet: bet,
-      number: number,
-      result: result,
-      prize: prize,
+      game: 'dice',
+      bet,
+      number,
+      result,
+      prize,
       date: time
     });
   }
