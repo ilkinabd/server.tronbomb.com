@@ -8,7 +8,7 @@ module.exports = {
       ) RETURNING "dividend_id" AS "id"`,
 
   'get-user-sum': `
-      SELECT COALESCE(SUM("amount"), 0) AS "value"
+      SELECT ROUND(COALESCE(SUM("amount")::DECIMAL, 0), 2) AS "value"
       FROM "dividends"
       WHERE "user_id" = GET_USER_ID($wallet);`,
 
