@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 const { DELAY, INTERVAL } = JSON.parse(process.env.FREEZE);
 
 const db = require('@db');
@@ -27,6 +28,7 @@ const unfreezeAll = async(data) => {
   db.freeze.add({ type, amount: -amount, userId });
 };
 
+// eslint-disable-next-line no-unused-vars
 const unfreezeWorker = async() => {
   const operations = await db.freeze.getAwaiting();
 
@@ -43,5 +45,5 @@ module.exports = (node) => {
   node.on('bomb-freeze', freeze);
   node.on('bomb-unfreeze-all', unfreezeAll);
 
-  setInterval(unfreezeWorker, INTERVAL);
+  // setInterval(unfreezeWorker, INTERVAL);
 };
