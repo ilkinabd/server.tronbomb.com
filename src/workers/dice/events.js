@@ -2,10 +2,13 @@ const db = require('@db');
 const { updateLevel, referrerProfit } = require('@utils/users');
 const { mining } = require('@utils/mining');
 const { getSymbol } = require('@utils/game');
+const rollbar = require('@utils/rollbar');
 
 const takePart = async(data) => {
   const { index, wallet, finishBlock, bet, tokenId, number, roll } = data;
   const symbol = getSymbol(tokenId);
+
+  rollbar.info(`Receive takePart: ${JSON.stringify(data)}`);
 
   if (symbol === 'TRX') {
     mining(bet, wallet);
