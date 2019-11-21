@@ -19,6 +19,7 @@ const dividends = require('./requests/dividends');
 const jackpots = require('./requests/jackpots');
 
 const dice = require('./requests/dice');
+const coin = require('./requests/coin');
 const wheel = require('./requests/wheel');
 const referrals = require('./requests/referrals');
 
@@ -73,6 +74,18 @@ module.exports = {
     getByFinishBlock:   getAll(request(dice['get-by-finish-block'])),
     getNonFinished:     getAll(request(dice['get-non-finished'])),
     getByLimit:         getAll(request(dice['get-by-limit'])),
+  },
+  coin: {
+    add:                 getId(request(coin['add'])),
+    setFinish:                 request(coin['set-finish']),
+    setConfirm:                request(coin['set-confirm']),
+    // getBetCount:      getValue(request(dice['get-bet-count'])),
+    // getPrizeSum:      getValue(request(dice['get-prize-sum'])),
+    // getProfit:        getValue(request(dice['get-profit'])),
+    // getByWallet:        getAll(request(dice['get-by-wallet'])),
+    getByFinishBlock:   getAll(request(coin['get-by-finish-block'])),
+    getNonFinished:     getAll(request(coin['get-non-finished'])),
+    // getByLimit:         getAll(request(dice['get-by-limit'])),
   },
   referrals: {
     add:              getId(request(referrals['add'])),

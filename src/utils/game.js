@@ -1,9 +1,12 @@
+// Added new env variable COIN_RTP
 const {
-  TOKENS, WHEEL_START_BLOCK, WHEEL_DURATION, DECIMAL, DICE_RTP,
+  TOKENS, WHEEL_START_BLOCK, WHEEL_DURATION, DECIMAL, DICE_RTP, COIN_RTP
 } = process.env;
 
 const { rng: diceRNG } = require('@controllers/node').dice.func;
 const { rng: wheelRNG } = require('@controllers/node').wheel.func;
+const { rng: coinRNG } = require('@controllers/node').coin.func;
+
 
 const tokens = TOKENS.split(',');
 const startBlock = parseInt(WHEEL_START_BLOCK);
@@ -27,9 +30,13 @@ const getCoef = (sector) => coefs[sector];
 const toDecimal = amount => Math.floor(amount * 10 ** DECIMAL) / 10 ** DECIMAL;
 const getIndex = finish => Math.floor((finish - startBlock) / duration);
 
-const diceRandom = async(address, block) =>
+const diceRandom = async (address, block) =>
   (await diceRNG({ address, block })).result;
-const wheelRandom = async(block) => (await wheelRNG({ block })).result;
+
+const coinRandom = async (address, block) =>
+  (await coinRNG({ address, block })).result;
+
+const wheelRandom = async block => (await wheelRNG({ block })).result;
 
 const diceReward = (number, roll, result, bet) => {
   let reward = 0;
@@ -48,6 +55,12 @@ const diceReward = (number, roll, result, bet) => {
   return toDecimal(reward * DICE_RTP);
 };
 
+const coinReward = (number, result, bet) => {
+  let reward = 0;
+  if (number === result) reward = bet * 2;
+  return toDecimal(reward * COIN_RTP);
+}
+
 module.exports = {
   getSymbol,
   getSector,
@@ -55,6 +68,8 @@ module.exports = {
   toDecimal,
   getIndex,
   diceRandom,
+  coinRandom,
   wheelRandom,
   diceReward,
+  coinReward,
 };

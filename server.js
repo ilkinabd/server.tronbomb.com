@@ -21,6 +21,9 @@ node.on('connect', () => {
 require('@workers/dice/events')(node);
 require('@workers/dice/finish')(node, ws.in('dice'));
 
+require('@workers/coin/events')(node);
+require('@workers/coin/finish')(node, ws.in('coin'));
+
 require('@workers/wheel/events')(node, ws.in('wheel'));
 require('@workers/wheel/start-finish')(node, ws.in('wheel'));
 
