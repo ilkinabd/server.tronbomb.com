@@ -4,6 +4,7 @@ const db = require('@db');
 const { toDecimal } = require('@utils/game');
 const base64 = require('base-64');
 const utf8 = require('utf8');
+const rollbar = require('@utils/rollbar');
 
 const getLevel = betsSum => {
   const point = 265;
@@ -30,6 +31,8 @@ const referrerProfit = async(wallet, bet) => {
   for (const i in referrers) {
     if (!referrers[i]) continue;
     const amount = toDecimal(bet * profits[i]);
+
+    rollbar.info(`referralProfit change ${-amount}`);
 
     db.users.setRefProfit({ wallet: referrers[i], delta: amount });
     db.referrals.add({ wallet: referrers[i], referral: wallet, amount });

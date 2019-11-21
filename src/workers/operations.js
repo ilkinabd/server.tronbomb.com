@@ -2,6 +2,7 @@ const { WITHDRAW_FEE, MIN_WITHDRAW, MIN_MINE } = process.env;
 
 const db = require('@db');
 const { fund, bomb } = require('@controllers/node');
+const rollbar = require('@utils/rollbar');
 
 const fee = parseFloat(WITHDRAW_FEE);
 
@@ -15,6 +16,8 @@ const referralProfit = async(data) => {
   const type = 'referral-rewards';
   const payload = await fund.transfer({ to: wallet, amount, type });
   if (!payload || !payload.txID) return;
+
+  rollbar.info(`referralProfit change ${-profit}`);
 
   await db.users.setRefProfit({ wallet, delta: -profit });
   db.referrals.add({ wallet, amount: -profit, type: 'withdraw' });
