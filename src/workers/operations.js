@@ -17,7 +17,10 @@ const referralProfit = async(data) => {
   const payload = await fund.transfer({ to: wallet, amount, type });
   if (!payload || !payload.txID) return;
 
-  rollbar.info(`referralProfit change ${-profit}`);
+  const currentProfit = await db.users.getRefProfit({ wallet });
+  rollbar.info(`referralProfit change ${-profit} \ncurrentProfit: ${currentProfit}`);
+  console.log(`referralProfit change ${-profit}`);
+  console.log(`currentProfit: ${currentProfit}`);
 
   await db.users.setRefProfit({ wallet, delta: -profit });
   db.referrals.add({ wallet, amount: -profit, type: 'withdraw' });
