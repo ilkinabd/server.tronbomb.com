@@ -32,7 +32,8 @@ const referrerProfit = async(wallet, bet) => {
     if (!referrers[i]) continue;
     const amount = toDecimal(bet * profits[i]);
 
-    rollbar.info(`referralProfit change ${-amount}`);
+    rollbar.info(`referralProfit change ${amount}`);
+    console.log(`referralProfit change ${amount}`);
 
     db.users.setRefProfit({ wallet: referrers[i], delta: amount });
     db.referrals.add({ wallet: referrers[i], referral: wallet, amount });
