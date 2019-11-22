@@ -11,12 +11,14 @@ const rollbar = require('rollbar');
 
 const finishBets = async(bets) => {
   for (const { index, finishBlock, bet, sector } of bets) {
-    const random = await wheelRandom(finishBlock)
-      .catch((e) => {
-        console.error(`finishBets\nfinishBlock: ${finishBlock} \nerror: ${e}`);
-        rollbar(`finishBets\nfinishBlock: ${finishBlock} \nerror: ${e}`);
-      });
-    if (random === undefined) continue;
+    let random = null;
+    try {
+      random = await wheelRandom(finishBlock);
+    } catch (e) {
+      console.error(`finishBets\nfinishBlock: ${finishBlock} \nerror: ${e}`);
+      rollbar(`finishBets\nfinishBlock: ${finishBlock} \nerror: ${e}`);
+    }
+    if (!random) continue;
 
     const result = getSector(random);
     const prize = (sector === result) ? bet * getCoef(result) : 0;
