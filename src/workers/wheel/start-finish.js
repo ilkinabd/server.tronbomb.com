@@ -7,9 +7,15 @@ const { getSector, getCoef, getIndex, wheelRandom } = require('@utils/game');
 const startBlock = parseInt(WHEEL_START_BLOCK);
 const duration = parseInt(WHEEL_DURATION);
 
+const rollbar = require('rollbar');
+
 const finishBets = async(bets) => {
   for (const { index, finishBlock, bet, sector } of bets) {
-    const random = await wheelRandom(finishBlock);
+    const random = await wheelRandom(finishBlock)
+      .cache((e) => {
+        console.error(`finishBets\nfinishBlock: ${finishBlock} \nerror: ${e}`);
+        rollbar(`finishBets\nfinishBlock: ${finishBlock} \nerror: ${e}`);
+      });
     if (random === undefined) continue;
 
     const result = getSector(random);
