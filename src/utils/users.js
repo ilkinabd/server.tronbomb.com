@@ -30,11 +30,10 @@ const referrerProfit = async(wallet, bet) => {
 
   for (const i in referrers) {
     if (!referrers[i]) continue;
-    const amount = toDecimal(bet * profits[i]);
+    const amount = toDecimal(bet * profits[i] * 10) / 10; //this is strange, toDecimal make round 2, but we need round 3 here
 
     rollbar.info(`referralProfit change ${amount}`);
     console.log(`referralProfit change ${amount}`);
-    console.log(`bet: ${bet} /nCoef: ${profits[i]} \nreferrers: ${referrers} \nindex: ${i}`);
 
     db.users.setRefProfit({ wallet: referrers[i], delta: amount });
     db.referrals.add({ wallet: referrers[i], referral: wallet, amount });
@@ -45,7 +44,7 @@ const getUserFromToken = token => {
   const bytes = base64.decode(token);
   const json = utf8.decode(bytes);
   const profile = JSON.parse(json);
-  const user =  {
+  const user = {
     index: profile.id,
     name: `${profile['first_name']} ${profile['last_name']}`
   };
