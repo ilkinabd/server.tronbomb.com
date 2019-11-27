@@ -34,6 +34,7 @@ const referrerProfit = async(wallet, bet) => {
 
     rollbar.info(`referralProfit change ${amount}`);
     console.log(`referralProfit change ${amount}`);
+    console.log(`bet: ${bet} /nCoef: ${profits[i]} \nreferrers: ${referrers} \nindex: ${i}`);
 
     db.users.setRefProfit({ wallet: referrers[i], delta: amount });
     db.referrals.add({ wallet: referrers[i], referral: wallet, amount });
