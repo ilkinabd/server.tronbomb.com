@@ -14,7 +14,7 @@ process.ws = ws;
 const node = clientIO.connect(NODE, { reconnect: true });
 
 node.on('connect', () => {
-  const rooms = ['blocks', 'dice', 'wheel', 'operations', 'bomb', 'auction'];
+  const rooms = ['blocks', 'dice', 'coin', 'wheel', 'operations', 'bomb', 'auction'];
   for (const room of rooms) node.emit('subscribe', { room, token: NODE_TOKEN });
 });
 
