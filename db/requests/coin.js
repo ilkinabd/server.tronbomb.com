@@ -6,14 +6,14 @@ module.exports = {
         "user_id",
         "bet",
         "symbol",
-        "number",
+        "number"
     ) VALUES (
         $index,
         $finishBlock,
         ADD_WALLET($wallet),
         $bet,
         $symbol,
-        $number,
+        $number
     ) RETURNING "game_id" AS "id";`,
 
   "set-finish": `
