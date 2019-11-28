@@ -4,6 +4,7 @@ const { mining } = require("@utils/mining");
 const { getSymbol } = require("@utils/game");
 
 const takePart = async data => {
+  console.log('================= coin-take-part emitted =======================');
   const { index, wallet, finishBlock, bet, tokenId, number } = data;
   const symbol = getSymbol(tokenId);
 
