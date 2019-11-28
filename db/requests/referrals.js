@@ -4,11 +4,13 @@ module.exports = {
           "user_id",
           "type",
           "referral",
+          "bet_amount",
           "amount"
       ) VALUES (
           GET_USER_ID($wallet),
           COALESCE($type, 'income')::OPERATION_TYPE,
           GET_USER_ID($referral),
+          $betAmount,
           $amount
       ) RETURNING "operation_id" AS "id";`,
 
