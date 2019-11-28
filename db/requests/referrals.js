@@ -18,6 +18,7 @@ module.exports = {
       SELECT
           GET_WALLET("referral") AS "referral",
           ABS("amount") AS "amount",
+          "bet_amount" AS "betAmount",
           "time"
       FROM "referrals"
       WHERE "user_id" = GET_USER_ID($wallet) AND type = $type
