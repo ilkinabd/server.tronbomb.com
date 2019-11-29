@@ -34,8 +34,16 @@ const unfreezeWorker = async() => {
   for (const { time, amount, wallet: to, txId } of operations) {
     if (new Date(time).getTime() + DELAY > Date.now()) continue;
 
-    const hash = (await withdraw({ to, amount, isToken: true })).result;
-    await db.freeze.setComplete({ hash, txId });
+    const response = await withdraw({
+      to,
+      amount: amount * 10e6,
+      isToken: true
+    });
+    if (response.result) {
+      await db.freeze.setComplete({ hash: response.result, txId });
+    } else {
+      console.error(`Can't unfreeze\nAddress: ${to}\nResponse: ${response}`);
+    }
   }
 };
 
