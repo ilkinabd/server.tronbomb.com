@@ -16,7 +16,9 @@ const takePart = async(data) => {
   db.wheel.add({ index, finishBlock, wallet, bet, symbol, sector });
   updateLevel(wallet);
 
-  this.chanel.emit('wheel-bet', { index: game, wallet, bet, symbol, sector });
+  //todo: this is temporary solution, need remove bets, which amount 0
+  if (bet > 0)
+    this.chanel.emit('wheel-bet', { index: game, wallet, bet, symbol, sector });
 };
 
 const reward = (data) => db.wheel.setConfirm({ index: data.index });

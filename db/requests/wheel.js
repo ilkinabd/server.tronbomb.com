@@ -77,7 +77,7 @@ module.exports = {
           "time"
       FROM "wheel"
       NATURAL JOIN "users"
-      WHERE "status" = 'finish'
+      WHERE "status" = 'finish' AND "bet" > 0
       ORDER BY "index" DESC
       LIMIT $limit;`,
 };
