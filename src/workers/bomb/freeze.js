@@ -2,7 +2,7 @@
 const { DELAY, INTERVAL } = JSON.parse(process.env.FREEZE);
 
 const db = require('@db');
-const { transferBOMB } = require('@controllers/node').fund;
+const { withdraw } = require('@controllers/node').portal.func;
 
 const freeze = async(data) => {
   const { amount, wallet, hash } = data;
@@ -28,15 +28,13 @@ const unfreezeAll = async(data) => {
   db.freeze.add({ type, amount: -amount, userId });
 };
 
-// eslint-disable-next-line no-unused-vars
 const unfreezeWorker = async() => {
   const operations = await db.freeze.getAwaiting();
 
   for (const { time, amount, wallet: to, txId } of operations) {
     if (new Date(time).getTime() + DELAY > Date.now()) continue;
 
-    const type = 'stack-hodler';
-    const hash = (await transferBOMB({ to, amount, type })).result;
+    const hash = (await withdraw({ to, amount, isToken: true })).result;
     await db.freeze.setComplete({ hash, txId });
   }
 };
@@ -45,5 +43,5 @@ module.exports = (node) => {
   node.on('bomb-freeze', freeze);
   node.on('bomb-unfreeze-all', unfreezeAll);
 
-  // setInterval(unfreezeWorker, INTERVAL);
+  setInterval(unfreezeWorker, INTERVAL);
 };
