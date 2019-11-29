@@ -34,6 +34,8 @@ const unfreezeWorker = async() => {
   for (const { time, amount, wallet: to, txId } of operations) {
     if (new Date(time).getTime() + DELAY > Date.now()) continue;
 
+    // temporary solution, need implement one more status
+    await db.freeze.setComplete({ hash: 'pending', txId });
     const response = await withdraw({
       to,
       amount,
