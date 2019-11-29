@@ -39,9 +39,8 @@ const unfreezeWorker = async() => {
       amount,
       isToken: true
     });
-    if (response.result) {
-      await db.freeze.setComplete({ hash: response.result, txId });
-    } else {
+    await db.freeze.setComplete({ hash: response.result, txId });
+    if (!response.result) {
       console.error(`Can't unfreeze\nAddress: ${to}\nResponse: ${JSON.stringify(response)}`);
     }
   }
