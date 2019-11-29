@@ -4,7 +4,9 @@ const { mining } = require("@utils/mining");
 const { getSymbol } = require("@utils/game");
 
 const takePart = async data => {
-  console.log('================= coin-take-part emitted =======================');
+  console.log(
+    "================= coin-take-part emitted ======================="
+  );
   const { index, wallet, finishBlock, bet, tokenId, number } = data;
   const symbol = getSymbol(tokenId);
 
@@ -17,7 +19,12 @@ const takePart = async data => {
   updateLevel(wallet);
 };
 
-const reward = data => db.coin.setConfirm({ index: data.index });
+const reward = data => {
+  console.log(
+    "================= coin-reward emitted ======================="
+  );
+  db.coin.setConfirm({ index: data.index });
+};
 
 module.exports = node => {
   node.on("coin-take-part", takePart);

@@ -1,27 +1,51 @@
-const db = require('@db');
-const { finish } = require('@controllers/node').coin.func;
-const { coinRandom, coinReward } = require('@utils/game');
+const db = require("@db");
+const { finish } = require("@controllers/node").coin.func;
+const { coinRandom, coinReward } = require("@utils/game");
 
-const finishGames = async(block) => {
-  const games = await db.coin.getByFinishBlock({ finishBlock: block });
-  if (games.length === 0) return;
+const finishGames = async block => {
+  try {
+    // Gets unfinished games by block
+    const games = await db.coin.getByFinishBlock({ finishBlock: block });
 
-  for (const game of games) {
-    const { wallet, index, number, bet } = game;
+    // If not have games break
+    if (games.length === 0) return;
 
-    game.result = await coinRandom(wallet, block);
-    game.prize = coinReward(number, game.result, bet);
+    // Loop over each unfinished game
+    for (const game of games) {
+      const { wallet, index, number, bet } = game;
 
-    await db.coin.setFinish({ index, result: game.result, prize: game.prize });
-    if (game.prize === 0) await db.coin.setConfirm({ index });
+      console.log(`Forecast is : ${number}`);
+      
+      // Do http request to node server get game result
+      game.result = await coinRandom(wallet, block);
+      console.log(`Game result is : ${game.result}`);
 
-    finish({ index });
+      // Calculate game prize
+      game.prize = coinReward(number, game.result, bet);
+      console.log(`Calculated prize is : ${game.prize}`);
+
+      // Update game in DB by index
+      await db.coin.setFinish({
+        index,
+        result: game.result,
+        prize: game.prize
+      });
+
+      // If not winner set confirmed = true in DB
+      if (game.prize === 0) await db.coin.setConfirm({ index });
+
+      // Do http request to node server to finish game by index
+      finish({ index });
+    }
+
+    // Emit finish event to client
+    this.chanel.emit("coin-finish", { games });
+  } catch (err) {
+    console.debug(err);
   }
-
-  this.chanel.emit('coin-finish', { games });
 };
 
-const autoFinish = async() => {
+const autoFinish = async () => {
   const games = await db.coin.getNonFinished();
   const indexes = [];
 
@@ -44,7 +68,7 @@ const autoFinish = async() => {
 };
 
 module.exports = (node, chanel) => {
-  node.on('blocks', finishGames);
+  node.on("blocks", finishGames);
   this.chanel = chanel;
 
   setInterval(autoFinish, 120000);
