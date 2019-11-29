@@ -36,7 +36,7 @@ const unfreezeWorker = async() => {
 
     const response = await withdraw({
       to,
-      amount: amount * 10e6,
+      amount,
       isToken: true
     });
     if (response.result) {
