@@ -82,7 +82,7 @@ module.exports = {
     // getBetCount:      getValue(request(dice['get-bet-count'])),
     // getPrizeSum:      getValue(request(dice['get-prize-sum'])),
     // getProfit:        getValue(request(dice['get-profit'])),
-    // getByWallet:        getAll(request(dice['get-by-wallet'])),
+    getByWallet:        getAll(request(coin['get-by-wallet'])),
     getByFinishBlock:   getAll(request(coin['get-by-finish-block'])),
     getNonFinished:     getAll(request(coin['get-non-finished'])),
     // getByLimit:         getAll(request(dice['get-by-limit'])),

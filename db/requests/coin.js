@@ -39,6 +39,22 @@ module.exports = {
       NATURAL JOIN "users"
       WHERE "status" = 'start' AND "finish_block" = $finishBlock;`,
 
+  "get-by-wallet": `
+      SELECT
+          "index",
+          "finish_block" AS "finishBlock",
+          "wallet",
+          "bet",
+          "symbol",
+          "number",
+          "result",
+          "prize",
+          "time"
+      FROM "coin"
+      NATURAL JOIN "users"
+      WHERE "wallet" = $wallet
+      ORDER BY "time" DESC;`,
+
   "get-non-finished": `
       SELECT
           "index",

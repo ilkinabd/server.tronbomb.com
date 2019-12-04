@@ -68,6 +68,12 @@ const diceHistory = async(req, res) => {
   successRes(res, { games });
 };
 
+const coinHistory = async(req, res) => {
+  const { wallet } = req.query;
+  const games = await db.coin.getByWallet({ wallet });
+  successRes(res, { games });
+};
+
 const wheelHistory = async(req, res) => {
   const { wallet } = req.query;
   const bets = await db.wheel.getByWallet({ wallet });
@@ -143,6 +149,7 @@ module.exports = {
   getAwaitingUnfreeze,
   getAwaitingDividends,
   diceHistory,
+  coinHistory,
   wheelHistory,
   getFreezeHistory,
   getUnfreezeHistory,
