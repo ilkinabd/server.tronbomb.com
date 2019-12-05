@@ -85,7 +85,7 @@ module.exports = {
     getByWallet:        getAll(request(coin['get-by-wallet'])),
     getByFinishBlock:   getAll(request(coin['get-by-finish-block'])),
     getNonFinished:     getAll(request(coin['get-non-finished'])),
-    // getByLimit:         getAll(request(dice['get-by-limit'])),
+    getByLimit:         getAll(request(coin['get-by-limit'])),
   },
   referrals: {
     add:              getId(request(referrals['add'])),

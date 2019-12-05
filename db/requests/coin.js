@@ -66,5 +66,22 @@ module.exports = {
           "time"
       FROM "coin"
       NATURAL JOIN "users"
-      WHERE "result" IS NULL AND ("time" + INTERVAL '2 minutes') < NOW();`
+      WHERE "result" IS NULL AND ("time" + INTERVAL '2 minutes') < NOW();`,
+
+  "get-by-limit": `
+      SELECT
+          "index",
+          "finish_block" AS "finishBlock",
+          "wallet",
+          "bet",
+          "symbol",
+          "number",
+          "result",
+          "prize",
+          "time"
+      FROM "coin"
+      NATURAL JOIN "users"
+      WHERE "status" = 'finish'
+      ORDER BY "time" DESC
+      LIMIT $limit;`
 };
