@@ -38,7 +38,7 @@ const checkStart = (number) => {
 };
 
 const checkStopBets = async(number) => {
-  if ((number - startBlock) % duration !== duration - 4) return;
+  if ((number - startBlock) % duration !== duration - 5) return;
   const index = getIndex(number);
   this.chanel.emit('wheel-stop-bets', { index });
 };
