@@ -46,7 +46,7 @@ module.exports = {
           "sector"
       FROM "wheel"
       NATURAL JOIN "users"
-      WHERE "status" = $status;`,
+      WHERE "status" = $status AND "finish_block" <= $currentBlock;`,
 
   'get-by-wallet': `
       SELECT

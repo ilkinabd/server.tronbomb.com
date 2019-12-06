@@ -11,6 +11,7 @@ const rollbar = require('rollbar');
 
 const finishBets = async(bets) => {
   for (const { index, finishBlock, bet, sector } of bets) {
+    //todo: refactor this
     let random = null;
     try {
       random = await wheelRandom(finishBlock);
@@ -51,7 +52,10 @@ const checkFinish = async(number) => {
 
   this.chanel.emit('wheel-finish', { index, result, sector });
 
-  const bets = await db.wheel.getByStatus({ status: 'start' });
+  const bets = await db.wheel.getByStatus({
+    status: 'start',
+    currentBlock: number
+  });
   if (bets.length === 0) return;
 
   finishBets(bets);
