@@ -10,6 +10,7 @@
     "logs": "pm2 logs --out",
     "errors": "pm2 logs --err",
     "migrate": "db-migrate up --migrations-dir db/migrations",
+    "db-rollback": "db-migrate down --migrations-dir db/migrations",
     "new-migration": "db-migrate create --migrations-dir db/migrations",
     "eslint": "eslint --fix ."
   },
