@@ -61,6 +61,9 @@ router.route('/jackpots/history/bet_amount')
 router.route('/jackpots/set_popup_shown')
   .post(jackpots.setPopupShown);
 
+router.route('/jackpots/get_popup_not_shown')
+  .get(jackpots.getPopupNotShown);
+
 router.route('/jackpots/set_random_status')
   .post(admin, validate('status', false), jackpots.setRandomStatus);
 

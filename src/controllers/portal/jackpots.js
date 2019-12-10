@@ -67,6 +67,13 @@ const setPopupShown = async(req, res) => {
   successRes(res);
 };
 
+const getPopupNotShown = async(req, res) => {
+  const { wallet } = req.query;
+  const jackpotsPopupData = await db.jackpots.getNotShown({ wallet });
+
+  successRes(res, { jackpotsPopupData });
+};
+
 module.exports = {
   params,
   randomHistory,
@@ -76,4 +83,5 @@ module.exports = {
   setRandomStatus,
   setBetAmountStatus,
   setPopupShown,
+  getPopupNotShown,
 };
