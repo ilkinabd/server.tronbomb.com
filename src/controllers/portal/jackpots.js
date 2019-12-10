@@ -59,6 +59,14 @@ const getWinner = async(_req, res) => {
   successRes(res, { winners });
 };
 
+const setPopupShown = async(req, res) => {
+  const { id } = req.body;
+  await db.jackpots.setPopupShown({ id, value: true })
+    .then(console.log)
+    .catch(console.error);
+  successRes(res);
+};
+
 module.exports = {
   params,
   randomHistory,
@@ -67,4 +75,5 @@ module.exports = {
   getWinner,
   setRandomStatus,
   setBetAmountStatus,
+  setPopupShown,
 };

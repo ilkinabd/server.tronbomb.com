@@ -34,14 +34,15 @@ module.exports = {
       ORDER BY "time" DESC;`,
 
   'get-not-shown': `
-      SELECT "payment_id", "wallet", "type", "prize", "time"
+      SELECT "payment_id", "type", "prize", "time"
       FROM "jackpots"
-      WHERE "user_id" = GET_USER_ID($wallet) AND "popup_shown"=FALSE AND "STATUS" = TRUE;
+      WHERE "user_id" = GET_USER_ID($wallet) 
+      AND "popup_shown" = FALSE AND "status" = TRUE;
   `,
 
   'set-popup-shown': `
      UPDATE "jackpots"
      SET "popup_shown"= $value
-     WHERE payment_id = $id
+     WHERE payment_id = $id;
    `,
 };
