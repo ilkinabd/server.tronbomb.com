@@ -32,4 +32,16 @@ module.exports = {
       NATURAL JOIN "users"
       WHERE "type" = $type AND "status" = TRUE
       ORDER BY "time" DESC;`,
+
+  'get-not-shown': `
+      SELECT "payment_id", "wallet", "type", "prize", "time"
+      FROM "jackpots"
+      WHERE "user_id" = GET_USER_ID($wallet) AND "popup_shown"=FALSE AND "STATUS" = TRUE;
+  `,
+
+  'set-popup-shown': `
+     UPDATE "jackpots"
+     SET "popup_shown"= $value
+     WHERE payment_id = $id
+   `,
 };

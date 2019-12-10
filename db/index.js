@@ -149,6 +149,8 @@ module.exports = {
     getRandomUnconfirmed: getAll(request(jackpots['get-random-unconfirmed'])),
     deleteRandomUnconfirmed: request(jackpots['delete-random-unconfirmed']),
     getByType: getAll(request(jackpots['get-by-type'])),
+    getNotShown: getAll(request(jackpots['get-by-type'])),
+    setPopupShown: getAll(request(jackpots['set-popup-shown'])),
   },
   wheel: {
     add:            getId(request(wheel['add'])),
