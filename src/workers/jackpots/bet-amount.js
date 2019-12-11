@@ -17,13 +17,19 @@ const payRewards = async(winners, chanel) => {
   for (const i in winners) {
     const prize = toDecimal(prizePool * PRIZES[i]);
     const wallet = winners[i];
-    result.push({ wallet, prize });
 
     await transfer({ to: wallet, amount: prize, type: fund });
 
     const type = 'bet_amount';
     const place = parseInt(i) + 1;
-    await db.jackpots.add({ wallet, type, place, prize, status: true });
+    const id = await db.jackpots.add({
+      wallet,
+      type,
+      place,
+      prize,
+      status: true
+    });
+    result.push({ id, wallet, prize });
   }
 
   chanel.emit('bet-amount-jackpot', result);
