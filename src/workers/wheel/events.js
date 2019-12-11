@@ -1,11 +1,11 @@
 const db = require('@db');
 const { updateLevel, referrerProfit } = require('@utils/users');
 const { mining } = require('@utils/mining');
-const { getSymbol, getIndex } = require('@utils/game');
+const { getIndex } = require('@utils/game');
 
 const takePart = async(data) => {
-  const { wallet, bet, tokenId, sector, finishBlock, index } = data;
-  const symbol = getSymbol(tokenId);
+  const { wallet, bet, isToken, sector, finishBlock, index } = data;
+  const symbol = isToken ? 'BOMB' : 'TRX';
   const game = getIndex(finishBlock) - 1;
 
   if (symbol === 'TRX') {
