@@ -40,6 +40,9 @@ const finishGames = async block => {
 
     // Emit finish event to client
     this.chanel.emit("coin-finish", { games });
+    console.log('======== coin-finish emitted ========');
+    console.log('Finished games are :');
+    console.debug(games);
   } catch (err) {
     console.debug(err);
   }
