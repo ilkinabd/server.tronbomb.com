@@ -5,8 +5,8 @@ module.exports = {
       RETURNING "profit_id" AS "id";`,
 
   'get-minus': `
-      SELECT SUM(CASE WHEN COALESCE("profit", 0) < 0 THEN "profit" END ) AS "value"  
-      FROM "operation_profit";`,
+      SELECT (CASE WHEN COALESCE("profit", 0) < 0 THEN "profit" ELSE 0 END) AS "value" 
+      FROM "operation_profit" order by "profit_id" DESC LIMIT 1;`,
 
   'get-no-complete': `
       SELECT COALESCE(SUM("profit"), 0) AS "value"
