@@ -17,8 +17,8 @@ const operatingProfit = async () => {
   const interval = (Date.now() - delay - new Date(START)) % INTERVAL;
   const diceProfit = await db.dice.getProfit({ interval });
   const wheelProfit = await db.wheel.getProfit({ interval });
-  const minusProfit = await db.operationProfit.getMinus();
-  return diceProfit + wheelProfit + minusProfit;
+  // const minusProfit = await db.operationProfit.getMinus();
+  return diceProfit + wheelProfit ;
 };
 
 const userProfit = async (wallet, operatingProfit) => {
