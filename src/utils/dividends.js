@@ -13,14 +13,15 @@ const leftToPayout = () => {
   return timeout;
 };
 
-const operatingProfit = async() => {
-  const interval = ((Date.now() - delay) - new Date(START)) % INTERVAL;
+const operatingProfit = async () => {
+  const interval = (Date.now() - delay - new Date(START)) % INTERVAL;
   const diceProfit = await db.dice.getProfit({ interval });
   const wheelProfit = await db.wheel.getProfit({ interval });
-  return diceProfit + wheelProfit;
+  const minusProfit = await db.operatingProfit.getMinus();
+  return diceProfit + wheelProfit + minusProfit;
 };
 
-const userProfit = async(wallet, operatingProfit) => {
+const userProfit = async (wallet, operatingProfit) => {
   const frozenBombSum = await db.freeze.getSum();
   if (frozenBombSum === 0) return 0;
   const userFrozenBombs = await db.freeze.getUserSum({ wallet });
