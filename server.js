@@ -20,6 +20,7 @@ node.on('connect', () => {
 
 require('@workers/dice/events')(node);
 require('@workers/dice/finish')(node, ws.in('dice'));
+require('@workers/dice/bets')(ws.in('dice'));
 
 require('@workers/wheel/events')(node, ws.in('wheel'));
 require('@workers/wheel/start-finish')(node, ws.in('wheel'));
