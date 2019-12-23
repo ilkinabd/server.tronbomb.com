@@ -36,6 +36,12 @@ module.exports = {
       finish: postRequest('/dice/func/finish_game'),
     },
   },
+  coin: {
+    func: {
+      rng: getRequest('/coin/func/rng'),
+      finish: postRequest('/coin/func/finish_game'),
+    },
+  },
   wheel: {
     func: {
       rng: getRequest('/wheel/func/rng'),

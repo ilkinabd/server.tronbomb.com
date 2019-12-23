@@ -28,6 +28,8 @@ router
 
 router.route('/history/dice').get(validate('wallet'), controller.diceHistory);
 
+router.route('/history/coin').get(validate('wallet'), controller.coinHistory);
+
 router.route('/history/wheel').get(validate('wallet'), controller.wheelHistory);
 
 router

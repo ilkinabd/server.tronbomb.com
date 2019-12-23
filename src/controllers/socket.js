@@ -23,6 +23,10 @@ const joinDice = async(socket) => {
   const games = await db.dice.getByLimit({ limit: 25 });
   socket.emit('dice', { games });
 };
+const joinCoin = async(socket) => {
+  const games = await db.coin.getByLimit({ limit: 25 });
+  socket.emit('coin', { games });
+};
 const joinWheel = async(socket) => {
   const bets = await db.wheel.getByLimit({ limit: 25 });
   socket.emit('wheel', { bets });
@@ -62,6 +66,7 @@ const joinRoom = (room, socket) => {
     case 'tbetprize': joinTotalBetPrize(socket); break;
     case 'chat': joinChat(socket); break;
     case 'dice': joinDice(socket); break;
+    case 'coin': joinCoin(socket); break;
     case 'wheel': joinWheel(socket); break;
     case 'auction': joinAuction(socket); break;
   }
