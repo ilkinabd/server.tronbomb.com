@@ -146,6 +146,7 @@ module.exports = {
       "result",
       "bet",
       "prize",
+      "symbol",
       "game"
   FROM ((
           SELECT
