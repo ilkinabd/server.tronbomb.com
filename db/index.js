@@ -114,6 +114,7 @@ module.exports = {
     getWinSum: getValue(request(users['get-win-sum'])),
     getTop: getAll(request(users['get-top'])),
     getTop24: getAll(request(users['get-top-24'])),
+    getByLimit: getAll(request(users['get-by-limit'])),
   },
   sockets: {
     add: getId(request(sockets['add'])),
