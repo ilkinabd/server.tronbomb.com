@@ -14,6 +14,8 @@ router.route('/total_mine').get(validate('wallet'), controller.totalMine);
 
 router.route('/total_freeze').get(validate('wallet'), controller.totalFreeze);
 
+router.route('/get_bets_by_wallet').get(validate('wallet'), controller.getBetsByWallet);
+
 router
   .route('/total_dividends')
   .get(validate('wallet'), controller.totalDividends);
