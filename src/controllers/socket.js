@@ -21,7 +21,7 @@ const joinChat = async socket => {
 };
 
 const joinBets = async socket => {
-  const bets = await db.users.getByLimit({ limit: 25 });
+  const bets = await db.users.getAllBets({ limit: 25 });
   socket.emit('bets', { bets });
 };
 
