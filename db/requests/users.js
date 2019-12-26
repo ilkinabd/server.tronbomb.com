@@ -137,79 +137,8 @@ module.exports = {
       NATURAL JOIN "users"
       WHERE "wallet" = $wallet;`,
 
-  'get-by-limit': `SELECT
-      "index",
-      "wallet",
-      "time",
-      "roll",
-      "finishBlock",
-      "result",
-      "bet",
-      "prize",
-      "symbol",
-      "game"
-  FROM ((
-          SELECT
-              "index",
-              'dice' AS "game",
-              "finish_block" AS "finishBlock",
-              "user_id",
-              "bet",
-              "symbol",
-              "roll",
-              "result",
-              "prize",
-              "time"
-          FROM
-              "dice"
-          WHERE
-              "status" = 'finish'
-          ORDER BY
-              "time" DESC
-          LIMIT $limit)
-  UNION ALL (
-      SELECT
-          "index",
-          'wheel' AS "game",
-          "finish_block" AS "finishBlock",
-          "user_id",
-          "bet",
-          "symbol",
-          'over' AS "roll",
-          "result",
-          "prize",
-          "time"
-      FROM
-          "wheel"
-      WHERE
-          "status" = 'finish'
-      ORDER BY
-          "time" DESC
-      LIMIT $limit)
-  UNION ALL (
-      SELECT
-          "index",
-          'coin' AS "game",
-          "finish_block" AS "finishBlock",
-          "user_id",
-          "bet",
-          "symbol",
-          'over' AS "roll",
-          "result",
-          "prize",
-          "time"
-      FROM
-          "coin"
-      WHERE
-          "status" = 'finish'
-      ORDER BY
-          "time" DESC
-      LIMIT $limit)) a
-      NATURAL JOIN "users"
-  ORDER BY
-      "time" DESC
-  LIMIT $limit;`,
-  
+  'get-all-bets': `SELECT * FROM get_all_bets($limit) order by "time" desc limit $limit;`,
+
   'get-top': `
       SELECT "wallet", "level", SUM("bet") as "betSum"
       FROM (
