@@ -139,6 +139,8 @@ module.exports = {
 
   'get-all-bets': `SELECT * FROM get_all_bets($limit) order by "time" desc limit $limit;`,
 
+  'get-all-bets-by-wallet': `SELECT * FROM get_all_bets_by_wallet($limit,$wallet) order by "time" desc limit $limit;`,
+
   'get-top': `
       SELECT "wallet", "level", SUM("bet") as "betSum"
       FROM (

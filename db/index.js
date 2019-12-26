@@ -115,6 +115,7 @@ module.exports = {
     getTop: getAll(request(users['get-top'])),
     getTop24: getAll(request(users['get-top-24'])),
     getAllBets: getAll(request(users['get-all-bets'])),
+    getAllBetsByWallet: getAll(request(users['get-all-bets-by-wallet'])),
   },
   sockets: {
     add: getId(request(sockets['add'])),
