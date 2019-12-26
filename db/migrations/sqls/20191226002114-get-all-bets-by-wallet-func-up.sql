@@ -8,7 +8,7 @@ BEGIN
         SELECT
             d. "index",
             u. "wallet",
-            'dice'::character (34) AS "game",
+            'dice'::character (4) AS "game",
             d. "finish_block" AS "finishBlock",
             d. "bet",
             d. "symbol",
@@ -29,7 +29,7 @@ UNION ALL (
     SELECT
         w. "index",
         u. "wallet",
-        'wheel'::character (34) AS "game",
+        'wheel'::character (5) AS "game",
         w. "finish_block" AS "finishBlock",
         w. "bet",
         w. "symbol",
@@ -50,7 +50,7 @@ UNION ALL (
     SELECT
         c. "index",
         u. "wallet",
-        'coin'::character (34) AS "game",
+        'coin'::character (4) AS "game",
         c. "finish_block" AS "finishBlock",
         c. "bet",
         c. "symbol",

@@ -102,11 +102,11 @@ const getDividendsHistory = async (req, res) => {
 
 const getBetsByWallet = async (req, res) => {
   const { wallet } = req.query;
-  const operations = await db.users.getAllBetsByWallet({
+  const games = await db.users.getAllBetsByWallet({
     limit: 25,
     wallet: wallet,
   });
-  successRes(res, { operations });
+  successRes(res, { games });
 };
 
 const getBetsHistory = async (req, res) => {
