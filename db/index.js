@@ -114,6 +114,8 @@ module.exports = {
     getWinSum: getValue(request(users['get-win-sum'])),
     getTop: getAll(request(users['get-top'])),
     getTop24: getAll(request(users['get-top-24'])),
+    getAllBets: getAll(request(users['get-all-bets'])),
+    getAllBetsByWallet: getAll(request(users['get-all-bets-by-wallet'])),
   },
   sockets: {
     add: getId(request(sockets['add'])),

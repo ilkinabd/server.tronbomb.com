@@ -1,0 +1,1 @@
+DROP FUNCTION get_all_bets (l INT)

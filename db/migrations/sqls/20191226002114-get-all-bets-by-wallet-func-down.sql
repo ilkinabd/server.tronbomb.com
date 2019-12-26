@@ -1,0 +1,1 @@
+DROP FUNCTION get_all_bets_by_wallet (l integer, wlt character (34))
