@@ -109,9 +109,9 @@ const getBetsByWallet = async (req, res) => {
   successRes(res, { games });
 };
 
-const getBets = async (_req, _res) => {
+const getBets = async (_req, res) => {
   const bets = await db.users.getAllBets({ limit: 25 });
-  socket.emit('bets', { bets });
+  successRes(res, { bets });
 };
 
 const getBetsHistory = async (req, res) => {
