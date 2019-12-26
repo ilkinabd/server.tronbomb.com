@@ -10,20 +10,18 @@ const joinRating = async socket => {
   const rating = await db.users.getTop({ limit: 100 });
   socket.emit('rating', { rating });
 };
+
 const joinRating24 = async socket => {
   const rating = await db.users.getTop24({ limit: 100 });
   socket.emit('rating24', { rating });
 };
+
 const joinChat = async socket => {
   const messages = await db.chat.getLasts({ limit: 50 });
   for (const mes of messages) mes.admin = ADMINS.includes(mes.index);
   socket.emit('chat', { messages });
 };
 
-const joinBets = async socket => {
-  const bets = await db.users.getAllBets({ limit: 25 });
-  socket.emit('bets', { bets });
-};
 const joinDice = async socket => {
   const games = await db.dice.getByLimit({ limit: 25 });
   socket.emit('dice', { games });
@@ -80,9 +78,6 @@ const joinRoom = (room, socket) => {
       break;
     case 'dice':
       joinDice(socket);
-      break;
-    case 'bets':
-      joinBets(socket);
       break;
     case 'coin':
       joinCoin(socket);

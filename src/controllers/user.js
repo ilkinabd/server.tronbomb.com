@@ -109,6 +109,11 @@ const getBetsByWallet = async (req, res) => {
   successRes(res, { games });
 };
 
+const getBets = async (_req, _res) => {
+  const bets = await db.users.getAllBets({ limit: 25 });
+  socket.emit('bets', { bets });
+};
+
 const getBetsHistory = async (req, res) => {
   const { wallet } = req.query;
   const filename = 'bets.txt';
@@ -165,4 +170,5 @@ module.exports = {
   getDividendsHistory,
   getBetsHistory,
   getBetsByWallet,
+  getBets,
 };
