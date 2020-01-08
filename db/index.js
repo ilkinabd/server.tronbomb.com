@@ -100,6 +100,7 @@ module.exports = {
     setMine: request(users['set-mine']),
     setBalance: request(users['set-balance']),
     isExist: getValue(request(users['is-exist'])),
+    getBalance: getValue(request(users['get-balance'])),
     getId: getId(request(users['get-id'])),
     getLevel: getValue(request(users['get-level'])),
     getReferrers: getValue(request(users['get-referrers'])),

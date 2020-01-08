@@ -114,6 +114,12 @@ const getBets = async (_req, res) => {
   successRes(res, { bets });
 };
 
+const getLocalBalance = async (req, res) => {
+  const { wallet } = req.query;
+  const balance = await db.users.getBalance({ wallet: wallet });
+  successRes(res, { balance });
+};
+
 const getBetsHistory = async (req, res) => {
   const { wallet } = req.query;
   const filename = 'bets.txt';
@@ -171,4 +177,5 @@ module.exports = {
   getBetsHistory,
   getBetsByWallet,
   getBets,
+  getLocalBalance,
 };

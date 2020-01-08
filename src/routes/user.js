@@ -17,6 +17,10 @@ router.route('/total_freeze').get(validate('wallet'), controller.totalFreeze);
 router.route('/get_bets').get(controller.getBets);
 
 router
+  .route('/get_local_balance')
+  .get(validate('wallet'), controller.getLocalBalance);
+
+router
   .route('/get_bets_by_wallet')
   .get(validate('wallet'), controller.getBetsByWallet);
 

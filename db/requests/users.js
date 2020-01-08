@@ -49,6 +49,11 @@ module.exports = {
       FROM "users"
       WHERE "wallet" = $wallet;`,
 
+  'get-balance': `
+      SELECT "balance" as "value"
+      FROM "users"
+      WHERE "wallet" = $wallet;`,
+
   'get-referrers': `
       WITH RECURSIVE "rec" AS (
           SELECT "referrer", "wallet", 0 AS "level"
