@@ -121,7 +121,7 @@ const getLocalBalance = async (req, res) => {
   successRes(res, { balance });
 };
 
-const withdrawLocalBalance = async (req, res) => {
+const withdrawWallet = async (req, res) => {
   try {
     const { wallet, amount } = req.query;
     console.log(`Wallet is : ${wallet}\nAmount is : ${amount}`);
@@ -130,7 +130,12 @@ const withdrawLocalBalance = async (req, res) => {
     if (amount > balance) {
       throw 'amount > balance';
     } else {
-      await withdraw({ wallet, amount, isToken: false });
+      const result = await withdraw({
+        wallet,
+        amount: amount * 1e6,
+        isToken: false,
+      });
+      console.debug(result);
       successRes(res, { succes: true });
     }
   } catch (error) {
@@ -198,5 +203,5 @@ module.exports = {
   getBetsByWallet,
   getBets,
   getLocalBalance,
-  withdrawLocalBalance,
+  withdrawWallet,
 };
