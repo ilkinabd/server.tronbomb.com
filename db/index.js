@@ -98,6 +98,7 @@ module.exports = {
     setReferrer: request(users['set-referrer']),
     setRefProfit: request(users['set-ref-profit']),
     setMine: request(users['set-mine']),
+    setBalance: request(users['set-balance']),
     isExist: getValue(request(users['is-exist'])),
     getId: getId(request(users['get-id'])),
     getLevel: getValue(request(users['get-level'])),

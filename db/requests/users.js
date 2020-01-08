@@ -24,6 +24,11 @@ module.exports = {
       SET "ref_profit" = "ref_profit" + $delta
       WHERE "wallet" = $wallet;`,
 
+  'set-balance': `
+      UPDATE "users"
+      SET "balance" = "balance" + $delta
+      WHERE "wallet" = $wallet;`,
+
   'set-mine': `
       UPDATE "users"
       SET "mine" = "mine" + $delta
