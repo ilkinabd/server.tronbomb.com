@@ -20,9 +20,7 @@ router
   .route('/get_local_balance')
   .get(validate('wallet'), controller.getLocalBalance);
 
-router
-  .route('/withdraw_local_balance')
-  .get(validate('wallet'), controller.withdrawLocalBalance);
+router.route('/withdraw_wallet').get(controller.withdrawLocalBalance);
 
 router
   .route('/get_bets_by_wallet')
