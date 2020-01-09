@@ -130,13 +130,12 @@ const withdrawWallet = async (req, res) => {
     if (amount > balance) {
       throw 'amount > balance';
     } else {
-      const result = await withdraw({
+      withdraw({
         wallet,
         amount: amount * 1e6,
         isToken: false,
       });
-      console.debug(result);
-      successRes(res, { succes: true });
+      successRes(res);
     }
   } catch (error) {
     console.log('Error :');
