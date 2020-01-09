@@ -6,7 +6,11 @@ const chargeWallet = async data => {
   db.users.setBalance({ wallet: wallet, delta: amount });
 };
 
-const withdrawWallet = data => {};
+const withdrawWallet = data => {
+  console.log('========= Withdraw wallet ===========');
+  const { wallet, amount } = data;
+  db.users.setBalance({ wallet: wallet, delta: -amount });
+};
 
 module.exports = node => {
   node.on('charge-wallet', chargeWallet);
