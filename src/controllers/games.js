@@ -42,7 +42,7 @@ const sync = async (_req, res) => {
         id: externalId,
         name,
         img,
-        device: isDevice,
+        device,
         title: label,
         flash: isFlash,
         vertical: isVertical,
@@ -52,10 +52,10 @@ const sync = async (_req, res) => {
         .add({
           name,
           img,
-          isDevice,
           label,
-          isFlash,
-          isVertical,
+          isFlash: +isFlash,
+          device,
+          isVertical: +isVertical,
           externalId,
         })
         .catch(console.error);

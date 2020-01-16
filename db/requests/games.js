@@ -5,7 +5,7 @@ module.exports = {
           "img",
           "label",
           "is_flash",
-          "is_device",
+          "device",
           "is_vertical",
           "external_id"
       ) VALUES (
@@ -13,7 +13,7 @@ module.exports = {
           $img,
           $label,
           $isFlash,
-          $isDevice,
+          $device,
           $isVertical,
           $externalId
       ) RETURNING "id" AS "id";`,
