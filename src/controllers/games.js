@@ -21,8 +21,12 @@ const axios = require('axios').create({
 // };
 
 const getList = async (_req, res) => {
-  games = await db.games.getPopular({ limit: 10 });
-  successRes(res, { games });
+  try {
+    const games = await db.games.getPopular();
+    successRes(res, { games });
+  } catch (error) {
+    errorRes(res, 500, 73500, error);
+  }
 };
 
 const sync = async (_req, res) => {
