@@ -1,9 +1,8 @@
 const db = require('@db');
-const { PROVIDERS } = JSON.parse(process.env.PROVIDERS);
-const { successRes, errorRes } = require('@utils/res-builder');
 const {
   IMPERIUM: { URL, HALL, KEY },
-} = PROVIDERS;
+} = JSON.parse(process.env.PROVIDERS);
+const { successRes, errorRes } = require('@utils/res-builder');
 
 const axios = require('axios').create({
   baseURL: URL,
