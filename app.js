@@ -12,6 +12,7 @@ const FacebookTokenStrategy = require('passport-facebook-token');
 const db = require('@db');
 
 const bomb = require('@routes/bomb');
+const games = require('@routes/games');
 const chat = require('@routes/chat');
 const i18n = require('@routes/i18n');
 const user = require('@routes/user');
@@ -66,6 +67,7 @@ app.get('/', (_req, res) => {
 });
 
 app.use('/bomb', bomb);
+app.use('/games', games);
 app.use('/chat', chat);
 app.use('/i18n', i18n);
 app.use('/user', user);
