@@ -17,5 +17,11 @@ module.exports = {
           $isVertical,
           $externalId
       ) RETURNING "id" AS "id";`,
+
+  'get-by-label': `SELECT * FROM "games" WHERE "label" = $label;`,
+
+  'get-popular': `SELECT * FROM "games" WHERE "name" IN ('Gonzos Quest','Buffalo','Blood Suckers') 
+               AND "device" IN(0,2);`,
+
   truncate: `TRUNCATE "games" RESTART IDENTITY;`,
 };
