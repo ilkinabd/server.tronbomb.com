@@ -60,6 +60,7 @@ const sync = async (_req, res) => {
         })
         .catch(console.error);
     }
+    successRes(res);
   } catch (error) {
     errorRes(res, 500, 73500, error);
   }
