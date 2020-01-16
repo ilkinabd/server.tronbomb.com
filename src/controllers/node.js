@@ -5,17 +5,17 @@ const axios = require('axios').create({
   headers: {
     'maxie-token': NODE_TOKEN,
     'Content-type': 'application/json',
-  }
+  },
 });
 
-const getRequest = (path) => async(params = {}) => {
+const getRequest = path => async (params = {}) => {
   const res = await axios.get(path, { params }).catch(console.error);
-  return (res) ? res.data : {};
+  return res ? res.data : {};
 };
 
-const postRequest = (path) => async(params = {}) => {
+const postRequest = path => async (params = {}) => {
   const res = await axios.post(NODE + path, params).catch(console.error);
-  return (res) ? res.data : {};
+  return res ? res.data : {};
 };
 
 module.exports = {
@@ -69,6 +69,11 @@ module.exports = {
     },
     func: {
       transfer: postRequest('/bomb/func/transfer'),
-    }
-  }
+    },
+  },
+  wallet: {
+    func: {
+      withdraw: postRequest('/wallet/func/withdraw'),
+    },
+  },
 };

@@ -14,7 +14,16 @@ process.ws = ws;
 const node = clientIO.connect(NODE, { reconnect: true });
 
 node.on('connect', () => {
-  const rooms = ['blocks', 'dice', 'coin', 'wheel', 'operations', 'bomb', 'auction'];
+  const rooms = [
+    'blocks',
+    'dice',
+    'coin',
+    'wheel',
+    'operations',
+    'bomb',
+    'auction',
+    'wallet',
+  ];
   for (const room of rooms) node.emit('subscribe', { room, token: NODE_TOKEN });
 });
 
@@ -27,6 +36,8 @@ require('@workers/coin/finish')(node, ws.in('coin'));
 
 require('@workers/wheel/events')(node, ws.in('wheel'));
 require('@workers/wheel/start-finish')(node, ws.in('wheel'));
+
+require('@workers/wallet/events')(node);
 
 require('@workers/rating')(ws.in('rating'));
 require('@workers/rating24')(ws.in('rating24'));

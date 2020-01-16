@@ -2,7 +2,8 @@ const { DELAY } = JSON.parse(process.env.FREEZE);
 
 const db = require('@db');
 const { operatingProfit, round } = require('@utils/dividends');
-const { resSuccess, successRes } = require('@utils/res-builder');
+const { resSuccess, successRes, errorRes } = require('@utils/res-builder');
+const { withdraw } = require('@controllers/node').wallet.func;
 const csvWriter = require('csv-write-stream');
 
 const getLevel = async (req, res) => {
@@ -114,6 +115,35 @@ const getBets = async (_req, res) => {
   successRes(res, { bets });
 };
 
+const getLocalBalance = async (req, res) => {
+  const { wallet } = req.query;
+  const balance = await db.users.getBalance({ wallet: wallet });
+  successRes(res, { balance });
+};
+
+const withdrawWallet = async (req, res) => {
+  try {
+    const { wallet, amount } = req.query;
+    console.log(`Wallet is : ${wallet}\nAmount is : ${amount}`);
+    const balance = await db.users.getBalance({ wallet: wallet });
+    console.log(`Balance is : ${balance}`);
+    if (amount > balance) {
+      throw 'amount > balance';
+    } else {
+      withdraw({
+        wallet,
+        amount: amount * 1e6,
+        isToken: false,
+      });
+      successRes(res);
+    }
+  } catch (error) {
+    console.log('Error :');
+    console.log(error.message);
+    errorRes(res, 500, 73500);
+  }
+};
+
 const getBetsHistory = async (req, res) => {
   const { wallet } = req.query;
   const filename = 'bets.txt';
@@ -171,4 +201,6 @@ module.exports = {
   getBetsHistory,
   getBetsByWallet,
   getBets,
+  getLocalBalance,
+  withdrawWallet,
 };
