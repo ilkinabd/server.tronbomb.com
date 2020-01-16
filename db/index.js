@@ -17,6 +17,7 @@ const oauthUsers = require('./requests/oauth-users');
 const operationProfit = require('./requests/operation-profit');
 const dividends = require('./requests/dividends');
 const jackpots = require('./requests/jackpots');
+const games = require('./requests/games');
 
 const dice = require('./requests/dice');
 const coin = require('./requests/coin');
@@ -178,5 +179,9 @@ module.exports = {
     getByStatus: getAll(request(wheel['get-by-status'])),
     getByWallet: getAll(request(wheel['get-by-wallet'])),
     getByLimit: getAll(request(wheel['get-by-limit'])),
+  },
+  games: {
+    add: getId(request(games['add'])),
+    truncate: getAll(request(games['truncate'])),
   },
 };
