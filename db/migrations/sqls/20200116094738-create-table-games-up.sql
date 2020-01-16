@@ -7,6 +7,8 @@ CREATE TABLE "games" (
     "is_device" BOOLEAN,
     "is_vertical" BOOLEAN,
     "external_id" INTEGER,
-    "provider" VARCHAR(255) PRIMARY KEY ("id"),
+    "provider" VARCHAR(255),
+    PRIMARY KEY ("id"),
     UNIQUE ("provider")
 );
+
