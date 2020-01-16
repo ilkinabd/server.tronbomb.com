@@ -4,7 +4,7 @@ CREATE TABLE "games" (
     "img" VARCHAR(255),
     "label" VARCHAR(255),
     "is_flash" BOOLEAN,
-    "is_device" BOOLEAN,
+    "device" INTEGER,
     "is_vertical" BOOLEAN,
     "external_id" INTEGER,
     "provider" VARCHAR(255),
