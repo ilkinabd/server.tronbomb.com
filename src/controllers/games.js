@@ -11,15 +11,6 @@ const axios = require('axios').create({
   },
 });
 
-// const getRequest = path => async (params = {}) => {
-//   return await axios.get(URL + path, { params });
-// };
-
-// const postRequest = path => async (params = {}) => {
-//   const res = await axios.post(URL + path, params).catch(console.error);
-//   return res ? res.data : {};
-// };
-
 const getList = async (_req, res) => {
   try {
     const games = await db.games.getPopular();
@@ -29,23 +20,27 @@ const getList = async (_req, res) => {
   }
 };
 
-const openGame = async (_req, res) => {
+const openGame = async (req, res) => {
   try {
+    const { wallet } = req.body;
     const {
       data: {
+        status,
+        error,
         content: { game },
       },
     } = await axios.post('/openGame/', {
       cmd: 'openGame',
       hall: HALL,
       key: KEY,
-      login: '',
+      login: wallet,
       gameId: '299',
       demo: '0',
       continent: 'eur',
       domain: 'devserver.tronbomb.com',
       language: 'en',
     });
+    if (status === 'fail') throw new Error(error);
     successRes(res, { game });
   } catch (error) {
     console.error(error);
