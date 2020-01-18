@@ -31,6 +31,7 @@ const getList = async (_req, res) => {
 
 const apiCallback = async (req, res) => {
   try {
+    console.debug(req.body);
     const { cmd, login } = req.body;
 
     if (cmd === 'getBalance') {
