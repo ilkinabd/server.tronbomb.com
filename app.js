@@ -25,9 +25,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: true,
 }));
-app.use(express.json({
-  type: ['application/json', 'text/plain']
-}));
+
+// app.use(express.json({
+//   type: ['application/json', 'text/plain']
+// }));
 
 app.use((_req, res, next) => {
   //TODO: * => client URL
