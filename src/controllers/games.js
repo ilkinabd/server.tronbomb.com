@@ -32,9 +32,9 @@ const getList = async (_req, res) => {
 const apiCallback = async (req, res) => {
   try {
     console.debug(req.body);
-    const { cmd, login } = req.body;
-
+    const { cmd } = req.body;
     if (cmd === 'getBalance') {
+      const { login } = req.body;
       const balance = await db.users.getBalance({ wallet: login });
       if (balance === null) {
         throw new Error('user_not_found');
@@ -45,6 +45,25 @@ const apiCallback = async (req, res) => {
         login: login,
         balance: balance.toFixed(2),
         currency: 'RUB',
+      });
+    } else if (cmd === 'writeBet') {
+      const { bet, winLose, login } = req.body;
+      const balance = await db.users.getBalance({ wallet: login });
+      if (bet > balance) {
+        throw new Error('fail_balance');
+      }
+      const newbalance = balance + winLose;
+      console.log(
+        `Balance = ${balance}\nBet = ${bet}\nNew balance = ${newbalance}`,
+      );
+      await db.users.setBalance({ wallet: login, delta: winLose });
+      res.json({
+        status: 'success',
+        error: '',
+        login: login,
+        balance: balance.toFixed(2),
+        currency: 'RUB',
+        operationId: Date.now(),
       });
     } else {
       throw new Error('cmd_not_found');
