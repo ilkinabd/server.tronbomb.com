@@ -1,10 +1,10 @@
 const express = require('express');
 const router = new express.Router();
-const multer = require('multer');
-
+const multipart = require('connect-multiparty');
+const multipartMiddleware = multipart();
 const controller = require('@controllers/games');
 
-router.route('/api').post(multer.none(), controller.apiCallback);
+router.route('/api').post(multipartMiddleware, controller.apiCallback);
 
 router.route('/list').post(controller.getList);
 
