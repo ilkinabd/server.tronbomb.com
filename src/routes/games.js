@@ -10,4 +10,7 @@ router.route('/list').post(controller.getList);
 
 router.route('/sync').post(controller.sync);
 
+router.route('/open').post(controller.openGame);
+
+
 module.exports = router;

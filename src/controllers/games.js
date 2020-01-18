@@ -29,6 +29,30 @@ const getList = async (_req, res) => {
   }
 };
 
+const openGame = async (_req, res) => {
+  try {
+    const {
+      data: {
+        content: { game },
+      },
+    } = await axios.post('/openGame/', {
+      cmd: 'openGame',
+      hall: HALL,
+      key: KEY,
+      login: '',
+      gameId: '299',
+      demo: '0',
+      continent: 'eur',
+      domain: 'devserver.tronbomb.com',
+      language: 'en',
+    });
+    successRes(res, { game });
+  } catch (error) {
+    console.error(error);
+    errorRes(res, 500, 73500, error);
+  }
+};
+
 const apiCallback = async (req, res) => {
   try {
     console.debug(req.body);
@@ -125,4 +149,5 @@ module.exports = {
   getList,
   sync,
   apiCallback,
+  openGame,
 };
