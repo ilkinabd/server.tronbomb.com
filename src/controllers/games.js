@@ -54,6 +54,12 @@ const apiCallback = async (req, res) => {
       }
       await db.users.setBalance({ wallet: login, delta: winLose });
       const newBalance = await db.users.getBalance({ wallet: login });
+      console.log(
+        `Balance = ${balance}\n
+        Bet = ${bet}\n
+        WinLose = ${winLose}\n
+        New balance = ${newbalance}`,
+      );
       res.json({
         status: 'success',
         error: '',
