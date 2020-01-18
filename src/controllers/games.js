@@ -58,7 +58,7 @@ const apiCallback = async (req, res) => {
         `Balance = ${balance}\n
         Bet = ${bet}\n
         WinLose = ${winLose}\n
-        New balance = ${newbalance}`,
+        New balance = ${newBalance}`,
       );
       res.json({
         status: 'success',
