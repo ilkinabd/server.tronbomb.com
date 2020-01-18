@@ -41,7 +41,7 @@ const apiCallback = async (req, res) => {
       res.json({
         status: 'success',
         error: '',
-        login: wallet,
+        login: login,
         balance: balance,
         currency: 'RUB',
       });
