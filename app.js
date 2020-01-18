@@ -22,9 +22,7 @@ const referral = require('@routes/referral');
 const app = express();
 
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({
-  extended: true,
-}));
+app.use(bodyParser.urlencoded());
 
 // app.use(express.json({
 //   type: ['application/json', 'text/plain']
@@ -33,35 +31,47 @@ app.use(bodyParser.urlencoded({
 app.use((_req, res, next) => {
   //TODO: * => client URL
   res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Headers',
-    'Origin,X-Requested-With, Content-Type, Accept');
+  res.header(
+    'Access-Control-Allow-Headers',
+    'Origin,X-Requested-With, Content-Type, Accept',
+  );
   next();
 });
 
-passport.use(new GoogleTokenStrategy({
-  clientID: GOOGLE_ID,
-  clientSecret: GOOGLE_SECRET,
-}, async(_accessToken, _refreshToken, profile, done) => {
-  const user = { index: profile.id, name: profile.displayName };
-  await db.oauthUsers.add(user);
-  user.admin = ADMINS.includes(profile.id),
-  done(null, user);
-}));
+passport.use(
+  new GoogleTokenStrategy(
+    {
+      clientID: GOOGLE_ID,
+      clientSecret: GOOGLE_SECRET,
+    },
+    async (_accessToken, _refreshToken, profile, done) => {
+      const user = { index: profile.id, name: profile.displayName };
+      await db.oauthUsers.add(user);
+      (user.admin = ADMINS.includes(profile.id)), done(null, user);
+    },
+  ),
+);
 
-passport.use(new FacebookTokenStrategy({
-  clientID: FB_ID,
-  clientSecret: FB_SECRET,
-}, async(_accessToken, _refreshToken, profile, done) => {
-  const user = { index: profile.id, name: profile.displayName };
-  await db.oauthUsers.add(user);
-  user.admin = ADMINS.includes(profile.id),
-  done(null, user);
-}));
+passport.use(
+  new FacebookTokenStrategy(
+    {
+      clientID: FB_ID,
+      clientSecret: FB_SECRET,
+    },
+    async (_accessToken, _refreshToken, profile, done) => {
+      const user = { index: profile.id, name: profile.displayName };
+      await db.oauthUsers.add(user);
+      (user.admin = ADMINS.includes(profile.id)), done(null, user);
+    },
+  ),
+);
 
-app.use(cors({
-  origin: CORS_TRUST.split(','),
-  credentials: true
-}));
+app.use(
+  cors({
+    origin: CORS_TRUST.split(','),
+    credentials: true,
+  }),
+);
 
 app.get('/', (_req, res) => {
   res.json({ version });
