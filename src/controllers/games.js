@@ -43,7 +43,7 @@ const apiCallback = async (req, res) => {
         status: 'success',
         error: '',
         login: login,
-        balance: (Math.floor(balance / 1e4) / 100).toFixed(2),
+        balance: balance.toFixed(2),
         currency: 'RUB',
       });
     } else {
