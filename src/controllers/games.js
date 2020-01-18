@@ -52,16 +52,13 @@ const apiCallback = async (req, res) => {
       if (bet > balance) {
         throw new Error('fail_balance');
       }
-      const newbalance = balance + winLose;
-      console.log(
-        `Balance = ${balance}\nBet = ${bet}\nNew balance = ${newbalance}`,
-      );
       await db.users.setBalance({ wallet: login, delta: winLose });
+      const newBalance = await db.users.getBalance({ wallet: login });
       res.json({
         status: 'success',
         error: '',
         login: login,
-        balance: balance.toFixed(2),
+        balance: newBalance.toFixed(2),
         currency: 'RUB',
         operationId: Date.now(),
       });
