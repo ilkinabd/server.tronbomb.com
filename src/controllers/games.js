@@ -29,6 +29,34 @@ const getList = async (_req, res) => {
   }
 };
 
+const apiCallback = async (req, res) => {
+  try {
+    const { cmd, login } = req.body;
+
+    if (cmd === 'getBalance') {
+      const balance = await db.users.getBalance({ wallet: login });
+      if (balance === null) {
+        throw new Error('user_not_found');
+      }
+      res.json({
+        status: 'success',
+        error: '',
+        login: wallet,
+        balance: balance,
+        currency: 'RUB',
+      });
+    } else {
+      throw new Error('cmd_not_found');
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(404).json({
+      status: 'fail',
+      error: error.message,
+    });
+  }
+};
+
 const sync = async (_req, res) => {
   try {
     const {
@@ -73,4 +101,5 @@ const sync = async (_req, res) => {
 module.exports = {
   getList,
   sync,
+  apiCallback,
 };
