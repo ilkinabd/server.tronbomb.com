@@ -22,7 +22,7 @@ const getList = async (_req, res) => {
 
 const openGame = async (req, res) => {
   try {
-    const { wallet } = req.body;
+    const { wallet, gameId } = req.body;
     const {
       data: {
         status,
@@ -34,7 +34,7 @@ const openGame = async (req, res) => {
       hall: HALL,
       key: KEY,
       login: wallet,
-      gameId: '299',
+      gameId: gameId,
       demo: '0',
       continent: 'eur',
       domain: 'devserver.tronbomb.com',
