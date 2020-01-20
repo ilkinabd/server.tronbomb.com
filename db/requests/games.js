@@ -20,8 +20,10 @@ module.exports = {
 
   'get-by-label': `SELECT * FROM "games" WHERE "label" = $label;`,
 
-  'get-popular': `SELECT * FROM "games" WHERE "name" IN ('Gonzos Quest','Buffalo','Blood Suckers') 
-               AND "device" IN(0,2);`,
+  'get-popular': `SELECT * FROM "games" WHERE "external_id" 
+    IN (83, 1513, 299, 3013, 121, 70, 1512, 179, 1519, 1504, 435, 
+    3188, 4304, 86, 297, 4651, 4643, 4332, 
+    3077, 3194, 1515, 172, 27, 4587, 4385, 438, 4589);`,
 
   truncate: `TRUNCATE "games" RESTART IDENTITY;`,
 };
