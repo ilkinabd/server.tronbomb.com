@@ -3,6 +3,7 @@ const {
   IMPERIUM: { URL, HALL, KEY },
 } = JSON.parse(process.env.PROVIDERS);
 const { successRes, errorRes } = require('@utils/res-builder');
+const { mining } = require('@utils/mining');
 
 const axios = require('axios').create({
   baseURL: URL,
@@ -71,6 +72,7 @@ const apiCallback = async (req, res) => {
       if (bet > balance) {
         throw new Error('fail_balance');
       }
+      mining(bet, login);
       await db.users.setBalance({ wallet: login, delta: winLose });
       const newBalance = await db.users.getBalance({ wallet: login });
       console.log(
