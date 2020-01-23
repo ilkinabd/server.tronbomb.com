@@ -3,7 +3,7 @@ module.exports = {
       INSERT INTO "bets" (
           "wallet",
           "bet",
-          "prize",
+          "prize"
       ) VALUES (
           $wallet,
           $bet,
