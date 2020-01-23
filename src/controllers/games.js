@@ -72,6 +72,11 @@ const apiCallback = async (req, res) => {
       if (bet > balance) {
         throw new Error('fail_balance');
       }
+      db.bets.add({
+        wallet: login,
+        bet: bet,
+        prize: winLose > 0 ? winLose : 0,
+      });
       mining(bet, login);
       await db.users.setBalance({ wallet: login, delta: winLose });
       const newBalance = await db.users.getBalance({ wallet: login });
