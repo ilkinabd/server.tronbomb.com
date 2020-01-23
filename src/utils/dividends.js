@@ -18,8 +18,9 @@ const operatingProfit = async () => {
   const diceProfit = await db.dice.getProfit({ interval });
   const wheelProfit = await db.wheel.getProfit({ interval });
   const coinProfit = await db.coin.getProfit({ interval });
+  const betsProfit = await db.bets.getProfit({ interval });
   const minusProfit = await db.operationProfit.getMinus();
-  return diceProfit + wheelProfit + coinProfit + minusProfit;
+  return diceProfit + wheelProfit + coinProfit + betsProfit + minusProfit;
 };
 
 const userProfit = async (wallet, operatingProfit) => {
