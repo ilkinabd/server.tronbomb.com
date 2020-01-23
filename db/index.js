@@ -18,6 +18,8 @@ const operationProfit = require('./requests/operation-profit');
 const dividends = require('./requests/dividends');
 const jackpots = require('./requests/jackpots');
 const games = require('./requests/games');
+const bets = require('./requests/bets');
+
 
 const dice = require('./requests/dice');
 const coin = require('./requests/coin');
@@ -181,6 +183,10 @@ module.exports = {
     getByStatus: getAll(request(wheel['get-by-status'])),
     getByWallet: getAll(request(wheel['get-by-wallet'])),
     getByLimit: getAll(request(wheel['get-by-limit'])),
+  },
+  bets: {
+    add: getId(request(bets['add'])),
+    getProfit: getValue(request(bets['get-profit'])),
   },
   games: {
     add: getId(request(games['add'])),
