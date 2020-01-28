@@ -18,6 +18,8 @@ module.exports = {
           $externalId
       ) RETURNING "id" AS "id";`,
 
+  'get-by-id': `SELECT * FROM "games" WHERE "external_id" = $externalId;`,
+
   'get-by-label': `SELECT * FROM "games" WHERE "label" = $label;`,
 
   'get-popular': `SELECT * FROM "games" WHERE "external_id" 

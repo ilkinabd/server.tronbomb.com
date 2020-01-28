@@ -20,7 +20,6 @@ const jackpots = require('./requests/jackpots');
 const games = require('./requests/games');
 const bets = require('./requests/bets');
 
-
 const dice = require('./requests/dice');
 const coin = require('./requests/coin');
 const wheel = require('./requests/wheel');
@@ -193,5 +192,6 @@ module.exports = {
     truncate: getAll(request(games['truncate'])),
     getPopular: getAll(request(games['get-popular'])),
     getByLabel: getAll(request(games['get-by-label'])),
+    getById: getRow(request(games['get-by-id'])),
   },
 };

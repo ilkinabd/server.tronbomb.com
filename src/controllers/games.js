@@ -42,7 +42,9 @@ const openGame = async (req, res) => {
       language: 'en',
     });
     if (status === 'fail') throw new Error(error);
-    successRes(res, { game });
+    const dbGame = await db.games.getById({ externalId: gameId });
+    const gameRes = Object.assign(dbGame, game);
+    successRes(res, { game: gameRes });
   } catch (error) {
     console.error(error);
     errorRes(res, 500, 73500, error);
