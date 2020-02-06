@@ -20,6 +20,9 @@ router.route('/total_bet_prize')
 router.route('/dividends_params')
   .get(main.dividendsParams);
 
+router.route('/life_params')
+  .get(main.lifeParams);
+
 router.route('/auction_params')
   .get(main.getAuctionParams);
 
