@@ -18,6 +18,7 @@ const i18n = require('@routes/i18n');
 const user = require('@routes/user');
 const portal = require('@routes/portal');
 const referral = require('@routes/referral');
+const life = require('@routes/life');
 
 const app = express();
 
@@ -84,5 +85,6 @@ app.use('/i18n', i18n);
 app.use('/user', user);
 app.use('/portal', portal);
 app.use('/referral', referral);
+app.use('/life', life);
 
 module.exports = app;
