@@ -18,6 +18,7 @@ const operationProfit = require('./requests/operation-profit');
 const dividends = require('./requests/dividends');
 const jackpots = require('./requests/jackpots');
 const games = require('./requests/games');
+const life = require('./requests/games');
 const bets = require('./requests/bets');
 
 const dice = require('./requests/dice');
@@ -81,8 +82,6 @@ module.exports = {
     add: getId(request(coin['add'])),
     setFinish: request(coin['set-finish']),
     setConfirm: request(coin['set-confirm']),
-    // getBetCount:      getValue(request(dice['get-bet-count'])),
-    // getPrizeSum:      getValue(request(dice['get-prize-sum'])),
     getProfit: getValue(request(coin['get-profit'])),
     getByWallet: getAll(request(coin['get-by-wallet'])),
     getByFinishBlock: getAll(request(coin['get-by-finish-block'])),
@@ -193,5 +192,8 @@ module.exports = {
     getPopular: getAll(request(games['get-popular'])),
     getByLabel: getAll(request(games['get-by-label'])),
     getById: getRow(request(games['get-by-id'])),
+  },
+  life: {
+    add: getId(request(life['add'])),
   },
 };
