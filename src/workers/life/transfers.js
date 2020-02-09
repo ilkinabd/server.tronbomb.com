@@ -1,7 +1,7 @@
 const db = require('@db');
-
+const { TRONSCAN, LIFE } = process.env;
 const axios = require('axios').create({
-  baseURL: 'https://apilist.tronscan.org/api',
+  baseURL: TRONSCAN,
   headers: {
     'Content-type': 'application/json',
   },
@@ -19,7 +19,7 @@ module.exports = () => {
         start_timestamp: currentDate - HOUR,
         end_timestamp: currentDate + HOUR,
         direction: 'in',
-        address: 'TUYTqAL1ZsNcmg4Cf62nmCbz7LqengAGzj',
+        address: LIFE,
       },
     });
 
