@@ -1,5 +1,6 @@
-const db = require('@db');
 const { TRONSCAN, LIFE } = process.env;
+
+const db = require('@db');
 const axios = require('axios').create({
   baseURL: TRONSCAN,
   headers: {
