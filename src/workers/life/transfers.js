@@ -23,14 +23,14 @@ module.exports = () => {
       },
     });
 
-    // console.log('Transfers : ')
-    // console.log(transfers);
+    console.log('Transfers : ');
+    console.log(transfers);
     for (const transfer of transfers) {
       const { amount, owner_address: wallet, hash } = transfer;
       const { step: level } = await levelLife();
       const exists = await db.life.getByHash({ hash });
       if (!exists) {
-        // console.log('Adding transfer into database');
+        console.log('Adding transfer into database');
         db.life.add({
           wallet,
           amount: amount / 1e6,
