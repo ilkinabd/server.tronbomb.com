@@ -18,7 +18,7 @@ const operationProfit = require('./requests/operation-profit');
 const dividends = require('./requests/dividends');
 const jackpots = require('./requests/jackpots');
 const games = require('./requests/games');
-const life = require('./requests/games');
+const life = require('./requests/life');
 const bets = require('./requests/bets');
 
 const dice = require('./requests/dice');
