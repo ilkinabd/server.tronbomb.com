@@ -4,11 +4,15 @@ module.exports = {
           "wallet",
           "amount",
           "level",
-          "life"
+          "life",
+          "hash"
       ) VALUES (
           $wallet,
           $amount,
           $level,
-          $life
+          $life,
+          $hash
       ) RETURNING "id" AS "id";`,
+
+  'get-by-hash': `SELECT "id" AS "value" FROM "life" WHERE "hash" = $hash;`,
 };

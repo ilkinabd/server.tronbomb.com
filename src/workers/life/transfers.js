@@ -6,6 +6,7 @@ const axios = require('axios').create({
     'Content-type': 'application/json',
   },
 });
+const { level: levelLife } = require('@utils/life');
 
 const HOUR = 60 * 60 * 1000;
 module.exports = () => {
@@ -21,7 +22,20 @@ module.exports = () => {
         address: 'TUYTqAL1ZsNcmg4Cf62nmCbz7LqengAGzj',
       },
     });
-    console.log('Transfers : ');
-    console.debug(transfers);
+
+    for (const transfer of transfers) {
+      const { amount, owner_address: wallet, hash } = transfer;
+      const { step: level } = await levelLife();
+      const exists = await db.life.getByHash({ hash });
+      if (!exists) {
+        db.life.add({
+          wallet,
+          amount: amount / 1e6,
+          level,
+          life: amount / 1e6 / level,
+          hash,
+        });
+      }
+    }
   }, 5000);
 };
