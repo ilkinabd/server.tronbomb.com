@@ -6,6 +6,7 @@ const axios = require('axios').create({
     'Content-type': 'application/json',
   },
 });
+
 const HOUR = 60 * 60 * 1000;
 module.exports = () => {
   setInterval(async () => {
@@ -14,6 +15,8 @@ module.exports = () => {
       params: {
         start_timestamp: currentDate - HOUR,
         end_timestamp: currentDate + HOUR,
+        direction: 'in',
+        address: 'TUYTqAL1ZsNcmg4Cf62nmCbz7LqengAGzj',
       },
     });
     console.log('Transfers : ');
