@@ -1,5 +1,5 @@
 const { TRONSCAN, LIFE } = process.env;
-
+const { WALLET } = JSON.parse(LIFE);
 const db = require('@db');
 const axios = require('axios').create({
   baseURL: TRONSCAN,
@@ -20,7 +20,7 @@ module.exports = () => {
         start_timestamp: currentDate - HOUR,
         end_timestamp: currentDate + HOUR,
         direction: 'in',
-        address: LIFE,
+        address: WALLET,
       },
     });
 
