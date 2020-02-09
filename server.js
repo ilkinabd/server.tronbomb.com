@@ -28,6 +28,7 @@ node.on('connect', () => {
 });
 
 require('@workers/dice/events')(node);
+require('@workers/life/transfers')();
 require('@workers/dice/finish')(node, ws.in('dice'));
 require('@workers/dice/bets')(ws.in('dice'));
 
