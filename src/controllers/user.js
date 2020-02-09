@@ -183,6 +183,34 @@ const getBetsHistory = async (req, res) => {
   writer.end();
 };
 
+const getLifeHistory = async (req, res) => {
+  const { wallet } = req.query;
+  const filename = 'life.txt';
+  const life = await db.life.getByWallet({ wallet });
+  const mimetype = 'text/plain';
+  res.setHeader('Content-disposition', 'attachment; filename=' + filename);
+  res.setHeader('Content-type', mimetype);
+
+  const writer = csvWriter();
+  writer.pipe(res);
+
+  for (const transfer of life) {
+    const { id, wallet, amount, level, time, hash, life, withdrawn } = transfer;
+    writer.write({
+      id,
+      wallet,
+      amount,
+      level,
+      time,
+      hash,
+      life,
+      withdrawn,
+    });
+  }
+
+  writer.end();
+};
+
 module.exports = {
   getLevel,
   totalBet,
@@ -203,4 +231,5 @@ module.exports = {
   getBets,
   getLocalBalance,
   withdrawWallet,
+  getLifeHistory,
 };

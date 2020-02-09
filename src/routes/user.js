@@ -60,4 +60,8 @@ router
   .route('/history/bets')
   .get(validate('wallet'), controller.getBetsHistory);
 
+router
+  .route('/history/life')
+  .get(validate('wallet'), controller.getLifeHistory);
+
 module.exports = router;

@@ -196,5 +196,6 @@ module.exports = {
   life: {
     add: getId(request(life['add'])),
     getByHash: getValue(request(life['get-by-hash'])),
+    getByWallet: getAll(request(life['get-by-wallet'])),
   },
 };
