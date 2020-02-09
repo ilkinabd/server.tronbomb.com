@@ -84,6 +84,5 @@ app.use('/i18n', i18n);
 app.use('/user', user);
 app.use('/portal', portal);
 app.use('/referral', referral);
-app.use('/life', life);
 
 module.exports = app;
