@@ -62,6 +62,6 @@ router
 
 router.route('/history/life').get(controller.getLifeHistory);
 
-route.route('/balance/life').get(validate('wallet'), controller.getLifeBalance);
+router.route('/balance/life').get(validate('wallet'), controller.getLifeBalance);
 
 module.exports = router;
