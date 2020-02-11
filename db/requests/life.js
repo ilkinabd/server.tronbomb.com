@@ -16,5 +16,7 @@ module.exports = {
 
   'get-by-hash': `SELECT "id" AS "value" FROM "life" WHERE "hash" = $hash;`,
 
-  'get-by-wallet': `SELECT * FROM "life" WHERE "wallet" = $wallet`,
+  'get-by-wallet': `SELECT * FROM "life" WHERE "wallet" = $wallet;`,
+
+  'get-all': `SELECT * FROM "life";`,
 };

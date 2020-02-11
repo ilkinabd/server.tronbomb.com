@@ -186,7 +186,7 @@ const getBetsHistory = async (req, res) => {
 const getLifeHistory = async (req, res) => {
   const { wallet } = req.query;
   const filename = 'life.txt';
-  const life = await db.life.getByWallet({ wallet });
+  const life = await db.life.getAll();
   const mimetype = 'text/plain';
   res.setHeader('Content-disposition', 'attachment; filename=' + filename);
   res.setHeader('Content-type', mimetype);
