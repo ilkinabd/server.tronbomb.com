@@ -184,7 +184,7 @@ const getBetsHistory = async (req, res) => {
 };
 
 const getLifeHistory = async (req, res) => {
-  const { wallet } = req.query;
+  // const { wallet } = req.query;
   const filename = 'life.txt';
   const life = await db.life.getAll();
   const mimetype = 'text/plain';
