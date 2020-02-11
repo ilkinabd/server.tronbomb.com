@@ -20,5 +20,6 @@ module.exports = {
 
   'get-all': `SELECT * FROM "life";`,
 
-  'get-balance': `SELECT sum("life") as "value" WHERE "wallet" = $wallet AND "withdrawn" = false;`,
+  'get-balance': `SELECT sum("life") as "value" from "life" WHERE 
+                  "wallet" = $wallet AND "withdrawn" = false;`,
 };
