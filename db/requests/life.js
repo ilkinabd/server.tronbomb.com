@@ -19,4 +19,6 @@ module.exports = {
   'get-by-wallet': `SELECT * FROM "life" WHERE "wallet" = $wallet;`,
 
   'get-all': `SELECT * FROM "life";`,
+
+  'get-balance': `SELECT sum("life") as "value" WHERE "wallet" = $wallet AND "withdrawn" = false;`,
 };

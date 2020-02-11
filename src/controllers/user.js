@@ -211,6 +211,17 @@ const getLifeHistory = async (req, res) => {
   writer.end();
 };
 
+const getLifeBalance = async (req, res) => {
+  try {
+    const { wallet } = req.query;
+    const balance = await db.life.getBalance({ wallet });
+    successRes(res, { balance });
+  } catch (error) {
+    console.log(error.message);
+    errorRes(res, 500, 73500, error);
+  }
+};
+
 module.exports = {
   getLevel,
   totalBet,
@@ -232,4 +243,5 @@ module.exports = {
   getLocalBalance,
   withdrawWallet,
   getLifeHistory,
+  getLifeBalance,
 };
