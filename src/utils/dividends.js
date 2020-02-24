@@ -8,7 +8,8 @@ const delay = 60 * 1000;
 const round = amount => Math.floor(amount * 10 ** DECIMAL) / 10 ** DECIMAL;
 
 const leftToPayout = () => {
-  const delta = (Date.now() - new Date(START)) % INTERVAL;
+  let delta = (Date.now() - new Date(START)) % INTERVAL;
+  if (delta < 0) delta = 0;
   const timeout = INTERVAL - delta;
   return timeout;
 };
