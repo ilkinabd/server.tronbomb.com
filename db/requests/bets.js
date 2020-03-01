@@ -1,11 +1,11 @@
 module.exports = {
   add: `
       INSERT INTO "bets" (
-          "wallet",
+          "user_id",
           "bet",
           "prize"
       ) VALUES (
-          $wallet,
+          $userId,
           $bet,
           $prize
       ) RETURNING "id" AS "id";`,

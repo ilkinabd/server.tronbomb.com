@@ -1,9 +1,9 @@
 CREATE TABLE "bets" (
-    "id" SERIAL NOT NULL,
-    "wallet" CHAR(34) NOT NULL,
+    "id" serial NOT NULL,
+    "user_id" integer NOT NULL REFERENCES "users" ("user_id"),
     "bet" FLOAT NOT NULL,
     "prize" FLOAT,
-    "time" TIMESTAMP WITHOUT TIME ZONE DEFAULT now(),
+    "time" timestamp WITHOUT time zone DEFAULT now(),
     "symbol" SYMBOL NOT NULL DEFAULT 'TRX',
     PRIMARY KEY ("id")
 );

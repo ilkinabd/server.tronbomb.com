@@ -74,8 +74,10 @@ const apiCallback = async (req, res) => {
       if (bet > balance) {
         throw new Error('fail_balance');
       }
+      const userId = await db.users.getId({ wallet: login });
       db.bets.add({
-        wallet: login,
+        userId: userId,
+        //wallet: login,
         bet: bet,
         prize: winLose > 0 ? winLose : 0,
       });

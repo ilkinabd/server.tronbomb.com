@@ -157,6 +157,10 @@ module.exports = {
           SELECT "bet", "user_id" FROM "dice"
           UNION ALL
           SELECT "bet", "user_id" FROM "wheel"
+          UNION ALL 
+          SELECT "bet", "user_id" FROM "coin"
+          UNION ALL
+          SELECT "bet", "user_id" FROM "bets"
       ) AS "bets"
       NATURAL JOIN "users"
       GROUP BY "wallet", "level"
