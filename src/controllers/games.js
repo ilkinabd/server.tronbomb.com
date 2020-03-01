@@ -3,6 +3,7 @@ const {
   IMPERIUM: { URL, HALL, KEY },
 } = JSON.parse(process.env.PROVIDERS);
 const { successRes, errorRes } = require('@utils/res-builder');
+const { updateLevel, referrerProfit } = require('@utils/users');
 const { mining } = require('@utils/mining');
 
 const axios = require('axios').create({
@@ -53,7 +54,6 @@ const openGame = async (req, res) => {
 
 const apiCallback = async (req, res) => {
   try {
-    console.debug(req.body);
     const { cmd } = req.body;
     if (cmd === 'getBalance') {
       const { login } = req.body;
@@ -77,18 +77,16 @@ const apiCallback = async (req, res) => {
       const userId = await db.users.getId({ wallet: login });
       db.bets.add({
         userId: userId,
-        //wallet: login,
         bet: bet,
         prize: winLose > 0 ? winLose : 0,
       });
       mining(bet, login);
+      referrerProfit(login, bet);
       await db.users.setBalance({ wallet: login, delta: winLose });
       const newBalance = await db.users.getBalance({ wallet: login });
+      updateLevel(login);
       console.log(
-        `Balance = ${balance}\n
-        Bet = ${bet}\n
-        WinLose = ${winLose}\n
-        New balance = ${newBalance}`,
+        `Balance : ${balance} | Bet : ${bet} | WinLose : ${winLose} | New balance : ${newBalance}`,
       );
       res.json({
         status: 'success',
