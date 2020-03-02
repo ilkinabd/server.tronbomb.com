@@ -1,7 +1,16 @@
 CREATE OR REPLACE FUNCTION get_all_bets_by_wallet (l integer, wlt character (34))
     RETURNS TABLE (
-        "index" integer, "wallet" character (34), "game" character, "finishBlock" integer, "bet" double precision, "symbol" SYMBOL, "roll" ROLL_TYPE, "result" integer, "prize" double precision, "time" timestamp without time zone
-)
+        "index" integer,
+        "wallet" character (34),
+        "game" character,
+        "finishBlock" integer,
+        "bet" double precision,
+        "symbol" SYMBOL,
+        "roll" ROLL_TYPE,
+        "result" integer,
+        "prize" double precision,
+        "time" timestamp without time zone
+    )
     AS $$
 BEGIN
     RETURN QUERY (
@@ -42,10 +51,10 @@ UNION ALL (
     NATURAL JOIN "users" u
 WHERE
     w. "status" = 'finish'
-    AND u.wallet = wlt
-ORDER BY
-    w. "time" DESC
-LIMIT l)
+        AND u.wallet = wlt
+    ORDER BY
+        w. "time" DESC
+    LIMIT l)
 UNION ALL (
     SELECT
         c. "index",
@@ -63,9 +72,29 @@ UNION ALL (
     NATURAL JOIN "users" u
 WHERE
     c. "status" = 'finish'
-    AND u.wallet = wlt
+        AND u.wallet = wlt
+    ORDER BY
+        c. "time" DESC
+    LIMIT l)
+UNION ALL (
+    SELECT
+        b. "id" AS "index",
+        u. "wallet",
+        'slots'::character (5) AS "game",
+        0::integer AS "finishBlock",
+        b. "bet",
+        b. "symbol",
+        'over'::ROLL_TYPE AS "roll",
+        0::integer AS "result",
+        b. "prize",
+        b. "time"
+    FROM
+        "bets" b
+    NATURAL JOIN "users" u
+WHERE
+    u.wallet = wlt
 ORDER BY
-    c. "time" DESC
+    b. "time" DESC
 LIMIT l);
 END;
 $$

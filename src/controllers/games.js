@@ -78,7 +78,7 @@ const apiCallback = async (req, res) => {
       db.bets.add({
         userId: userId,
         bet: bet,
-        prize: winLose > 0 ? winLose : 0,
+        prize: bet + winLose > 0 ? bet + winLose : 0,
       });
       mining(bet, login);
       referrerProfit(login, bet);
