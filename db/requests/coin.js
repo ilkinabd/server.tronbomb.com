@@ -21,6 +21,14 @@ module.exports = {
     SET ("result", "status", "prize") = ($result, 'finish', $prize)
     WHERE "index" = $index;`,
 
+  'get-bet-count': `
+    SELECT COUNT("bet")::FLOAT AS "value"
+    FROM "coin";`,
+
+  'get-prize-sum': `
+    SELECT COALESCE(SUM("prize"), 0) AS "value"
+    FROM "coin";`,
+
   'set-confirm': `
     UPDATE "coin"
     SET "confirmed" = TRUE

@@ -84,6 +84,8 @@ module.exports = {
     setConfirm: request(coin['set-confirm']),
     getProfit: getValue(request(coin['get-profit'])),
     getByWallet: getAll(request(coin['get-by-wallet'])),
+    getBetCount: getValue(request(coin['get-bet-count'])),
+    getPrizeSum: getValue(request(coin['get-prize-sum'])),
     getByFinishBlock: getAll(request(coin['get-by-finish-block'])),
     getNonFinished: getAll(request(coin['get-non-finished'])),
     getByLimit: getAll(request(coin['get-by-limit'])),
@@ -185,6 +187,8 @@ module.exports = {
   bets: {
     add: getId(request(bets['add'])),
     getProfit: getValue(request(bets['get-profit'])),
+    getBetCount: getValue(request(bets['get-bet-count'])),
+    getPrizeSum: getValue(request(bets['get-prize-sum'])),
   },
   games: {
     add: getId(request(games['add'])),
