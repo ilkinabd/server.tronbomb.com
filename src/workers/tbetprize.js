@@ -18,6 +18,6 @@ module.exports = chanel => {
       betSum: betSum,
       prizeSum: prizeSum,
     };
-    socket.emit('tbetprize', { data });
+    chanel.emit('tbetprize', { data });
   }, 30000);
 };
