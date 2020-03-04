@@ -163,6 +163,7 @@ module.exports = {
     add: getId(request(dividends['add'])),
     getUserSum: getValue(request(dividends['get-user-sum'])),
     getByWallet: getAll(request(dividends['get-by-wallet'])),
+    getLastByWallet: getValue(request(dividends['get-last-by-wallet'])),
     getByLimit: getAll(request(dividends['get-by-limit'])),
   },
   jackpots: {

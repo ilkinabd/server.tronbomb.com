@@ -14,6 +14,10 @@ router.route('/total_mine').get(validate('wallet'), controller.totalMine);
 
 router.route('/total_freeze').get(validate('wallet'), controller.totalFreeze);
 
+router
+  .route('/last_dividend_by_wallet')
+  .get(validate('wallet'), controller.lastDividendByWallet);
+
 router.route('/get_bets').get(controller.getBets);
 
 router
@@ -62,6 +66,8 @@ router
 
 router.route('/history/life').get(controller.getLifeHistory);
 
-router.route('/balance/life').get(validate('wallet'), controller.getLifeBalance);
+router
+  .route('/balance/life')
+  .get(validate('wallet'), controller.getLifeBalance);
 
 module.exports = router;

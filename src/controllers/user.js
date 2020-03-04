@@ -12,6 +12,12 @@ const getLevel = async (req, res) => {
   res.json(resSuccess({ level }));
 };
 
+const lastDividendByWallet = async (req, res) => {
+  const { wallet } = req.query;
+  const sum = await db.dividends.getLastByWallet({ wallet });
+  res.json(resSuccess({ sum }));
+};
+
 const totalBet = async (req, res) => {
   const { wallet } = req.query;
   const sum = await db.users.getBetSum({ wallet });
@@ -244,4 +250,5 @@ module.exports = {
   withdrawWallet,
   getLifeHistory,
   getLifeBalance,
+  lastDividendByWallet,
 };

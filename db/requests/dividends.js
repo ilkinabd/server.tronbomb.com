@@ -1,5 +1,5 @@
 module.exports = {
-  'add': `
+  add: `
       INSERT INTO "dividends" ("user_id", "amount", "type")
       VALUES (
           GET_USER_ID($wallet),
@@ -11,6 +11,11 @@ module.exports = {
       SELECT ROUND(COALESCE(SUM("amount")::DECIMAL, 0), 2) AS "value"
       FROM "dividends"
       WHERE "user_id" = GET_USER_ID($wallet);`,
+
+  'get-last-by-wallet': `
+      SELECT ABS("amount") AS "value"
+      FROM "dividends" WHERE "user_id" = GET_USER_ID($wallet) 
+      AND "type" = 'withdraw' ORDER BY "dividend_id" DESC LIMIT 1;`,
 
   'get-by-wallet': `
       SELECT
