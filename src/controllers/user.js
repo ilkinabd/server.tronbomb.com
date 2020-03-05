@@ -128,26 +128,27 @@ const getLocalBalance = async (req, res) => {
 };
 
 const withdrawWallet = async (req, res) => {
-  try {
-    const { wallet, amount } = req.query;
-    console.log(`Wallet is : ${wallet}\nAmount is : ${amount}`);
-    const balance = await db.users.getBalance({ wallet: wallet });
-    console.log(`Balance is : ${balance}`);
-    if (amount > balance) {
-      throw 'amount > balance';
-    } else {
-      withdraw({
-        wallet,
-        amount: amount * 1e6,
-        isToken: false,
-      });
-      successRes(res);
-    }
-  } catch (error) {
-    console.log('Error :');
-    console.log(error.message);
-    errorRes(res, 500, 73500);
-  }
+  successRes(res);
+  // try {
+  //   const { wallet, amount } = req.query;
+  //   console.log(`Wallet is : ${wallet}\nAmount is : ${amount}`);
+  //   const balance = await db.users.getBalance({ wallet: wallet });
+  //   console.log(`Balance is : ${balance}`);
+  //   if (amount > balance) {
+  //     throw 'amount > balance';
+  //   } else {
+  //     withdraw({
+  //       wallet,
+  //       amount: amount * 1e6,
+  //       isToken: false,
+  //     });
+  //     successRes(res);
+  //   }
+  // } catch (error) {
+  //   console.log('Error :');
+  //   console.log(error.message);
+  //   errorRes(res, 500, 73500);
+  // }
 };
 
 const getBetsHistory = async (req, res) => {
