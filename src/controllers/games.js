@@ -21,6 +21,8 @@ const getList = async (req, res) => {
       case 'popular':
         games = await db.games.getPopular();
         break;
+      case 'slots':
+        games = await db.games.getSlots();
       case 'table':
         games = await db.games.getTable();
         break;

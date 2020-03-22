@@ -196,6 +196,7 @@ module.exports = {
     truncate: getAll(request(games['truncate'])),
     getPopular: getAll(request(games['get-popular'])),
     getTable: getAll(request(games['get-table'])),
+    getSlots: getAll(request(games['get-slots'])),
     getByLabel: getAll(request(games['get-by-label'])),
     getById: getRow(request(games['get-by-id'])),
   },
