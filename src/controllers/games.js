@@ -13,9 +13,18 @@ const axios = require('axios').create({
   },
 });
 
-const getList = async (_req, res) => {
+const getList = async (req, res) => {
   try {
-    const games = await db.games.getPopular();
+    const { cat } = req.body;
+    let games = [];
+    switch (cat) {
+      case 'popular':
+        games = await db.games.getPopular();
+        break;
+      case 'table':
+        games = await db.games.getTable();
+        break;
+    }
     successRes(res, { games });
   } catch (error) {
     errorRes(res, 500, 73500, error);
