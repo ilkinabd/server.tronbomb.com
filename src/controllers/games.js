@@ -23,6 +23,7 @@ const getList = async (req, res) => {
         break;
       case 'slots':
         games = await db.games.getSlots();
+        break;
       case 'table':
         games = await db.games.getTable();
         break;
